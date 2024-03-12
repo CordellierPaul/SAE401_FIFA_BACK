@@ -16,12 +16,12 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("utl_id")]
-        public int IdUtilisateur { get; set; }
+        public int UtilisateurId { get; set; }
 
         [Required]
         [Column("utl_prenom")]
         [StringLength(50)]
-        public string PrenomUtilisateur { get; set; }
+        public string PrenomUtilisateur { get; set; } = null!;
 
         [Column("adr_id")]
         public int? IdAdresse { get; set; }
@@ -53,62 +53,39 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("utl_nomacheteur")]
         [StringLength(50)]
-        public string NomAcheteur { get; set; }
+        public string NomAcheteur { get; set; } = null!;
 
         [Column("utl_telacheteur")]
         [StringLength(10)]
-        public string TelAcheteur { get; set; }
+        public string TelAcheteur { get; set; } = null!;
 
         [Column("act_id")]
         public int? IdActivite { get; set; }
 
         [Column("soc_num")]
         [StringLength(14)]
-        public string NumSociete { get; set; }
+        public string NumSociete { get; set; } = null!;
 
         [Column("utl_numtva")]
         [StringLength(11)]
-        public string NumTva { get; set; }
+        public string NumTva { get; set; } = null!;
 
-        #region Foreign Key
-
-        [ForeignKey(nameof(IdAdresse))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Adresse Adresse { get; set; }
-
-        [ForeignKey(nameof(IdCompte))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Compte Compte { get; set; }
-
-        [ForeignKey(nameof(NumLangue))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Langue Langue { get; set; }
-
-        [ForeignKey(nameof(IdActivite))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Activite Activite { get; set; }
-
-        [ForeignKey(nameof(PaysFavori))]
-        [InverseProperty("UtilisateursPaysFavori")]
-        public virtual Pays PaysFavoriNavigation { get; set; }
-
-        [ForeignKey(nameof(PaysNaissance))]
-        [InverseProperty("UtilisateursPaysNaissance")]
-        public virtual Pays PaysNaissanceNavigation { get; set; }
-
-        [ForeignKey(nameof(NumMonnaie))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Monnaie Monnaie { get; set; }
-
-        #endregion
-
-        #region InverseProperty
-
-        [InverseProperty("UtilisateurCommentant")] 
-        public virtual List<Commentaire> CommentairesUtilisateur { get; set; } = new List<Commentaire>();
         
-        [InverseProperty(nameof(Commande.UtilisateurCommandant))]
-        public virtual List<Commande> CommandesUtilisateur { get; set; } = new List<Commande>();
-        #endregion
+
+
+
+
+        [InverseProperty(nameof(Like_Album.UtilisateurNavigation))]
+        public virtual ICollection<Like_Album> LikesAlbums { get; set; }
+
+
+
+        [InverseProperty(nameof(Like_Article.UtilisateurNavigation))]
+        public virtual ICollection<Like_Article> LikesArticles { get; set; }
+
+
+
+        [InverseProperty(nameof(Like_Blog.UtilisateurNavigation))]
+        public virtual ICollection<Like_Blog> LikesBlogs { get; set; }
     }
 }

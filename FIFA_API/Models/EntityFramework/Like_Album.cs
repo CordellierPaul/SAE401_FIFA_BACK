@@ -19,13 +19,13 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [ForeignKey(nameof(AlbumId))]
-        [InverseProperty("Likes_album")]
-        public virtual Album Album { get; set; } = null!;
+        [InverseProperty("LikesAlbums")]
+        public virtual Album AlbumNavigation { get; set; } = null!;
 
 
         [ForeignKey(nameof(UtilisateurId))]
-        [InverseProperty("Likes_album")]
-        public virtual Utilisateur Utilisateur { get; set; } = null!;
+        [InverseProperty("LikesAlbums")]
+        public virtual Utilisateur UtilisateurNavigation { get; set; } = null!;
 
 
     }

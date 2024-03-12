@@ -29,5 +29,12 @@ namespace FIFA_API.Models.EntityFramework
         [ForeignKey("BlogId")]
         [InverseProperty("BlogCommente")]
         public virtual List<Commentaire> CommentairesBlog { get; set; } = null!;
+
+
+
+
+        [InverseProperty(nameof(Like_Blog.BlogNavigation))]
+        public virtual ICollection<Like_Blog> LikesBlogs{ get; set; }
+
     }
 }
