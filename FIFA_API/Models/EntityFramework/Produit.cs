@@ -29,5 +29,21 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("NUMPAYS")]
         public int? NumPays { get; set; }
+
+        [ForeignKey(nameof(NumPays))]
+        [InverseProperty("NumPays")]
+        public virtual Pays Pays { get; set; }
+
+        [ForeignKey(nameof(NumCategorie))]
+        [InverseProperty("NumCategorie")]
+        public virtual Categorie Categorie { get; set; }
+
+        [ForeignKey(nameof(IdCompetition))]
+        [InverseProperty("IdCompetition")]
+        public virtual Competition Competition { get; set; }
+
+        [ForeignKey(nameof(NumGenre))]
+        [InverseProperty("NumGenre")]
+        public virtual Genre Genre { get; set; }
     }
 }

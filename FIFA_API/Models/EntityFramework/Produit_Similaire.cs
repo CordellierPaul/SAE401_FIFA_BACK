@@ -13,5 +13,13 @@ namespace FIFA_API.Models.EntityFramework
         [Key]
         [Column("PRODUITDEUX")]
         public int ProduitDeux { get; set; }
+
+        [ForeignKey(nameof(ProduitUn))]
+        [InverseProperty("IdProduit")]
+        public virtual Produit PremierProduit { get; set; }
+
+        [ForeignKey(nameof(ProduitDeux))]
+        [InverseProperty("IdProduit")]
+        public virtual Produit DeuxiemeProduit { get; set; }
     }
 }
