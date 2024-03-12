@@ -6,30 +6,30 @@ using System.Xml.Linq;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("DOCUMENT")]
-    [Index(nameof(LienPdf), Name = "uq_document_lienpdf", IsUnique = true)]
+    [Table("t_e_document_doc")]
+    [Index(nameof(LienPdf), Name = "uq_doc_lienpdf", IsUnique = true)]
     public partial class Document
     {
         [Key]
-        [Column("IDPUBLICATION")]
+        [Column("pub_id")]
         public int IdPublication { get; set; }
 
         [Required]
-        [Column("DATEHEURE", TypeName = "date")]
+        [Column("doc_dateheure", TypeName = "date")]
         public DateTime DateHeure { get; set; }
 
         [Required]
-        [Column("TITRE")]
+        [Column("doc_titre")]
         [StringLength(50)]
         public string Titre { get; set; }
 
         [Required]
-        [Column("RESUME")]
+        [Column("doc_resume")]
         [StringLength(250)]
         public string Resume { get; set; }
 
         [Required]
-        [Column("LIENPDF")]
+        [Column("doc_lienpdf")]
         [StringLength(100)]
         [RegularExpression(@"\.pdf$", ErrorMessage = "Le lien PDF doit se terminer par l'extension .pdf")]
         public string LienPdf { get; set; }

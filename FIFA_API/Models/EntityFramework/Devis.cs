@@ -5,27 +5,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("DEVIS")]
+    [Table("t_e_devis_dev")]
     public partial class Devis
     {
         [Key]
-        [Column("IDDEVIS")]
+        [Column("dev_id")]
         public int DevisId { get; set; }
 
         [Required]
-        [Column("IDUTILISATEUR")]
+        [Column("utl_id")]
         public int UtilisateurId { get; set; }
 
-        [Column("IDPRODUIT")]
+        [Column("pro_id")]
         public int? ProduitId { get; set; }
 
         [Required]
-        [Column("SUJET")]
+        [Column("dev_sujet")]
         [StringLength(100)]
         public string Sujet { get; set; } = null!;
 
         [Required]
-        [Column("MESSAGE")]
+        [Column("dev_message")]
         [StringLength(1000)]
         public string Message { get; set; } = null!;
 

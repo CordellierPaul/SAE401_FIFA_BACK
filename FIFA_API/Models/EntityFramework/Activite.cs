@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_e_action_act")]
-    public partial class Action
+    [Table("t_e_activite_acti")]
+    public class Activite
     {
         [Key]
-        [Column("act_id")]
+        [Column("acti_id")]
         public int Id { get; set; }
 
-        [Column("act_action")]
+        [Column("acti_nom")]
         [StringLength(100)]
-        public string TypeAction { get; set; } = null!;
+        public string Nom { get; set; } = null!;
     }
 }

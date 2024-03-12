@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
-namespace FIFA.Models.EntityFramework
+namespace FIFA_API.Models.EntityFramework
 {
     [Table("IMAGE_VARIANTE")]
     [Index(nameof(Url), Name = "uq_url_lienpdf", IsUnique = true)]
@@ -12,19 +12,19 @@ namespace FIFA.Models.EntityFramework
     public partial class ImageVariante
     {
         [Key]
-        [Column("IDIMGPROD")]
+        [Column("t_e_image_variante_imv")]
         public int IdImageProduit { get; set; }
 
         [Required]
-        [Column("URL")]
+        [Column("imv_url")]
         public string Url { get; set; }
 
         [Required]
-        [Column("IDPRODUIT")]
+        [Column("pro_id")]
         public int IdProduit { get; set; }
 
         [Required]
-        [Column("IDCOULEUR")]
+        [Column("cou_id")]
         public int IdCouleur { get; set; }
 
         [ForeignKey(nameof(Url))]
