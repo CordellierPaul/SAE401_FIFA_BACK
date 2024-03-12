@@ -18,5 +18,9 @@ namespace FIFA_API.Models.EntityFramework
         [Column("nommonnaie")]
         public string NomMonnaie { get; set; }
 
+
+        [Required]
+        [Column("symbolemonnaie")]
+        public string SymboleMonnaie { get; set; }
     }
 }

@@ -5,17 +5,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
+    [Table("t_e_livraison_liv")]
     public class Livraison
     {
 
         [Key]
-        [Column("numlivraison")]
-        public int NumLivraison { get; set; }
+        [Column("liv_id")]
+        public int LivraisonId { get; set; }
 
-        [Column("typelivraison")]
-        public string TypeLivraison { get; set; }
+        [Column("liv_type")]
+        public string TypeLivraison { get; set; } = null!;
 
-        [Column("prixlivraison")]
+        [Column("liv_prix")]
         public double PrixLivraison { get; set; }
 
 
