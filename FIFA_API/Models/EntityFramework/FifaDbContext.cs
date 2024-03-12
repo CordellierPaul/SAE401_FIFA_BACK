@@ -337,6 +337,38 @@ namespace FIFA_API.Models.EntityFramework
                 .HasKey(e => e.CaracteristiqueId)
                 .HasName("pk_car");
 
+            modelBuilder.Entity<Club>()
+                .HasKey(e => e.ClubId)
+                .HasName("pk_clb");
+
+            modelBuilder.Entity<Coloris>()
+                .HasKey(e => e.ColorisId)
+                .HasName("pk_clr");
+
+            modelBuilder.Entity<Commande>()
+                .HasKey(e => e.CommandeId)
+                .HasName("pk_cmd");
+
+            modelBuilder.Entity<Commentaire>()
+                .HasKey(e => e.CommentaireId)
+                .HasName("pk_com");
+
+            modelBuilder.Entity<Competition>()
+                .HasKey(e => e.CompetitionId)
+                .HasName("pk_cpn");
+
+            modelBuilder.Entity<Compte>()
+                .HasKey(e => e.CompteId)
+                .HasName("pk_cpn");
+
+            modelBuilder.Entity<Devis>()
+                .HasKey(e => e.DevisId)
+                .HasName("pk_dev");
+
+            modelBuilder.Entity<Document>()
+                .HasKey(e => e.IdDocument)
+                .HasName("pk_doc");
+
             #endregion
         }
 
