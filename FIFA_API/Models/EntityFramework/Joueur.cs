@@ -7,6 +7,11 @@ namespace FIFA_API.Models.EntityFramework
     [Table("t_e_joueur_jou")]
     public partial class Joueur
     {
+        public Joueur()
+        {
+            LiensArticles = new HashSet<ArticleJoueur>();
+        }
+
         [Key]
         [Column("jou_id")]
         public int IdJoueur { get; set; }
@@ -29,17 +34,17 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [Column("jou_nom")]
         [StringLength(50)]
-        public string NomJoueur { get; set; }
+        public string NomJoueur { get; set; } = null!;
 
         [Required]
         [Column("jou_prenom")]
         [StringLength(50)]
-        public string PrenomJoueur { get; set; }
+        public string PrenomJoueur { get; set; } = null!;
 
         [Required]
         [Column("jou_pied")]
         [StringLength(1)]
-        public string Pied { get; set; }
+        public string Pied { get; set; } = null!;
 
         [Required]
         [Column("jou_poids", TypeName = "decimal(5,2)")]
@@ -52,18 +57,21 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [Column("jou_description")]
         [StringLength(1000)]
-        public string DescriptionJoueur { get; set; }
+        public string DescriptionJoueur { get; set; } = null!;
 
         [ForeignKey(nameof(IdVille))]
         [InverseProperty("Joueurs")]
-        public virtual Ville Ville { get; set; }
+        public virtual Ville Ville { get; set; } = null!;
 
         [ForeignKey(nameof(IdClub))]
         [InverseProperty("Joueurs")]
-        public virtual Club Club { get; set; }
+        public virtual Club Club { get; set; } = null!;
 
         [ForeignKey(nameof(NumPoste))]
         [InverseProperty("Joueurs")]
-        public virtual Poste Poste { get; set; }
+        public virtual Poste Poste { get; set; } = null!;
+
+        [InverseProperty(nameof(ArticleJoueur.JoueurNavigation))]
+        public virtual ICollection<ArticleJoueur> LiensArticles { get; set; }
     }
 }

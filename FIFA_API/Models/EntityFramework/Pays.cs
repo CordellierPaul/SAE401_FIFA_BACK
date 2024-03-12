@@ -14,5 +14,6 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(50)]
         public string NomPays { get; set; }
 
+
     }
 }
