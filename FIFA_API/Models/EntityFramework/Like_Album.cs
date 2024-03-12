@@ -5,27 +5,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("like_album")]
+    [Table("t_j_like_album_lab")]
     public class Like_Album
     {
 
         [Key]
-        [Column("idalbum")]
-        public int IdAlbum { get; set; }
+        [Column("alb_id")]
+        public int AlbumId { get; set; }
 
         [Key]
-        [Column("idutilisateur")]
-        public int IdUtilisateur { get; set; }
+        [Column("utl_id")]
+        public int UtilisateurId { get; set; }
 
 
-        [ForeignKey(nameof(IdAlbum))]
+        [ForeignKey(nameof(AlbumId))]
         [InverseProperty("Likes_album")]
-        public virtual Album Album { get; set; }
+        public virtual Album Album { get; set; } = null!;
 
 
-        [ForeignKey(nameof(IdUtilisateur))]
+        [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty("Likes_album")]
-        public virtual Utilisateur Utilisateur { get; set; }
+        public virtual Utilisateur Utilisateur { get; set; } = null!;
 
 
     }

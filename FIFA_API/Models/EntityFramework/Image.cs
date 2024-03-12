@@ -20,7 +20,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(Url))]
         [InverseProperty("ImageHeritage")]
-        public virtual Media Media { get; set; }
+        public virtual Media Media { get; set; } = null!;
 
         [InverseProperty(nameof(AlbumImage.ImageNavigation))]
         public virtual ICollection<AlbumImage> LiensAlbums { get; set; }

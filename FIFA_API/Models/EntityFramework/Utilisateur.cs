@@ -1,12 +1,11 @@
-﻿using FIFA_API.Models.EntityFramework;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 using System.Xml.Linq;
 
-namespace TP4.Models.EntityFramework
+namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_e_utilisateur_utl")]
     [Index(nameof(TelAcheteur), Name = "uq_utl_telacheteur", IsUnique = true)]
