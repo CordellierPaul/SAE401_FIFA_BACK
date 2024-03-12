@@ -26,10 +26,10 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(IdProduit))]
         [InverseProperty("VariantesProduit")]
-        public virtual Produit Produit { get; set; }
+        public virtual Produit Produit { get; set; } = null!;
 
         [ForeignKey(nameof(IdCouleur))]
         [InverseProperty("VariantesProduit")]
-        public virtual Couleur Couleur { get; set; }
+        public virtual Coloris Coloris { get; set; } = null!;
     }
 }

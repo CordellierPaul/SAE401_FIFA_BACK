@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TP4.Models.EntityFramework;
 
 namespace FIFA_API.Models.EntityFramework
 {
@@ -253,7 +252,7 @@ namespace FIFA_API.Models.EntityFramework
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<VarianteProduit>()
-                .HasOne(p => p.Couleur)
+                .HasOne(p => p.Coloris)
                 .WithMany()
                 .HasForeignKey(p => p.IdCouleur)
                 .OnDelete(DeleteBehavior.Restrict);
