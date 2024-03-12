@@ -39,11 +39,11 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(ProduitId))]
         [InverseProperty("Lignes_commande")]
-        public virtual Variante_Produit Produit { get; set; } = null!;
+        public virtual VarianteProduit Produit { get; set; } = null!;
 
         [ForeignKey(nameof(CouleurId))]
         [InverseProperty("Lignes_commande")]
-        public virtual Variante_Produit Couleur { get; set; } = null!;
+        public virtual VarianteProduit Couleur { get; set; } = null!;
         /// pas sur s'il le faut vu que idcouleur et idproduit viennent de la même table
 
         [ForeignKey(nameof(CommandeId))]
