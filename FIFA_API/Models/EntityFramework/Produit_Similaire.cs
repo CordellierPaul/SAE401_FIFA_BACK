@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("PRODUIT_SIMILAIRE")]
+    [Table("t_j_produit_similaire_prosim")]
     public partial class Produit_Similaire
     {
         [Key]
-        [Column("PRODUITUN")]
+        [Column("pro_un")]
         public int ProduitUn { get; set; }
 
         [Key]
-        [Column("PRODUITDEUX")]
+        [Column("pro_deux")]
         public int ProduitDeux { get; set; }
 
         [ForeignKey(nameof(ProduitUn))]

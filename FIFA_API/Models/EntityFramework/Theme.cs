@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("theme")]
+    [Table("t_e_theme_the")]
     public partial class Theme
     {
         [Key]
-        [Column("NUMTHEME")]
+        [Column("the_num")]
         public int NumTheme { get; set; }
 
-        [Column("LIBELLETHEME")]
+        [Column("the_libelle")]
         [StringLength(50)]
         public string LibelleTheme { get; set; }
 

@@ -10,7 +10,7 @@ namespace FIFA_API.Models.EntityFramework
         [Column("act_id")]
         public int Id { get; set; }
 
-        [Column("act_action")]
+        [Column("act_type")]
         [StringLength(100)]
         public string TypeAction { get; set; } = null!;
     }

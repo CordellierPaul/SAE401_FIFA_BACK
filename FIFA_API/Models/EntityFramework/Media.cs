@@ -1,25 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
-
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("media")]
+    [Table("t_e_media_med")]
     public class Media
     {
-
-
+        public Media()
+        {
+            LiensArticles = new HashSet<ArticleMedia>();
+        }
 
         [Key]
-        [Column("idmedia")]
+        [Column("med_id")]
         public int IdMedia { get; set; }
 
-
         [Required]
-        [Column("url")]
-        public string Url { get; set; }
+        [Column("med_url")]
+        public string Url { get; set; } = null!;
 
-
+        [InverseProperty(nameof(ArticleMedia.MediaNavigation))]
+        public virtual ICollection<ArticleMedia> LiensArticles { get; set; }
     }
 }
