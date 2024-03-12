@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("like_article")]
-    public class Like_Article
+    [Table("like_blog")]
+    public class Like_Blog
     {
 
         [Key]
-        [Column("idarticle")]
-        public int IdArticle { get; set; }
+        [Column("idblog")]
+        public int IdBlog { get; set; }
 
         [Key]
         [Column("idutilisateur")]
@@ -19,13 +19,13 @@ namespace FIFA_API.Models.EntityFramework
 
 
 
-        [ForeignKey(nameof(IdArticle))]
-        [InverseProperty("Likes_article")]
-        public virtual Article Article { get; set; }
+        [ForeignKey(nameof(IdBlog))]
+        [InverseProperty("Likes_blog")]
+        public virtual Blog Blog { get; set; }
 
 
         [ForeignKey(nameof(IdUtilisateur))]
-        [InverseProperty("Likes_article")]
+        [InverseProperty("Likes_blog")]
         public virtual Utilisateur Utilisateur { get; set; }
 
     }

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 
+
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("like_album")]
@@ -13,10 +14,18 @@ namespace FIFA_API.Models.EntityFramework
         public int IdAlbum { get; set; }
 
         [Key]
-        [Column("adutilisateur")]
+        [Column("idutilisateur")]
         public int IdUtilisateur { get; set; }
 
-        //rajouter les clés étrangeres
+
+        [ForeignKey(nameof(IdAlbum))]
+        [InverseProperty("Likes_album")]
+        public virtual Album Album { get; set; }
+
+
+        [ForeignKey(nameof(IdUtilisateur))]
+        [InverseProperty("Likes_album")]
+        public virtual Utilisateur Utilisateur { get; set; }
 
 
     }
