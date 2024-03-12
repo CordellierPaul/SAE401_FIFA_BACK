@@ -9,9 +9,11 @@ namespace FIFA_API.Models.EntityFramework
     {
 
         [Key]
+        [Required]
         [Column("numlangue")]
         public int NumLangue { get; set;}
 
+        [Required]
         [Column("nomlangue")]
         public string NomLangue { get; set;}
 
