@@ -16,6 +16,10 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("liv_prix")]
         public double PrixLivraison { get; set; }
+        
+
+        [InverseProperty(nameof(Commande.LivraisonCommande))]
+        public virtual List<Commande> CommandesLivraison { get; set; } = new List<Commande>();
 
 
 
