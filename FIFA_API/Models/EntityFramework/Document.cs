@@ -12,7 +12,7 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("doc_id")]
-        public int IdDocument { get; set; }
+        public int DocumentId { get; set; }
 
         [Required]
         [Column("doc_dateheure", TypeName = "date")]

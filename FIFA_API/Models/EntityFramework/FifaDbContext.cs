@@ -366,7 +366,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_dev");
 
             modelBuilder.Entity<Document>()
-                .HasKey(e => e.IdDocument)
+                .HasKey(e => e.DocumentId)
                 .HasName("pk_doc");
 
             #endregion
