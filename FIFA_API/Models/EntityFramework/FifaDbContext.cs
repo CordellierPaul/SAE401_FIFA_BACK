@@ -154,7 +154,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Produit>()
                 .HasOne(p => p.Genre)
                 .WithMany()
-                .HasForeignKey(p => p.NumGenre)
+                .HasForeignKey(p => p.GenreId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //ForeignKey Produit_Similaire
@@ -248,13 +248,13 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<VarianteProduit>()
                 .HasOne(p => p.Produit)
                 .WithMany()
-                .HasForeignKey(p => p.IdProduit)
+                .HasForeignKey(p => p.ProduitId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<VarianteProduit>()
                 .HasOne(p => p.Coloris)
                 .WithMany()
-                .HasForeignKey(p => p.IdCouleur)
+                .HasForeignKey(p => p.ColorisId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //ForeignKey Vote
@@ -368,6 +368,34 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Document>()
                 .HasKey(e => e.DocumentId)
                 .HasName("pk_doc");
+
+            modelBuilder.Entity<Film>()
+                .HasKey(e => e.FilmId)
+                .HasName("pk_flm");
+
+            modelBuilder.Entity<FormulaireAide>()
+                .HasKey(e => e.IdFormulaire)
+                .HasName("pk_foa");
+
+            modelBuilder.Entity<Genre>()
+                .HasKey(e => e.GenreId)
+                .HasName("pk_gen");
+
+            modelBuilder.Entity<Image>()
+                .HasKey(e => e.Id)
+                .HasName("pk_img");
+
+            modelBuilder.Entity<ImageVariante>()
+                .HasKey(e => e.ImageVarianteId)
+                .HasName("pk_imv");
+
+            modelBuilder.Entity<InfosBancaires>()
+                .HasKey(e => e.IdUtilisateur)
+                .HasName("pk_inb");
+
+            modelBuilder.Entity<Joueur>()
+                .HasKey(e => e.IdJoueur)
+                .HasName("pk_jou");
 
             #endregion
         }

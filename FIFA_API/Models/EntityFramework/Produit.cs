@@ -10,15 +10,15 @@ namespace FIFA_API.Models.EntityFramework
         [Column("pro_id")]
         public int IdProduit { get; set; }
 
-        [Column("gen_num")]
-        public int NumGenre { get; set; }
+        [Column("gen_id")]
+        public int GenreId { get; set; }
 
         [Column("cat_num")]
         public int NumCategorie { get; set; }
 
         [Column("pro_num")]
         [StringLength(100)]
-        public string NomProduit { get; set; }
+        public string NomProduit { get; set; } = null!;
 
         [Column("pro_description")]
         [StringLength(1000)]
@@ -34,18 +34,18 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(NumPays))]
         [InverseProperty("NumPays")]
-        public virtual Pays Pays { get; set; }
+        public virtual Pays Pays { get; set; } = null!;
 
         [ForeignKey(nameof(NumCategorie))]
         [InverseProperty("NumCategorie")]
-        public virtual Categorie Categorie { get; set; }
+        public virtual Categorie Categorie { get; set; } = null!;
 
         [ForeignKey(nameof(IdCompetition))]
         [InverseProperty("IdCompetition")]
-        public virtual Competition Competition { get; set; }
+        public virtual Competition Competition { get; set; } = null!;
 
-        [ForeignKey(nameof(NumGenre))]
-        [InverseProperty("NumGenre")]
-        public virtual Genre Genre { get; set; }
+        [ForeignKey(nameof(GenreId))]
+        [InverseProperty("gen_id")]
+        public virtual Genre Genre { get; set; } = null!;
     }
 }

@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("IMAGE_VARIANTE")]
+    [Table("t_e_imagevariante_imv")]
     [Index(nameof(Url), Name = "uq_url_lienpdf", IsUnique = true)]
     [Index(nameof(IdCouleur), Name = "uq_idcouleur_lienpdf", IsUnique = true)]
     [Index(nameof(IdProduit), Name = "uq_idproduit_lienpdf", IsUnique = true)]
@@ -13,11 +13,11 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("t_e_image_variante_imv")]
-        public int IdImageProduit { get; set; }
+        public int ImageVarianteId { get; set; }
 
         [Required]
         [Column("imv_url")]
-        public string Url { get; set; }
+        public string Url { get; set; } = null!;
 
         [Required]
         [Column("pro_id")]
@@ -29,14 +29,14 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(Url))]
         [InverseProperty("ImageVariante")]
-        public virtual Image Image { get; set; }
+        public virtual Image Image { get; set; } = null!;
 
         [ForeignKey(nameof(IdProduit))]
         [InverseProperty("ImageVariantes")]
-        public virtual VarianteProduit VarianteProduitIdProduit { get; set; }
+        public virtual VarianteProduit VarianteProduitIdProduit { get; set; } = null!;
 
-        [ForeignKey( nameof(IdCouleur))]
+        [ForeignKey(nameof(IdCouleur))]
         [InverseProperty("ImageVariantes")]
-        public virtual VarianteProduit VarianteProduitIdCouleur { get; set; }
+        public virtual VarianteProduit VarianteProduitIdCouleur { get; set; } = null!;
     }
 }

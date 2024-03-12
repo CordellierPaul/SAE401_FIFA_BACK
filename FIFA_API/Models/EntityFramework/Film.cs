@@ -8,16 +8,14 @@ namespace FIFA_API.Models.EntityFramework
     public partial class Film
     {
         [Key]
+        [Column("flm_id")]
+        public int FilmId { get; set; }
+
         [Column("flm_url")]
-        public string Url { get; set; }
+        public string Url { get; set; } = null!;
 
         [ForeignKey(nameof(Url))]
         [InverseProperty("FilmHeritage")]
-        public virtual Media Media { get; set; }
-
-        public Film()
-        {
-            Url = null!;
-        }
+        public virtual Media Media { get; set; } = null!;
     }
 }

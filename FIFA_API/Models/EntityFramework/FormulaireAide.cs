@@ -21,24 +21,24 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [Column("utl_nom")]
         [StringLength(50)]
-        public string NomUtilisateur { get; set; }
+        public string NomUtilisateur { get; set; } = null!;
 
         [Required]
         [Column("foa_telephone")]
         [StringLength(10)]
-        public string Telephone { get; set; }
+        public string Telephone { get; set; } = null!;
 
         [Required]
         [Column("foa_question")]
         [StringLength(250)]
-        public string Question { get; set; }
+        public string Question { get; set; } = null!;
 
         [ForeignKey(nameof(IdUtilisateur))]
         [InverseProperty("FormulaireAide")]
-        public virtual Utilisateur Utilisateur { get; set; }
+        public virtual Utilisateur Utilisateur { get; set; } = null!;
 
         [ForeignKey(nameof(NumAction))]
         [InverseProperty("FormulaireAide")]
-        public virtual Action Action { get; set; }
+        public virtual Action Action { get; set; } = null!;
     }
 }

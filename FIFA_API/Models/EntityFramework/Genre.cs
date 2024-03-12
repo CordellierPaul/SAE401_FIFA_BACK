@@ -7,12 +7,12 @@ namespace FIFA_API.Models.EntityFramework
     public partial class Genre
     {
         [Key]
-        [Column("gen_num")]
-        public int NumGenre { get; set; }
+        [Column("gen_id")]
+        public int GenreId { get; set; }
 
         [Required]
         [Column("gen_nom")]
         [StringLength(10)]
-        public string GenreNom { get; set; }
+        public string GenreNom { get; set; } = null!;
     }
 }

@@ -7,7 +7,7 @@ namespace FIFA_API.Models.EntityFramework
     public partial class InfosBancaires
     {
         [Key]
-        [Column("utl_id")]
+        [Column("inb_id")]
         public int IdUtilisateur { get; set; }
 
         [Required]
@@ -35,6 +35,6 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(IdUtilisateur))]
         [InverseProperty("InfosBancaires")]
-        public virtual Utilisateur Utilisateur { get; set; }
+        public virtual Utilisateur Utilisateur { get; set; } = null!;
     }
 }
