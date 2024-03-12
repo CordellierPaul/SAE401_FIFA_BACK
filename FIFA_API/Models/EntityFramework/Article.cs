@@ -9,6 +9,7 @@ namespace FIFA_API.Models.EntityFramework
         public Article()
         {
             LiensJoueur = new HashSet<ArticleJoueur>();
+            LiensMedias = new HashSet<ArticleMedia>();
         }
 
         [Key]
@@ -29,5 +30,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(ArticleJoueur.ArticleNavigation))]
         public virtual ICollection<ArticleJoueur> LiensJoueur { get; set; }
+
+        [InverseProperty(nameof(ArticleMedia.ArticleNavigation))]
+        public virtual ICollection<ArticleMedia> LiensMedias { get; set; }
     }
 }

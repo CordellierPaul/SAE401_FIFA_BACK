@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_j_albumimage_albimg")]
+    [Table("t_j_albumimage")]
     public class AlbumImage
     {
         [Key]
