@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_e_caracteristique_caract")]
+    [Table("t_e_caracteristique_car")]
     public partial class Caracteristique
     {
         [Key]
-        [Column("caract_id")]
+        [Column("car_id")]
         public int CaracteristiqueId { get; set; }
 
-        [Column("caract_nom")]
+        [Column("car_nom")]
         [StringLength(250)]
         public string CaracteristiqueNom { get; set; } = null!;
 

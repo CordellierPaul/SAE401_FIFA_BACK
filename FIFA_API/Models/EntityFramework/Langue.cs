@@ -4,18 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("langue")]
+    [Table("t_e_langue_lng")]
     public class Langue
     {
 
         [Key]
         [Required]
-        [Column("numlangue")]
-        public int NumLangue { get; set;}
+        [Column("lng_num")]
+        public int LangueNum { get; set;}
 
         [Required]
-        [Column("nomlangue")]
-        public string NomLangue { get; set;}
+        [Column("lng_nom")]
+        public string LangueNom { get; set;} = null!;
 
 
     }

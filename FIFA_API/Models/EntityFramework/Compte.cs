@@ -3,31 +3,31 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_e_compte_cpte")]
+    [Table("t_e_compte_cpt")]
     public partial class Compte
     {
         [Key]
-        [Column("cpte_id")]
+        [Column("cpt_id")]
         public int CompteId { get; set; }
 
-        [Column("cpte_email")]
+        [Column("cpt_email")]
         [StringLength(100)]
         public string CompteEmail { get; set; } = null!;
 
-        [Column("cpte_login")]
+        [Column("cpt_login")]
         [StringLength(50)]
         public string Comptelogin { get; set; } = null!;
 
-        [Column("cpte_mdp", TypeName = "char(128)")]
+        [Column("cpt_mdp", TypeName = "char(128)")]
         public string? CompteMdp { get; set; } = null!;
 
-        [Column("cpte_dateconnexion")]
+        [Column("cpt_dateconnexion")]
         public DateTime CompteDateConnexion { get; set; } = DateTime.Now;
 
-        [Column("cpte_annonces")]
+        [Column("cpt_annonces")]
         public bool CompteAnnonces { get; set; } = false;
 
-        [Column("cpte_offres")]
+        [Column("cpt_offres")]
         public bool CompteOffres { get; set; } = false;
 
 

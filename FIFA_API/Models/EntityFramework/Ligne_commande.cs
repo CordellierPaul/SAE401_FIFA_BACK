@@ -4,54 +4,55 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("ligne_commande")]
+    [Table("t_e_ligne_commande_lcd")]
     public class Ligne_commande
     {
 
         [Key]
-        [Column("numcommande")]
-        public int NumCommande { get; set; }
+        [Column("cmd_numcommande")]
+        public int CommandeId { get; set; }
 
         [Key]
-        [Column("numlignecommande")]
-        public int NumLigneCommande { get; set; }
+        [Column("lcd_id")]
+        public int LigneCommandeId { get; set; }
 
         [Required]
-        [Column("idproduit")]
-        public int IdProduit { get; set; }
+        [Column("pdt_id")]
+        public int ProduitId { get; set; }
 
         [Required]
-        [Column("idcouleur")]
-        public int IdCouleur { get; set; }
+        [Column("clr_id")]
+        public int CouleurId { get; set; }
 
         [Required]
-        [Column("numtaille")]
+        [Column("tll_numtaille")]
         public int NumTaille { get; set; }
 
         [Required]
-        [Column("quantite")]
-        public int Quantite { get; set; }
+        [Column("lcd_quantite")]
+        public int QuantiteLigneCommande { get; set; }
 
         [Required]
-        [Column("prixlignecommande")]
+        [Column("lcd_prix")]
         public int PrixLigneCommande { get; set; }
 
-        [ForeignKey(nameof(IdProduit))]
-        [InverseProperty("Lignes_commande")]
-        public virtual Variante_Produit Produit { get; set; }
 
-        //[ForeignKey(nameof(IdCouleur))]
-        //[InverseProperty("Lignes_commande")]
-        //public virtual Variante_Produit Couleur { get; set; }
+        [ForeignKey(nameof(ProduitId))]
+        [InverseProperty("Lignes_commande")]
+        public virtual Variante_Produit Produit { get; set; } = null!;
+
+        [ForeignKey(nameof(CouleurId))]
+        [InverseProperty("Lignes_commande")]
+        public virtual Variante_Produit Couleur { get; set; } = null!;
         /// pas sur s'il le faut vu que idcouleur et idproduit viennent de la même table
 
-        [ForeignKey(nameof(NumCommande))]
+        [ForeignKey(nameof(CommandeId))]
         [InverseProperty("Lignes_commande")]
-        public virtual Commande Commande { get; set; }
+        public virtual Commande Commande { get; set; } = null!;
 
         [ForeignKey(nameof(NumTaille))]
         [InverseProperty("Lignes_commande")]
-        public virtual Taille Taille { get; set; }
+        public virtual Taille Taille { get; set; } = null!;
 
 
 

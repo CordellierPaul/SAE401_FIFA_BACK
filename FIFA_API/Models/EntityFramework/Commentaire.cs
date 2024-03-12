@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TP4.Models.EntityFramework;
 
 namespace FIFA_API.Models.EntityFramework
 {
@@ -13,7 +14,7 @@ namespace FIFA_API.Models.EntityFramework
         [Column("com_dateheure")]
         public DateTime CommentaireDateHeure { get; set; } = DateTime.Now;
 
-        [Column("user_id")]
+        [Column("utl_id")]
         public int UtilisateurId { get; set; }
 
         [Column("com_texte")]
@@ -34,5 +35,14 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("art_id")]
         public int ArticleId { get; set; }
+
+
+        [ForeignKey("UtilisateurId")]
+        [InverseProperty("CommentairesUtilisateur")]
+        public virtual Utilisateur UtilisateurCommentant { get; set; } = null!;
+
+        [ForeignKey("CommentaireIdCommentaire")]
+        [InverseProperty("ProduitsCaracteristique")]
+        public virtual Commentaire CommentaireCommenter { get; set; } = null!;
     }
 }

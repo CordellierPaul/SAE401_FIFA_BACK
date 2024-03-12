@@ -3,28 +3,28 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("like_document")]
+    [Table("t_j_like_document_ldc")]
     public class Like_Document
     {
 
         [Key]
-        [Column("iddocument")]
-        public int IdDocument { get; set; }
+        [Column("doc_id")]
+        public int DocumentId { get; set; }
 
         [Key]
-        [Column("idutilisateur")]
-        public int IdUtilisateur { get; set; }
+        [Column("utl_id")]
+        public int UtilisateurId { get; set; }
 
 
 
-        [ForeignKey(nameof(IdDocument))]
+        [ForeignKey(nameof(DocumentId))]
         [InverseProperty("Likes_blog")]
-        public virtual Document Document { get; set; }
+        public virtual Document Document { get; set; } = null!;
 
 
-        [ForeignKey(nameof(IdUtilisateur))]
+        [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty("Likes_blog")]
-        public virtual Utilisateur Utilisateur { get; set; }
+        public virtual Utilisateur Utilisateur { get; set; } = null!;
 
     }
 }
