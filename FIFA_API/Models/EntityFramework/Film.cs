@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("FILM")]
+    [Table("t_e_film_flm")]
     public partial class Film
     {
         [Key]
-        [Column("URL")]
+        [Column("flm_url")]
         public string Url { get; set; }
 
         [ForeignKey(nameof(Url))]

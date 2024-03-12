@@ -3,16 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("GENRE")]
+    [Table("t_e_genre_gen")]
     public partial class Genre
     {
         [Key]
-        [Column("NUMGENRE")]
+        [Column("gen_num")]
         public int NumGenre { get; set; }
 
         [Required]
-        [Column("GENRE")]
+        [Column("gen_nom")]
         [StringLength(10)]
-        public string GenreName { get; set; }
+        public string GenreNom { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FIFA.Models.EntityFramework;
+using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.EntityFramework
 {
@@ -20,6 +21,117 @@ namespace FIFA_API.Models.EntityFramework
             {
                 entity.Property(e => e.DateReglement).HasDefaultValueSql("now()");
             });
+
+            //ForeignKey Devis
+            modelBuilder.Entity<Devis>()
+                .HasOne(p => p.Utilisateur)
+                .WithMany()
+                .HasForeignKey(p => p.UtilisateurId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Devis>()
+                .HasOne(p => p.Produit)
+                .WithMany()
+                .HasForeignKey(p => p.ProduitId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey Film
+            modelBuilder.Entity<Film>()
+                .HasOne(p => p.Media)
+                .WithMany()
+                .HasForeignKey(p => p.Url)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey FormulaireAide
+            modelBuilder.Entity<FormulaireAide>()
+                .HasOne(p => p.Utilisateur)
+                .WithMany()
+                .HasForeignKey(p => p.IdUtilisateur)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FormulaireAide>()
+               .HasOne(p => p.Action)
+               .WithMany()
+               .HasForeignKey(p => p.NumAction)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey Image
+            modelBuilder.Entity<Image>()
+                .HasOne(p => p.Media)
+                .WithMany()
+                .HasForeignKey(p => p.Url)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey ImageJoueur
+            modelBuilder.Entity<ImageJoueur>()
+                .HasOne(p => p.Image)
+                .WithMany()
+                .HasForeignKey(p => p.Url)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ImageJoueur>()
+                .HasOne(p => p.Joueur)
+                .WithMany()
+                .HasForeignKey(p => p.IdJoueur)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey ImageVariante
+            modelBuilder.Entity<ImageVariante>()
+                .HasOne(p => p.Image)
+                .WithMany()
+                .HasForeignKey(p => p.Url)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ImageVariante>()
+                .HasOne(p => p.VarianteProduitIdProduit)
+                .WithMany()
+                .HasForeignKey(p => p.IdProduit)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ImageVariante>()
+               .HasOne(p => p.VarianteProduitIdCouleur)
+               .WithMany()
+               .HasForeignKey(p => p.IdCouleur)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey InfosBancaires
+            modelBuilder.Entity<InfosBancaires>()
+                .HasOne(p => p.Utilisateur)
+                .WithMany()
+                .HasForeignKey(p => p.IdUtilisateur)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey Joueur
+            modelBuilder.Entity<Joueur>()
+                .HasOne(p => p.Ville)
+                .WithMany()
+                .HasForeignKey(p => p.IdVille)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Joueur>()
+                .HasOne(p => p.Club)
+                .WithMany()
+                .HasForeignKey(p => p.IdClub)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Joueur>()
+                .HasOne(p => p.Poste)
+                .WithMany()
+                .HasForeignKey(p => p.NumPoste)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey JoueurTheme
+            modelBuilder.Entity<JoueurTheme>()
+                .HasOne(p => p.Theme)
+                .WithMany()
+                .HasForeignKey(p => p.NumTheme)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<JoueurTheme>()
+                .HasOne(p => p.Joueur)
+                .WithMany()
+                .HasForeignKey(p => p.IdJoueur)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //ForeignKey Produit
             modelBuilder.Entity<Produit>()
