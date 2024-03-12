@@ -19,5 +19,11 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("CODEPOSTAL", TypeName = "char(5)")]
         public char CodePostal { get; set; }
+
+
+        [ForeignKey(nameof(NumPays))]
+        [InverseProperty("NumPays")]
+        public virtual Pays Pays{ get; set; }
+
     }
 }

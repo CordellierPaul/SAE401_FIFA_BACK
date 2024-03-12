@@ -14,5 +14,6 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(25)]
         public string LibelleTaille { get; set; }
 
+
     }
 }

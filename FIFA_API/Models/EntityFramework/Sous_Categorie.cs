@@ -14,5 +14,15 @@ namespace FIFA_API.Models.EntityFramework
         [Column("CATEGORIEENFANT")]
         public int CategorieEnfant { get; set; }
 
+
+
+        [ForeignKey(nameof(CategorieEnfant))]
+        [InverseProperty("NumCategorie")]
+        public virtual Categorie ObjCategorieEnfant { get; set; }
+
+
+        [ForeignKey(nameof(CategorieParent))]
+        [InverseProperty("NumCategorie")]
+        public virtual Categorie ObjCategorieParent { get; set; }
     }
 }
