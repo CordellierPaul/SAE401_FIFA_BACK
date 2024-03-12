@@ -22,7 +22,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Required]
         [Column("clr_id")]
-        public int CouleurId { get; set; }
+        public int ColorisId { get; set; }
 
         [Required]
         [Column("tll_numtaille")]
@@ -38,22 +38,22 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [ForeignKey(nameof(ProduitId))]
-        [InverseProperty("Lignes_commande")]
-        public virtual VarianteProduit Produit { get; set; } = null!;
+        [InverseProperty("LignesCommandes")]
+        public virtual VarianteProduit ProduitNavigation { get; set; } = null!;
 
-        [ForeignKey(nameof(CouleurId))]
+        /*
+        [ForeignKey(nameof(ColorisId))]
         [InverseProperty("Lignes_commande")]
-        public virtual VarianteProduit Couleur { get; set; } = null!;
-        /// pas sur s'il le faut vu que idcouleur et idproduit viennent de la même table
+        public virtual VarianteProduit ColorisNavigation { get; set; } = null!;
+        */
 
         [ForeignKey(nameof(CommandeId))]
-        [InverseProperty("Lignes_commande")]
-        public virtual Commande Commande { get; set; } = null!;
+        [InverseProperty("LignesCommandes")]
+        public virtual Commande CommandeNavigation { get; set; } = null!;
 
         [ForeignKey(nameof(NumTaille))]
-        [InverseProperty("Lignes_commande")]
-        public virtual Taille Taille { get; set; } = null!;
-
+        [InverseProperty("LignesCommandes")]
+        public virtual Taille TailleNavigation { get; set; } = null!;
 
 
     }

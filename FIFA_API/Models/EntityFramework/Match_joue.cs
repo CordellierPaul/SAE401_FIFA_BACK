@@ -3,42 +3,41 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("match_joue")]
+    [Table("t_j_match_joue_mtj")]
     public class Match_joue
     {
 
         [Key]
-        [Column("idjoueur")]
-        public int IdJoueur { get; set; }
+        [Column("jou_id")]
+        public int JoueurId { get; set; }
 
         [Key]
-        [Column("idmatch")]
-        public int IdMatch { get; set; }
+        [Column("mch_id")]
+        public int MatchId { get; set; }
+
+        [Column("mtj_nbbuts")]
+        public int NbButs { get; set; }
+
+        [Column("mtj_nbminutes")]
+        public int NbMinutes { get; set; }
+
+        [Column("mtj_titularisation")]
+        public string Titularisation { get; set; } = null!;
+
+        [Column("mtj_selection")]
+        public string Selection { get; set; } = null!;
 
 
-        [Column("nbbuts")]
-        public int nbButs { get; set; }
-
-        [Column("nbminutes")]
-        public int nbminutes { get; set; }
-
-        [Column("titularisation")]
-        public string Titularisation { get; set; }
-
-        [Column("selection")]
-        public string Selection { get; set; }
 
 
-
-
-        [ForeignKey(nameof(IdJoueur))]
+        [ForeignKey(nameof(JoueurId))]
         [InverseProperty("Matches_joue")]
-        public virtual Joueur Joueur { get; set; }
+        public virtual Joueur Joueur { get; set; } = null!;
 
 
-        [ForeignKey(nameof(IdMatch))]
+        [ForeignKey(nameof(MatchId))]
         [InverseProperty("Matches_joue")]
-        public virtual Match Match { get; set; }
+        public virtual Match Match { get; set; } = null!;
 
 
 

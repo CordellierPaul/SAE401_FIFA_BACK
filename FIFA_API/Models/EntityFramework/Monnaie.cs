@@ -3,22 +3,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("monnaie")]
+    [Table("t_e_monnaie_mon")]
     public class Monnaie
     {
 
         [Key]
         [Required]
-        [Column("nummonnaie")]
-        public string NumMonnaie { get; set; }
+        [Column("mon_id")]
+        public string MonnaieId { get; set; }
 
         [Required]
-        [Column("nommonnaie")]
-        public string NomMonnaie { get; set; }
+        [Column("mon_nom")]
+        public string MonnaieNom { get; set; }
 
 
         [Required]
-        [Column("symbolemonnaie")]
-        public string SymboleMonnaie { get; set; }
+        [Column("mon_symbole")]
+        public string MonnaiSymbole { get; set; }
     }
 }

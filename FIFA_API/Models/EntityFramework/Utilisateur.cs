@@ -70,6 +70,8 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(11)]
         public string NumTva { get; set; }
 
+        #region Foreign Key
+
         [ForeignKey(nameof(IdAdresse))]
         [InverseProperty("Utilisateurs")]
         public virtual Adresse Adresse { get; set; }
@@ -98,8 +100,15 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty("Utilisateurs")]
         public virtual Monnaie Monnaie { get; set; }
 
+        #endregion
+
+        #region InverseProperty
 
         [InverseProperty("UtilisateurCommentant")] 
         public virtual List<Commentaire> CommentairesUtilisateur { get; set; } = new List<Commentaire>();
+        
+        [InverseProperty(nameof(Commande.UtilisateurCommandant))]
+        public virtual List<Commande> CommandesUtilisateur { get; set; } = new List<Commande>();
+        #endregion
     }
 }

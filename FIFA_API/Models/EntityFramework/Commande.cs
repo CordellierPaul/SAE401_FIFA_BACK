@@ -35,5 +35,32 @@ namespace FIFA_API.Models.EntityFramework
         [Column("cmd_datelivraison")]
         public DateTime CommandeDateLivraison { get; set; }
 
+        #region Foreign Key
+
+        [ForeignKey(nameof(UtilisateurId))]
+        [InverseProperty(nameof(Utilisateur.CommandesUtilisateur))]
+        public virtual Utilisateur UtilisateurCommandant { get; set; } = null!;
+
+        [ForeignKey(nameof(AdresseId))]
+        [InverseProperty(nameof(Utilisateur.CommandesUtilisateur))]
+        public virtual Adresse AdresseCommande { get; set; } = null!;
+
+        [ForeignKey(nameof(LivraisonId))]
+        [InverseProperty(nameof(Utilisateur.CommandesUtilisateur))]
+        public virtual Livraison LivraisonCommande { get; set; } = null!;
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+        [InverseProperty(nameof(Ligne_commande.CommandeNavigation))]
+        public virtual ICollection<Ligne_commande> LignesCommandes { get; set; }
     }
 }
