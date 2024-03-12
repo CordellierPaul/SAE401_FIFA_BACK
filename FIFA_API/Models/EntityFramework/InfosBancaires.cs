@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FIFA.Models.EntityFramework
+namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_e_infos_bancaires_inb")]
     public partial class InfosBancaires

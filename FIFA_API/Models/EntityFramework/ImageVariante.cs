@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
-namespace FIFA.Models.EntityFramework
+namespace FIFA_API.Models.EntityFramework
 {
     [Table("IMAGE_VARIANTE")]
     [Index(nameof(Url), Name = "uq_url_lienpdf", IsUnique = true)]

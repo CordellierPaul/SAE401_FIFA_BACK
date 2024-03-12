@@ -1,5 +1,4 @@
-﻿using FIFA.Models.EntityFramework;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.EntityFramework
 {
