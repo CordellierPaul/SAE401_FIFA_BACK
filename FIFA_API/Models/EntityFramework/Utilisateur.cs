@@ -16,12 +16,12 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("utl_id")]
-        public int IdUtilisateur { get; set; }
+        public int UtilisateurId { get; set; }
 
         [Required]
         [Column("utl_prenom")]
         [StringLength(50)]
-        public string PrenomUtilisateur { get; set; }
+        public string PrenomUtilisateur { get; set; } = null!;
 
         [Column("adr_id")]
         public int? IdAdresse { get; set; }
@@ -53,22 +53,22 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("utl_nomacheteur")]
         [StringLength(50)]
-        public string NomAcheteur { get; set; }
+        public string NomAcheteur { get; set; } = null!;
 
         [Column("utl_telacheteur")]
         [StringLength(10)]
-        public string TelAcheteur { get; set; }
+        public string TelAcheteur { get; set; } = null!;
 
         [Column("act_id")]
         public int? IdActivite { get; set; }
 
         [Column("soc_num")]
         [StringLength(14)]
-        public string NumSociete { get; set; }
+        public string NumSociete { get; set; } = null!;
 
         [Column("utl_numtva")]
         [StringLength(11)]
-        public string NumTva { get; set; }
+        public string NumTva { get; set; } = null!;
 
         
 

@@ -11,8 +11,8 @@ namespace FIFA_API.Models.EntityFramework
     public partial class Document
     {
         [Key]
-        [Column("pub_id")]
-        public int IdPublication { get; set; }
+        [Column("doc_id")]
+        public int DocumentId { get; set; }
 
         [Required]
         [Column("doc_dateheure", TypeName = "date")]
