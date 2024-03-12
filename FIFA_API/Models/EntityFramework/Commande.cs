@@ -35,5 +35,17 @@ namespace FIFA_API.Models.EntityFramework
         [Column("cmd_datelivraison")]
         public DateTime CommandeDateLivraison { get; set; }
 
+
+
+
+
+
+
+
+
+
+
+        [InverseProperty(nameof(Ligne_commande.CommandeNavigation))]
+        public virtual ICollection<Ligne_commande> LignesCommandes { get; set; }
     }
 }

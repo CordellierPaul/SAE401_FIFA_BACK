@@ -3,40 +3,40 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_e_match")]
+    [Table("t_e_match_mch")]
     public class Match
     {
 
         [Key]
-        [Column("idmatch")]
-        public int IdMatch { get; set; }
+        [Column("mch_id")]
+        public int MatchId { get; set; }
 
 
-        [Column("idclubdomicile")]
-        public int IdClubDomicile { get; set; }
+        [Column("clb_domicileid")]
+        public int ClubDomicileId { get; set; }
 
-        [Column("idclubexterieur")]
-        public int IdClubExterieur { get; set; }
+        [Column("clb_exterieurid")]
+        public int ClubExterieurId { get; set; }
 
-        [Column("datematch")]
+        [Column("mch_datematch")]
         public DateTime DateMatch { get; set; }
 
-        [Column("scoredomicile")]
+        [Column("mch_scoredomicile")]
         public int ScoreDomicile { get; set; }
 
-        [Column("ScoreExterieur")]
+        [Column("mch_ScoreExterieur")]
         public int ScoreExterieur { get; set; }
 
 
 
 
 
-        [ForeignKey(nameof(IdClubDomicile))]
+        [ForeignKey(nameof(ClubDomicileId))]
         [InverseProperty("Matches")]
         public virtual Club ClubDomicile { get; set; }
 
 
-        [ForeignKey(nameof(IdClubExterieur))]
+        [ForeignKey(nameof(ClubExterieurId))]
         [InverseProperty("Matches")]
         public virtual Club ClubExterieur { get; set; }
 
