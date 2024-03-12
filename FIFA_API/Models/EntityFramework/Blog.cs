@@ -25,5 +25,9 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("blg_descriptionblog")]
         public string DescriptionBlog { get; set; } = null!;
+
+        [ForeignKey("BlogId")]
+        [InverseProperty("BlogCommente")]
+        public virtual List<Commentaire> CommentairesBlog { get; set; } = null!;
     }
 }

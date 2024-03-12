@@ -49,15 +49,15 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Document DocumentCommente { get; set; } = null!;
 
         [ForeignKey("AlbumId")]
-        [InverseProperty("")]
+        [InverseProperty("CommentairesAlbum")]
         public virtual Album AlbumCommente { get; set; } = null!;
 
         [ForeignKey("BlogId")]
-        [InverseProperty("")]
+        [InverseProperty("CommentairesBlog")]
         public virtual Blog BlogCommente { get; set; } = null!;
 
         [ForeignKey("ArticleId")]
-        [InverseProperty("")]
+        [InverseProperty("CommentairesArticle")]
         public virtual Article ArticleCommente { get; set; } = null!;
 
 
