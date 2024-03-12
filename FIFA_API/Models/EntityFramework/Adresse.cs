@@ -16,5 +16,9 @@ namespace FIFA_API.Models.EntityFramework
 
         // TODO une fois que la table ville sera créée, je m'occuperai de faire le lien entre ville et adresse (c'est Paul qui écrit)
         public int IdVille { get; set; }
+
+
+        [InverseProperty(nameof(Commande.AdresseCommande))]
+        public virtual List<Commande> CommandesAdresse { get; set; } = new List<Commande>();
     }
 }
