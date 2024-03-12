@@ -11,7 +11,6 @@ namespace FIFA_API.Models.EntityFramework
         public int CommentaireId { get; set; }
 
         [Column("com_dateheure")]
-        [StringLength(25)]
         public DateTime CommentaireDateHeure { get; set; } = DateTime.Now;
 
         [Column("user_id")]
