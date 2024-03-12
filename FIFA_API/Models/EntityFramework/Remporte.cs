@@ -3,19 +3,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("remporte")]
+    [Table("t_j_remporte_rem")]
     public partial class Remporte
     {
         [Key]
-        [Column("idjoueur")]
+        [Column("jou_id")]
         public int IdJoueur { get; set; }
 
         [Key]
-        [Column("NUMTROPHEE")]
+        [Column("tro_num")]
         public int NumTrophee { get; set; }
 
         [Key]
-        [Column("ANNEE", TypeName = "char(4)")]
+        [Column("rem_annee", TypeName = "char(4)")]
         public char Annee { get; set; }
 
         [ForeignKey(nameof(IdJoueur))]

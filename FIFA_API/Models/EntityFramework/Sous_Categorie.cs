@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("sous_categorie")]
+    [Table("t_j_sous_categorie_soucat")]
     public partial class Sous_Categorie
     {
         [Key]
-        [Column("CATEGORIEPARENT")]
+        [Column("cat_parent")]
         public int CategorieParent { get; set; }
 
         [Key]
-        [Column("CATEGORIEENFANT")]
+        [Column("cat_enfant")]
         public int CategorieEnfant { get; set; }
 
 

@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("taille")]
+    [Table("t_e_taille_tai")]
     public partial class Taille
     {
         [Key]
-        [Column("NUMTAILLE")]
+        [Column("tai_num")]
         public int NumTaille { get; set; }
 
-        [Column("LIBELLETAILLE")]
+        [Column("tai_libelle")]
         [StringLength(25)]
         public string LibelleTaille { get; set; }
 
