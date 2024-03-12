@@ -19,12 +19,12 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(BlogId))]
         [InverseProperty("Likes_blog")]
-        public virtual Blog Blog { get; set; } = null!;
+        public virtual Blog BlogNavigation { get; set; } = null!;
 
 
         [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty("Likes_blog")]
-        public virtual Utilisateur Utilisateur { get; set; } = null!;
+        public virtual Utilisateur UtilisateurNavigation { get; set; } = null!;
 
     }
 }

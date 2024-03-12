@@ -70,45 +70,22 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(11)]
         public string NumTva { get; set; }
 
-        #region Foreign Key
-
-        [ForeignKey(nameof(IdAdresse))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Adresse Adresse { get; set; }
-
-        [ForeignKey(nameof(IdCompte))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Compte Compte { get; set; }
-
-        [ForeignKey(nameof(NumLangue))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Langue Langue { get; set; }
-
-        [ForeignKey(nameof(IdActivite))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Activite Activite { get; set; }
-
-        [ForeignKey(nameof(PaysFavori))]
-        [InverseProperty("UtilisateursPaysFavori")]
-        public virtual Pays PaysFavoriNavigation { get; set; }
-
-        [ForeignKey(nameof(PaysNaissance))]
-        [InverseProperty("UtilisateursPaysNaissance")]
-        public virtual Pays PaysNaissanceNavigation { get; set; }
-
-        [ForeignKey(nameof(NumMonnaie))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Monnaie Monnaie { get; set; }
-
-        #endregion
-
-        #region InverseProperty
-
-        [InverseProperty("UtilisateurCommentant")] 
-        public virtual List<Commentaire> CommentairesUtilisateur { get; set; } = new List<Commentaire>();
         
-        [InverseProperty(nameof(Commande.UtilisateurCommandant))]
-        public virtual List<Commande> CommandesUtilisateur { get; set; } = new List<Commande>();
-        #endregion
+
+
+
+
+        [InverseProperty(nameof(Like_Album.UtilisateurNavigation))]
+        public virtual ICollection<Like_Album> LikesAlbums { get; set; }
+
+
+
+        [InverseProperty(nameof(Like_Article.UtilisateurNavigation))]
+        public virtual ICollection<Like_Article> LikesArticles { get; set; }
+
+
+
+        [InverseProperty(nameof(Like_Blog.UtilisateurNavigation))]
+        public virtual ICollection<Like_Blog> LikesBlogs { get; set; }
     }
 }
