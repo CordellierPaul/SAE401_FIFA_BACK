@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TP4.Models.EntityFramework;
 
 namespace FIFA_API.Models.EntityFramework
 {
@@ -205,6 +206,77 @@ namespace FIFA_API.Models.EntityFramework
                 .WithMany()
                 .HasForeignKey(p => p.CategorieParent)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey Utilisateur
+            modelBuilder.Entity<Utilisateur>()
+                .HasOne(p => p.Adresse)
+                .WithMany()
+                .HasForeignKey(p => p.IdAdresse)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Utilisateur>()
+                .HasOne(p => p.Compte)
+                .WithMany()
+                .HasForeignKey(p => p.IdCompte)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Utilisateur>()
+                .HasOne(p => p.Langue)
+                .WithMany()
+                .HasForeignKey(p => p.NumLangue)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Utilisateur>()
+                .HasOne(p => p.PaysFavoriNavigation)
+                .WithMany()
+                .HasForeignKey(p => p.PaysFavori)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Utilisateur>()
+                .HasOne(p => p.PaysNaissanceNavigation)
+                .WithMany()
+                .HasForeignKey(p => p.PaysNaissance)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Utilisateur>()
+                .HasOne(p => p.Monnaie)
+                .WithMany()
+                .HasForeignKey(p => p.NumMonnaie)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            //ForeignKey VarianteProduit
+            modelBuilder.Entity<VarianteProduit>()
+                .HasOne(p => p.Produit)
+                .WithMany()
+                .HasForeignKey(p => p.IdProduit)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<VarianteProduit>()
+                .HasOne(p => p.Couleur)
+                .WithMany()
+                .HasForeignKey(p => p.IdCouleur)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey Vote
+            modelBuilder.Entity<Vote>()
+                .HasOne(p => p.Utilisateur)
+                .WithMany()
+                .HasForeignKey(p => p.IdUtilisateur)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Vote>()
+                .HasOne(p => p.Theme)
+                .WithMany()
+                .HasForeignKey(p => p.NumTheme)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Vote>()
+                .HasOne(p => p.Joueur)
+                .WithMany()
+                .HasForeignKey(p => p.IdJoueur)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             //ForeignKey Ville
             modelBuilder.Entity<Ville>()
