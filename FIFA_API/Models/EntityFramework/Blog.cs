@@ -16,5 +16,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("blg_dateheure")]
         public DateTime DateHeure { get; set; }
+
+
     }
 }
