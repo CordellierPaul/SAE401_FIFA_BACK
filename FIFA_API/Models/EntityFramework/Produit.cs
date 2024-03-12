@@ -3,31 +3,31 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("produit")]
+    [Table("t_e_produit_pro")]
     public partial class Produit
     {
         [Key]
-        [Column("idproduit")]
+        [Column("pro_id")]
         public int IdProduit { get; set; }
 
-        [Column("numgenre")]
+        [Column("gen_num")]
         public int NumGenre { get; set; }
 
-        [Column("numcategorie")]
+        [Column("cat_num")]
         public int NumCategorie { get; set; }
 
-        [Column("NOMPRODUIT")]
+        [Column("pro_num")]
         [StringLength(100)]
         public string NomProduit { get; set; }
 
-        [Column("DESCRIPTIONPRODUIT")]
+        [Column("pro_description")]
         [StringLength(1000)]
         public string? DescriptionProduit { get; set; }
 
-        [Column("IDCOMPETITION")]
+        [Column("comp_id")]
         public int? IdCompetition { get; set; }
 
-        [Column("NUMPAYS")]
+        [Column("pay_num")]
         public int? NumPays { get; set; }
 
 

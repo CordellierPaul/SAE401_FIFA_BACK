@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("poste")]
+    [Table("t_e_poste_pos")]
     public partial class Poste
     {
         [Key]
-        [Column("numposte")]
+        [Column("pos_num")]
         public int NumPoste { get; set; }
 
-        [Column("LIBELLEPOSTE")]
+        [Column("pos_libelle")]
         [StringLength(25)]
         public string LibellePoste { get; set; }
     }
