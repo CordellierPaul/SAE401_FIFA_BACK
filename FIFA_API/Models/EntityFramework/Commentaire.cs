@@ -41,7 +41,23 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Utilisateur UtilisateurCommentant { get; set; } = null!;
 
         [ForeignKey("CommentaireIdCommentaire")]
-        [InverseProperty("ProduitsCaracteristique")]
+        [InverseProperty("")]
         public virtual Commentaire CommentaireCommenter { get; set; } = null!;
+
+        [ForeignKey("DocumentId")]
+        [InverseProperty("")]
+        public virtual Document DocumentCommenter { get; set; } = null!;
+
+        [ForeignKey("AlbumId")]
+        [InverseProperty("")]
+        public virtual Album AlbumCommenter { get; set; } = null!;
+
+        [ForeignKey("BlogId")]
+        [InverseProperty("")]
+        public virtual Blog BlogCommenter { get; set; } = null!;
+
+        [ForeignKey("ArticleId")]
+        [InverseProperty("")]
+        public virtual Article ArticleCommenter { get; set; } = null!;
     }
 }
