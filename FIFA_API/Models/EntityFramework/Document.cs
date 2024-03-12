@@ -34,6 +34,11 @@ namespace FIFA_API.Models.EntityFramework
         [RegularExpression(@"\.pdf$", ErrorMessage = "Le lien PDF doit se terminer par l'extension .pdf")]
         public string LienPdf { get; set; }
 
+
+
+        [InverseProperty("DocumentCommente")]
+        public virtual List<Commentaire> CommentairesDocument { get; set; } = new List<Commentaire>();
+
         public Document()
         {
             LienPdf = null!;
