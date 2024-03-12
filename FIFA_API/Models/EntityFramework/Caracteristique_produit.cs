@@ -14,5 +14,11 @@ namespace FIFA_API.Models.EntityFramework
         [Column("pdt_id")]
         public int ProduitId { get; set; }
 
+
+
+        [ForeignKey("CaracteristiqueId")]
+        [InverseProperty("ProduitsCaracteristique")]
+        public virtual Caracteristique CaracteristiqueCaracterisant { get; set; } = null!;
+
     }
 }
