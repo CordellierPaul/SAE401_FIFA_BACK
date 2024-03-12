@@ -26,12 +26,15 @@ namespace FIFA_API.Models.EntityFramework
         public string Resume { get; set; } = null!;
 
         [Column("art_texte")]
-        public string Texre { get; set; } = null!;
+        public string Texte { get; set; } = null!;
 
         [InverseProperty(nameof(ArticleJoueur.ArticleNavigation))]
         public virtual ICollection<ArticleJoueur> LiensJoueur { get; set; }
 
         [InverseProperty(nameof(ArticleMedia.ArticleNavigation))]
         public virtual ICollection<ArticleMedia> LiensMedias { get; set; }
+
+        [InverseProperty("ArticleCommente")] 
+        public virtual List<Commentaire> CommentairesArticle { get; set; } = new List<Commentaire>();
     }
 }

@@ -97,5 +97,9 @@ namespace FIFA_API.Models.EntityFramework
         [ForeignKey(nameof(NumMonnaie))]
         [InverseProperty("Utilisateurs")]
         public virtual Monnaie Monnaie { get; set; }
+
+
+        [InverseProperty("UtilisateurCommentant")] 
+        public virtual List<Commentaire> CommentairesUtilisateur { get; set; } = new List<Commentaire>();
     }
 }

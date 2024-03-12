@@ -10,10 +10,10 @@ namespace FIFA_API.Models.EntityFramework
         [Column("cmd_id")]
         public int CommandeId { get; set; }
 
-        [Column("user_id")]
+        [Column("utl_id")]
         public int UtilisateurId { get; set; }
 
-        [Column("addr_id")]
+        [Column("adr_id")]
         public int AdresseId { get; set; }
 
         [Column("liv_id")]

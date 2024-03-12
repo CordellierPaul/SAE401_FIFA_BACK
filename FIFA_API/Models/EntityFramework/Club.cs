@@ -4,19 +4,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FIFA_API.Models.EntityFramework
 
 {
-    [Table("t_e_club_club")]
+    [Table("t_e_club_clb")]
     public partial class Club
     {
 
         [Key]
-        [Column("club_id")]
+        [Column("clb_id")]
         public int ClubId { get; set; }
 
-        [Column("club_nom")]
+        [Column("clb_nom")]
         [StringLength(50)]
         public string ClubNom { get; set; } = null!;
 
-        [Column("club_initiales")]
+        [Column("clb_initiales")]
         [StringLength(50)]
         public string ClubInitiales { get; set; } = null!;
     }

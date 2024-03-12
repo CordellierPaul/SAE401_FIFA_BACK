@@ -13,7 +13,7 @@ namespace FIFA_API.Models.EntityFramework
         [Column("com_dateheure")]
         public DateTime CommentaireDateHeure { get; set; } = DateTime.Now;
 
-        [Column("user_id")]
+        [Column("utl_id")]
         public int UtilisateurId { get; set; }
 
         [Column("com_texte")]
@@ -34,5 +34,34 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("art_id")]
         public int ArticleId { get; set; }
+
+
+        [ForeignKey("UtilisateurId")]
+        [InverseProperty("CommentairesUtilisateur")]
+        public virtual Utilisateur UtilisateurCommentant { get; set; } = null!;
+
+        [ForeignKey("CommentaireIdCommentaire")]
+        [InverseProperty("CommenteCommentaire")]
+        public virtual Commentaire CommentaireCommente { get; set; }
+
+        [ForeignKey("DocumentId")]
+        [InverseProperty("CommentairesDocument")]
+        public virtual Document DocumentCommente { get; set; } = null!;
+
+        [ForeignKey("AlbumId")]
+        [InverseProperty("CommentairesAlbum")]
+        public virtual Album AlbumCommente { get; set; } = null!;
+
+        [ForeignKey("BlogId")]
+        [InverseProperty("CommentairesBlog")]
+        public virtual Blog BlogCommente { get; set; } = null!;
+
+        [ForeignKey("ArticleId")]
+        [InverseProperty("CommentairesArticle")]
+        public virtual Article ArticleCommente { get; set; } = null!;
+
+
+        [InverseProperty("CommentaireCommente")]
+        public virtual Commentaire CommenteCommentaire { get; set; }
     }
 }

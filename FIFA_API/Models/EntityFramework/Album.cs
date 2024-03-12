@@ -28,5 +28,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(AlbumImage.AlbumNavigation))]
         public virtual ICollection<AlbumImage> LiensImages { get; set; }
+
+        [InverseProperty("AlbumCommente")]
+        public virtual List<Commentaire> CommentairesAlbum { get; set; } = new List<Commentaire>();
     }
 }
