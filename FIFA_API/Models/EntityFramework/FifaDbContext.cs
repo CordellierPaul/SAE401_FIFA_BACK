@@ -325,6 +325,18 @@ namespace FIFA_API.Models.EntityFramework
                 .HasKey(e => e.Id)
                 .HasName("pk_anc");
 
+            modelBuilder.Entity<Article>()
+                .HasKey(e => e.Id)
+                .HasName("pk_art");
+
+            modelBuilder.Entity<Blog>()
+                .HasKey(e => e.Id)
+                .HasName("pk_blg");
+
+            modelBuilder.Entity<Caracteristique>()
+                .HasKey(e => e.CaracteristiqueId)
+                .HasName("pk_car");
+
             #endregion
         }
 
