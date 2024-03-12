@@ -60,6 +60,12 @@ namespace FIFA_API.Models.EntityFramework
                 .HasForeignKey(p => p.ProduitDeux)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //ForeignKey Reglement
+            modelBuilder.Entity<Reglement>()
+                .HasOne(p => p.Commande)
+                .WithMany()
+                .HasForeignKey(p => p.NumCommande)
+                .OnDelete(DeleteBehavior.Restrict);
             OnModelCreatingPartial(modelBuilder);
         }
 
