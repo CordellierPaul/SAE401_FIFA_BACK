@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_e_caracteristique_produit_caractpdt")]
+    [Table("t_j_caracteristique_produit_caractpdt")]
     public partial class Caracteristique_produit
     {
         [Key]
@@ -13,6 +13,12 @@ namespace FIFA_API.Models.EntityFramework
         [Key]
         [Column("pdt_id")]
         public int ProduitId { get; set; }
+
+
+
+        [ForeignKey("CaracteristiqueId")]
+        [InverseProperty("ProduitsCaracteristique")]
+        public virtual Caracteristique CaracteristiqueCaracterisant { get; set; } = null!;
 
     }
 }
