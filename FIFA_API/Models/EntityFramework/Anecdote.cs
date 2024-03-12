@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_e_anecdote_anec")]
+    [Table("t_e_anecdote_anc")]
     public class Anecdote
     {
         [Key]
-        [Column("anec_id")]
+        [Column("anc_id")]
         public int Id { get; set; }
 
         // TODO lier à joueur

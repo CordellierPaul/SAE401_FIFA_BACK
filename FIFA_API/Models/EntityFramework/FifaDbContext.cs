@@ -283,6 +283,49 @@ namespace FIFA_API.Models.EntityFramework
                 .WithMany()
                 .HasForeignKey(p => p.NumPays)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            //ForeignKey AlbumImages
+            modelBuilder.Entity<AlbumImage>(entity =>
+            {
+                entity.HasKey(e => new { e.IdAlbum, e.IdImage })
+                    .HasName("pk_ali");
+
+                entity.HasOne(d => d.AlbumNavigation)
+                    .WithMany(p => p.LiensImages)
+                    .HasForeignKey(d => d.IdAlbum)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_not_flm");
+
+                entity.HasOne(d => d.ImageNavigation)
+                    .WithMany(p => p.LiensAlbums)
+                    .HasForeignKey(d => d.IdImage)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_not_utl");
+            });
+
+            #region Clés primaires d'entités
+
+            modelBuilder.Entity<Action>()
+                .HasKey(e => e.Id)
+                .HasName("pk_act");
+
+            modelBuilder.Entity<Activite>()
+                .HasKey(e => e.Id)
+                .HasName("pk_ati");
+
+            modelBuilder.Entity<Adresse>()
+                .HasKey(e => e.Id)
+                .HasName("pk_adr");
+
+            modelBuilder.Entity<Album>()
+                .HasKey(e => e.Id)
+                .HasName("pk_alb");
+
+            modelBuilder.Entity<Anecdote>()
+                .HasKey(e => e.Id)
+                .HasName("pk_anc");
+
+            #endregion
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
