@@ -34,6 +34,16 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(ArticleMedia.ArticleNavigation))]
         public virtual ICollection<ArticleMedia> LiensMedias { get; set; }
 
+
+
+
+
+        [InverseProperty(nameof(Like_Article.ArticleNavigation))]
+        public virtual ICollection<Like_Article> LikesArticles { get; set; }
+
+
+
+
         [InverseProperty("ArticleCommente")] 
         public virtual List<Commentaire> CommentairesArticle { get; set; } = new List<Commentaire>();
     }
