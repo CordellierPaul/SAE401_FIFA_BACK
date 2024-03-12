@@ -3,33 +3,33 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("FORMULAIRE_AIDE")]
+    [Table("t_e_formulaireaide_foa")]
     public partial class FormulaireAide
     {
         [Key]
-        [Column("IDFORMULAIRE")]
+        [Column("foa_id")]
         public int IdFormulaire { get; set; }
 
         [Required]
-        [Column("NUMACTION")]
+        [Column("foa_numaction")]
         public int NumAction { get; set; }
 
         [Required]
-        [Column("IDUTILISATEUR")]
+        [Column("utl_id")]
         public int IdUtilisateur { get; set; }
 
         [Required]
-        [Column("NOMUTILISATEUR")]
+        [Column("utl_nom")]
         [StringLength(50)]
         public string NomUtilisateur { get; set; }
 
         [Required]
-        [Column("TELEPHONE")]
+        [Column("foa_telephone")]
         [StringLength(10)]
         public string Telephone { get; set; }
 
         [Required]
-        [Column("QUESTION")]
+        [Column("foa_question")]
         [StringLength(250)]
         public string Question { get; set; }
 

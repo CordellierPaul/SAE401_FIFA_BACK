@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("IMAGE_JOUEUR")]
+    [Table("t_j_image_joueur_imj")]
     public partial class ImageJoueur
     {
         [Key, Column(Order = 0)]

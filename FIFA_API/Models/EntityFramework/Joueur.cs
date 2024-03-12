@@ -4,53 +4,53 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA.Models.EntityFramework
 {
-    [Table("JOUEUR")]
+    [Table("t_e_joueur_jou")]
     public partial class Joueur
     {
         [Key]
-        [Column("IDJOUEUR")]
+        [Column("jou_id")]
         public int IdJoueur { get; set; }
 
         [Required]
-        [Column("DATENAISSANCE", TypeName = "date")]
+        [Column("jou_datenaissance", TypeName = "date")]
         public DateTime DateNaissance { get; set; }
 
         [Required]
-        [Column("NUMPOSTE")]
+        [Column("jou_numposte")]
         public int NumPoste { get; set; }
 
-        [Column("IDCLUB")]
+        [Column("clb_id")]
         public int? IdClub { get; set; }
 
         [Required]
-        [Column("IDVILLE")]
+        [Column("vil_id")]
         public int IdVille { get; set; }
 
         [Required]
-        [Column("NOMJOUEUR")]
+        [Column("jou_nom")]
         [StringLength(50)]
         public string NomJoueur { get; set; }
 
         [Required]
-        [Column("PRENOMJOUEUR")]
+        [Column("jou_prenom")]
         [StringLength(50)]
         public string PrenomJoueur { get; set; }
 
         [Required]
-        [Column("PIED")]
+        [Column("jou_pied")]
         [StringLength(1)]
         public string Pied { get; set; }
 
         [Required]
-        [Column("POIDS", TypeName = "decimal(5,2)")]
+        [Column("jou_poids", TypeName = "decimal(5,2)")]
         public decimal Poids { get; set; }
 
         [Required]
-        [Column("TAILLE")]
+        [Column("jou_taille")]
         public int Taille { get; set; }
 
         [Required]
-        [Column("DESCRIPTIONJOUEUR")]
+        [Column("jou_description")]
         [StringLength(1000)]
         public string DescriptionJoueur { get; set; }
 
