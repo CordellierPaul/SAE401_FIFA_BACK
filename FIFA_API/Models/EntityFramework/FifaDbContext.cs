@@ -67,6 +67,20 @@ namespace FIFA_API.Models.EntityFramework
                 .HasForeignKey(p => p.NumCommande)
                 .OnDelete(DeleteBehavior.Restrict);
             OnModelCreatingPartial(modelBuilder);
+
+
+            //ForeignKey Remporte
+            modelBuilder.Entity<Remporte>()
+                .HasOne(p => p.Joueur)
+                .WithMany()
+                .HasForeignKey(p => p.IdJoueur)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Remporte>()
+                .HasOne(p => p.Trophee)
+                .WithMany()
+                .HasForeignKey(p => p.NumTrophee)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
