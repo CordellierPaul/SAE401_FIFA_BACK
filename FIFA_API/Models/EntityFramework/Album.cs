@@ -20,5 +20,8 @@ namespace FIFA_API.Models.EntityFramework
         [Column("alb_resume")]
         [StringLength(250)]
         public string Resume { get; set; } = null!;
+
+        [InverseProperty(nameof(AlbumImage.AlbumNavigation))]
+        public virtual ICollection<AlbumImage> LiensImages { get; set; } = null!;
     }
 }
