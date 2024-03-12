@@ -16,6 +16,10 @@ namespace FIFA_API.Models.EntityFramework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Il faudra donner des infos sur la base ici
+            modelBuilder.Entity<Reglement>(entity =>
+            {
+                entity.Property(e => e.DateReglement).HasDefaultValueSql("now()");
+            });
 
             OnModelCreatingPartial(modelBuilder);
         }
