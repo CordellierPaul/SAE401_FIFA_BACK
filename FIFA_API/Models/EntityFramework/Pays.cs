@@ -19,5 +19,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(Utilisateur.PaysFavoriNavigation))]
         public virtual ICollection<Utilisateur> UtilisateursFavorisantPays { get; set; } = new HashSet<Utilisateur>();
+
+        [InverseProperty(nameof(Utilisateur.PaysNaissanceNavigation))]
+        public virtual ICollection<Utilisateur> UtilisateursNeePays { get; set; } = new HashSet<Utilisateur>();
     }
 }

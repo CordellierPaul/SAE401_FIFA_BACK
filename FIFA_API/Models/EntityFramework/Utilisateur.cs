@@ -93,7 +93,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Pays PaysFavoriNavigation { get; set; } = null!;
 
         [ForeignKey(nameof(PaysNaissance))]
-        [InverseProperty("UtilisateursPaysNaissance")]
+        [InverseProperty(nameof(Pays.UtilisateursNeePays))]
         public virtual Pays PaysNaissanceNavigation { get; set; } = null!;
 
         [ForeignKey(nameof(NumMonnaie))]
