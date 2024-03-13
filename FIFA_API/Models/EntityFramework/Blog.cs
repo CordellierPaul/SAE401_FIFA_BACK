@@ -26,8 +26,8 @@ namespace FIFA_API.Models.EntityFramework
         [Column("blg_descriptionblog")]
         public string DescriptionBlog { get; set; } = null!;
 
-        [ForeignKey("BlogId")]
-        [InverseProperty("BlogCommente")]
+
+        [InverseProperty(nameof(Commentaire.BlogCommente))]
         public virtual ICollection<Commentaire> CommentairesBlog { get; set; } = new HashSet<Commentaire>();
 
         [InverseProperty(nameof(LikeBlog.BlogNavigation))]

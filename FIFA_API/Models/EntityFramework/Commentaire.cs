@@ -52,8 +52,8 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty("CommentairesAlbum")]
         public virtual Album AlbumCommente { get; set; } = null!;
 
-        [ForeignKey("BlogId")]
-        [InverseProperty("CommentairesBlog")]
+        [ForeignKey(nameof(BlogId))]
+        [InverseProperty(nameof(Blog.CommentairesBlog))]
         public virtual Blog BlogCommente { get; set; } = null!;
 
         [ForeignKey("ArticleId")]
