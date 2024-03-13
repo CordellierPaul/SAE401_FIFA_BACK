@@ -44,6 +44,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual DbSet<Pays> Pays { get; set; } = null!;
         public virtual DbSet<Poste> Poste { get; set; } = null!;
         public virtual DbSet<Produit> Produit { get; set; } = null!;
+        public virtual DbSet<ProduitSimilaire> ProduitSimilaire { get; set; } = null!;
         public virtual DbSet<Reglement> Reglement { get; set; } = null!;
         public virtual DbSet<Taille> Taille { get; set; } = null!;
         public virtual DbSet<Theme> Theme { get; set; } = null!;
@@ -339,19 +340,24 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_pro_gen");
             });
 
-            //ForeignKey Produit_Similaire
+            //ForeignKey ProduitSimilaire
+            modelBuilder.Entity<ProduitSimilaire>(entity =>
+            {
+                entity.HasKey(p => new { p.ProduitUnId, p.ProduitDeuxId })
+                    .HasName("pk_prs");
 
-            modelBuilder.Entity<ProduitSimilaire>()
-                .HasOne(p => p.PremierProduit)
-                .WithMany()
-                .HasForeignKey(p => p.ProduitUn)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.PremierProduit)
+                    .WithMany(p => p.ProduitSimilaireLienUn)
+                    .HasForeignKey(p => p.ProduitUnId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_prs_pro1");
 
-            modelBuilder.Entity<ProduitSimilaire>()
-                .HasOne(p => p.DeuxiemeProduit)
-                .WithMany()
-                .HasForeignKey(p => p.ProduitDeux)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.DeuxiemeProduit)
+                    .WithMany(p => p.ProduitSimilaireLienDeux)
+                    .HasForeignKey(p => p.ProduitDeuxId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_prs_pro2");
+            });
 
             //ForeignKey Reglement
             modelBuilder.Entity<Reglement>()

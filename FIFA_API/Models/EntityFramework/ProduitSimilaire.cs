@@ -8,18 +8,18 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("pro_un")]
-        public int ProduitUn { get; set; }
+        public int ProduitUnId { get; set; }
 
         [Key]
         [Column("pro_deux")]
-        public int ProduitDeux { get; set; }
+        public int ProduitDeuxId { get; set; }
 
-        [ForeignKey(nameof(ProduitUn))]
-        [InverseProperty("ProduitSimilaire")]
+        [ForeignKey(nameof(ProduitUnId))]
+        [InverseProperty(nameof(Produit.ProduitSimilaireLienUn))]
         public virtual Produit PremierProduit { get; set; } = null!;
 
-        [ForeignKey(nameof(ProduitDeux))]
-        [InverseProperty("ProduitSimilaire")]
+        [ForeignKey(nameof(ProduitDeuxId))]
+        [InverseProperty(nameof(Produit.ProduitSimilaireLienDeux))]
         public virtual Produit DeuxiemeProduit { get; set; } = null!;
     }
 }
