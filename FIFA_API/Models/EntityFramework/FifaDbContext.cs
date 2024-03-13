@@ -439,7 +439,7 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasKey(e => e.VarianteProuitId)
                     .HasName("pk_vpd");
 
-                entity.HasOne(p => p.Produit)
+                entity.HasOne(p => p.ProduitVariante)
                     .WithMany()
                     .HasForeignKey(p => p.ProduitId)
                     .OnDelete(DeleteBehavior.Restrict);
