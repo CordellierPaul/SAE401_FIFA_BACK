@@ -326,7 +326,7 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey Produit
             modelBuilder.Entity<Produit>()
                 .HasOne(p => p.Pays)
-                .WithMany()
+                .WithMany(p => p.Produits)
                 .HasForeignKey(p => p.NumPays)
                 .OnDelete(DeleteBehavior.Restrict);
 
