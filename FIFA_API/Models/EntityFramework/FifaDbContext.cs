@@ -282,7 +282,6 @@ namespace FIFA_API.Models.EntityFramework
 
             });
 
-
             //ForeignKey Match
             modelBuilder.Entity<Match>(entity =>
             {
@@ -298,6 +297,26 @@ namespace FIFA_API.Models.EntityFramework
                     .HasForeignKey(d => d.ClubExterieurId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_mch_clb");
+
+            });
+
+            //ForeignKey Match_joue
+            modelBuilder.Entity<Match_joue>(entity =>
+            {
+                entity.HasKey(e => new { e.JoueurId, e.MatchId })
+                    .HasName("pk_mtj");
+
+                entity.HasOne(d => d.JoueurNavigation)
+                    .WithMany(p => p.Matches_joue)
+                    .HasForeignKey(d => d.JoueurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_mtj_clb");
+
+                entity.HasOne(d => d.MatchNavigation)
+                    .WithMany(p => p.Matches_joue)
+                    .HasForeignKey(d => d.MatchId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_mtj_clb");
 
             });
 
