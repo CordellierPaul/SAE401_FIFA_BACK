@@ -183,6 +183,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasForeignKey(p => p.IdJoueur)
                 .OnDelete(DeleteBehavior.Restrict);
 
+ 
 
             //ForeignKey Ligne_commande
             modelBuilder.Entity<Ligne_commande>(entity =>
@@ -340,19 +341,19 @@ namespace FIFA_API.Models.EntityFramework
 
             modelBuilder.Entity<Produit>()
                 .HasOne(p => p.Categorie)
-                .WithMany()
+                .WithMany(p => p.Produits)
                 .HasForeignKey(p => p.NumCategorie)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Produit>()
                 .HasOne(p => p.Competition)
-                .WithMany()
+                .WithMany(p => p.Produits)
                 .HasForeignKey(p => p.IdCompetition)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Produit>()
                 .HasOne(p => p.Genre)
-                .WithMany()
+                .WithMany(p => p.Produits)
                 .HasForeignKey(p => p.GenreId)
                 .OnDelete(DeleteBehavior.Restrict);
 
