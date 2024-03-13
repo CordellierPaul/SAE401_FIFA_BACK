@@ -26,7 +26,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual ICollection<SousCategorie> EnfantsCategorie { get; set; } = new HashSet<SousCategorie>();
 
         [InverseProperty(nameof(SousCategorie.ObjCategorieParent))]
-        public virtual ICollection<Categorie> ParentsCategorie { get; set; } = new HashSet<Categorie>();
+        public virtual ICollection<SousCategorie> ParentsCategorie { get; set; } = new HashSet<SousCategorie>();
 
         [InverseProperty("Categorie")]
         public virtual ICollection<Produit> Produits { get; set; }
