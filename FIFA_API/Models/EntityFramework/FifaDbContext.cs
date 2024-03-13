@@ -148,7 +148,7 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey JoueurTheme
             modelBuilder.Entity<JoueurTheme>()
-                .HasOne(p => p.ThemeVote)
+                .HasOne(p => p.Theme)
                 .WithMany()
                 .HasForeignKey(p => p.NumTheme)
                 .OnDelete(DeleteBehavior.Restrict);
