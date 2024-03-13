@@ -36,5 +36,7 @@ namespace FIFA_API.Models.EntityFramework
         [ForeignKey(nameof(IdUtilisateur))]
         [InverseProperty(nameof(Utilisateur.InfosBancairesUtilisateur))]
         public virtual Utilisateur UtilisateurInfoBc { get; set; } = null!;
+
+
     }
 }
