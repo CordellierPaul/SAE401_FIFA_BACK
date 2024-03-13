@@ -34,8 +34,8 @@ namespace FIFA_API.Models.EntityFramework
         public string Question { get; set; } = null!;
 
         [ForeignKey(nameof(IdUtilisateur))]
-        [InverseProperty("FormulaireAide")]
-        public virtual Utilisateur Utilisateur { get; set; } = null!;
+        [InverseProperty(nameof(Utilisateur.FormulairesAideUtilisateur))]
+        public virtual Utilisateur UtilisateurDuFormulaire { get; set; } = null!;
 
         [ForeignKey(nameof(NumAction))]
         [InverseProperty(nameof(Action.ActionFormulaireAide))]

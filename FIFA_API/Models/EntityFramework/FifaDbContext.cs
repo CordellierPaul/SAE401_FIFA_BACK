@@ -90,8 +90,8 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey FormulaireAide
             modelBuilder.Entity<FormulaireAide>()
-                .HasOne(p => p.Utilisateur)
-                .WithMany(d => d.UtilisateurFormulaireAide)
+                .HasOne(p => p.UtilisateurDuFormulaire)
+                .WithMany(d => d.FormulairesAideUtilisateur)
                 .HasForeignKey(p => p.IdUtilisateur)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_foa_utl");
