@@ -31,7 +31,6 @@ namespace FIFA_API.Models.EntityFramework
         public int? NumPays { get; set; }
 
 
-
         [ForeignKey(nameof(NumPays))]
         [InverseProperty("NumPays")]
         public virtual Pays Pays { get; set; } = null!;

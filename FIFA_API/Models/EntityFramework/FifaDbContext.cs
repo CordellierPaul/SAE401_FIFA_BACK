@@ -298,32 +298,6 @@ namespace FIFA_API.Models.EntityFramework
 
             });
 
-
-            //ForeignKey Produit
-            modelBuilder.Entity<Produit>()
-                .HasOne(p => p.Pays)
-                .WithMany(p => p.Produits)
-                .HasForeignKey(p => p.NumPays)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Produit>()
-                .HasOne(p => p.Categorie)
-                .WithMany(p => p.Produits)
-                .HasForeignKey(p => p.NumCategorie)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Produit>()
-                .HasOne(p => p.Competition)
-                .WithMany(p => p.Produits)
-                .HasForeignKey(p => p.IdCompetition)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Produit>()
-                .HasOne(p => p.Genre)
-                .WithMany(p => p.Produits)
-                .HasForeignKey(p => p.GenreId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             //ForeignKey Produit_Similaire
 
             modelBuilder.Entity<Produit_Similaire>()
@@ -543,6 +517,8 @@ namespace FIFA_API.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_imj_jou");
             });
+
+
 
             //Avait été fait plus haut
             /*//ForeignKey ProduitSimilaire

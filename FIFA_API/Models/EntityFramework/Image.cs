@@ -25,5 +25,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(ImageJoueur.ImageNavigation))]
         public virtual ICollection<ImageJoueur> LiensJoueurs { get; set; } = new HashSet<ImageJoueur>();
+
+        //[InverseProperty(nameof(ImageVariante.ImageNavigation))]        // ?
+        //public virtual ICollection<ImageVariante> LiensVarianteProduits { get; set; } = new HashSet<ImageVariante>();   // ?
     }
 }
