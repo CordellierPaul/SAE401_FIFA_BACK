@@ -42,8 +42,8 @@ namespace FIFA_API.Models.EntityFramework
 
 
 
-        [InverseProperty(nameof(Match_joue.MatchNavigation))]
-        public virtual ICollection<Match_joue> Matches_joue { get; set; } = new HashSet<Match_joue>();
+        [InverseProperty(nameof(MatchJoue.MatchNavigation))]
+        public virtual ICollection<MatchJoue> Matches_joue { get; set; } = new HashSet<MatchJoue>();
 
 
     }

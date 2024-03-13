@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
@@ -30,8 +28,8 @@ namespace FIFA_API.Models.EntityFramework
         public string Message { get; set; } = null!;
 
         [ForeignKey(nameof(UtilisateurId))]
-        [InverseProperty(nameof(Utilisateur.DevisUtilisateur))]
-        public virtual Utilisateur UtilisateurDevis { get; set; }
+        [InverseProperty(nameof(Utilisateur.LiensDevis))]
+        public virtual Utilisateur UtilisateurDevis { get; set; } = null!;
 
         [ForeignKey(nameof(ProduitId))]
         [InverseProperty(nameof(Produit.DevisProduit))]

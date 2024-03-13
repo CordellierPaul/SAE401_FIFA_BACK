@@ -105,10 +105,10 @@ namespace FIFA_API.Models.EntityFramework
         #region InverseProperty
 
         [InverseProperty("UtilisateurCommentant")] 
-        public virtual List<Commentaire> CommentairesUtilisateur { get; set; } = new List<Commentaire>();
+        public virtual ICollection<Commentaire> CommentairesUtilisateur { get; set; } = new List<Commentaire>();
         
         [InverseProperty(nameof(Commande.UtilisateurCommandant))]
-        public virtual List<Commande> CommandesUtilisateur { get; set; } = new List<Commande>();
+        public virtual ICollection<Commande> CommandesUtilisateur { get; set; } = new List<Commande>();
 
 
         [InverseProperty(nameof(LikeAlbum.UtilisateurNavigation))]
@@ -126,6 +126,8 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(LikeDocument.UtilisateurNavigation))]
         public virtual ICollection<LikeDocument> LikesDocuments { get; set; } = new HashSet<LikeDocument>();
 
+        [InverseProperty(nameof(Devis.UtilisateurDevis))]
+        public virtual ICollection<Devis> LiensDevis { get; set; } = new HashSet<Devis>();
 
         #endregion
     }
