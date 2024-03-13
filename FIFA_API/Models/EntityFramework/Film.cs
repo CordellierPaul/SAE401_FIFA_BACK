@@ -15,7 +15,7 @@ namespace FIFA_API.Models.EntityFramework
         public string Url { get; set; } = null!;
 
         [ForeignKey(nameof(Url))]
-        [InverseProperty("FilmHeritage")]
-        public virtual Media Media { get; set; } = null!;
+        [InverseProperty(nameof(Media.MediaFilm))]
+        public virtual Media FilmMedia { get; set; } = null!;
     }
 }

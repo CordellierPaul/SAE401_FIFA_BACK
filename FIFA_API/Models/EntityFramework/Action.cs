@@ -14,7 +14,7 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(100)]
         public string TypeAction { get; set; } = null!;
 
-        [InverseProperty(nameof(FormulaireAide.Action))]
+        [InverseProperty(nameof(FormulaireAide.FormulaireAction))]
         public virtual ICollection<FormulaireAide> ActionFormulaireAide { get; set; } = new HashSet<FormulaireAide>();
     }
 }

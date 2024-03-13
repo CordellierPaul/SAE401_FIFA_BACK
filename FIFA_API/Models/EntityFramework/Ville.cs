@@ -7,11 +7,6 @@ namespace FIFA_API.Models.EntityFramework
     public partial class Ville
     {
 
-        public Ville()
-        {
-            Produits = new HashSet<Ville>();
-        }
-
         [Key]
         [Column("vil_id")]
         public int IdVille { get; set; }

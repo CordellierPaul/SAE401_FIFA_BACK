@@ -16,7 +16,7 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [ForeignKey(nameof(DocumentId))]
-        [InverseProperty("Likes_blog")]
+        [InverseProperty(nameof(Document.LikesDocuments))]
         public virtual Document DocumentNavigation { get; set; } = null!;
 
 

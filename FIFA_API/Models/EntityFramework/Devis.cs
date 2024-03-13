@@ -30,8 +30,8 @@ namespace FIFA_API.Models.EntityFramework
         public string Message { get; set; } = null!;
 
         [ForeignKey(nameof(UtilisateurId))]
-        [InverseProperty("Devis")]
-        public virtual Utilisateur Utilisateur { get; set; }
+        [InverseProperty(nameof(Utilisateur.DevisUtilisateur))]
+        public virtual Utilisateur UtilisateurDevis { get; set; }
 
         [ForeignKey(nameof(ProduitId))]
         [InverseProperty(nameof(Produit.DevisProduit))]
