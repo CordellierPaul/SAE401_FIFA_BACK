@@ -65,8 +65,8 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Devis
             modelBuilder.Entity<Devis>()
-                .HasOne(p => p.Utilisateur)
-                .WithMany(d => d.UtilisateurDevis)
+                .HasOne(p => p.UtilisateurDevis)
+                .WithMany(d => d.DevisUtilisateur)
                 .HasForeignKey(p => p.UtilisateurId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_dev_utl");
