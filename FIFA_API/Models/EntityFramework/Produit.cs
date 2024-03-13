@@ -33,8 +33,8 @@ namespace FIFA_API.Models.EntityFramework
 
         #region Foreign Key
         [ForeignKey(nameof(NumPays))]
-        [InverseProperty("NumPays")]
-        public virtual Pays Pays { get; set; } = null!;
+        [InverseProperty(nameof(Pays.ProduitsPays))]
+        public virtual Pays PaysProduit { get; set; } = null!;
 
         [ForeignKey(nameof(NumCategorie))]
         [InverseProperty(nameof(Categorie.CategorieId))]
@@ -56,7 +56,5 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Devis.ProduitDevis))]
         public virtual ICollection<Devis> DevisProduit { get; set; } = new HashSet<Devis>();
 
-        /*[InverseProperty(nameof(Devis.Produit))]
-        public virtual ICollection<Devis> ProduitDevis { get; set; } = new HashSet<Devis>();*/
     }
 }
