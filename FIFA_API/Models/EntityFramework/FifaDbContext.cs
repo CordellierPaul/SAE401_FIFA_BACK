@@ -105,8 +105,8 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Image
             modelBuilder.Entity<Image>()
-                .HasOne(p => p.Media)
-                .WithMany()
+                .HasOne(p => p.MediaImage)
+                .WithMany(m => m.ImagesMedia)
                 .HasForeignKey(p => p.Id)
                 .OnDelete(DeleteBehavior.Restrict);
 
