@@ -31,5 +31,9 @@ namespace FIFA_API.Models.EntityFramework
         public bool CompteOffres { get; set; } = false;
 
 
+        [InverseProperty(nameof(Utilisateur.CompteUtilisateur))]
+        public virtual Utilisateur UtilisateurCompte { get; set; }
+
+
     }
 }
