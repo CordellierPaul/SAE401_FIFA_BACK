@@ -6,6 +6,8 @@ namespace FIFA_API.Models.EntityFramework
     [Table("t_e_reglement_reg")]
     public partial class Reglement
     {
+
+
         [Key]
         [Column("tra_num")]
         public int NumTransaction { get; set; }
@@ -20,7 +22,7 @@ namespace FIFA_API.Models.EntityFramework
         public DateTime DateReglement { get; set; }
 
         [ForeignKey(nameof(NumCommande))]
-        [InverseProperty(nameof(Commande.ReglementsCommande))]
-        public virtual Commande CommandeRegle { get; set; }
+        [InverseProperty(nameof(Commande.LignesCommandes))]
+        public virtual Commande? CommandeRegle { get; set; }
     }
 }
