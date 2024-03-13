@@ -431,21 +431,33 @@ namespace FIFA_API.Models.EntityFramework
                 .HasKey(e => e.IdProduit)
                 .HasName("pk_pro");
 
-            modelBuilder.Entity<Produit_Similaire>()
-                .HasKey(e => new { e.ProduitUn, e.ProduitDeux })
-                .HasName("pk_pds");
-
             modelBuilder.Entity<Reglement>()
                 .HasKey(e => e.NumTransaction)
                 .HasName("pk_reg");
 
-            modelBuilder.Entity<Remporte>()
-                .HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
-                .HasName("pk_rem");
+            modelBuilder.Entity<Taille>()
+                .HasKey(e => e.NumTaille)
+                .HasName("pk_tai");
 
-            modelBuilder.Entity<>()
-                .HasKey(e => e.)
-                .HasName("pk_");
+            modelBuilder.Entity<Theme>()
+                .HasKey(e => e.NumTheme)
+                .HasName("pk_the");
+
+            modelBuilder.Entity<Trophee>()
+                .HasKey(e => e.NumTrophee)
+                .HasName("pk_tro");
+
+            modelBuilder.Entity<Utilisateur>()
+                .HasKey(e => e.UtilisateurId)
+                .HasName("pk_utl");
+
+            modelBuilder.Entity<Ville>()
+                .HasKey(e => e.IdVille)
+                .HasName("pk_vil");
+
+            modelBuilder.Entity<Vote>()
+                .HasKey(e => new { e.IdUtilisateur, e.NumTheme, e.IdJoueur })
+                .HasName("pk_vot");
 
             #endregion
 
