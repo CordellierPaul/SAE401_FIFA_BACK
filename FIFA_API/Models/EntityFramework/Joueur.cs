@@ -9,6 +9,8 @@ namespace FIFA_API.Models.EntityFramework
         public Joueur()
         {
             LiensArticles = new HashSet<ArticleJoueur>();
+            Matches_joue = new HashSet<Match_joue>();
+            RemportesJoueur = new HashSet<Remporte>();
         }
 
         [Key]
@@ -75,10 +77,10 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [InverseProperty(nameof(Match_joue.JoueurNavigation))]
-        public virtual ICollection<Match_joue> Matches_joue { get; set; } = new HashSet<Match_joue>();
+        public virtual ICollection<Match_joue> Matches_joue { get; set; }
 
 
         [InverseProperty(nameof(Remporte.JoueurRemportant))]
-        public virtual ICollection<Remporte> RemportesJoueur { get; set; } = new HashSet<Remporte>();
+        public virtual ICollection<Remporte> RemportesJoueur { get; set; }
     }
 }

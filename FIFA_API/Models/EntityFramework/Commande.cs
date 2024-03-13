@@ -6,6 +6,11 @@ namespace FIFA_API.Models.EntityFramework
     [Table("t_e_commande_cmd")]
     public partial class Commande
     {
+        public Commande()
+        {
+            Reglements = new HashSet<Reglement>();
+        }
+
         [Key]
         [Column("cmd_id")]
         public int CommandeId { get; set; }
@@ -53,5 +58,9 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(Ligne_commande.CommandeNavigation))]
         public virtual ICollection<Ligne_commande> LignesCommandes { get; set; } = new HashSet<Ligne_commande>();
+
+        [InverseProperty("Commande")]
+        public virtual ICollection<Reglement> Reglements { get; set; }
+
     }
 }
