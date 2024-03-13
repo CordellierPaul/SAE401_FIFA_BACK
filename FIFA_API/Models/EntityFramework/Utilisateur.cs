@@ -133,8 +133,8 @@ namespace FIFA_API.Models.EntityFramework
         public virtual ICollection<FormulaireAide> FormulairesAideUtilisateur { get; set; } = new HashSet<FormulaireAide>();
 
 
-        [InverseProperty(nameof(InfosBancaires.Utilisateur))]
-        public virtual ICollection<InfosBancaires> UtilisateurInfosBancaires{ get; set; } = new HashSet<InfosBancaires>();
+        [InverseProperty(nameof(InfosBancaires.UtilisateurInfoBc))]
+        public virtual ICollection<InfosBancaires> InfosBancairesUtilisateur{ get; set; } = new HashSet<InfosBancaires>();
 
         #endregion
     }

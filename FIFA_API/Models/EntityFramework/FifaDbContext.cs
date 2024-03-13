@@ -112,8 +112,8 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey InfosBancaires
             modelBuilder.Entity<InfosBancaires>()
-                .HasOne(p => p.Utilisateur)
-                .WithMany(d => d.UtilisateurInfosBancaires)
+                .HasOne(p => p.UtilisateurInfoBc)
+                .WithMany(d => d.InfosBancairesUtilisateur)
                 .HasForeignKey(p => p.IdUtilisateur)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_inb_utl");
