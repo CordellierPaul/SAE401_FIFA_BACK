@@ -14,5 +14,9 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(50)]
         public string LibelleTheme { get; set; }
 
+
+        [InverseProperty(nameof(Vote.ThemeVote))]
+        public virtual ICollection<Vote> VotesTheme { get; set; } = new HashSet<Vote>();
+
     }
 }

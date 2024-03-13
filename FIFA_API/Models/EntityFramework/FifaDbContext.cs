@@ -458,7 +458,7 @@ namespace FIFA_API.Models.EntityFramework
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Vote>()
-                .HasOne(p => p.Theme)
+                .HasOne(p => p.ThemeVote)
                 .WithMany()
                 .HasForeignKey(p => p.NumTheme)
                 .OnDelete(DeleteBehavior.Restrict);
