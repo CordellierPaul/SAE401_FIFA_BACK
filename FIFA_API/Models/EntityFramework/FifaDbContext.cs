@@ -314,7 +314,7 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_pro_pay");
 
                 entity.HasOne(p => p.CategorieNavigation)
-                    .WithMany(p => p.Produits)
+                    .WithMany(p => p.ProduitsCategorie)
                     .HasForeignKey(p => p.NumCategorie)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_pro_cat");
