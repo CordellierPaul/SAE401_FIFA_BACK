@@ -20,7 +20,7 @@ namespace FIFA_API.Models.EntityFramework
         public DateTime DateReglement { get; set; }
 
         [ForeignKey(nameof(NumCommande))]
-        [InverseProperty("NumCommande")]
-        public virtual Commande Commande { get; set; }
+        [InverseProperty(nameof(Commande.ReglementsCommande))]
+        public virtual Commande CommandeRegle { get; set; }
     }
 }

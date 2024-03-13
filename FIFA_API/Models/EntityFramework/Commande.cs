@@ -8,7 +8,7 @@ namespace FIFA_API.Models.EntityFramework
     {
         public Commande()
         {
-            Reglements = new HashSet<Reglement>();
+            ReglementsCommande = new HashSet<Reglement>();
         }
 
         [Key]
@@ -59,8 +59,8 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Ligne_commande.CommandeNavigation))]
         public virtual ICollection<Ligne_commande> LignesCommandes { get; set; } = new HashSet<Ligne_commande>();
 
-        [InverseProperty("Commande")]
-        public virtual ICollection<Reglement> Reglements { get; set; }
+        [InverseProperty(nameof(Reglement.CommandeRegle))]
+        public virtual ICollection<Reglement> ReglementsCommande { get; set; } = new HashSet<Reglement>();
 
     }
 }
