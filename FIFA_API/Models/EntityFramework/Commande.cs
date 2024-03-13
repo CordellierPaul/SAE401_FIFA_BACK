@@ -53,5 +53,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(LigneCommande.CommandeNavigation))]
         public virtual ICollection<LigneCommande> LignesCommandes { get; set; } = new HashSet<LigneCommande>();
+
+        [InverseProperty(nameof(Reglement.CommandeRegle))]
+        public virtual ICollection<Reglement> ReglementsCommande { get; set; } = new HashSet<Reglement>();
     }
 }
