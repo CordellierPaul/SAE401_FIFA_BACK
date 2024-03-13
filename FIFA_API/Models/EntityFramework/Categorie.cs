@@ -10,7 +10,6 @@ namespace FIFA_API.Models.EntityFramework
         public Categorie()
         {
             EnfantsCategorie = new HashSet<SousCategorie>();
-            ParentsCategorie = new HashSet<Categorie>();
             Produits = new HashSet<Produit>();
         }
 
@@ -27,7 +26,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual ICollection<SousCategorie> EnfantsCategorie { get; set; } = new HashSet<SousCategorie>();
 
         [InverseProperty(nameof(SousCategorie.ObjCategorieParent))]
-        public virtual ICollection<Categorie> ParentsCategorie { get; set; } = new HashSet<Categorie>();
+        public virtual Categorie ParentCategorie { get; set; }
 
         [InverseProperty("Categorie")]
         public virtual ICollection<Produit> Produits { get; set; }
