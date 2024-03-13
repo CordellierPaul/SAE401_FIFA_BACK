@@ -170,7 +170,10 @@ namespace FIFA_API.Models.EntityFramework
                 .HasForeignKey(p => p.IdJoueur)
                 .OnDelete(DeleteBehavior.Restrict);
 
- 
+            modelBuilder.Entity<JoueurTheme>()
+                .HasKey(e => new { e.NumTheme, e.IdJoueur })
+                    .HasName("pk_jot");
+
 
             //ForeignKey Ligne_commande
             modelBuilder.Entity<Ligne_commande>(entity =>
@@ -378,6 +381,11 @@ namespace FIFA_API.Models.EntityFramework
                 .HasForeignKey(p => p.NumTrophee)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Remporte>()
+                .HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
+                    .HasName("pk_rem");
+
+
             //ForeignKey Sous_Categorie
             modelBuilder.Entity<Sous_Categorie>()
                 .HasOne(p => p.ObjCategorieEnfant)
@@ -390,6 +398,11 @@ namespace FIFA_API.Models.EntityFramework
                 .WithMany()
                 .HasForeignKey(p => p.CategorieParent)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Sous_Categorie>()
+                .HasKey(e => new { e.CategorieParent, e.CategorieEnfant })
+                .HasName("pk_soucat");
+
 
             //ForeignKey Utilisateur
             modelBuilder.Entity<Utilisateur>()
@@ -441,6 +454,10 @@ namespace FIFA_API.Models.EntityFramework
                 .WithMany()
                 .HasForeignKey(p => p.ColorisId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<VarianteProduit>()
+                .HasKey(e => new { e.ProduitId, e.ColorisId })
+                .HasName("pk_vpd");
 
             //ForeignKey Vote
             modelBuilder.Entity<Vote>()
@@ -564,6 +581,20 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_imj_jou");
             });
 
+            //ForeignKey Caracteristique_produit
+            modelBuilder.Entity<Caracteristique_produit>(entity =>
+            {
+                entity.HasKey(e => new { e.CaracteristiqueId, e.ProduitId })
+                        .HasName("pk_imj");
+
+
+                entity.HasOne(e => e.CaracteristiqueCaracterisant)
+                       .WithMany(i => i.ProduitsCaracteristique)
+                       .HasForeignKey(e => e.CaracteristiqueId)
+                       .OnDelete(DeleteBehavior.Restrict)
+                       .HasConstraintName("fk_cpd_car");
+            });
+
             //Avait été fait plus haut
             /*//ForeignKey ProduitSimilaire
             modelBuilder.Entity<Produit_Similaire>(entity =>
@@ -635,6 +666,10 @@ namespace FIFA_API.Models.EntityFramework
                 .HasKey(e => e.CaracteristiqueId)
                 .HasName("pk_car");
 
+            modelBuilder.Entity<Categorie>()
+                .HasKey(e => e.CategorieId)
+                .HasName("pk_cat");
+
             modelBuilder.Entity<Club>()
                 .HasKey(e => e.ClubId)
                 .HasName("pk_clb");
@@ -692,7 +727,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_inb");
 
             modelBuilder.Entity<Joueur>()
-                .HasKey(e => e.IdJoueur)
+                .HasKey(e => e.IdJoueur) 
                 .HasName("pk_jou");
 
             modelBuilder.Entity<Langue>()
@@ -701,7 +736,7 @@ namespace FIFA_API.Models.EntityFramework
 
             modelBuilder.Entity<Ligne_commande>()
                 .HasKey(e => e.LigneCommandeId)
-                .HasName("pk_lcd");
+                .HasName("pk_lcd");   
 
             modelBuilder.Entity<Livraison>()
                 .HasKey(e => e.LivraisonId)
@@ -732,7 +767,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_pro");
 
             modelBuilder.Entity<Reglement>()
-                .HasKey(e => e.NumTransaction)
+                .HasKey(e => e.NumTransaction) 
                 .HasName("pk_reg");
 
             modelBuilder.Entity<Taille>()
@@ -747,7 +782,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasKey(e => e.NumTrophee)
                 .HasName("pk_tro");
 
-            modelBuilder.Entity<Utilisateur>()
+            modelBuilder.Entity<Utilisateur>() 
                 .HasKey(e => e.UtilisateurId)
                 .HasName("pk_utl");
 
