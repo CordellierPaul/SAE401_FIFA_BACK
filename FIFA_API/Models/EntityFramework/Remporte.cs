@@ -20,10 +20,10 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(IdJoueur))]
         [InverseProperty("IdJoueur")]
-        public virtual Joueur Joueur { get; set; }
+        public virtual Joueur Joueur { get; set; } = null!;
 
         [ForeignKey(nameof(NumTrophee))]
         [InverseProperty("NumTrophee")]
-        public virtual Trophee Trophee { get; set; }
+        public virtual Trophee Trophee { get; set; } = null!;
     }
 }

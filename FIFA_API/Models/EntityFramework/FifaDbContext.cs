@@ -177,8 +177,6 @@ namespace FIFA_API.Models.EntityFramework
                 .WithMany()
                 .HasForeignKey(p => p.NumCommande)
                 .OnDelete(DeleteBehavior.Restrict);
-            OnModelCreatingPartial(modelBuilder);
-
 
             //ForeignKey Remporte
             modelBuilder.Entity<Remporte>()
@@ -287,20 +285,76 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey AlbumImages
             modelBuilder.Entity<AlbumImage>(entity =>
             {
-                entity.HasKey(e => new { e.IdAlbum, e.IdImage })
+                entity.HasKey(e => new { e.AlbumId, e.ImageId })
                     .HasName("pk_ali");
 
                 entity.HasOne(d => d.AlbumNavigation)
                     .WithMany(p => p.LiensImages)
-                    .HasForeignKey(d => d.IdAlbum)
+                    .HasForeignKey(d => d.AlbumId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_not_flm");
+                    .HasConstraintName("fk_ali_alb");
 
                 entity.HasOne(d => d.ImageNavigation)
                     .WithMany(p => p.LiensAlbums)
-                    .HasForeignKey(d => d.IdImage)
+                    .HasForeignKey(d => d.ImageId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_not_utl");
+                    .HasConstraintName("fk_ali_img");
+            });
+
+            //ForeignKey ArticleJoueur
+            modelBuilder.Entity<ArticleJoueur>(entity =>
+            {
+                entity.HasKey(e => new { e.ArticleId, e.JoueurId })
+                    .HasName("pk_atj");
+
+                entity.HasOne(d => d.ArticleNavigation)
+                    .WithMany(p => p.LiensJoueur)
+                    .HasForeignKey(d => d.ArticleId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_atj_art");
+
+                entity.HasOne(d => d.JoueurNavigation)
+                    .WithMany(p => p.LiensArticles)
+                    .HasForeignKey(d => d.JoueurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_atj_jou");
+            });
+
+            //ForeignKey ArticleMedia
+            modelBuilder.Entity<ArticleMedia>(entity =>
+            {
+                entity.HasKey(e => new { e.ArticleId, e.JoueurId })
+                    .HasName("pk_atj");
+
+                entity.HasOne(d => d.ArticleNavigation)
+                    .WithMany(p => p.LiensJoueur)
+                    .HasForeignKey(d => d.ArticleId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_atj_art");
+
+                entity.HasOne(d => d.JoueurNavigation)
+                    .WithMany(p => p.LiensArticles)
+                    .HasForeignKey(d => d.JoueurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_atj_jou");
+            });
+
+            //ForeignKey ProduitSimilaire
+            modelBuilder.Entity<Produit_Similaire>(entity =>
+            {
+                entity.HasKey(e => new { e.ProduitUn, e.ProduitDeux })
+                    .HasName("pk_prs");
+
+                // TODO
+            });
+
+            //ForeignKey Remporte
+            modelBuilder.Entity<Remporte>(entity =>
+            {
+                entity.HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
+                    .HasName("pk_rem");
+
+                // TODO
             });
 
             #region Clés primaires d'entités
@@ -359,7 +413,7 @@ namespace FIFA_API.Models.EntityFramework
 
             modelBuilder.Entity<Compte>()
                 .HasKey(e => e.CompteId)
-                .HasName("pk_cpn");
+                .HasName("pk_cpt");
 
             modelBuilder.Entity<Devis>()
                 .HasKey(e => e.DevisId)
@@ -397,7 +451,73 @@ namespace FIFA_API.Models.EntityFramework
                 .HasKey(e => e.IdJoueur)
                 .HasName("pk_jou");
 
+            modelBuilder.Entity<Langue>()
+                .HasKey(e => e.LangueNum)
+                .HasName("pk_lng");
+
+            modelBuilder.Entity<Ligne_commande>()
+                .HasKey(e => e.LigneCommandeId)
+                .HasName("pk_lcd");
+
+            modelBuilder.Entity<Livraison>()
+                .HasKey(e => e.LivraisonId)
+                .HasName("pk_liv");
+
+            modelBuilder.Entity<Match>()
+                .HasKey(e => e.MatchId)
+                .HasName("pk_mch");
+
+            modelBuilder.Entity<Media>()
+                .HasKey(e => e.MediaId)
+                .HasName("pk_med");
+
+            modelBuilder.Entity<Monnaie>()
+                .HasKey(e => e.MonnaieId)
+                .HasName("pk_mon");
+
+            modelBuilder.Entity<Pays>()
+                .HasKey(e => e.NumPays)
+                .HasName("pk_pay");
+
+            modelBuilder.Entity<Poste>()
+                .HasKey(e => e.NumPoste)
+                .HasName("pk_pos");
+
+            modelBuilder.Entity<Produit>()
+                .HasKey(e => e.IdProduit)
+                .HasName("pk_pro");
+
+            modelBuilder.Entity<Reglement>()
+                .HasKey(e => e.NumTransaction)
+                .HasName("pk_reg");
+
+            modelBuilder.Entity<Taille>()
+                .HasKey(e => e.NumTaille)
+                .HasName("pk_tai");
+
+            modelBuilder.Entity<Theme>()
+                .HasKey(e => e.NumTheme)
+                .HasName("pk_the");
+
+            modelBuilder.Entity<Trophee>()
+                .HasKey(e => e.NumTrophee)
+                .HasName("pk_tro");
+
+            modelBuilder.Entity<Utilisateur>()
+                .HasKey(e => e.UtilisateurId)
+                .HasName("pk_utl");
+
+            modelBuilder.Entity<Ville>()
+                .HasKey(e => e.IdVille)
+                .HasName("pk_vil");
+
+            modelBuilder.Entity<Vote>()
+                .HasKey(e => new { e.IdUtilisateur, e.NumTheme, e.IdJoueur })
+                .HasName("pk_vot");
+
             #endregion
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
