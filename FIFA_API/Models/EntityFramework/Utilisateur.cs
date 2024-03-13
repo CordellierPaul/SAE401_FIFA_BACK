@@ -11,7 +11,7 @@ namespace FIFA_API.Models.EntityFramework
     [Index(nameof(TelAcheteur), Name = "uq_utl_telacheteur", IsUnique = true)]
     [Index(nameof(NumTva), Name = "uq_utl_numtva", IsUnique = true)]
     [Index(nameof(NumSociete), Name = "uq_utl_numSociete", IsUnique = true)]
-    [Index(nameof(IdCompte), Name = "uq_utl_idcompte", IsUnique = true)]
+    [Index(nameof(CompteId), Name = "uq_utl_idcompte", IsUnique = true)]
     public partial class Utilisateur
     {
         [Key]
@@ -24,32 +24,32 @@ namespace FIFA_API.Models.EntityFramework
         public string PrenomUtilisateur { get; set; } = null!;
 
         [Column("adr_id")]
-        public int? IdAdresse { get; set; }
+        public int? AdresseId { get; set; }
 
         [Column("utl_datenaissance", TypeName = "date")]
         [Required]
         public DateTime DateNaissance { get; set; }
 
         [Column("com_id")]
-        public int? IdCompte { get; set; }
+        public int? CompteId { get; set; }
 
         [Column("mon_id")]
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Le numéro de monnaie doit être supérieur ou égal à 1")]
         public int NumMonnaie { get; set; } = 1;
 
-        [Column("lan_num")]
+        [Column("lan_id")]
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Le numéro de langue doit être supérieur ou égal à 1")]
-        public int NumLangue { get; set; } = 1;
+        public int LangueId { get; set; } = 1;
 
-        [Column("utl_paysnaissance")]
+        [Column("pay_paysnaissance_id")]
         [Required]
-        public int PaysNaissance { get; set; }
+        public int PaysNaissanceId { get; set; }
 
-        [Column("utl_paysfavori")]
+        [Column("pay_paysfavori_id")]
         [Required]
-        public int PaysFavori { get; set; }
+        public int PaysFavoriId { get; set; }
 
         [Column("utl_nomacheteur")]
         [StringLength(50)]
@@ -72,15 +72,15 @@ namespace FIFA_API.Models.EntityFramework
 
         #region Foreign Key
 
-        [ForeignKey(nameof(IdAdresse))]
+        [ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.UtilisateursAdresse))]
         public virtual Adresse AdresseUtilisateur { get; set; } = null!;
 
-        [ForeignKey(nameof(IdCompte))]
+        [ForeignKey(nameof(CompteId))]
         [InverseProperty(nameof(Compte.UtilisateurCompte))]
         public virtual Compte CompteUtilisateur { get; set; } = null!;
 
-        [ForeignKey(nameof(NumLangue))]
+        [ForeignKey(nameof(LangueId))]
         [InverseProperty(nameof(Langue.UtilisateursLangue))]
         public virtual Langue LangueUtilisateur { get; set; } = null!;
 
@@ -88,12 +88,12 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Activite.UtilisateursActivite))]
         public virtual Activite ActiviteUtilisateur { get; set; } = null!;
 
-        [ForeignKey(nameof(PaysFavori))]
+        [ForeignKey(nameof(PaysFavoriId))]
         [InverseProperty(nameof(Pays.UtilisateursFavorisantPays))]
         public virtual Pays PaysFavoriNavigation { get; set; } = null!;
 
-        [ForeignKey(nameof(PaysNaissance))]
-        [InverseProperty(nameof(Pays.UtilisateursNeePays))]
+        [ForeignKey(nameof(PaysNaissanceId))]
+        [InverseProperty(nameof(Pays.UtilisateursNesPays))]
         public virtual Pays PaysNaissanceNavigation { get; set; } = null!;
 
         [ForeignKey(nameof(NumMonnaie))]
