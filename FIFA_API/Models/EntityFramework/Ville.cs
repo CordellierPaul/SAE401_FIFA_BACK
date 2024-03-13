@@ -26,6 +26,9 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty("NumPays")]
         public virtual Pays Pays{ get; set; } = null!;
 
+        [InverseProperty(nameof(Joueur.VilleJoueur))]
+        public virtual ICollection<Joueur> JoueursVille { get; set; }
+
 
     }
 }

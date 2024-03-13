@@ -63,8 +63,8 @@ namespace FIFA_API.Models.EntityFramework
         #region Foreign Key
 
         [ForeignKey(nameof(IdVille))]
-        [InverseProperty("Joueurs")]
-        public virtual Ville Ville { get; set; } = null!;
+        [InverseProperty(nameof(Ville.JoueursVille))]
+        public virtual Ville VilleJoueur { get; set; } = null!;
 
         [ForeignKey(nameof(IdClub))]
         [InverseProperty(nameof(Club.JoueursClub))]

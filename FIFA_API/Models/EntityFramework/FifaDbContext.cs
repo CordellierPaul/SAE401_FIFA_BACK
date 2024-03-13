@@ -120,8 +120,8 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Joueur
             modelBuilder.Entity<Joueur>()
-                .HasOne(p => p.Ville)
-                .WithMany()
+                .HasOne(p => p.VilleJoueur)
+                .WithMany(v => v.JoueursVille)
                 .HasForeignKey(p => p.IdVille)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -133,7 +133,7 @@ namespace FIFA_API.Models.EntityFramework
 
             modelBuilder.Entity<Joueur>()
                 .HasOne(p => p.PosteJoueur)
-                .WithMany()
+                .WithMany(d => d.JoueursPoste)
                 .HasForeignKey(p => p.NumPoste)
                 .OnDelete(DeleteBehavior.Restrict);
 
