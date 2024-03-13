@@ -177,8 +177,6 @@ namespace FIFA_API.Models.EntityFramework
                 .WithMany()
                 .HasForeignKey(p => p.NumCommande)
                 .OnDelete(DeleteBehavior.Restrict);
-            OnModelCreatingPartial(modelBuilder);
-
 
             //ForeignKey Remporte
             modelBuilder.Entity<Remporte>()
@@ -359,7 +357,7 @@ namespace FIFA_API.Models.EntityFramework
 
             modelBuilder.Entity<Compte>()
                 .HasKey(e => e.CompteId)
-                .HasName("pk_cpn");
+                .HasName("pk_cpt");
 
             modelBuilder.Entity<Devis>()
                 .HasKey(e => e.DevisId)
@@ -397,7 +395,33 @@ namespace FIFA_API.Models.EntityFramework
                 .HasKey(e => e.IdJoueur)
                 .HasName("pk_jou");
 
+            modelBuilder.Entity<Langue>()
+                .HasKey(e => e.LangueNum)
+                .HasName("pk_lng");
+
+            modelBuilder.Entity<Ligne_commande>()
+                .HasKey(e => e.LigneCommandeId)
+                .HasName("pk_lcd");
+
+            modelBuilder.Entity<Livraison>()
+                .HasKey(e => e.LivraisonId)
+                .HasName("pk_liv");
+
+            modelBuilder.Entity<Match>()
+                .HasKey(e => e.MatchId)
+                .HasName("pk_mch");
+
+            modelBuilder.Entity<Media>()
+                .HasKey(e => e.MediaId)
+                .HasName("pk_med");
+
+            modelBuilder.Entity<Monnaie>()
+                .HasKey(e => e.MonnaieId)
+                .HasName("pk_mon");
+
             #endregion
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
