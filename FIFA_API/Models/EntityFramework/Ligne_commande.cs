@@ -37,15 +37,8 @@ namespace FIFA_API.Models.EntityFramework
         public int PrixLigneCommande { get; set; }
 
 
-        [ForeignKey(nameof(ProduitId))]
-        [InverseProperty("LignesCommandes")]
-        public virtual VarianteProduit ProduitNavigation { get; set; } = null!;
+        public virtual VarianteProduit VarianteProduitNavigation { get; set; } = null!;
 
-        /*
-        [ForeignKey(nameof(ColorisId))]
-        [InverseProperty("Lignes_commande")]
-        public virtual VarianteProduit ColorisNavigation { get; set; } = null!;
-        */
 
         [ForeignKey(nameof(CommandeId))]
         [InverseProperty("LignesCommandes")]

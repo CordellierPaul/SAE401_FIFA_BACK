@@ -36,5 +36,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Like_Blog.BlogNavigation))]
         public virtual ICollection<Like_Blog> LikesBlogs{ get; set; }
 
+
+
     }
 }

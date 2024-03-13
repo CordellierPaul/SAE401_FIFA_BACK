@@ -17,11 +17,11 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(DocumentId))]
         [InverseProperty("Likes_blog")]
-        public virtual Document Document { get; set; } = null!;
+        public virtual Document DocumentNavigation { get; set; } = null!;
 
 
         [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty("Likes_blog")]
-        public virtual Utilisateur Utilisateur { get; set; } = null!;
+        public virtual Utilisateur UtilisateurNavigation { get; set; } = null!;
     }
 }
