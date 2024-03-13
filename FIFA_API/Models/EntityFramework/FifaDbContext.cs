@@ -121,23 +121,29 @@ namespace FIFA_API.Models.EntityFramework
                 .HasConstraintName("fk_inb_utl");
 
             //ForeignKey Joueur
-            modelBuilder.Entity<Joueur>()
-                .HasOne(p => p.VilleJoueur)
-                .WithMany(v => v.JoueursVille)
-                .HasForeignKey(p => p.IdVille)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Joueur>(entity =>
+            {
+                entity.HasOne(j => j.VilleJoueur)
+                    .WithMany(v => v.JoueursVille)
+                    .HasForeignKey(p => p.IdVille)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Joueur>()
-                .HasOne(p => p.ClubJoueur)
-                .WithMany()
-                .HasForeignKey(p => p.IdClub)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(j => j.ClubJoueur)
+                    .WithMany()
+                    .HasForeignKey(p => p.IdClub)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Joueur>()
-                .HasOne(p => p.PosteJoueur)
-                .WithMany(d => d.JoueursPoste)
-                .HasForeignKey(p => p.NumPoste)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(j => j.PosteJoueur)
+                    .WithMany(d => d.JoueursPoste)
+                    .HasForeignKey(p => p.NumPoste)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                //Lien Anecdote/joueur
+                entity.HasMany(j => j.LienAnecdotes)
+                    .WithOne(a => a.JoueurNavigation)
+                    .HasForeignKey(a => a.JoueurId)
+                    .HasConstraintName("fk_anc_jou");
+            });
 
             //ForeignKey JoueurTheme
             modelBuilder.Entity<JoueurTheme>()

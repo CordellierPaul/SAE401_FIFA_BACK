@@ -75,19 +75,16 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(ArticleJoueur.JoueurNavigation))]
         public virtual ICollection<ArticleJoueur> LiensArticles { get; set; }
 
-
-
         [InverseProperty(nameof(MatchJoue.JoueurNavigation))]
         public virtual ICollection<MatchJoue> Matches_joue { get; set; }
-
-
 
         [InverseProperty(nameof(Remporte.JoueurRemportant))]
         public virtual ICollection<Remporte> RemportesJoueur { get; set; } = new HashSet<Remporte>();
 
-
-
         [InverseProperty(nameof(ImageJoueur.JoueurNavigation))]
         public virtual ICollection<ImageJoueur> LiensImages { get; set; } = new HashSet<ImageJoueur>();
+
+        [InverseProperty(nameof(Anecdote.JoueurNavigation))]
+        public virtual ICollection<Anecdote> LienAnecdotes { get; set; } = new HashSet<Anecdote>();
     }
 }
