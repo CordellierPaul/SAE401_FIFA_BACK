@@ -129,10 +129,10 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Devis.UtilisateurDevis))]
         public virtual ICollection<Devis> LiensDevis { get; set; } = new HashSet<Devis>();
 
-        [InverseProperty(nameof(FormulaireAide.IdUtilisateur))]
+        [InverseProperty(nameof(FormulaireAide.UtilisateurDuFormulaire))]
         public virtual ICollection<FormulaireAide> FormulairesAideUtilisateur { get; set; } = new HashSet<FormulaireAide>();
 
-        [InverseProperty(nameof(FormulaireAide.IdUtilisateur))]
+        [InverseProperty(nameof(InfosBancaires.UtilisateurInfoBc))]
         public virtual ICollection<InfosBancaires> InfosBancairesUtilisateur { get; set; } = new HashSet<InfosBancaires>();
 
         #endregion
