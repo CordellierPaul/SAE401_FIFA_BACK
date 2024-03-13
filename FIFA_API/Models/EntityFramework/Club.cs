@@ -31,7 +31,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual ICollection<Match> MatchesExterieur { get; set; } = new HashSet<Match>();
 
 
-        [InverseProperty(nameof(Joueur.Club))]
+        [InverseProperty(nameof(Joueur.ClubJoueur))]
         public virtual ICollection<Joueur> JoueursClub { get; set; } = new HashSet<Joueur>();
 
     }
