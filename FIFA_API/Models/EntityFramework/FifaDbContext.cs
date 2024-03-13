@@ -66,7 +66,7 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey Devis
             modelBuilder.Entity<Devis>()
                 .HasOne(p => p.UtilisateurDevis)
-                .WithMany(d => d.LiensDevis)
+                .WithMany(d => d.DevisUtilisateur)
                 .HasForeignKey(p => p.UtilisateurId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_dev_utl");
@@ -305,8 +305,8 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey Produit
             modelBuilder.Entity<Produit>(entity =>
             {
-                entity.HasOne(p => p.Pays)
-                    .WithMany(p => p.LienProduits)
+                entity.HasOne(p => p.PaysProduit)
+                    .WithMany(p => p.ProduitsPays)
                     .HasForeignKey(p => p.NumPays)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_pro_pay");
@@ -347,7 +347,7 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey Reglement
             modelBuilder.Entity<Reglement>()
                 .HasOne(p => p.CommandeRegle)
-                .WithMany()
+                .WithMany(p => p.ReglementsCommande)
                 .HasForeignKey(p => p.NumCommande)
                 .OnDelete(DeleteBehavior.Restrict);
 
