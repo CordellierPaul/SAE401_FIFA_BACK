@@ -8,18 +8,18 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("the_num")]
-        public int NumTheme { get; set; }
+        public int ThemeId { get; set; }
 
         [Key]
         [Column("jou_id")]
-        public int IdJoueur { get; set; }
+        public int JoueurId { get; set; }
 
-        [ForeignKey(nameof(NumTheme))]
-        [InverseProperty("JoueursThemes")]
-        public virtual Theme Theme { get; set; }
+        [ForeignKey(nameof(ThemeId))]
+        [InverseProperty(nameof(Theme.LienJoueur))]
+        public virtual Theme ThemeNavigation { get; set; } = null!;
 
-        [ForeignKey(nameof(IdJoueur))]
-        [InverseProperty("JoueursThemes")]
-        public virtual Joueur Joueur { get; set; }
+        [ForeignKey(nameof(JoueurId))]
+        [InverseProperty(nameof(Joueur.LienTheme))]
+        public virtual Joueur JoueurNavigation { get; set; } = null!;
     }
 }

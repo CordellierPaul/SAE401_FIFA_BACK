@@ -91,5 +91,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(Vote.JoueurVote))]
         public virtual ICollection<Vote> VotesJoueur { get; set; } = new HashSet<Vote>();
+
+        [InverseProperty(nameof(JoueurTheme.JoueurNavigation))]
+        public virtual ICollection<JoueurTheme> LienTheme { get; set; } = new HashSet<JoueurTheme>();
     }
 }

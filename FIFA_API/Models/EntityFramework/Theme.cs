@@ -3,18 +3,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_e_theme_the")]
+    [Table("t_j_theme_the")]
     public partial class Theme
     {
         [Key]
-        [Column("the_num")]
-        public int NumTheme { get; set; }
+        [Column("the_id")]
+        public int ThemeId { get; set; }
 
         [Column("the_libelle")]
         [StringLength(50)]
-        public string LibelleTheme { get; set; }
+        public string LibelleTheme { get; set; } = null!;
 
         [InverseProperty(nameof(Vote.ThemeVote))]
         public virtual ICollection<Vote> VotesTheme { get; set; } = new HashSet<Vote>();
+
+        [InverseProperty(nameof(JoueurTheme.ThemeNavigation))]
+        public virtual ICollection<JoueurTheme> LienJoueur { get; set; } = new HashSet<JoueurTheme>();
     }
 }

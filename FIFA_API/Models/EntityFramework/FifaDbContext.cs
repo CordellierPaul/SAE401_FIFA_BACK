@@ -44,7 +44,6 @@ namespace FIFA_API.Models.EntityFramework
         public virtual DbSet<Pays> Pays { get; set; } = null!;
         public virtual DbSet<Poste> Poste { get; set; } = null!;
         public virtual DbSet<Produit> Produit { get; set; } = null!;
-        public virtual DbSet<ProduitSimilaire> ProduitSimilaire { get; set; } = null!;
         public virtual DbSet<Reglement> Reglement { get; set; } = null!;
         public virtual DbSet<Taille> Taille { get; set; } = null!;
         public virtual DbSet<Theme> Theme { get; set; } = null!;
@@ -146,24 +145,6 @@ namespace FIFA_API.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_anc_jou");
             });
-
-            //ForeignKey JoueurTheme
-            modelBuilder.Entity<JoueurTheme>()
-                .HasOne(p => p.Theme)
-                .WithMany()
-                .HasForeignKey(p => p.NumTheme)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<JoueurTheme>()
-                .HasOne(p => p.Joueur)
-                .WithMany()
-                .HasForeignKey(p => p.IdJoueur)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<JoueurTheme>()
-                .HasKey(e => new { e.NumTheme, e.IdJoueur })
-                    .HasName("pk_jot");
-
 
             //ForeignKey Ligne_commande
             modelBuilder.Entity<LigneCommande>(entity =>
@@ -622,6 +603,25 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_imv_img");
             });
 
+            //ForeignKey JoueurTheme
+            modelBuilder.Entity<JoueurTheme>(entity =>
+            {
+                entity.HasKey(e => new { e.ThemeId, e.JoueurId })
+                      .HasName("pk_jot");
+
+                entity.HasOne(p => p.ThemeNavigation)
+                    .WithMany(t => t.LienJoueur)
+                    .HasForeignKey(p => p.ThemeId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_jot_the");
+
+                entity.HasOne(p => p.JoueurNavigation)
+                    .WithMany(j => j.LienTheme)
+                    .HasForeignKey(p => p.JoueurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_jot_jou");
+            });
+
             //Avait été fait plus haut
             /*//ForeignKey ProduitSimilaire
             modelBuilder.Entity<Produit_Similaire>(entity =>
@@ -798,7 +798,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_tai");
 
             modelBuilder.Entity<Theme>()
-                .HasKey(e => e.NumTheme)
+                .HasKey(e => e.ThemeId)
                 .HasName("pk_the");
 
             modelBuilder.Entity<Trophee>()
