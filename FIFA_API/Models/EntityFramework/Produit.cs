@@ -31,7 +31,7 @@ namespace FIFA_API.Models.EntityFramework
         public int? NumPays { get; set; }
 
 
-
+        #region Foreign Key
         [ForeignKey(nameof(NumPays))]
         [InverseProperty("NumPays")]
         public virtual Pays Pays { get; set; } = null!;
@@ -45,8 +45,10 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Competition CompetitionProduit { get; set; } = null!;
 
         [ForeignKey(nameof(GenreId))]
-        [InverseProperty("gen_id")]
-        public virtual Genre Genre { get; set; } = null!;
+        [InverseProperty(nameof(Genre.ProduitsGenre))]
+        public virtual Genre GenreProduit { get; set; } = null!;
+
+        #endregion
 
         [InverseProperty("PremierProduit")]
         public virtual ICollection<Produit_Similaire> ProduitSimilaire { get; set; } = new HashSet<Produit_Similaire>();

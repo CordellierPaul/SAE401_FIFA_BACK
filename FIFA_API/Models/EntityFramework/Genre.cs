@@ -9,7 +9,7 @@ namespace FIFA_API.Models.EntityFramework
 
         public Genre()
         {
-            Produits = new HashSet<Produit>();
+            ProduitsGenre = new HashSet<Produit>();
         }
 
         [Key]
@@ -21,7 +21,7 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(10)]
         public string GenreNom { get; set; } = null!;
 
-        [InverseProperty("Genre")]
-        public virtual ICollection<Produit> Produits { get; set; }
+        [InverseProperty(nameof(Produit.GenreProduit))]
+        public virtual ICollection<Produit> ProduitsGenre { get; set; }
     }
 }
