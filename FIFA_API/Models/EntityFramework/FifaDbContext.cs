@@ -371,7 +371,7 @@ namespace FIFA_API.Models.EntityFramework
                     .HasName("pk_rem");
 
 
-            //ForeignKey Sous_Categorie
+            //ForeignKey SousCategorie
             modelBuilder.Entity<SousCategorie>()
                 .HasOne(p => p.ObjCategorieEnfant)
                 .WithMany()
@@ -553,17 +553,17 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasKey(e => new { e.CaracteristiqueId, e.ProduitId })
                     .HasName("pk_cpd");
 
-                //entity.HasOne(e => e.ImageNavigation)
-                //    .WithMany(i => i.LiensJoueurs)
-                //    .HasForeignKey(e => e.ImageId)
-                //    .OnDelete(DeleteBehavior.Restrict)
-                //    .HasConstraintName("fk_cpd_");
+                entity.HasOne(e => e.CaracteristiqueNavigation)
+                    .WithMany(i => i.LienProduits)
+                    .HasForeignKey(e => e.CaracteristiqueId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_cpd_car");
 
-                //entity.HasOne(e => e.JoueurNavigation)
-                //    .WithMany(j => j.LiensImages)
-                //    .HasForeignKey(e => e.JoueurId)
-                //    .OnDelete(DeleteBehavior.Restrict)
-                //    .HasConstraintName("fk_cpd_");
+                entity.HasOne(e => e.ProduitNavigation)
+                    .WithMany(j => j.LienCaracteristiques)
+                    .HasForeignKey(e => e.ProduitId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_cpd_pro");
             });
 
             //ForeignKey ImageJoueur
@@ -602,20 +602,6 @@ namespace FIFA_API.Models.EntityFramework
                     .HasForeignKey(e => e.ImageId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_imv_img");
-            });
-
-            //ForeignKey Caracteristique_produit
-            modelBuilder.Entity<CaracteristiqueProduit>(entity =>
-            {
-                entity.HasKey(e => new { e.CaracteristiqueId, e.ProduitId })
-                        .HasName("pk_imj");
-
-
-                entity.HasOne(e => e.CaracteristiqueCaracterisant)
-                       .WithMany(i => i.ProduitsCaracteristique)
-                       .HasForeignKey(e => e.CaracteristiqueId)
-                       .OnDelete(DeleteBehavior.Restrict)
-                       .HasConstraintName("fk_cpd_car");
             });
 
             //Avait été fait plus haut

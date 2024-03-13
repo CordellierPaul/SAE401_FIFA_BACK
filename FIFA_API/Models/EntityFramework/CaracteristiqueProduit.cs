@@ -14,10 +14,12 @@ namespace FIFA_API.Models.EntityFramework
         [Column("pro_id")]
         public int ProduitId { get; set; }
 
-        [ForeignKey("CaracteristiqueId")]
-        [InverseProperty("ProduitsCaracteristique")]
-        public virtual Caracteristique CaracteristiqueCaracterisant { get; set; } = null!;
+        [ForeignKey(nameof(CaracteristiqueId))]
+        [InverseProperty(nameof(Caracteristique.LienProduits))]
+        public virtual Caracteristique CaracteristiqueNavigation { get; set; } = null!;
 
-        // TODO
+        [ForeignKey(nameof(ProduitId))]
+        [InverseProperty(nameof(Produit.LienCaracteristiques))]
+        public virtual Produit ProduitNavigation { get; set; } = null!;
     }
 }
