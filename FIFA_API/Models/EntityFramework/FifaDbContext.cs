@@ -419,6 +419,34 @@ namespace FIFA_API.Models.EntityFramework
                 .HasKey(e => e.MonnaieId)
                 .HasName("pk_mon");
 
+            modelBuilder.Entity<Pays>()
+                .HasKey(e => e.NumPays)
+                .HasName("pk_pay");
+
+            modelBuilder.Entity<Poste>()
+                .HasKey(e => e.NumPoste)
+                .HasName("pk_pos");
+
+            modelBuilder.Entity<Produit>()
+                .HasKey(e => e.IdProduit)
+                .HasName("pk_pro");
+
+            modelBuilder.Entity<Produit_Similaire>()
+                .HasKey(e => new { e.ProduitUn, e.ProduitDeux })
+                .HasName("pk_pds");
+
+            modelBuilder.Entity<Reglement>()
+                .HasKey(e => e.NumTransaction)
+                .HasName("pk_reg");
+
+            modelBuilder.Entity<Remporte>()
+                .HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
+                .HasName("pk_rem");
+
+            modelBuilder.Entity<>()
+                .HasKey(e => e.)
+                .HasName("pk_");
+
             #endregion
 
             OnModelCreatingPartial(modelBuilder);
