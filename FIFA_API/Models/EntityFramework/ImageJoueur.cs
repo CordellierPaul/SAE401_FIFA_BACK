@@ -6,20 +6,20 @@ namespace FIFA_API.Models.EntityFramework
     [Table("t_j_image_joueur_imj")]
     public partial class ImageJoueur
     {
-        [Key, Column(Order = 0)]
-        [ForeignKey(nameof(Image))]
-        public string Url { get; set; }
+        [Key]
+        [ForeignKey("")]
+        public int ImageId { get; set; }
 
-        [Key, Column(Order = 1)]
-        [ForeignKey(nameof(Joueur))]
-        public int IdJoueur { get; set; }
+        [Key]
+        [ForeignKey("jou_id")]
+        public int JoueurId { get; set; }
 
-        [ForeignKey(nameof(Url))]
+        [ForeignKey(nameof(ImageId))]
         [InverseProperty("ImageJoueur")]
-        public virtual Image Image { get; set; }
+        public virtual Image Image { get; set; } = null!;
 
-        [ForeignKey(nameof(IdJoueur))]
+        [ForeignKey(nameof(JoueurId))]
         [InverseProperty("ImageJoueur")]
-        public virtual Joueur Joueur { get; set; }
+        public virtual Joueur Joueur { get; set; } = null!;
     }
 }
