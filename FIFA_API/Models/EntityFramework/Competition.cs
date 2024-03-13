@@ -9,7 +9,7 @@ namespace FIFA_API.Models.EntityFramework
 
         public Competition()
         {
-            Produits = new HashSet<Produit>();
+            ProduitsCompetition = new HashSet<Produit>();
         }
 
         [Key]
@@ -20,7 +20,7 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(1000)]
         public string CompetitionNom { get; set; } = null!;
 
-        [InverseProperty("Competition")]
-        public virtual ICollection<Produit> Produits { get; set; }
+        [InverseProperty(nameof(Produit.CompetitionProduit))]
+        public virtual ICollection<Produit> ProduitsCompetition { get; set; }
     }
 }

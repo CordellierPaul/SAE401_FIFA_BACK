@@ -316,8 +316,8 @@ namespace FIFA_API.Models.EntityFramework
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Produit>()
-                .HasOne(p => p.Competition)
-                .WithMany(p => p.Produits)
+                .HasOne(p => p.CompetitionProduit)
+                .WithMany(p => p.ProduitsCompetition)
                 .HasForeignKey(p => p.IdCompetition)
                 .OnDelete(DeleteBehavior.Restrict);
 
