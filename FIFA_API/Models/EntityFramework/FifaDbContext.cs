@@ -347,7 +347,7 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey Reglement
             modelBuilder.Entity<Reglement>()
                 .HasOne(p => p.CommandeRegle)
-                .WithMany(p => p.ReglementsCommande)
+                .WithMany()
                 .HasForeignKey(p => p.NumCommande)
                 .OnDelete(DeleteBehavior.Restrict);
 

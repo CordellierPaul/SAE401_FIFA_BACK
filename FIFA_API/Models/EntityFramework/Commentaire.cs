@@ -62,6 +62,6 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [InverseProperty("CommentaireCommente")]
-        public virtual Commentaire CommenteCommentaire { get; set; }
+        public virtual Commentaire? CommenteCommentaire { get; set; }
     }
 }
