@@ -34,7 +34,7 @@ namespace FIFA_API.Models.EntityFramework
         public string AnneeExpiration { get; set; } = null!;
 
         [ForeignKey(nameof(IdUtilisateur))]
-        [InverseProperty("InfosBancaires")]
-        public virtual Utilisateur Utilisateur { get; set; } = null!;
+        [InverseProperty(nameof(Utilisateur.InfosBancairesUtilisateur))]
+        public virtual Utilisateur UtilisateurInfoBc { get; set; } = null!;
     }
 }
