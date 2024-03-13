@@ -366,22 +366,21 @@ namespace FIFA_API.Models.EntityFramework
 
 
             //ForeignKey SousCategorie
-            modelBuilder.Entity<SousCategorie>()
-                .HasOne(p => p.ObjCategorieEnfant)
-                .WithMany()
-                .HasForeignKey(p => p.CategorieEnfant)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SousCategorie>(entity =>
+            {
+                entity.HasKey(e => new { e.CategorieParentId, e.CategorieEnfantId })
+                    .HasName("pk_atm");
 
-            modelBuilder.Entity<SousCategorie>()
-                .HasOne(p => p.ObjCategorieParent)
-                .WithMany()
-                .HasForeignKey(p => p.CategorieParent)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(e => e.ObjCategorieEnfant)
+                    .WithMany(e => e.EnfantsCategorie)
+                    .HasForeignKey(e => e.CategorieEnfantId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<SousCategorie>()
-                .HasKey(e => new { e.CategorieParent, e.CategorieEnfant })
-                .HasName("pk_soucat");
-
+                entity.HasOne(e => e.ObjCategorieParent)
+                    .WithMany(e => e.ParentsCategorie)
+                    .HasForeignKey(e => e.CategorieParentId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
 
             //ForeignKey Utilisateur
             modelBuilder.Entity<Utilisateur>()
@@ -626,25 +625,7 @@ namespace FIFA_API.Models.EntityFramework
             });
 
             //Avait été fait plus haut
-            /*//ForeignKey ProduitSimilaire
-            modelBuilder.Entity<Produit_Similaire>(entity =>
-            {
-                entity.HasKey(e => new { e.ProduitUn, e.ProduitDeux })
-                    .HasName("pk_prs");
-
-                entity.HasOne(d => d.PremierProduit)
-                    .WithMany(p => p.ProduitSimilaire)
-                    .HasForeignKey(d => d.ProduitUn)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_prs_pro");
-
-                entity.HasOne(d => d.DeuxiemeProduit)
-                    .WithMany(p => p.ProduitSimilaire)
-                    .HasForeignKey(d => d.ProduitDeux)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_prs_pro");
-            });
-
+            /*
             //ForeignKey Remporte
             modelBuilder.Entity<Remporte>(entity =>
             {
