@@ -565,6 +565,25 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_imj_jou");
             });
 
+            //ForeignKey ImageVariante
+            modelBuilder.Entity<ImageVariante>(entity =>
+            {
+                entity.HasKey(e => new { e.ImageId, e.VarianteProduitId })
+                    .HasName("pk_imj");
+
+                entity.HasOne(e => e.VarianteProduitNavigation)
+                    .WithMany(v => v.LienImages)
+                    .HasForeignKey(e => e.VarianteProduitId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_imj_img");
+
+                entity.HasOne(e => e.ImageNavigation)
+                    .WithMany()
+                    .HasForeignKey(e => e.ImageId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_imj_jou");
+            });
+
             //ForeignKey Caracteristique_produit
             modelBuilder.Entity<CaracteristiqueProduit>(entity =>
             {
