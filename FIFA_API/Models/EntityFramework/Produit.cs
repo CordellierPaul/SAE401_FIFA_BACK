@@ -47,5 +47,8 @@ namespace FIFA_API.Models.EntityFramework
         [ForeignKey(nameof(GenreId))]
         [InverseProperty("gen_id")]
         public virtual Genre Genre { get; set; } = null!;
+
+        [InverseProperty("PremierProduit")]
+        public virtual ICollection<Produit_Similaire> ProduitSimilaire { get; set; } = new HashSet<Produit_Similaire>();
     }
 }

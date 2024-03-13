@@ -345,7 +345,17 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasKey(e => new { e.ProduitUn, e.ProduitDeux })
                     .HasName("pk_prs");
 
-                // TODO
+                entity.HasOne(d => d.PremierProduit)
+                    .WithMany(p => p.ProduitSimilaire)
+                    .HasForeignKey(d => d.ProduitUn)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_prs_pro");
+
+                entity.HasOne(d => d.DeuxiemeProduit)
+                    .WithMany(p => p.ProduitSimilaire)
+                    .HasForeignKey(d => d.ProduitDeux)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_prs_pro");
             });
 
             //ForeignKey Remporte
