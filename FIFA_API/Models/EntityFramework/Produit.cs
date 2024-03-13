@@ -28,7 +28,7 @@ namespace FIFA_API.Models.EntityFramework
         public int? IdCompetition { get; set; }
 
         [Column("pay_num")]
-        public int? NumPays { get; set; }
+        public int NumPays { get; set; }
 
 
         #region Foreign Key
