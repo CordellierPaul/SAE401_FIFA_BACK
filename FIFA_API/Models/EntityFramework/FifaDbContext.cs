@@ -341,14 +341,14 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey Reglement
             modelBuilder.Entity<Reglement>()
                 .HasOne(p => p.Commande)
-                .WithMany()
+                .WithMany(p => p.Reglements)
                 .HasForeignKey(p => p.NumCommande)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //ForeignKey Remporte
             modelBuilder.Entity<Remporte>()
                 .HasOne(p => p.JoueurRemportant)
-                .WithMany()
+                .WithMany(p => p.RemportesJoueur)
                 .HasForeignKey(p => p.IdJoueur)
                 .OnDelete(DeleteBehavior.Restrict);
 
