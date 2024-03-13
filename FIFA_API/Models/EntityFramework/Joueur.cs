@@ -60,6 +60,7 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(1000)]
         public string DescriptionJoueur { get; set; } = null!;
 
+
         [ForeignKey(nameof(IdVille))]
         [InverseProperty(nameof(Ville.JoueursVille))]
         public virtual Ville VilleJoueur { get; set; } = null!;
@@ -71,6 +72,7 @@ namespace FIFA_API.Models.EntityFramework
         [ForeignKey(nameof(NumPoste))]
         [InverseProperty(nameof(Poste.JoueursPoste))]
         public virtual Poste PosteJoueur { get; set; } = null!;
+
 
         [InverseProperty(nameof(ArticleJoueur.JoueurNavigation))]
         public virtual ICollection<ArticleJoueur> LiensArticles { get; set; }
@@ -86,5 +88,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(Anecdote.JoueurNavigation))]
         public virtual ICollection<Anecdote> LienAnecdotes { get; set; } = new HashSet<Anecdote>();
+
+        [InverseProperty(nameof(Vote.JoueurVote))]
+        public virtual ICollection<Vote> VotesJoueur { get; set; } = new HashSet<Vote>();
     }
 }
