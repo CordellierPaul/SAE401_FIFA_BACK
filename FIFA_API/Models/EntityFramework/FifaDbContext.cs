@@ -73,8 +73,8 @@ namespace FIFA_API.Models.EntityFramework
                 .HasConstraintName("fk_dev_utl");
 
             modelBuilder.Entity<Devis>()
-                .HasOne(p => p.Produit)
-                .WithMany(d => d.ProduitDevis)
+                .HasOne(p => p.ProduitDevis)
+                .WithMany(d => d.DevisProduit)
                 .HasForeignKey(p => p.ProduitId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_dev_pro");
