@@ -13,5 +13,8 @@ namespace FIFA_API.Models.EntityFramework
         [Column("clr_nom")]
         [StringLength(1000)]
         public string ColorisNom { get; set; } = null!;
+
+        [InverseProperty(nameof(VarianteProduit.ColorisVariante))]
+        public virtual ICollection<VarianteProduit> VariantesColorises { get; set; } = new HashSet<VarianteProduit>();
     }
 }

@@ -26,13 +26,15 @@ namespace FIFA_API.Models.EntityFramework
         [Range(0, 1, ErrorMessage = "La promo doit être comprise entre 0 et 1")]
         public decimal Promo { get; set; }
 
+
         [ForeignKey(nameof(ProduitId))]
         [InverseProperty("VariantesProduit")]
         public virtual Produit Produit { get; set; } = null!;
 
         [ForeignKey(nameof(ColorisId))]
-        [InverseProperty("VariantesProduit")]
-        public virtual Coloris Coloris { get; set; } = null!;
+        [InverseProperty(nameof(Coloris.VariantesColorises))]
+        public virtual Coloris ColorisVariante { get; set; } = null!;
+
 
         public virtual ICollection<LigneCommande> LignesCommandes { get; set; } = new HashSet<LigneCommande>();
 

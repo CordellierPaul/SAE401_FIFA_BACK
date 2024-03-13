@@ -438,7 +438,7 @@ namespace FIFA_API.Models.EntityFramework
                     .HasForeignKey(p => p.ProduitId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(p => p.Coloris)
+                entity.HasOne(p => p.ColorisVariante)
                     .WithMany()
                     .HasForeignKey(p => p.ColorisId)
                     .OnDelete(DeleteBehavior.Restrict);
