@@ -20,6 +20,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual DbSet<Article> Article { get; set; } = null!;
         public virtual DbSet<Blog> Blog { get; set; } = null!;
         public virtual DbSet<Caracteristique> Caracteristique { get; set; } = null!;
+        public virtual DbSet<Categorie> Categorie { get; set; } = null!;
         public virtual DbSet<Club> Club { get; set; } = null!;
         public virtual DbSet<Coloris> Coloris { get; set; } = null!;
         public virtual DbSet<Commande> Commande { get; set; } = null!;

@@ -22,7 +22,7 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [ForeignKey(nameof(CategorieParent))]
-        [InverseProperty(nameof(Categorie.ParentCategorie))]
+        [InverseProperty(nameof(Categorie.ParentsCategorie))]
         public virtual Categorie ObjCategorieParent { get; set; }
     }
 }
