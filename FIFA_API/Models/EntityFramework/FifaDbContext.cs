@@ -10,8 +10,49 @@ namespace FIFA_API.Models.EntityFramework
             : base(options)
         { }
 
+        #region Propriétés des entités de la base de données
+
         public virtual DbSet<Action> Action { get; set; } = null!;
-        //public virtual DbSet<...> ... { get; set; } = null!;
+        public virtual DbSet<Activite> Activite { get; set; } = null!;
+        public virtual DbSet<Adresse> Adresse { get; set; } = null!;
+        public virtual DbSet<Album> Album { get; set; } = null!;
+        public virtual DbSet<Anecdote> Anecdote { get; set; } = null!;
+        public virtual DbSet<Article> Article { get; set; } = null!;
+        public virtual DbSet<Blog> Blog { get; set; } = null!;
+        public virtual DbSet<Caracteristique> Caracteristique { get; set; } = null!;
+        public virtual DbSet<Club> Club { get; set; } = null!;
+        public virtual DbSet<Coloris> Coloris { get; set; } = null!;
+        public virtual DbSet<Commande> Commande { get; set; } = null!;
+        public virtual DbSet<Commentaire> Commentaire { get; set; } = null!;
+        public virtual DbSet<Competition> Competition { get; set; } = null!;
+        public virtual DbSet<Compte> Compte { get; set; } = null!;
+        public virtual DbSet<Devis> Devis { get; set; } = null!;
+        public virtual DbSet<Document> Document { get; set; } = null!;
+        public virtual DbSet<Film> Film { get; set; } = null!;
+        public virtual DbSet<FormulaireAide> FormulaireAide { get; set; } = null!;
+        public virtual DbSet<Genre> Genre { get; set; } = null!;
+        public virtual DbSet<Image> Image { get; set; } = null!;
+        public virtual DbSet<ImageVariante> ImageVariante { get; set; } = null!;
+        public virtual DbSet<InfosBancaires> InfosBancaires { get; set; } = null!;
+        public virtual DbSet<Joueur> Joueur { get; set; } = null!;
+        public virtual DbSet<Langue> Langue { get; set; } = null!;
+        public virtual DbSet<Ligne_commande> LigneCommande { get; set; } = null!;
+        public virtual DbSet<Livraison> Livraison { get; set; } = null!;
+        public virtual DbSet<Match> Match { get; set; } = null!;
+        public virtual DbSet<Media> Media { get; set; } = null!;
+        public virtual DbSet<Monnaie> Monnaie { get; set; } = null!;
+        public virtual DbSet<Pays> Pays { get; set; } = null!;
+        public virtual DbSet<Poste> Poste { get; set; } = null!;
+        public virtual DbSet<Produit> Produit { get; set; } = null!;
+        public virtual DbSet<Reglement> Reglement { get; set; } = null!;
+        public virtual DbSet<Taille> Taille { get; set; } = null!;
+        public virtual DbSet<Theme> Theme { get; set; } = null!;
+        public virtual DbSet<Trophee> Trophee { get; set; } = null!;
+        public virtual DbSet<Utilisateur> Utilisateur { get; set; } = null!;
+        public virtual DbSet<Ville> Ville { get; set; } = null!;
+        public virtual DbSet<Vote> Vote { get; set; } = null!;
+
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,20 +99,20 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Image>()
                 .HasOne(p => p.Media)
                 .WithMany()
-                .HasForeignKey(p => p.Url)
+                .HasForeignKey(p => p.Id)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //ForeignKey ImageJoueur
             modelBuilder.Entity<ImageJoueur>()
                 .HasOne(p => p.Image)
                 .WithMany()
-                .HasForeignKey(p => p.Url)
+                .HasForeignKey(p => p.ImageId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ImageJoueur>()
                 .HasOne(p => p.Joueur)
                 .WithMany()
-                .HasForeignKey(p => p.IdJoueur)
+                .HasForeignKey(p => p.JoueurId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //ForeignKey ImageVariante
@@ -487,7 +528,8 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_atm_med");
             });
 
-            //ForeignKey ProduitSimilaire
+            //Avait été fait plus haut
+            /*//ForeignKey ProduitSimilaire
             modelBuilder.Entity<Produit_Similaire>(entity =>
             {
                 entity.HasKey(e => new { e.ProduitUn, e.ProduitDeux })
@@ -506,9 +548,8 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_prs_pro");
             });
 
-            //Avait été fait plus haut
             //ForeignKey Remporte
-            /*modelBuilder.Entity<Remporte>(entity =>
+            modelBuilder.Entity<Remporte>(entity =>
             {
                 entity.HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
                     .HasName("pk_rem");
