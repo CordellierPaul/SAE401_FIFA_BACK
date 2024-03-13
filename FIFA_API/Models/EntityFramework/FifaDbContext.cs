@@ -32,7 +32,6 @@ namespace FIFA_API.Models.EntityFramework
         public virtual DbSet<FormulaireAide> FormulaireAide { get; set; } = null!;
         public virtual DbSet<Genre> Genre { get; set; } = null!;
         public virtual DbSet<Image> Image { get; set; } = null!;
-        public virtual DbSet<ImageVariante> ImageVariante { get; set; } = null!;
         public virtual DbSet<InfosBancaires> InfosBancaires { get; set; } = null!;
         public virtual DbSet<Joueur> Joueur { get; set; } = null!;
         public virtual DbSet<Langue> Langue { get; set; } = null!;
@@ -110,25 +109,6 @@ namespace FIFA_API.Models.EntityFramework
                 .WithMany()
                 .HasForeignKey(p => p.Id)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //ForeignKey ImageVariante
-            modelBuilder.Entity<ImageVariante>()
-                .HasOne(p => p.Image)
-                .WithMany()
-                .HasForeignKey(p => p.Url)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<ImageVariante>()
-                .HasOne(p => p.VarianteProduitIdProduit)
-                .WithMany()
-                .HasForeignKey(p => p.IdProduit)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<ImageVariante>()
-               .HasOne(p => p.VarianteProduitIdCouleur)
-               .WithMany()
-               .HasForeignKey(p => p.IdCouleur)
-               .OnDelete(DeleteBehavior.Restrict);
 
             //ForeignKey InfosBancaires
             modelBuilder.Entity<InfosBancaires>()
@@ -682,10 +662,6 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Image>()
                 .HasKey(e => e.Id)
                 .HasName("pk_img");
-
-            modelBuilder.Entity<ImageVariante>()
-                .HasKey(e => e.ImageVarianteId)
-                .HasName("pk_imv");
 
             modelBuilder.Entity<InfosBancaires>()
                 .HasKey(e => e.IdUtilisateur)
