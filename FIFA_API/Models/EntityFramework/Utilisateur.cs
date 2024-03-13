@@ -33,7 +33,7 @@ namespace FIFA_API.Models.EntityFramework
         [Column("com_id")]
         public int? IdCompte { get; set; }
 
-        [Column("mon_nummonnaie")]
+        [Column("mon_id")]
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Le numéro de monnaie doit être supérieur ou égal à 1")]
         public int NumMonnaie { get; set; } = 1;
