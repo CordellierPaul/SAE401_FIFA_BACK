@@ -476,7 +476,10 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey AlbumImages
             modelBuilder.Entity<AlbumImage>(entity =>
             {
-                    entity.HasOne(e => e.AlbumNavigation)
+                entity.HasKey(e => new { e.AlbumId, e.ImageId })
+                    .HasName("pk_ali");
+
+                entity.HasOne(e => e.AlbumNavigation)
                     .WithMany(a => a.LiensImages)
                     .HasForeignKey(e => e.AlbumId)
                     .OnDelete(DeleteBehavior.Restrict)
