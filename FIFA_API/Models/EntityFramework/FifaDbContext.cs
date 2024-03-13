@@ -364,7 +364,13 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
                     .HasName("pk_rem");
 
-                // TODO
+                entity.HasOne(d => d.JoueurRemportant)
+                    .WithMany(p => p.RemportesJoueur)
+                    .HasForeignKey(d => d.IdJoueur)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_rem_jou");
+
+                //TO DO
             });
 
             #region Clés primaires d'entités

@@ -72,5 +72,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(ArticleJoueur.JoueurNavigation))]
         public virtual ICollection<ArticleJoueur> LiensArticles { get; set; }
+
+        [InverseProperty(nameof(Remporte.JoueurRemportant))]
+        public virtual ICollection<Remporte> RemportesJoueur { get; set; } = new HashSet<Remporte>();
     }
 }
