@@ -24,20 +24,20 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey Devis
             modelBuilder.Entity<Devis>()
                 .HasOne(p => p.Utilisateur)
-                .WithMany()
+                .WithMany(d => d.UtilisateurDevis)
                 .HasForeignKey(p => p.UtilisateurId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Devis>()
                 .HasOne(p => p.Produit)
-                .WithMany()
+                .WithMany(d => d.ProduitDevis)
                 .HasForeignKey(p => p.ProduitId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //ForeignKey Film
             modelBuilder.Entity<Film>()
                 .HasOne(p => p.Media)
-                .WithMany()
+                .WithMany(d => d.MediaFilm)
                 .HasForeignKey(p => p.Url)
                 .OnDelete(DeleteBehavior.Restrict);
 
