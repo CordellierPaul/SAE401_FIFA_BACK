@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_j_produit_similaire_prs")]
-    public partial class Produit_Similaire
+    public partial class ProduitSimilaire
     {
         [Key]
         [Column("pro_un")]

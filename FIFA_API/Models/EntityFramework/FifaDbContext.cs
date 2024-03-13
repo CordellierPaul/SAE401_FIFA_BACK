@@ -35,7 +35,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual DbSet<InfosBancaires> InfosBancaires { get; set; } = null!;
         public virtual DbSet<Joueur> Joueur { get; set; } = null!;
         public virtual DbSet<Langue> Langue { get; set; } = null!;
-        public virtual DbSet<Ligne_commande> LigneCommande { get; set; } = null!;
+        public virtual DbSet<LigneCommande> LigneCommande { get; set; } = null!;
         public virtual DbSet<Livraison> Livraison { get; set; } = null!;
         public virtual DbSet<Match> Match { get; set; } = null!;
         public virtual DbSet<Media> Media { get; set; } = null!;
@@ -156,7 +156,7 @@ namespace FIFA_API.Models.EntityFramework
 
 
             //ForeignKey Ligne_commande
-            modelBuilder.Entity<Ligne_commande>(entity =>
+            modelBuilder.Entity<LigneCommande>(entity =>
             {
                 entity.HasKey(e => new { e.CommandeId, e.LigneCommandeId })
                     .HasName("pk_lcd");
@@ -181,7 +181,7 @@ namespace FIFA_API.Models.EntityFramework
             });
 
             //ForeignKey Like_Album
-            modelBuilder.Entity<Like_Album>(entity =>
+            modelBuilder.Entity<LikeAlbum>(entity =>
             {
                 entity.HasKey(e => new { e.AlbumId, e.UtilisateurId })
                     .HasName("pk_lab");
@@ -202,7 +202,7 @@ namespace FIFA_API.Models.EntityFramework
 
 
             //ForeignKey Like_Article
-            modelBuilder.Entity<Like_Article>(entity =>
+            modelBuilder.Entity<LikeArticle>(entity =>
             {
                 entity.HasKey(e => new { e.ArticleId, e.UtilisateurId })
                     .HasName("pk_lar");
@@ -223,7 +223,7 @@ namespace FIFA_API.Models.EntityFramework
 
 
             //ForeignKey Like_Blog
-            modelBuilder.Entity<Like_Blog>(entity =>
+            modelBuilder.Entity<LikeBlog>(entity =>
             {
                 entity.HasKey(e => new { e.BlogId, e.UtilisateurId })
                     .HasName("pk_lab");
@@ -244,7 +244,7 @@ namespace FIFA_API.Models.EntityFramework
 
 
             //ForeignKey Like_Document
-            modelBuilder.Entity<Like_Document>(entity =>
+            modelBuilder.Entity<LikeDocument>(entity =>
             {
                 entity.HasKey(e => new { e.DocumentId, e.UtilisateurId })
                     .HasName("pk_ldc");
@@ -282,7 +282,7 @@ namespace FIFA_API.Models.EntityFramework
             });
 
             //ForeignKey Match_joue
-            modelBuilder.Entity<Match_joue>(entity =>
+            modelBuilder.Entity<MatchJoue>(entity =>
             {
                 entity.HasKey(e => new { e.JoueurId, e.MatchId })
                     .HasName("pk_mtj");
@@ -332,13 +332,13 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Produit_Similaire
 
-            modelBuilder.Entity<Produit_Similaire>()
+            modelBuilder.Entity<ProduitSimilaire>()
                 .HasOne(p => p.PremierProduit)
                 .WithMany()
                 .HasForeignKey(p => p.ProduitUn)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Produit_Similaire>()
+            modelBuilder.Entity<ProduitSimilaire>()
                 .HasOne(p => p.DeuxiemeProduit)
                 .WithMany()
                 .HasForeignKey(p => p.ProduitDeux)
@@ -370,19 +370,19 @@ namespace FIFA_API.Models.EntityFramework
 
 
             //ForeignKey Sous_Categorie
-            modelBuilder.Entity<Sous_Categorie>()
+            modelBuilder.Entity<SousCategorie>()
                 .HasOne(p => p.ObjCategorieEnfant)
                 .WithMany()
                 .HasForeignKey(p => p.CategorieEnfant)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Sous_Categorie>()
+            modelBuilder.Entity<SousCategorie>()
                 .HasOne(p => p.ObjCategorieParent)
                 .WithMany()
                 .HasForeignKey(p => p.CategorieParent)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Sous_Categorie>()
+            modelBuilder.Entity<SousCategorie>()
                 .HasKey(e => new { e.CategorieParent, e.CategorieEnfant })
                 .HasName("pk_soucat");
 
@@ -565,7 +565,7 @@ namespace FIFA_API.Models.EntityFramework
             });
 
             //ForeignKey Caracteristique_produit
-            modelBuilder.Entity<Caracteristique_produit>(entity =>
+            modelBuilder.Entity<CaracteristiqueProduit>(entity =>
             {
                 entity.HasKey(e => new { e.CaracteristiqueId, e.ProduitId })
                         .HasName("pk_imj");
@@ -713,7 +713,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasKey(e => e.LangueNum)
                 .HasName("pk_lng");
 
-            modelBuilder.Entity<Ligne_commande>()
+            modelBuilder.Entity<LigneCommande>()
                 .HasKey(e => e.LigneCommandeId)
                 .HasName("pk_lcd");   
 

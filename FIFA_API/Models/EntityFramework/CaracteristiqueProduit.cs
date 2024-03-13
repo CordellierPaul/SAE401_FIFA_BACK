@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_j_caracteristique_produit_cpd")]
-    public partial class Caracteristique_produit
+    public partial class CaracteristiqueProduit
     {
         [Key]
         [Column("car_id")]

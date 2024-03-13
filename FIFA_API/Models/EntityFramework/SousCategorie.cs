@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_j_sous_categorie_soucat")]
-    public partial class Sous_Categorie
+    public partial class SousCategorie
     {
         [Key]
         [Column("cat_parent")]

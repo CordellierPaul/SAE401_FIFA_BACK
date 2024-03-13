@@ -38,8 +38,8 @@ namespace FIFA_API.Models.EntityFramework
 
 
 
-        [InverseProperty(nameof(Like_Article.ArticleNavigation))]
-        public virtual ICollection<Like_Article> LikesArticles { get; set; }
+        [InverseProperty(nameof(LikeArticle.ArticleNavigation))]
+        public virtual ICollection<LikeArticle> LikesArticles { get; set; }
 
 
 

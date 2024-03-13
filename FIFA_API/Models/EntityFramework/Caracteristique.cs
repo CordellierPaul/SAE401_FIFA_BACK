@@ -16,6 +16,6 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [InverseProperty("CaracteristiqueCaracterisant")]
-        public virtual ICollection<Caracteristique_produit> ProduitsCaracteristique { get; set; } = new List<Caracteristique_produit>();
+        public virtual ICollection<CaracteristiqueProduit> ProduitsCaracteristique { get; set; } = new List<CaracteristiqueProduit>();
     }
 }

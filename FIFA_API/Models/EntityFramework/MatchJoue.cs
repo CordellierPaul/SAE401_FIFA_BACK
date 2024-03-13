@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_j_match_joue_mtj")]
-    public class Match_joue
+    public class MatchJoue
     {
 
         [Key]

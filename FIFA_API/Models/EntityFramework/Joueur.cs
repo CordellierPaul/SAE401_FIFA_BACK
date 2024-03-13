@@ -9,7 +9,7 @@ namespace FIFA_API.Models.EntityFramework
         public Joueur()
         {
             LiensArticles = new HashSet<ArticleJoueur>();
-            Matches_joue = new HashSet<Match_joue>();
+            Matches_joue = new HashSet<MatchJoue>();
             RemportesJoueur = new HashSet<Remporte>();
         }
 
@@ -60,29 +60,25 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(1000)]
         public string DescriptionJoueur { get; set; } = null!;
 
-        #region Foreign Key
-
         [ForeignKey(nameof(IdVille))]
-        [InverseProperty(nameof(Ville.JoueursVille))]
-        public virtual Ville VilleJoueur { get; set; } = null!;
+        [InverseProperty("Joueurs")]
+        public virtual Ville Ville { get; set; } = null!;
 
         [ForeignKey(nameof(IdClub))]
-        [InverseProperty(nameof(Club.JoueursClub))]
-        public virtual Club ClubJoueur { get; set; } = null!;
+        [InverseProperty("Joueurs")]
+        public virtual Club Club { get; set; } = null!;
 
         [ForeignKey(nameof(NumPoste))]
-        [InverseProperty(nameof(Poste.JoueursPoste))]
-        public virtual Poste PosteJoueur { get; set; } = null!;
-
-        #endregion
+        [InverseProperty("Joueurs")]
+        public virtual Poste Poste { get; set; } = null!;
 
         [InverseProperty(nameof(ArticleJoueur.JoueurNavigation))]
         public virtual ICollection<ArticleJoueur> LiensArticles { get; set; }
 
 
 
-        [InverseProperty(nameof(Match_joue.JoueurNavigation))]
-        public virtual ICollection<Match_joue> Matches_joue { get; set; }
+        [InverseProperty(nameof(MatchJoue.JoueurNavigation))]
+        public virtual ICollection<MatchJoue> Matches_joue { get; set; }
 
 
 

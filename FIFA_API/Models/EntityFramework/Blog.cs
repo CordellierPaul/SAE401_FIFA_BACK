@@ -30,8 +30,8 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty("BlogCommente")]
         public virtual ICollection<Commentaire> CommentairesBlog { get; set; } = new HashSet<Commentaire>();
 
-        [InverseProperty(nameof(Like_Blog.BlogNavigation))]
-        public virtual ICollection<Like_Blog> LikesBlogs { get; set; } = new HashSet<Like_Blog>();
+        [InverseProperty(nameof(LikeBlog.BlogNavigation))]
+        public virtual ICollection<LikeBlog> LikesBlogs { get; set; } = new HashSet<LikeBlog>();
 
         [InverseProperty(nameof(BlogImage.BlogNavigation))]
         public virtual ICollection<BlogImage> LiensImages { get; set; } = new HashSet<BlogImage>();

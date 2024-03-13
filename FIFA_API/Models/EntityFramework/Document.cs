@@ -39,8 +39,8 @@ namespace FIFA_API.Models.EntityFramework
         public virtual List<Commentaire> CommentairesDocument { get; set; } = new List<Commentaire>();
 
 
-        [InverseProperty(nameof(Like_Document.DocumentNavigation))]
-        public virtual ICollection<Like_Document> LikesDocuments { get; set; } = new List<Like_Document>();
+        [InverseProperty(nameof(LikeDocument.DocumentNavigation))]
+        public virtual ICollection<LikeDocument> LikesDocuments { get; set; } = new List<LikeDocument>();
 
     }
 }

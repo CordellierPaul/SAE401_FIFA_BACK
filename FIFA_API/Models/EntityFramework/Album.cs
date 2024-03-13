@@ -33,7 +33,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual List<Commentaire> CommentairesAlbum { get; set; } = new List<Commentaire>();
 
 
-        [InverseProperty(nameof(Like_Album.AlbumNavigation))]
-        public virtual ICollection<Like_Album> LikesAlbums { get; set; }
+        [InverseProperty(nameof(LikeAlbum.AlbumNavigation))]
+        public virtual ICollection<LikeAlbum> LikesAlbums { get; set; }
     }
 }

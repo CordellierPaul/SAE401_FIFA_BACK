@@ -1,16 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_j_like_article_lar")]
-    public class Like_Article
+    [Table("t_j_like_blog_lbg")]
+    public class LikeBlog
     {
 
         [Key]
-        [Column("art_id")]
-        public int ArticleId { get; set; }
+        [Column("blg_id")]
+        public int BlogId { get; set; }
 
         [Key]
         [Column("utl_id")]
@@ -18,13 +17,13 @@ namespace FIFA_API.Models.EntityFramework
 
 
 
-        [ForeignKey(nameof(ArticleId))]
-        [InverseProperty("LikesArticles")]
-        public virtual Article ArticleNavigation { get; set; } = null!;
+        [ForeignKey(nameof(BlogId))]
+        [InverseProperty(nameof(Blog.LikesBlogs))]
+        public virtual Blog BlogNavigation { get; set; } = null!;
 
 
         [ForeignKey(nameof(UtilisateurId))]
-        [InverseProperty("LikesArticles")]
+        [InverseProperty("Likes_blog")]
         public virtual Utilisateur UtilisateurNavigation { get; set; } = null!;
 
     }

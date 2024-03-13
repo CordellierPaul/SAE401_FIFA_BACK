@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_e_ligne_commande_lcd")]
-    public class Ligne_commande
+    public class LigneCommande
     {
 
         [Key]

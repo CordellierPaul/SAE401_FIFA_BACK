@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_j_like_document_ldc")]
-    public class Like_Document
+    public class LikeDocument
     {
         [Key]
         [Column("doc_id")]

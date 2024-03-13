@@ -111,30 +111,21 @@ namespace FIFA_API.Models.EntityFramework
         public virtual List<Commande> CommandesUtilisateur { get; set; } = new List<Commande>();
 
 
-        [InverseProperty(nameof(Like_Album.UtilisateurNavigation))]
-        public virtual ICollection<Like_Album> LikesAlbums { get; set; } = new List<Like_Album>();
+        [InverseProperty(nameof(LikeAlbum.UtilisateurNavigation))]
+        public virtual ICollection<LikeAlbum> LikesAlbums { get; set; } = new List<LikeAlbum>();
 
 
-        [InverseProperty(nameof(Like_Article.UtilisateurNavigation))]
-        public virtual ICollection<Like_Article> LikesArticles { get; set; } = new List<Like_Article>();
+        [InverseProperty(nameof(LikeArticle.UtilisateurNavigation))]
+        public virtual ICollection<LikeArticle> LikesArticles { get; set; } = new List<LikeArticle>();
 
 
-        [InverseProperty(nameof(Like_Blog.UtilisateurNavigation))]
-        public virtual ICollection<Like_Blog> LikesBlogs { get; set; } = new HashSet<Like_Blog>();
+        [InverseProperty(nameof(LikeBlog.UtilisateurNavigation))]
+        public virtual ICollection<LikeBlog> LikesBlogs { get; set; } = new HashSet<LikeBlog>();
 
 
-        [InverseProperty(nameof(Like_Document.UtilisateurNavigation))]
-        public virtual ICollection<Like_Document> LikesDocuments { get; set; } = new HashSet<Like_Document>();
+        [InverseProperty(nameof(LikeDocument.UtilisateurNavigation))]
+        public virtual ICollection<LikeDocument> LikesDocuments { get; set; } = new HashSet<LikeDocument>();
 
-        [InverseProperty(nameof(Devis.UtilisateurDevis))]
-        public virtual ICollection<Devis> DevisUtilisateur { get; set; } = new HashSet<Devis>();
-
-        [InverseProperty(nameof(FormulaireAide.UtilisateurDuFormulaire))]
-        public virtual ICollection<FormulaireAide> FormulairesAideUtilisateur { get; set; } = new HashSet<FormulaireAide>();
-
-
-        [InverseProperty(nameof(InfosBancaires.UtilisateurInfoBc))]
-        public virtual ICollection<InfosBancaires> InfosBancairesUtilisateur{ get; set; } = new HashSet<InfosBancaires>();
 
         #endregion
     }

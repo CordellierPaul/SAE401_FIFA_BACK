@@ -34,7 +34,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty("VariantesProduit")]
         public virtual Coloris Coloris { get; set; } = null!;
 
-        public virtual ICollection<Ligne_commande> LignesCommandes { get; set; } = new HashSet<Ligne_commande>();
+        public virtual ICollection<LigneCommande> LignesCommandes { get; set; } = new HashSet<LigneCommande>();
 
         [InverseProperty(nameof(ImageVariante.VarianteProduitNavigation))]
         public virtual ICollection<ImageVariante> LienImages { get; set; } = new HashSet<ImageVariante>();
