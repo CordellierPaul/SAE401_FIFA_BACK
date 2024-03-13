@@ -135,6 +135,9 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(InfosBancaires.UtilisateurInfoBc))]
         public virtual ICollection<InfosBancaires> InfosBancairesUtilisateur { get; set; } = new HashSet<InfosBancaires>();
 
+        [InverseProperty(nameof(Vote.UtilisateurVotant))]
+        public virtual ICollection<Vote> VotesUtilisateur { get; set; } = new HashSet<Vote>();
+
         #endregion
     }
 }

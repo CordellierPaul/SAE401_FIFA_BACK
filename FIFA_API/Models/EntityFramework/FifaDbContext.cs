@@ -452,7 +452,7 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Vote
             modelBuilder.Entity<Vote>()
-                .HasOne(p => p.Utilisateur)
+                .HasOne(p => p.UtilisateurVotant)
                 .WithMany()
                 .HasForeignKey(p => p.IdUtilisateur)
                 .OnDelete(DeleteBehavior.Restrict);
