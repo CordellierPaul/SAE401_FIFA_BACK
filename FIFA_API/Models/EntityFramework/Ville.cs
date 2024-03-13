@@ -6,6 +6,12 @@ namespace FIFA_API.Models.EntityFramework
     [Table("t_e_ville_vil")]
     public partial class Ville
     {
+
+        public Ville()
+        {
+            Produits = new HashSet<Ville>();
+        }
+
         [Key]
         [Column("vil_id")]
         public int IdVille { get; set; }
@@ -24,6 +30,7 @@ namespace FIFA_API.Models.EntityFramework
         [ForeignKey(nameof(NumPays))]
         [InverseProperty("NumPays")]
         public virtual Pays Pays{ get; set; } = null!;
+
 
     }
 }
