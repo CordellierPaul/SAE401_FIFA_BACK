@@ -487,8 +487,9 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_prs_pro");
             });
 
+            //Avait été fait plus haut
             //ForeignKey Remporte
-            modelBuilder.Entity<Remporte>(entity =>
+            /*modelBuilder.Entity<Remporte>(entity =>
             {
                 entity.HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
                     .HasName("pk_rem");
@@ -500,7 +501,7 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_rem_jou");
 
                 //TO DO
-            });
+            });*/
 
             #region Clés primaires d'entités
 
