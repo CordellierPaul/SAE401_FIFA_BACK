@@ -14,7 +14,7 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(50)]
         public string NomPays { get; set; }
 
-        [InverseProperty(nameof(Produit.))]
+        [InverseProperty(nameof(Produit.Pays))]
         public virtual ICollection<Produit> LienProduits { get; set; } = new HashSet<Produit>();
     }
 }
