@@ -8,17 +8,17 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("alb_id")]
-        public int IdAlbum { get; set; }
+        public int AlbumId { get; set; }
 
         [Key]
         [Column("img_id")]
-        public int IdImage { get; set; }
+        public int ImageId { get; set; }
 
-        [ForeignKey(nameof(IdAlbum))]
+        [ForeignKey(nameof(AlbumId))]
         [InverseProperty(nameof(Album.LiensImages))]
         public virtual Album AlbumNavigation { get; set; } = null!;
 
-        [ForeignKey(nameof(IdImage))]
+        [ForeignKey(nameof(ImageId))]
         [InverseProperty(nameof(Image.LiensAlbums))]
         public virtual Image ImageNavigation { get; set; } = null!;
     }

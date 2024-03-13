@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_j_produit_similaire_pds")]
+    [Table("t_j_produit_similaire_prs")]
     public partial class Produit_Similaire
     {
         [Key]
@@ -16,10 +16,10 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(ProduitUn))]
         [InverseProperty("IdProduit")]
-        public virtual Produit PremierProduit { get; set; }
+        public virtual Produit PremierProduit { get; set; } = null!;
 
         [ForeignKey(nameof(ProduitDeux))]
         [InverseProperty("IdProduit")]
-        public virtual Produit DeuxiemeProduit { get; set; }
+        public virtual Produit DeuxiemeProduit { get; set; } = null!;
     }
 }
