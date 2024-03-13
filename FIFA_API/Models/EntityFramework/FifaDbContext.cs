@@ -320,7 +320,26 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_atj_jou");
             });
 
-            //ForeignKey ArticleJoueur
+            //ForeignKey ArticleMedia
+            modelBuilder.Entity<ArticleMedia>(entity =>
+            {
+                entity.HasKey(e => new { e.ArticleId, e.JoueurId })
+                    .HasName("pk_atj");
+
+                entity.HasOne(d => d.ArticleNavigation)
+                    .WithMany(p => p.LiensJoueur)
+                    .HasForeignKey(d => d.ArticleId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_atj_art");
+
+                entity.HasOne(d => d.JoueurNavigation)
+                    .WithMany(p => p.LiensArticles)
+                    .HasForeignKey(d => d.JoueurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_atj_jou");
+            });
+
+            //ForeignKey ProduitSimilaire
             modelBuilder.Entity<Produit_Similaire>(entity =>
             {
                 entity.HasKey(e => new { e.ProduitUn, e.ProduitDeux })
@@ -329,7 +348,7 @@ namespace FIFA_API.Models.EntityFramework
                 // TODO
             });
 
-            //ForeignKey ArticleJoueur
+            //ForeignKey Remporte
             modelBuilder.Entity<Remporte>(entity =>
             {
                 entity.HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
