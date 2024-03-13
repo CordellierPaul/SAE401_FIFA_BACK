@@ -323,20 +323,39 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey ArticleMedia
             modelBuilder.Entity<ArticleMedia>(entity =>
             {
-                entity.HasKey(e => new { e.ArticleId, e.JoueurId })
-                    .HasName("pk_atj");
+                entity.HasKey(e => new { e.ArticleId, e.MediaId })
+                    .HasName("pk_atm");
 
                 entity.HasOne(d => d.ArticleNavigation)
-                    .WithMany(p => p.LiensJoueur)
+                    .WithMany(p => p.LiensMedias)
                     .HasForeignKey(d => d.ArticleId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_atj_art");
+                    .HasConstraintName("fk_atm_art");
 
-                entity.HasOne(d => d.JoueurNavigation)
+                entity.HasOne(d => d.MediaNavigation)
                     .WithMany(p => p.LiensArticles)
-                    .HasForeignKey(d => d.JoueurId)
+                    .HasForeignKey(d => d.MediaId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_atj_jou");
+                    .HasConstraintName("fk_atm_med");
+            });
+
+            //ForeignKey BlogImage
+            modelBuilder.Entity<BlogImage>(entity =>
+            {
+                entity.HasKey(e => new { e.BlogId, e.ImageId })
+                    .HasName("pk_atm");
+
+                entity.HasOne(d => d.BlogNavigation)
+                    .WithMany(p => p.LiensImages)
+                    .HasForeignKey(d => d.BlogId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_atm_art");
+
+                entity.HasOne(d => d.ImageNavigation)
+                    .WithMany(p => p.LiensBlogs)
+                    .HasForeignKey(d => d.ImageId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_atm_med");
             });
 
             //ForeignKey ProduitSimilaire

@@ -6,11 +6,6 @@ namespace FIFA_API.Models.EntityFramework
     [Table("t_e_image_img")]
     public partial class Image
     {
-        public Image()
-        {
-            LiensAlbums = new HashSet<AlbumImage>();
-        }
-
         [Key]
         [Column("img_id")]
         public int Id { get; set; }
@@ -23,6 +18,9 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Media Media { get; set; } = null!;
 
         [InverseProperty(nameof(AlbumImage.ImageNavigation))]
-        public virtual ICollection<AlbumImage> LiensAlbums { get; set; }
+        public virtual ICollection<AlbumImage> LiensAlbums { get; set; } = new HashSet<AlbumImage>();
+
+        [InverseProperty(nameof(BlogImage.ImageNavigation))]
+        public virtual ICollection<BlogImage> LiensBlogs { get; set; } = new HashSet<BlogImage>();
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_j_articlemedia")]
+    [Table("t_j_articlemedia_atm")]
     public class ArticleMedia
     {
         [Key]

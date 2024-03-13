@@ -51,8 +51,7 @@ namespace FIFA_API.Models.EntityFramework
         #endregion
 
 
-
         [InverseProperty(nameof(Ligne_commande.CommandeNavigation))]
-        public virtual ICollection<Ligne_commande> LignesCommandes { get; set; }
+        public virtual ICollection<Ligne_commande> LignesCommandes { get; set; } = new HashSet<Ligne_commande>();
     }
 }
