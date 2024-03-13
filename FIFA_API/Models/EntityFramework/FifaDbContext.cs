@@ -180,7 +180,7 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Remporte
             modelBuilder.Entity<Remporte>()
-                .HasOne(p => p.Joueur)
+                .HasOne(p => p.JoueurRemportant)
                 .WithMany()
                 .HasForeignKey(p => p.IdJoueur)
                 .OnDelete(DeleteBehavior.Restrict);
