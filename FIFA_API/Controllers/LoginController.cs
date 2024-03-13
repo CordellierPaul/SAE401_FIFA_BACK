@@ -16,6 +16,7 @@ namespace FIFA_API.Controllers
         private readonly IConfiguration _config;
         private List<User> appUsers = new List<User>
         {
+            //A MODIFIER
             new User { FullName = "Vincent COUTURIER", UserName = "vince", Password = "1234",
                 UserRole = "Admin" },
             new User { FullName = "Marc MACHIN", UserName = "marc", Password = "1234", UserRole =
