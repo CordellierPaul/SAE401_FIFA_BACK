@@ -32,12 +32,12 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(JoueurId))]
         [InverseProperty("Matches_joue")]
-        public virtual Joueur Joueur { get; set; } = null!;
+        public virtual Joueur JoueurNavigation { get; set; } = null!;
 
 
         [ForeignKey(nameof(MatchId))]
         [InverseProperty("Matches_joue")]
-        public virtual Match Match { get; set; } = null!;
+        public virtual Match MatchNavigation { get; set; } = null!;
 
 
 

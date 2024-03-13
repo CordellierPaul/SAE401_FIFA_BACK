@@ -109,6 +109,24 @@ namespace FIFA_API.Models.EntityFramework
         
         [InverseProperty(nameof(Commande.UtilisateurCommandant))]
         public virtual List<Commande> CommandesUtilisateur { get; set; } = new List<Commande>();
+
+
+        [InverseProperty(nameof(Like_Album.UtilisateurNavigation))]
+        public virtual ICollection<Like_Album> LikesAlbums { get; set; } = new List<Like_Album>();
+
+
+        [InverseProperty(nameof(Like_Article.UtilisateurNavigation))]
+        public virtual ICollection<Like_Article> LikesArticles { get; set; } = new List<Like_Article>();
+
+
+        [InverseProperty(nameof(Like_Blog.UtilisateurNavigation))]
+        public virtual ICollection<Like_Blog> LikesBlogs { get; set; } = new HashSet<Like_Blog>();
+
+
+        [InverseProperty(nameof(Like_Document.UtilisateurNavigation))]
+        public virtual ICollection<Like_Document> LikesDocuments { get; set; } = new HashSet<Like_Document>();
+
+
         #endregion
     }
 }

@@ -36,7 +36,6 @@ namespace FIFA_API.Models.EntityFramework
 
 
 
-        [InverseProperty(nameof(Ligne_commande.ProduitNavigation))]
         public virtual ICollection<Ligne_commande> LignesCommandes { get; set; }
 
 
