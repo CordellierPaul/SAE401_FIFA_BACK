@@ -43,5 +43,11 @@ namespace FIFA_API.Models.EntityFramework
         {
             LienPdf = null!;
         }
+
+
+
+        [InverseProperty(nameof(Like_Document.DocumentNavigation))]
+        public virtual ICollection<Like_Document> LikesDocuments { get; set; } = new List<Like_Document>();
+
     }
 }

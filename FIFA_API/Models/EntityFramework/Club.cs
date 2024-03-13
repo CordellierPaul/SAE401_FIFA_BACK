@@ -19,5 +19,16 @@ namespace FIFA_API.Models.EntityFramework
         [Column("clb_initiales")]
         [StringLength(50)]
         public string ClubInitiales { get; set; } = null!;
+
+
+
+
+        [InverseProperty(nameof(Match.ClubDomicile))]
+        public virtual ICollection<Match> MatchesDomicile { get; set; } = new HashSet<Match>();
+
+
+        [InverseProperty(nameof(Match.ClubExterieur))]
+        public virtual ICollection<Match> MatchesExterieur { get; set; } = new HashSet<Match>();
+
     }
 }
