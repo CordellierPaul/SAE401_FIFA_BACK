@@ -62,6 +62,8 @@ namespace FIFA_API.Models.EntityFramework
                 entity.Property(e => e.DateReglement).HasDefaultValueSql("now()");
             });
 
+            #region foreignkey
+
             //ForeignKey Devis
             modelBuilder.Entity<Devis>()
                 .HasOne(p => p.Utilisateur)
@@ -85,13 +87,13 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey FormulaireAide
             modelBuilder.Entity<FormulaireAide>()
                 .HasOne(p => p.Utilisateur)
-                .WithMany()
+                .WithMany(d => d.UtilisateurFormulaireAide)
                 .HasForeignKey(p => p.IdUtilisateur)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<FormulaireAide>()
                .HasOne(p => p.Action)
-               .WithMany()
+               .WithMany(d => d.ActionFormulaireAide)
                .HasForeignKey(p => p.NumAction)
                .OnDelete(DeleteBehavior.Restrict);
 
@@ -137,7 +139,7 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey InfosBancaires
             modelBuilder.Entity<InfosBancaires>()
                 .HasOne(p => p.Utilisateur)
-                .WithMany()
+                .WithMany(d => d.UtilisateurInfosBancaires)
                 .HasForeignKey(p => p.IdUtilisateur)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -581,6 +583,8 @@ namespace FIFA_API.Models.EntityFramework
 
                 //TO DO
             });*/
+
+            #endregion
 
             #region Clés primaires d'entités
 
