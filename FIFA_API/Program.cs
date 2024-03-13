@@ -1,3 +1,4 @@
+using FIFA_API.Models;
 using FIFA_API.Models.EntityFramework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
          ClockSkew = TimeSpan.Zero
      };
  });
+
+//Gestion de l’autorisation
+builder.Services.AddAuthorization(config =>
+{
+    config.AddPolicy(Policies.Admin, Policies.AdminPolicy());
+    config.AddPolicy(Policies.User, Policies.UserPolicy());
+});
 
 
 var app = builder.Build();
