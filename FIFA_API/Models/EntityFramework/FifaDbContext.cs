@@ -142,6 +142,7 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasMany(j => j.LienAnecdotes)
                     .WithOne(a => a.JoueurNavigation)
                     .HasForeignKey(a => a.JoueurId)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_anc_jou");
             });
 
@@ -452,7 +453,7 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Vote
             modelBuilder.Entity<Vote>()
-                .HasOne(p => p.Utilisateur)
+                .HasOne(p => p.UtilisateurVotant)
                 .WithMany()
                 .HasForeignKey(p => p.IdUtilisateur)
                 .OnDelete(DeleteBehavior.Restrict);
@@ -477,10 +478,10 @@ namespace FIFA_API.Models.EntityFramework
                 .HasForeignKey(p => p.NumPays)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //ForeignKey AlbumImages
-            modelBuilder.Entity<AlbumImage>(entity =>
-            {
-                entity.HasKey(e => new { e.AlbumId, e.ImageId })
+                entity.HasMany(v => v.LiensAdresses)
+                    .WithOne(a => a.LienVille)
+                    .HasForeignKey(a => a.VilleId)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasName("pk_ali");
 
                 entity.HasOne(e => e.AlbumNavigation)
