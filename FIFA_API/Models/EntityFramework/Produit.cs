@@ -50,6 +50,8 @@ namespace FIFA_API.Models.EntityFramework
 
         #endregion
 
+        #region Inverse Property
+
         [InverseProperty("PremierProduit")]
         public virtual ICollection<ProduitSimilaire> ProduitSimilaire { get; set; } = new HashSet<ProduitSimilaire>();
 
@@ -59,5 +61,10 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(CaracteristiqueProduit.ProduitNavigation))]
         public virtual ICollection<CaracteristiqueProduit> LienCaracteristiques { get; set; } = new HashSet<CaracteristiqueProduit>();
+
+        [InverseProperty(nameof(VarianteProduit.ProduitVariante))]
+        public virtual ICollection<VarianteProduit> VariantesProduit { get; set; } = new HashSet<VarianteProduit>();
+
+        #endregion
     }
 }
