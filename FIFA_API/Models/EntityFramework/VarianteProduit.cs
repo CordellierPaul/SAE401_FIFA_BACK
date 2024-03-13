@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_j_variante_produit_vpd")]
+    [Table("t_e_variante_produit_vpd")]
     public partial class VarianteProduit
     {
         [Key]
