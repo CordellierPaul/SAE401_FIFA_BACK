@@ -12,7 +12,7 @@ namespace FIFA_API.Models.EntityFramework
         public int ProduitId { get; set; }
 
         [Key]
-        [Column("cou_id")]
+        [Column("clr_id")]
         public int ColorisId { get; set; }
 
         [Column("vpd_prixvariante", TypeName = "decimal")]
