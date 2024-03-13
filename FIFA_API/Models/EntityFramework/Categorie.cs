@@ -16,9 +16,9 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [InverseProperty(nameof(Sous_Categorie.ObjCategorieEnfant))]
-        public virtual List<Sous_Categorie> EnfantsCategorie { get; set; } = new List<Sous_Categorie>();
+        public virtual ICollection<Sous_Categorie> EnfantsCategorie { get; set; } = new HashSet<Sous_Categorie>();
 
         [InverseProperty(nameof(Sous_Categorie.ObjCategorieParent))]
-        public virtual List<Categorie> ParentsCategorie { get; set; } = new List<Categorie>();
+        public virtual ICollection<Categorie> ParentsCategorie { get; set; } = new HashSet<Categorie>();
     }
 }
