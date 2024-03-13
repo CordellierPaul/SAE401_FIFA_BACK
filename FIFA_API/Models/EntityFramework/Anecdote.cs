@@ -10,14 +10,13 @@ namespace FIFA_API.Models.EntityFramework
         [Column("anc_id")]
         public int Id { get; set; }
 
-        // TODO lier à joueur
         [Column("jou_id")]
         public int IdJoueur { get; set; }
 
-        [Column("anec_question")]
+        [Column("anc_question")]
         public string Question { get; set; } = null!;
 
-        [Column("anec_reponse")]
+        [Column("anc_reponse")]
         public string Reponse { get; set; } = null!;
     }
 }
