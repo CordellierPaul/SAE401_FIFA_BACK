@@ -28,8 +28,8 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Utilisateur Utilisateur { get; set; } = null!;
 
         [ForeignKey(nameof(NumTheme))]
-        [InverseProperty("Votes")]
-        public virtual Theme Theme { get; set; } = null!;
+        [InverseProperty(nameof(Theme.VotesTheme))]
+        public virtual Theme ThemeVote { get; set; } = null!;
 
         [ForeignKey(nameof(IdJoueur))]
         [InverseProperty(nameof(Joueur.VotesJoueur))]
