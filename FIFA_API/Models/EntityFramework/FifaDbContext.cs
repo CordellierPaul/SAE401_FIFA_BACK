@@ -168,13 +168,13 @@ namespace FIFA_API.Models.EntityFramework
                     .WithMany(p => p.LikesAlbums)
                     .HasForeignKey(d => d.AlbumId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_lab_vpd");
+                    .HasConstraintName("fk_lab_alb");
 
                 entity.HasOne(d => d.UtilisateurNavigation)
                     .WithMany(p => p.LikesAlbums)
                     .HasForeignKey(d => d.UtilisateurId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_lab_cmd");
+                    .HasConstraintName("fk_lab_utl");
 
             });
 
@@ -183,19 +183,19 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Like_Article>(entity =>
             {
                 entity.HasKey(e => new { e.ArticleId, e.UtilisateurId })
-                    .HasName("pk_lab");
+                    .HasName("pk_lar");
 
                 entity.HasOne(d => d.ArticleNavigation)
                     .WithMany(p => p.LikesArticles)
                     .HasForeignKey(d => d.ArticleId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_lab_vpd");
+                    .HasConstraintName("fk_lar_art");
 
                 entity.HasOne(d => d.UtilisateurNavigation)
                     .WithMany(p => p.LikesArticles)
                     .HasForeignKey(d => d.UtilisateurId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_lab_cmd");
+                    .HasConstraintName("fk_lar_utl");
 
             });
 
@@ -210,13 +210,13 @@ namespace FIFA_API.Models.EntityFramework
                     .WithMany(p => p.LikesBlogs)
                     .HasForeignKey(d => d.BlogId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_lab_vpd");
+                    .HasConstraintName("fk_lbg_blg");
 
                 entity.HasOne(d => d.UtilisateurNavigation)
                     .WithMany(p => p.LikesBlogs)
                     .HasForeignKey(d => d.UtilisateurId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_lab_cmd");
+                    .HasConstraintName("fk_lbg_utl");
 
             });
 
@@ -225,19 +225,38 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Like_Document>(entity =>
             {
                 entity.HasKey(e => new { e.DocumentId, e.UtilisateurId })
-                    .HasName("pk_lab");
+                    .HasName("pk_ldc");
 
                 entity.HasOne(d => d.DocumentNavigation)
                     .WithMany(p => p.LikesDocuments)
                     .HasForeignKey(d => d.DocumentId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_lab_vpd");
+                    .HasConstraintName("fk_ldc_doc");
 
                 entity.HasOne(d => d.UtilisateurNavigation)
                     .WithMany(p => p.LikesDocuments)
                     .HasForeignKey(d => d.UtilisateurId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_lab_cmd");
+                    .HasConstraintName("fk_ldc_utl");
+
+            });
+
+
+            //ForeignKey Match
+            modelBuilder.Entity<Match>(entity =>
+            {
+
+                entity.HasOne(d => d.ClubDomicile)
+                    .WithMany(p => p.MatchesDomicile)
+                    .HasForeignKey(d => d.ClubDomicileId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_mch_clb");
+
+                entity.HasOne(d => d.ClubExterieur)
+                    .WithMany(p => p.MatchesExterieur)
+                    .HasForeignKey(d => d.ClubExterieurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_mch_clb");
 
             });
 
