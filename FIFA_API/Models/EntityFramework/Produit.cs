@@ -16,7 +16,7 @@ namespace FIFA_API.Models.EntityFramework
         [Column("cat_num")]
         public int NumCategorie { get; set; }
 
-        [Column("pro_num")]
+        [Column("pro_nom")]
         [StringLength(100)]
         public string NomProduit { get; set; } = null!;
 
