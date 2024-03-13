@@ -99,20 +99,20 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Image>()
                 .HasOne(p => p.Media)
                 .WithMany()
-                .HasForeignKey(p => p.Url)
+                .HasForeignKey(p => p.Id)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //ForeignKey ImageJoueur
             modelBuilder.Entity<ImageJoueur>()
                 .HasOne(p => p.Image)
                 .WithMany()
-                .HasForeignKey(p => p.Url)
+                .HasForeignKey(p => p.ImageId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ImageJoueur>()
                 .HasOne(p => p.Joueur)
                 .WithMany()
-                .HasForeignKey(p => p.IdJoueur)
+                .HasForeignKey(p => p.JoueurId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //ForeignKey ImageVariante
