@@ -132,7 +132,7 @@ namespace FIFA_API.Models.EntityFramework
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Joueur>()
-                .HasOne(p => p.Poste)
+                .HasOne(p => p.PosteJoueur)
                 .WithMany()
                 .HasForeignKey(p => p.NumPoste)
                 .OnDelete(DeleteBehavior.Restrict);

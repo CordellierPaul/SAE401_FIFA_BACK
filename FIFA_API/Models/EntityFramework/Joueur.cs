@@ -71,8 +71,8 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Club ClubJoueur { get; set; } = null!;
 
         [ForeignKey(nameof(NumPoste))]
-        [InverseProperty("Joueurs")]
-        public virtual Poste Poste { get; set; } = null!;
+        [InverseProperty(nameof(Poste.JoueursPoste))]
+        public virtual Poste PosteJoueur { get; set; } = null!;
 
         #endregion
 
