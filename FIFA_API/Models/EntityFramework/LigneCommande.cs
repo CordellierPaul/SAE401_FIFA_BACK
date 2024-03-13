@@ -17,6 +17,10 @@ namespace FIFA_API.Models.EntityFramework
         public int LigneCommandeId { get; set; }
 
         [Required]
+        [Column("lcd_num")]
+        public int NumeroLigneCommande { get; set; }
+
+        [Required]
         [Column("pdt_id")]
         public int ProduitId { get; set; }
 

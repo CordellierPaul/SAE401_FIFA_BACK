@@ -27,8 +27,9 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Pays PaysVille{ get; set; } = null!;
 
         [InverseProperty(nameof(Joueur.VilleJoueur))]
-        public virtual ICollection<Joueur> JoueursVille { get; set; }
+        public virtual ICollection<Joueur> JoueursVille { get; set; } = new HashSet<Joueur>();
 
-
+        [InverseProperty(nameof(Adresse.LienVille))]
+        public virtual ICollection<Adresse> LiensAdresses { get; set; } = new HashSet<Adresse>();
     }
 }
