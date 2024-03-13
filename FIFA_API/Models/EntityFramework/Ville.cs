@@ -15,7 +15,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("vil_nom")]
         [StringLength(50)]
-        public string NomVille { get; set; }
+        public string NomVille { get; set; } = null!;
 
         [Column("vil_codepostal", TypeName = "char(5)")]
         public char CodePostal { get; set; }
@@ -23,7 +23,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(NumPays))]
         [InverseProperty("NumPays")]
-        public virtual Pays Pays{ get; set; }
+        public virtual Pays Pays{ get; set; } = null!;
 
     }
 }

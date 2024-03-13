@@ -30,15 +30,10 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(ColorisId))]
         [InverseProperty("VariantesProduit")]
-        public virtual Coloris Coloris { get; set; }
+        public virtual Coloris Coloris { get; set; } = null!;
 
 
-
-
-
-        public virtual ICollection<Ligne_commande> LignesCommandes { get; set; }
-
-
+        public virtual ICollection<Ligne_commande> LignesCommandes { get; set; } = new HashSet<Ligne_commande>();
 
     }
 }

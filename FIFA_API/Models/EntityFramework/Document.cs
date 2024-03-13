@@ -21,29 +21,22 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [Column("doc_titre")]
         [StringLength(50)]
-        public string Titre { get; set; }
+        public string Titre { get; set; } = null!;
 
         [Required]
         [Column("doc_resume")]
         [StringLength(250)]
-        public string Resume { get; set; }
+        public string Resume { get; set; } = null!;
 
         [Required]
         [Column("doc_lienpdf")]
         [StringLength(100)]
         [RegularExpression(@"\.pdf$", ErrorMessage = "Le lien PDF doit se terminer par l'extension .pdf")]
-        public string LienPdf { get; set; }
-
+        public string LienPdf { get; set; } = null!;
 
 
         [InverseProperty("DocumentCommente")]
         public virtual List<Commentaire> CommentairesDocument { get; set; } = new List<Commentaire>();
-
-        public Document()
-        {
-            LienPdf = null!;
-        }
-
 
 
         [InverseProperty(nameof(Like_Document.DocumentNavigation))]
