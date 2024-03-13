@@ -13,5 +13,9 @@ namespace FIFA_API.Models.EntityFramework
         [Column("pos_libelle")]
         [StringLength(25)]
         public string LibellePoste { get; set; }
+
+
+        [InverseProperty(nameof(Joueur.PosteJoueur))]
+        public virtual ICollection<Joueur> JoueursPoste { get; set; }
     }
 }

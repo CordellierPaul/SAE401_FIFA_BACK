@@ -60,17 +60,21 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(1000)]
         public string DescriptionJoueur { get; set; } = null!;
 
+        #region Foreign Key
+
         [ForeignKey(nameof(IdVille))]
-        [InverseProperty("Joueurs")]
-        public virtual Ville Ville { get; set; } = null!;
+        [InverseProperty(nameof(Ville.JoueursVille))]
+        public virtual Ville VilleJoueur { get; set; } = null!;
 
         [ForeignKey(nameof(IdClub))]
-        [InverseProperty("Joueurs")]
-        public virtual Club Club { get; set; } = null!;
+        [InverseProperty(nameof(Club.JoueursClub))]
+        public virtual Club ClubJoueur { get; set; } = null!;
 
         [ForeignKey(nameof(NumPoste))]
-        [InverseProperty("Joueurs")]
-        public virtual Poste Poste { get; set; } = null!;
+        [InverseProperty(nameof(Poste.JoueursPoste))]
+        public virtual Poste PosteJoueur { get; set; } = null!;
+
+        #endregion
 
         [InverseProperty(nameof(ArticleJoueur.JoueurNavigation))]
         public virtual ICollection<ArticleJoueur> LiensArticles { get; set; }
