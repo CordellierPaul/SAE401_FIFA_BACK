@@ -21,8 +21,9 @@ namespace FIFA_API.Models.EntityFramework
         [Column("reg_date", TypeName = "date")]
         public DateTime DateReglement { get; set; }
 
+
         [ForeignKey(nameof(NumCommande))]
-        [InverseProperty(nameof(Commande.LignesCommandes))]
-        public virtual Commande? CommandeRegle { get; set; }
+        [InverseProperty(nameof(Commande.ReglementsCommande))]
+        public virtual Commande CommandeRegle { get; set; }
     }
 }
