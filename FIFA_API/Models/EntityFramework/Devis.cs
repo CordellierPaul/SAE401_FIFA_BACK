@@ -34,8 +34,8 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Utilisateur Utilisateur { get; set; }
 
         [ForeignKey(nameof(ProduitId))]
-        [InverseProperty("Devis")]
-        public virtual Produit Produit { get; set; }
+        [InverseProperty(nameof(Produit.DevisProduit))]
+        public virtual Produit ProduitDevis { get; set; }
     }
 }
 
