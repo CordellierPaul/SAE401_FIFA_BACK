@@ -6,12 +6,6 @@ namespace FIFA_API.Models.EntityFramework
     [Table("t_e_pays_pay")]
     public partial class Pays
     {
-
-        public Pays()
-        {
-            Produits = new HashSet<Produit>();
-        }
-
         [Key]
         [Column("pay_num")]
         public int NumPays { get; set; }
@@ -20,8 +14,7 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(50)]
         public string NomPays { get; set; }
 
-        [InverseProperty("Pays")]
-        public virtual ICollection<Produit> Produits { get; set; }
-
+        [InverseProperty(nameof(Produit.))]
+        public virtual ICollection<Produit> LienProduits { get; set; } = new HashSet<Produit>();
     }
 }

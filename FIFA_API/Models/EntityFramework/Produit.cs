@@ -37,8 +37,8 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Pays Pays { get; set; } = null!;
 
         [ForeignKey(nameof(NumCategorie))]
-        [InverseProperty("NumCategorie")]
-        public virtual Categorie Categorie { get; set; } = null!;
+        [InverseProperty(nameof(Categorie.CategorieId))]
+        public virtual Categorie CategorieNavigation { get; set; } = null!;
 
         [ForeignKey(nameof(IdCompetition))]
         [InverseProperty(nameof(Competition.ProduitsCompetition))]

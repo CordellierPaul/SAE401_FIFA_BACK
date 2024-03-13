@@ -6,7 +6,6 @@ namespace FIFA_API.Models.EntityFramework
     [Table("t_e_competition_cpn")]
     public partial class Competition
     {
-
         public Competition()
         {
             ProduitsCompetition = new HashSet<Produit>();

@@ -303,29 +303,32 @@ namespace FIFA_API.Models.EntityFramework
 
 
             //ForeignKey Produit
-            modelBuilder.Entity<Produit>()
-                .HasOne(p => p.Pays)
-                .WithMany(p => p.Produits)
-                .HasForeignKey(p => p.NumPays)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Produit>(entity =>
+            {
+                entity.HasOne(p => p.Pays)
+                    .WithMany(p => p.LienProduits)
+                    .HasForeignKey(p => p.NumPays)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pro_pay");
 
-            modelBuilder.Entity<Produit>()
-                .HasOne(p => p.Categorie)
-                .WithMany(p => p.Produits)
-                .HasForeignKey(p => p.NumCategorie)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.CategorieNavigation)
+                    .WithMany(p => p.Produits)
+                    .HasForeignKey(p => p.NumCategorie)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pro_cat");
 
-            modelBuilder.Entity<Produit>()
-                .HasOne(p => p.CompetitionProduit)
-                .WithMany(p => p.ProduitsCompetition)
-                .HasForeignKey(p => p.IdCompetition)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.CompetitionProduit)
+                    .WithMany(p => p.ProduitsCompetition)
+                    .HasForeignKey(p => p.IdCompetition)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pro_cpn");
 
-            modelBuilder.Entity<Produit>()
-                .HasOne(p => p.GenreProduit)
-                .WithMany(p => p.ProduitsGenre)
-                .HasForeignKey(p => p.GenreId)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.GenreProduit)
+                    .WithMany(p => p.ProduitsGenre)
+                    .HasForeignKey(p => p.GenreId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pro_gen");
+            });
 
             //ForeignKey Produit_Similaire
 
