@@ -18,5 +18,9 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [Column("mon_symbole")]
         public string Symbole { get; set; } = null!;
+
+
+        [InverseProperty(nameof(Utilisateur.MonnaieUtilisateur))]
+        public virtual ICollection<Utilisateur> UtilisateursMonnaie { get; set; } = new HashSet<Utilisateur>();
     }
 }

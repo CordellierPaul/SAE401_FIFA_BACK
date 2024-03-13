@@ -421,7 +421,7 @@ namespace FIFA_API.Models.EntityFramework
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Utilisateur>()
-                .HasOne(p => p.Monnaie)
+                .HasOne(p => p.MonnaieUtilisateur)
                 .WithMany()
                 .HasForeignKey(p => p.NumMonnaie)
                 .OnDelete(DeleteBehavior.Restrict);
