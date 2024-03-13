@@ -132,6 +132,116 @@ namespace FIFA_API.Models.EntityFramework
                 .HasForeignKey(p => p.IdJoueur)
                 .OnDelete(DeleteBehavior.Restrict);
 
+
+            //ForeignKey Ligne_commande
+            modelBuilder.Entity<Ligne_commande>(entity =>
+            {
+                entity.HasKey(e => new { e.CommandeId, e.LigneCommandeId })
+                    .HasName("pk_lcd");
+
+                entity.HasOne(d => d.VarianteProduitNavigation)
+                    .WithMany(p => p.LignesCommandes)
+                    .HasForeignKey(d => new { d.ProduitId, d.ColorisId })
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lcd_vpd");
+
+                entity.HasOne(d => d.CommandeNavigation)
+                    .WithMany(p => p.LignesCommandes)
+                    .HasForeignKey(d => d.CommandeId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lcd_cmd");
+
+                entity.HasOne(d => d.TailleNavigation)
+                    .WithMany(p => p.LignesCommandes)
+                    .HasForeignKey(d => d.NumTaille)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lcd_tai");
+            });
+
+            //ForeignKey Like_Album
+            modelBuilder.Entity<Like_Album>(entity =>
+            {
+                entity.HasKey(e => new { e.AlbumId, e.UtilisateurId })
+                    .HasName("pk_lab");
+
+                entity.HasOne(d => d.AlbumNavigation)
+                    .WithMany(p => p.LikesAlbums)
+                    .HasForeignKey(d => d.AlbumId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lab_vpd");
+
+                entity.HasOne(d => d.UtilisateurNavigation)
+                    .WithMany(p => p.LikesAlbums)
+                    .HasForeignKey(d => d.UtilisateurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lab_cmd");
+
+            });
+
+
+            //ForeignKey Like_Article
+            modelBuilder.Entity<Like_Article>(entity =>
+            {
+                entity.HasKey(e => new { e.ArticleId, e.UtilisateurId })
+                    .HasName("pk_lab");
+
+                entity.HasOne(d => d.ArticleNavigation)
+                    .WithMany(p => p.LikesArticles)
+                    .HasForeignKey(d => d.ArticleId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lab_vpd");
+
+                entity.HasOne(d => d.UtilisateurNavigation)
+                    .WithMany(p => p.LikesArticles)
+                    .HasForeignKey(d => d.UtilisateurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lab_cmd");
+
+            });
+
+
+            //ForeignKey Like_Blog
+            modelBuilder.Entity<Like_Blog>(entity =>
+            {
+                entity.HasKey(e => new { e.BlogId, e.UtilisateurId })
+                    .HasName("pk_lab");
+
+                entity.HasOne(d => d.BlogNavigation)
+                    .WithMany(p => p.LikesBlogs)
+                    .HasForeignKey(d => d.BlogId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lab_vpd");
+
+                entity.HasOne(d => d.UtilisateurNavigation)
+                    .WithMany(p => p.LikesBlogs)
+                    .HasForeignKey(d => d.UtilisateurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lab_cmd");
+
+            });
+
+
+            //ForeignKey Like_Document
+            modelBuilder.Entity<Like_Document>(entity =>
+            {
+                entity.HasKey(e => new { e.DocumentId, e.UtilisateurId })
+                    .HasName("pk_lab");
+
+                entity.HasOne(d => d.DocumentNavigation)
+                    .WithMany(p => p.LikesDocuments)
+                    .HasForeignKey(d => d.DocumentId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lab_vpd");
+
+                entity.HasOne(d => d.UtilisateurNavigation)
+                    .WithMany(p => p.LikesDocuments)
+                    .HasForeignKey(d => d.UtilisateurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_lab_cmd");
+
+            });
+
+
             //ForeignKey Produit
             modelBuilder.Entity<Produit>()
                 .HasOne(p => p.Pays)
