@@ -38,7 +38,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Utilisateur Utilisateur { get; set; } = null!;
 
         [ForeignKey(nameof(NumAction))]
-        [InverseProperty("FormulaireAide")]
-        public virtual Action Action { get; set; } = null!;
+        [InverseProperty(nameof(Action.ActionFormulaireAide))]
+        public virtual Action FormulaireAction { get; set; } = null!;
     }
 }
