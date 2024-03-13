@@ -547,7 +547,7 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_bli_img");
             });
 
-            //ForeignKey ImageJoueur
+            //ForeignKey CaracteristiqueProduit
             modelBuilder.Entity<CaracteristiqueProduit>(entity =>
             {
                 entity.HasKey(e => new { e.CaracteristiqueId, e.ProduitId })
