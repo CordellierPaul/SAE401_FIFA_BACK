@@ -453,13 +453,13 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Vote
             modelBuilder.Entity<Vote>()
-                .HasOne(p => p.Utilisateur)
+                .HasOne(p => p.UtilisateurVotant)
                 .WithMany()
                 .HasForeignKey(p => p.IdUtilisateur)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Vote>()
-                .HasOne(p => p.Theme)
+                .HasOne(p => p.ThemeVote)
                 .WithMany()
                 .HasForeignKey(p => p.NumTheme)
                 .OnDelete(DeleteBehavior.Restrict);
