@@ -69,33 +69,40 @@ namespace FIFA_API.Models.EntityFramework
                 .HasOne(p => p.Utilisateur)
                 .WithMany(d => d.UtilisateurDevis)
                 .HasForeignKey(p => p.UtilisateurId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_dev_utl");
 
             modelBuilder.Entity<Devis>()
                 .HasOne(p => p.Produit)
                 .WithMany(d => d.ProduitDevis)
                 .HasForeignKey(p => p.ProduitId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_dev_pro");
+
 
             //ForeignKey Film
             modelBuilder.Entity<Film>()
                 .HasOne(p => p.Media)
                 .WithMany(d => d.MediaFilm)
                 .HasForeignKey(p => p.Url)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_flm_med");
+
 
             //ForeignKey FormulaireAide
             modelBuilder.Entity<FormulaireAide>()
                 .HasOne(p => p.Utilisateur)
                 .WithMany(d => d.UtilisateurFormulaireAide)
                 .HasForeignKey(p => p.IdUtilisateur)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_foa_utl");
 
             modelBuilder.Entity<FormulaireAide>()
                .HasOne(p => p.Action)
                .WithMany(d => d.ActionFormulaireAide)
                .HasForeignKey(p => p.NumAction)
-               .OnDelete(DeleteBehavior.Restrict);
+               .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_foa_act");
 
             //ForeignKey Image
             modelBuilder.Entity<Image>()
@@ -141,7 +148,8 @@ namespace FIFA_API.Models.EntityFramework
                 .HasOne(p => p.Utilisateur)
                 .WithMany(d => d.UtilisateurInfosBancaires)
                 .HasForeignKey(p => p.IdUtilisateur)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_inb_utl");
 
             //ForeignKey Joueur
             modelBuilder.Entity<Joueur>()
