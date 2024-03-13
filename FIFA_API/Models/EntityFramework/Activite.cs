@@ -13,5 +13,8 @@ namespace FIFA_API.Models.EntityFramework
         [Column("ati_nom")]
         [StringLength(100)]
         public string Nom { get; set; } = null!;
+
+        [InverseProperty(nameof(Utilisateur.ActiviteUtilisateur))]
+        public virtual ICollection<Utilisateur> UtilisateursActivite { get; set; } = new HashSet<Utilisateur>();
     }
 }

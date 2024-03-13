@@ -85,8 +85,8 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Langue Langue { get; set; } = null!;
 
         [ForeignKey(nameof(IdActivite))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Activite Activite { get; set; } = null!;
+        [InverseProperty(nameof(Activite.UtilisateursActivite))]
+        public virtual Activite ActiviteUtilisateur { get; set; } = null!;
 
         [ForeignKey(nameof(PaysFavori))]
         [InverseProperty("UtilisateursPaysFavori")]
