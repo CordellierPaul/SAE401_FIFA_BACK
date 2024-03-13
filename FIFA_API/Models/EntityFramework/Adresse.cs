@@ -14,7 +14,6 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(100)]
         public string Rue { get; set; } = null!;
 
-        // TODO une fois que la table ville sera créée, je m'occuperai de faire le lien entre ville et adresse (c'est Paul qui écrit)
         public int VilleId { get; set; }
 
         [InverseProperty(nameof(Commande.AdresseCommande))]

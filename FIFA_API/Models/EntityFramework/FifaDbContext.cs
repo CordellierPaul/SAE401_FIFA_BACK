@@ -289,25 +289,6 @@ namespace FIFA_API.Models.EntityFramework
                     .HasForeignKey(d => d.MatchId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_mtj_clb");
-
-            });
-
-            //ForeignKey Pays (Lien Pays/Utilisateur)
-            modelBuilder.Entity<Pays>(entity =>
-            {
-                // Pays de naissance de l'utilisateur
-                entity.HasMany(e => e.UtilisateursNesPays)
-                    .WithOne(e => e.PaysNaissanceNavigation)
-                    .HasForeignKey(e => e.PaysNaissanceId)
-                    .IsRequired()
-                    .HasConstraintName("fk_pay_utl_pays_naissance");
-
-                // Pays favori de l'utilisateur
-                entity.HasMany(e => e.UtilisateursFavorisantPays)
-                    .WithOne(e => e.PaysFavoriNavigation)
-                    .HasForeignKey(e => e.PaysFavoriId)
-                    .IsRequired()
-                    .HasConstraintName("fk_pay_utl_pays_favori");
             });
 
             //ForeignKey Produit
@@ -400,42 +381,44 @@ namespace FIFA_API.Models.EntityFramework
             });
 
             //ForeignKey Utilisateur
-            modelBuilder.Entity<Utilisateur>()
-                .HasOne(p => p.AdresseUtilisateur)
-                .WithMany()
-                .HasForeignKey(p => p.AdresseId)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Utilisateur>(entity =>
+            {
+                entity.HasOne(p => p.AdresseUtilisateur)
+                    .WithMany()
+                    .HasForeignKey(p => p.AdresseId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Utilisateur>()
-                .HasOne(p => p.CompteUtilisateur)
-                .WithMany()
-                .HasForeignKey(p => p.CompteId)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.CompteUtilisateur)
+                    .WithMany()
+                    .HasForeignKey(p => p.CompteId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Utilisateur>()
-                .HasOne(p => p.LangueUtilisateur)
-                .WithMany()
-                .HasForeignKey(p => p.LangueId)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.LangueUtilisateur)
+                    .WithMany()
+                    .HasForeignKey(p => p.LangueId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Utilisateur>()
-                .HasOne(p => p.PaysFavoriNavigation)
-                .WithMany()
-                .HasForeignKey(p => p.PaysFavoriId)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.MonnaieUtilisateur)
+                    .WithMany()
+                    .HasForeignKey(p => p.NumMonnaie)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Utilisateur>()
-                .HasOne(p => p.PaysNaissanceNavigation)
-                .WithMany()
-                .HasForeignKey(p => p.PaysNaissanceId)
-                .OnDelete(DeleteBehavior.Restrict);
+                // Pays de naissance de l'utilisateur
+                entity.HasOne(e => e.PaysNaissanceNavigation)
+                    .WithMany(e => e.UtilisateursNesPays)
+                    .HasForeignKey(e => e.PaysNaissanceId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pay_utl_pays_nassance")
+                    .IsRequired();
 
-            modelBuilder.Entity<Utilisateur>()
-                .HasOne(p => p.MonnaieUtilisateur)
-                .WithMany()
-                .HasForeignKey(p => p.NumMonnaie)
-                .OnDelete(DeleteBehavior.Restrict);
-
+                // Pays favori de l'utilisateur
+                entity.HasOne(e => e.PaysFavoriNavigation)
+                    .WithMany(e => e.UtilisateursFavorisantPays)
+                    .HasForeignKey(e => e.PaysFavoriId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_pay_utl_pays_favori")
+                    .IsRequired();
+            });
 
             //ForeignKey VarianteProduit
             modelBuilder.Entity<VarianteProduit>(entity =>
@@ -825,6 +808,8 @@ namespace FIFA_API.Models.EntityFramework
             #endregion
 
             OnModelCreatingPartial(modelBuilder);
+
+            base.OnModelCreating(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
