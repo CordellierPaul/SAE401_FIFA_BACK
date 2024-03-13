@@ -48,6 +48,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual DbSet<Theme> Theme { get; set; } = null!;
         public virtual DbSet<Trophee> Trophee { get; set; } = null!;
         public virtual DbSet<Utilisateur> Utilisateur { get; set; } = null!;
+        public virtual DbSet<VarianteProduit> VarianteProduit { get; set; } = null!;
         public virtual DbSet<Ville> Ville { get; set; } = null!;
         public virtual DbSet<Vote> Vote { get; set; } = null!;
 
@@ -426,21 +427,21 @@ namespace FIFA_API.Models.EntityFramework
 
 
             //ForeignKey VarianteProduit
-            modelBuilder.Entity<VarianteProduit>()
-                .HasOne(p => p.Produit)
-                .WithMany()
-                .HasForeignKey(p => p.ProduitId)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<VarianteProduit>(entity =>
+            {
+                entity.HasKey(e => e.VarianteProuitId)
+                    .HasName("pk_vpd");
 
-            modelBuilder.Entity<VarianteProduit>()
-                .HasOne(p => p.Coloris)
-                .WithMany()
-                .HasForeignKey(p => p.ColorisId)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.Produit)
+                    .WithMany()
+                    .HasForeignKey(p => p.ProduitId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<VarianteProduit>()
-                .HasKey(e => new { e.ProduitId, e.ColorisId })
-                .HasName("pk_vpd");
+                entity.HasOne(p => p.Coloris)
+                    .WithMany()
+                    .HasForeignKey(p => p.ColorisId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
 
             //ForeignKey Vote
             modelBuilder.Entity<Vote>()
@@ -530,19 +531,19 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<BlogImage>(entity =>
             {
                 entity.HasKey(e => new { e.BlogId, e.ImageId })
-                    .HasName("pk_atm");
+                    .HasName("pk_bli");
 
                 entity.HasOne(e => e.BlogNavigation)
                     .WithMany(b => b.LiensImages)
                     .HasForeignKey(e => e.BlogId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_atm_art");
+                    .HasConstraintName("fk_bli_blg");
 
                 entity.HasOne(e => e.ImageNavigation)
                     .WithMany(i => i.LiensBlogs)
                     .HasForeignKey(e => e.ImageId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_atm_med");
+                    .HasConstraintName("fk_bli_img");
             });
 
             //ForeignKey ImageJoueur
@@ -764,6 +765,10 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Utilisateur>() 
                 .HasKey(e => e.UtilisateurId)
                 .HasName("pk_utl");
+
+            modelBuilder.Entity<VarianteProduit>()
+                .HasKey(e => e.VarianteProuitId)
+                .HasName("pk_vil");
 
             modelBuilder.Entity<Ville>()
                 .HasKey(e => e.IdVille)
