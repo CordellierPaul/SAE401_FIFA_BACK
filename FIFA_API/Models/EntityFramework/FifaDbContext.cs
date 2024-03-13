@@ -466,7 +466,7 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Ville
             modelBuilder.Entity<Ville>()
-                .HasOne(p => p.Pays)
+                .HasOne(p => p.PaysVille)
                 .WithMany()
                 .HasForeignKey(p => p.NumPays)
                 .OnDelete(DeleteBehavior.Restrict);

@@ -22,5 +22,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(Utilisateur.PaysNaissanceNavigation))]
         public virtual ICollection<Utilisateur> UtilisateursNeePays { get; set; } = new HashSet<Utilisateur>();
+
+        [InverseProperty(nameof(Ville.PaysVille))]
+        public virtual ICollection<Ville> VillesPays { get; set; } = new HashSet<Ville>();
     }
 }
