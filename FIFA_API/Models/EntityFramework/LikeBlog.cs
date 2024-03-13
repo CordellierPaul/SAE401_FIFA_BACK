@@ -23,7 +23,7 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [ForeignKey(nameof(UtilisateurId))]
-        [InverseProperty("Likes_blog")]
+        [InverseProperty(nameof(Utilisateur.LikesBlogs))]
         public virtual Utilisateur UtilisateurNavigation { get; set; } = null!;
 
     }
