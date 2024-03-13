@@ -19,6 +19,9 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [InverseProperty(nameof(Commande.AdresseCommande))]
-        public virtual List<Commande> CommandesAdresse { get; set; } = new List<Commande>();
+        public virtual ICollection<Commande> CommandesAdresse { get; set; } = new HashSet<Commande>();
+
+        [InverseProperty(nameof(Utilisateur.AdresseUtilisateur))]
+        public virtual ICollection<Utilisateur> UtilisateursAdresse { get; set; } = new HashSet<Utilisateur>();
     }
 }

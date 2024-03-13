@@ -73,8 +73,8 @@ namespace FIFA_API.Models.EntityFramework
         #region Foreign Key
 
         [ForeignKey(nameof(IdAdresse))]
-        [InverseProperty("Utilisateurs")]
-        public virtual Adresse Adresse { get; set; } = null!;
+        [InverseProperty(nameof(Adresse.UtilisateursAdresse))]
+        public virtual Adresse AdresseUtilisateur { get; set; } = null!;
 
         [ForeignKey(nameof(IdCompte))]
         [InverseProperty("Utilisateurs")]

@@ -391,7 +391,7 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Utilisateur
             modelBuilder.Entity<Utilisateur>()
-                .HasOne(p => p.Adresse)
+                .HasOne(p => p.AdresseUtilisateur)
                 .WithMany()
                 .HasForeignKey(p => p.IdAdresse)
                 .OnDelete(DeleteBehavior.Restrict);
