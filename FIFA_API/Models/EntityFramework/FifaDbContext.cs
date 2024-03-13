@@ -548,6 +548,25 @@ namespace FIFA_API.Models.EntityFramework
             });
 
             //ForeignKey ImageJoueur
+            modelBuilder.Entity<CaracteristiqueProduit>(entity =>
+            {
+                entity.HasKey(e => new { e.CaracteristiqueId, e.ProduitId })
+                    .HasName("pk_cpd");
+
+                //entity.HasOne(e => e.ImageNavigation)
+                //    .WithMany(i => i.LiensJoueurs)
+                //    .HasForeignKey(e => e.ImageId)
+                //    .OnDelete(DeleteBehavior.Restrict)
+                //    .HasConstraintName("fk_cpd_");
+
+                //entity.HasOne(e => e.JoueurNavigation)
+                //    .WithMany(j => j.LiensImages)
+                //    .HasForeignKey(e => e.JoueurId)
+                //    .OnDelete(DeleteBehavior.Restrict)
+                //    .HasConstraintName("fk_cpd_");
+            });
+
+            //ForeignKey ImageJoueur
             modelBuilder.Entity<ImageJoueur>(entity =>
             {
                 entity.HasKey(e => new { e.ImageId, e.JoueurId })
@@ -570,19 +589,19 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<ImageVariante>(entity =>
             {
                 entity.HasKey(e => new { e.ImageId, e.VarianteProduitId })
-                    .HasName("pk_imj");
+                    .HasName("pk_imv");
 
                 entity.HasOne(e => e.VarianteProduitNavigation)
                     .WithMany(v => v.LienImages)
                     .HasForeignKey(e => e.VarianteProduitId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_imj_img");
+                    .HasConstraintName("fk_imv_vpd");
 
                 entity.HasOne(e => e.ImageNavigation)
                     .WithMany()
                     .HasForeignKey(e => e.ImageId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_imj_jou");
+                    .HasConstraintName("fk_imv_img");
             });
 
             //ForeignKey Caracteristique_produit
