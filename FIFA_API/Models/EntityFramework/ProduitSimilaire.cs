@@ -6,12 +6,16 @@ namespace FIFA_API.Models.EntityFramework
     [Table("t_j_produit_similaire_prs")]
     public partial class ProduitSimilaire
     {
+        //[Key]     // J'ai essayé un truc et ça n'a pas marché :(
+        //[Column("pro_id_un")]
+        //public int ProduitSimilaireId { get; set; }
+
         [Key]
-        [Column("pro_un")]
+        [Column("pro_id_un")]
         public int ProduitUnId { get; set; }
 
         [Key]
-        [Column("pro_deux")]
+        [Column("pro_id_deux")]
         public int ProduitDeuxId { get; set; }
 
         [ForeignKey(nameof(ProduitUnId))]
