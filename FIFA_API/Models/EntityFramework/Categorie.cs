@@ -6,6 +6,14 @@ namespace FIFA_API.Models.EntityFramework
     [Table("t_e_categorie_cat")]
     public partial class Categorie
     {
+
+        public Categorie()
+        {
+            EnfantsCategorie = new HashSet<Sous_Categorie>();
+            ParentsCategorie = new HashSet<Categorie>();
+            Produits = new HashSet<Produit>();
+        }
+
         [Key]
         [Column("cat_id")]
         public int CategorieId { get; set; }
@@ -20,5 +28,9 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(Sous_Categorie.ObjCategorieParent))]
         public virtual ICollection<Categorie> ParentsCategorie { get; set; } = new HashSet<Categorie>();
+
+        [InverseProperty("Categorie")]
+        public virtual ICollection<Produit> Produits { get; set; }
+
     }
 }

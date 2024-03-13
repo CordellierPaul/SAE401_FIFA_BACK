@@ -50,5 +50,11 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty("PremierProduit")]
         public virtual ICollection<Produit_Similaire> ProduitSimilaire { get; set; } = new HashSet<Produit_Similaire>();
+
+        [InverseProperty(nameof(Devis.ProduitDevis))]
+        public virtual ICollection<Devis> DevisProduit { get; set; } = new HashSet<Devis>();
+
+        /*[InverseProperty(nameof(Devis.Produit))]
+        public virtual ICollection<Devis> ProduitDevis { get; set; } = new HashSet<Devis>();*/
     }
 }
