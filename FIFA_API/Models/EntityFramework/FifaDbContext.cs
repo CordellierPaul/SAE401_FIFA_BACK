@@ -81,7 +81,7 @@ namespace FIFA_API.Models.EntityFramework
 
             //ForeignKey Film
             modelBuilder.Entity<Film>()
-                .HasOne(p => p.Media)
+                .HasOne(p => p.FilmMedia)
                 .WithMany(d => d.MediaFilm)
                 .HasForeignKey(p => p.Url)
                 .OnDelete(DeleteBehavior.Restrict)
