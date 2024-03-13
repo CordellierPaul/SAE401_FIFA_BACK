@@ -15,13 +15,16 @@ namespace FIFA_API.Models.EntityFramework
         public string Rue { get; set; } = null!;
 
         // TODO une fois que la table ville sera créée, je m'occuperai de faire le lien entre ville et adresse (c'est Paul qui écrit)
-        public int IdVille { get; set; }
-
+        public int VilleId { get; set; }
 
         [InverseProperty(nameof(Commande.AdresseCommande))]
         public virtual ICollection<Commande> CommandesAdresse { get; set; } = new HashSet<Commande>();
 
         [InverseProperty(nameof(Utilisateur.AdresseUtilisateur))]
         public virtual ICollection<Utilisateur> UtilisateursAdresse { get; set; } = new HashSet<Utilisateur>();
+
+        [ForeignKey(nameof(VilleId))]
+        [InverseProperty(nameof(Ville.LiensAdresses))]
+        public virtual Ville LienVille { get; set; } = null!;
     }
 }

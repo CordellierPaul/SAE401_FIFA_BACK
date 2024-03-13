@@ -33,7 +33,7 @@ namespace FIFA_API.Models.EntityFramework
         [Column("com_id")]
         public int? IdCompte { get; set; }
 
-        [Column("mon_nummonnaie")]
+        [Column("mon_id")]
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Le numéro de monnaie doit être supérieur ou égal à 1")]
         public int NumMonnaie { get; set; } = 1;
@@ -134,6 +134,9 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(InfosBancaires.UtilisateurInfoBc))]
         public virtual ICollection<InfosBancaires> InfosBancairesUtilisateur { get; set; } = new HashSet<InfosBancaires>();
+
+        [InverseProperty(nameof(Vote.UtilisateurVotant))]
+        public virtual ICollection<Vote> VotesUtilisateur { get; set; } = new HashSet<Vote>();
 
         #endregion
     }
