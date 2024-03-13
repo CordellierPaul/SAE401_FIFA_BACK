@@ -8,17 +8,17 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("art_id")]
-        public int IdArticle { get; set; }
+        public int ArticleId { get; set; }
 
         [Key]
         [Column("med_id")]
-        public int IdMedia { get; set; }
+        public int MediaId { get; set; }
 
-        [ForeignKey(nameof(IdArticle))]
+        [ForeignKey(nameof(ArticleId))]
         [InverseProperty(nameof(Article.LiensMedias))]
         public virtual Article ArticleNavigation { get; set; } = null!;
 
-        [ForeignKey(nameof(IdMedia))]
+        [ForeignKey(nameof(MediaId))]
         [InverseProperty(nameof(Media.LiensArticles))]
         public virtual Media MediaNavigation { get; set; } = null!;
     }

@@ -285,20 +285,57 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey AlbumImages
             modelBuilder.Entity<AlbumImage>(entity =>
             {
-                entity.HasKey(e => new { e.IdAlbum, e.IdImage })
+                entity.HasKey(e => new { e.AlbumId, e.ImageId })
                     .HasName("pk_ali");
 
                 entity.HasOne(d => d.AlbumNavigation)
                     .WithMany(p => p.LiensImages)
-                    .HasForeignKey(d => d.IdAlbum)
+                    .HasForeignKey(d => d.AlbumId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_not_flm");
+                    .HasConstraintName("fk_ali_alb");
 
                 entity.HasOne(d => d.ImageNavigation)
                     .WithMany(p => p.LiensAlbums)
-                    .HasForeignKey(d => d.IdImage)
+                    .HasForeignKey(d => d.ImageId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_not_utl");
+                    .HasConstraintName("fk_ali_img");
+            });
+
+            //ForeignKey ArticleJoueur
+            modelBuilder.Entity<ArticleJoueur>(entity =>
+            {
+                entity.HasKey(e => new { e.ArticleId, e.JoueurId })
+                    .HasName("pk_atj");
+
+                entity.HasOne(d => d.ArticleNavigation)
+                    .WithMany(p => p.LiensJoueur)
+                    .HasForeignKey(d => d.ArticleId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_atj_art");
+
+                entity.HasOne(d => d.JoueurNavigation)
+                    .WithMany(p => p.LiensArticles)
+                    .HasForeignKey(d => d.JoueurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_atj_jou");
+            });
+
+            //ForeignKey ArticleJoueur
+            modelBuilder.Entity<Produit_Similaire>(entity =>
+            {
+                entity.HasKey(e => new { e.ProduitUn, e.ProduitDeux })
+                    .HasName("pk_prs");
+
+                // TODO
+            });
+
+            //ForeignKey ArticleJoueur
+            modelBuilder.Entity<Remporte>(entity =>
+            {
+                entity.HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
+                    .HasName("pk_rem");
+
+                // TODO
             });
 
             #region Clés primaires d'entités
