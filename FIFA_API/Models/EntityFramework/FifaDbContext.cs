@@ -403,7 +403,7 @@ namespace FIFA_API.Models.EntityFramework
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Utilisateur>()
-                .HasOne(p => p.Langue)
+                .HasOne(p => p.LangueUtilisateur)
                 .WithMany()
                 .HasForeignKey(p => p.NumLangue)
                 .OnDelete(DeleteBehavior.Restrict);

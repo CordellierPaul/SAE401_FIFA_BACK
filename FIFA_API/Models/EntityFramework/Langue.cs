@@ -18,5 +18,9 @@ namespace FIFA_API.Models.EntityFramework
         public string LangueNom { get; set;} = null!;
 
 
+        [InverseProperty(nameof(Utilisateur.LangueUtilisateur))]
+        public virtual ICollection<Utilisateur> UtilisateursLangue { get; set; } = new HashSet<Utilisateur>();
+
+
     }
 }
