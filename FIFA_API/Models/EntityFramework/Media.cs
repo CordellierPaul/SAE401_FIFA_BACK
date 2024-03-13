@@ -16,5 +16,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(ArticleMedia.MediaNavigation))]
         public virtual ICollection<ArticleMedia> LiensArticles { get; set; } = new HashSet<ArticleMedia>();
+
+        [InverseProperty(nameof(Film.Media))]
+        public virtual ICollection<Film> MediaFilm{ get; set; } = new HashSet<Film>();
     }
 }

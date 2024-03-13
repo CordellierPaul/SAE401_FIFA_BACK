@@ -126,6 +126,9 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Like_Document.UtilisateurNavigation))]
         public virtual ICollection<Like_Document> LikesDocuments { get; set; } = new HashSet<Like_Document>();
 
+        [InverseProperty(nameof(Devis.Utilisateur))]
+        public virtual ICollection<Devis> UtilisateurDevis { get; set; } = new HashSet<Devis>();
+
 
         #endregion
     }

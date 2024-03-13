@@ -18,7 +18,7 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [ForeignKey(nameof(BlogId))]
-        [InverseProperty("Likes_blog")]
+        [InverseProperty(nameof(Blog.LikesBlogs))]
         public virtual Blog BlogNavigation { get; set; } = null!;
 
 
