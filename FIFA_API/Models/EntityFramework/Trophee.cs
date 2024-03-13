@@ -17,5 +17,9 @@ namespace FIFA_API.Models.EntityFramework
         public string NomTrophee { get; set; }
 
 
+        [InverseProperty(nameof(Remporte.TropheeRemporte))]
+        public virtual ICollection<Remporte> RemportesTrophee { get; set; } = new HashSet<Remporte>();
+
+
     }
 }
