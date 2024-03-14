@@ -282,13 +282,13 @@ namespace FIFA_API.Models.EntityFramework
                     .WithMany(p => p.Matches_joue)
                     .HasForeignKey(d => d.JoueurId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_mtj_clb");
+                    .HasConstraintName("fk_mtj_jou");
 
                 entity.HasOne(d => d.MatchNavigation)
                     .WithMany(p => p.Matches_joue)
                     .HasForeignKey(d => d.MatchId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_mtj_clb");
+                    .HasConstraintName("fk_mtj_mch");
             });
 
             //ForeignKey Produit
