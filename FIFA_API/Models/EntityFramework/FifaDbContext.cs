@@ -812,7 +812,7 @@ namespace FIFA_API.Models.EntityFramework
 
             modelBuilder.Entity<VarianteProduit>()
                 .HasKey(e => e.VarianteProduitId)
-                .HasName("pk_vil");
+                .HasName("pk_vpd");
 
             modelBuilder.Entity<Ville>()
                 .HasKey(e => e.IdVille)
