@@ -30,6 +30,9 @@ namespace FIFA_API.Models.EntityFramework
         [Column("cpt_offres")]
         public bool CompteOffres { get; set; } = false;
 
+        [Column("cpt_typecompte")]
+        public int TypeCompte { get; set; }
+
 
         [InverseProperty(nameof(Utilisateur.CompteUtilisateur))]
         public virtual Utilisateur UtilisateurCompte { get; set; }
