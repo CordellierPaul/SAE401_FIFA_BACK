@@ -258,17 +258,17 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Match>(entity =>
             {
 
-                entity.HasOne(d => d.ClubDomicile)
+                entity.HasOne(d => d.ClubDomicileMatch)
                     .WithMany(p => p.MatchesDomicile)
                     .HasForeignKey(d => d.ClubDomicileId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_mch_clb");
+                    .HasConstraintName("fk_mchdom_clb");
 
-                entity.HasOne(d => d.ClubExterieur)
+                entity.HasOne(d => d.ClubExterieurMatch)
                     .WithMany(p => p.MatchesExterieur)
                     .HasForeignKey(d => d.ClubExterieurId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_mch_clb");
+                    .HasConstraintName("fk_mchext_clb");
 
             });
 

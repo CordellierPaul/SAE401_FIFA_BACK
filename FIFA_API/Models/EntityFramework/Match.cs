@@ -32,13 +32,13 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [ForeignKey(nameof(ClubDomicileId))]
-        [InverseProperty("MatchesDomicile")]
-        public virtual Club ClubDomicile { get; set; }
+        [InverseProperty(nameof(Club.MatchesDomicile))]
+        public virtual Club ClubDomicileMatch { get; set; }
 
 
         [ForeignKey(nameof(ClubExterieurId))]
-        [InverseProperty("MatchesExterieur")]
-        public virtual Club ClubExterieur { get; set; }
+        [InverseProperty(nameof(Club.MatchesExterieur))]
+        public virtual Club ClubExterieurMatch { get; set; }
 
 
 
