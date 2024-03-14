@@ -17,9 +17,10 @@ namespace FIFA_API.Models.EntityFramework
 
 
 
-
-
         [InverseProperty(nameof(LigneCommande.TailleNavigation))]
-        public virtual ICollection<LigneCommande> LignesCommandes { get; set; }
+        public virtual ICollection<LigneCommande> LignesCommandes { get; set; } = new HashSet<LigneCommande>();
+
+        [InverseProperty(nameof(Stock.TailleStockee))]
+        public virtual ICollection<Stock> StocksTaille { get; set; } = new HashSet<Stock>();
     }
 }

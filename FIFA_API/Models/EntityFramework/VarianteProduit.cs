@@ -40,5 +40,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(ImageVariante.VarianteProduitNavigation))]
         public virtual ICollection<ImageVariante> LienImages { get; set; } = new HashSet<ImageVariante>();
+
+        [InverseProperty(nameof(Stock.VarianteStockee))]
+        public virtual ICollection<Stock> StocksVariante { get; set; } = new HashSet<Stock>();
     }
 }
