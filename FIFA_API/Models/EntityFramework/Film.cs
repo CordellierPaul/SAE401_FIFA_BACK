@@ -11,10 +11,10 @@ namespace FIFA_API.Models.EntityFramework
         [Column("flm_id")]
         public int FilmId { get; set; }
 
-        [Column("flm_url")]
-        public string Url { get; set; } = null!;
+        [Column("med_id")]
+        public int MediaId { get; set; } 
 
-        [ForeignKey(nameof(Url))]
+        [ForeignKey(nameof(MediaId))]
         [InverseProperty(nameof(Media.MediaFilm))]
         public virtual Media FilmMedia { get; set; } = null!;
     }
