@@ -229,7 +229,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<LikeBlog>(entity =>
             {
                 entity.HasKey(e => new { e.BlogId, e.UtilisateurId })
-                    .HasName("pk_lab");
+                    .HasName("pk_lbg");
 
                 entity.HasOne(d => d.BlogNavigation)
                     .WithMany(p => p.LikesBlogs)
