@@ -9,7 +9,7 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("vpd_id")]
-        public int VarianteProuitId { get; set; }
+        public int VarianteProduitId { get; set; }
 
         [Column("pro_id")]
         public int ProduitId { get; set; }
@@ -36,7 +36,8 @@ namespace FIFA_API.Models.EntityFramework
         public virtual Coloris ColorisVariante { get; set; } = null!;
 
 
-        public virtual ICollection<LigneCommande> LignesCommandes { get; set; } = new HashSet<LigneCommande>();
+        [InverseProperty(nameof(LigneCommande.VarianteProduitNavigation))]
+        public virtual ICollection<LigneCommande> LignesCommandesVariante { get; set; } = new HashSet<LigneCommande>();
 
         [InverseProperty(nameof(ImageVariante.VarianteProduitNavigation))]
         public virtual ICollection<ImageVariante> LienImages { get; set; } = new HashSet<ImageVariante>();

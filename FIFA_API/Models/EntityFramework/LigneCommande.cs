@@ -21,12 +21,8 @@ namespace FIFA_API.Models.EntityFramework
         public int NumeroLigneCommande { get; set; }
 
         [Required]
-        [Column("pdt_id")]
-        public int ProduitId { get; set; }
-
-        [Required]
-        [Column("clr_id")]
-        public int ColorisId { get; set; }
+        [Column("vpd_id")]
+        public int VarianteProduitId { get; set; }
 
         [Required]
         [Column("tll_numtaille")]
@@ -41,6 +37,8 @@ namespace FIFA_API.Models.EntityFramework
         public int PrixLigneCommande { get; set; }
 
 
+        [ForeignKey(nameof(VarianteProduitId))]
+        [InverseProperty(nameof(VarianteProduit.LignesCommandesVariante))]
         public virtual VarianteProduit VarianteProduitNavigation { get; set; } = null!;
 
 

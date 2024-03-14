@@ -153,8 +153,8 @@ namespace FIFA_API.Models.EntityFramework
                     .HasName("pk_lcd");
 
                 entity.HasOne(d => d.VarianteProduitNavigation)
-                    .WithMany(p => p.LignesCommandes)
-                    .HasForeignKey(d => new { d.ProduitId, d.ColorisId })
+                    .WithMany(p => p.LignesCommandesVariante)
+                    .HasForeignKey(d => d.VarianteProduitId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_lcd_vpd");
 
@@ -440,7 +440,7 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey VarianteProduit
             modelBuilder.Entity<VarianteProduit>(entity =>
             {
-                entity.HasKey(e => e.VarianteProuitId)
+                entity.HasKey(e => e.VarianteProduitId)
                     .HasName("pk_vpd");
 
                 entity.HasOne(p => p.ProduitVariante)
@@ -811,7 +811,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_utl");
 
             modelBuilder.Entity<VarianteProduit>()
-                .HasKey(e => e.VarianteProuitId)
+                .HasKey(e => e.VarianteProduitId)
                 .HasName("pk_vil");
 
             modelBuilder.Entity<Ville>()
