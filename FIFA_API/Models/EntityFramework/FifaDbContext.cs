@@ -498,7 +498,7 @@ namespace FIFA_API.Models.EntityFramework
                     .WithOne(a => a.LienVille)
                     .HasForeignKey(a => a.VilleId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("pk_ali");
+                    .HasConstraintName("fk_vil_adr");
             });
 
             //ForeignKey AlbumImages
