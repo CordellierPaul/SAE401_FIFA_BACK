@@ -447,11 +447,13 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasOne(p => p.ProduitVariante)
                     .WithMany()
                     .HasForeignKey(p => p.ProduitId)
+                    .HasConstraintName("fk_vpd_pro")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(p => p.ColorisVariante)
-                    .WithMany()
+                    .WithMany(c => c.VariantesColorises)
                     .HasForeignKey(p => p.ColorisId)
+                    .HasConstraintName("fk_vpd_clr")
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
