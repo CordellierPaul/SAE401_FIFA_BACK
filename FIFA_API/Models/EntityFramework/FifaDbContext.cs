@@ -380,6 +380,23 @@ namespace FIFA_API.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
+            //ForeignKey Stock
+            modelBuilder.Entity<Stock>(entity =>
+            {
+                entity.HasKey(e => e.StockId)
+                    .HasName("pk_stk");
+
+                entity.HasOne(e => e.TailleStockee)
+                    .WithMany(t => t.StocksTaille)
+                    .HasForeignKey(e => e.NumTaille)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.VarianteStockee)
+                    .WithMany(e => e.StocksVariante)
+                    .HasForeignKey(e => e.VarianteProduitId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
             //ForeignKey Utilisateur
             modelBuilder.Entity<Utilisateur>(entity =>
             {
