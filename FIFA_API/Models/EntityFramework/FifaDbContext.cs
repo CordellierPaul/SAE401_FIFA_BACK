@@ -329,7 +329,7 @@ namespace FIFA_API.Models.EntityFramework
                     .WithMany(p => p.ProduitSimilaireLienUn)
                     .HasForeignKey(p => p.ProduitUnId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_prs_pro_deux");
+                    .HasConstraintName("fk_prs_pro_un");
 
                 entity.HasOne(p => p.DeuxiemeProduit)
                     .WithMany(p => p.ProduitSimilaireLienDeux)
