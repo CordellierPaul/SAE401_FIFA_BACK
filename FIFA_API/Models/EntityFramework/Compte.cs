@@ -33,10 +33,8 @@ namespace FIFA_API.Models.EntityFramework
         [Column("cpt_typecompte")]
         public int TypeCompte { get; set; }
 
-
+        // UtilisateurCompte est nullable car un compte n'a pas obligatoirement d'utilisateur
         [InverseProperty(nameof(Utilisateur.CompteUtilisateur))]
-        public virtual Utilisateur UtilisateurCompte { get; set; }
-
-
+        public virtual Utilisateur? UtilisateurCompte { get; set; }
     }
 }

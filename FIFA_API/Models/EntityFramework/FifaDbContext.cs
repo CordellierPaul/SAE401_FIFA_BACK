@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace FIFA_API.Models.EntityFramework
 {
@@ -406,10 +407,12 @@ namespace FIFA_API.Models.EntityFramework
                     .HasForeignKey(p => p.AdresseId)
                     .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(p => p.CompteUtilisateur)
-                    .WithMany()
-                    .HasForeignKey(p => p.CompteId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                // Relation one to one entre utilisateur et compte (un compte n'a
+                // pas obligatoirement d'utilisateur donc IsRequired est à false) :
+                entity.HasOne(e => e.CompteUtilisateur)
+                    .WithOne(e => e.UtilisateurCompte)
+                    .HasForeignKey<Utilisateur>(e => e.CompteId)
+                    .IsRequired(false);
 
                 entity.HasOne(p => p.LangueUtilisateur)
                     .WithMany()
