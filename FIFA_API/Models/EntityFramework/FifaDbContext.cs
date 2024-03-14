@@ -403,7 +403,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Utilisateur>(entity =>
             {
                 entity.HasOne(p => p.AdresseUtilisateur)
-                    .WithMany()
+                    .WithMany(a => a.UtilisateursAdresse)
                     .HasForeignKey(p => p.AdresseId)
                     .OnDelete(DeleteBehavior.Restrict);
 

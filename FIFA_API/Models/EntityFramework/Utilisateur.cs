@@ -74,7 +74,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.UtilisateursAdresse))]
-        public virtual Adresse AdresseUtilisateur { get; set; } = null!;
+        public virtual Adresse? AdresseUtilisateur { get; set; }
 
         [ForeignKey(nameof(CompteId))]
         [InverseProperty(nameof(Compte.UtilisateurCompte))]

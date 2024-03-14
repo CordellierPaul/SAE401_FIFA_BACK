@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FIFA_API.Migrations
 {
-    public partial class CreationBDFifa : Migration
+    public partial class CreationBDFIFA : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -558,34 +558,28 @@ namespace FIFA_API.Migrations
                     clr_id = table.Column<int>(type: "integer", nullable: false),
                     vpd_prixvariante = table.Column<decimal>(type: "decimal", nullable: false),
                     vpd_promo = table.Column<decimal>(type: "decimal", nullable: false),
-                    ColorisId1 = table.Column<int>(type: "integer", nullable: true),
                     ProduitIdProduit = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_vpd", x => x.vpd_id);
                     table.ForeignKey(
-                        name: "FK_t_e_variante_produit_vpd_t_e_coloris_clr_clr_id",
+                        name: "FK_t_e_variante_produit_vpd_t_e_produit_pro_ProduitIdProduit",
+                        column: x => x.ProduitIdProduit,
+                        principalTable: "t_e_produit_pro",
+                        principalColumn: "pro_id");
+                    table.ForeignKey(
+                        name: "fk_vpd_clr",
                         column: x => x.clr_id,
                         principalTable: "t_e_coloris_clr",
                         principalColumn: "clr_id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_t_e_variante_produit_vpd_t_e_coloris_clr_ColorisId1",
-                        column: x => x.ColorisId1,
-                        principalTable: "t_e_coloris_clr",
-                        principalColumn: "clr_id");
-                    table.ForeignKey(
-                        name: "FK_t_e_variante_produit_vpd_t_e_produit_pro_pro_id",
+                        name: "fk_vpd_pro",
                         column: x => x.pro_id,
                         principalTable: "t_e_produit_pro",
                         principalColumn: "pro_id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_t_e_variante_produit_vpd_t_e_produit_pro_ProduitIdProduit",
-                        column: x => x.ProduitIdProduit,
-                        principalTable: "t_e_produit_pro",
-                        principalColumn: "pro_id");
                 });
 
             migrationBuilder.CreateTable(
@@ -649,7 +643,7 @@ namespace FIFA_API.Migrations
                 {
                     table.PrimaryKey("pk_adr", x => x.adr_id);
                     table.ForeignKey(
-                        name: "pk_ali",
+                        name: "fk_vil_adr",
                         column: x => x.VilleId,
                         principalTable: "t_e_ville_vil",
                         principalColumn: "vil_id",
@@ -760,9 +754,9 @@ namespace FIFA_API.Migrations
                     utl_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     utl_prenom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    adr_id = table.Column<int>(type: "integer", nullable: false),
+                    adr_id = table.Column<int>(type: "integer", nullable: true),
                     utl_datenaissance = table.Column<DateTime>(type: "date", nullable: false),
-                    com_id = table.Column<int>(type: "integer", nullable: false),
+                    com_id = table.Column<int>(type: "integer", nullable: true),
                     mon_id = table.Column<int>(type: "integer", nullable: false),
                     lan_id = table.Column<int>(type: "integer", nullable: false),
                     pay_paysnaissance_id = table.Column<int>(type: "integer", nullable: false),
@@ -772,8 +766,6 @@ namespace FIFA_API.Migrations
                     act_id = table.Column<int>(type: "integer", nullable: true),
                     soc_num = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: false),
                     utl_numtva = table.Column<string>(type: "character varying(11)", maxLength: 11, nullable: false),
-                    AdresseId1 = table.Column<int>(type: "integer", nullable: true),
-                    CompteId1 = table.Column<int>(type: "integer", nullable: true),
                     LangueNum = table.Column<int>(type: "integer", nullable: true),
                     MonnaieId = table.Column<int>(type: "integer", nullable: true)
                 },
@@ -804,19 +796,8 @@ namespace FIFA_API.Migrations
                         principalColumn: "adr_id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_t_e_utilisateur_utl_t_e_adresse_adr_AdresseId1",
-                        column: x => x.AdresseId1,
-                        principalTable: "t_e_adresse_adr",
-                        principalColumn: "adr_id");
-                    table.ForeignKey(
                         name: "FK_t_e_utilisateur_utl_t_e_compte_cpt_com_id",
                         column: x => x.com_id,
-                        principalTable: "t_e_compte_cpt",
-                        principalColumn: "cpt_id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_t_e_utilisateur_utl_t_e_compte_cpt_CompteId1",
-                        column: x => x.CompteId1,
                         principalTable: "t_e_compte_cpt",
                         principalColumn: "cpt_id");
                     table.ForeignKey(
@@ -1261,7 +1242,7 @@ namespace FIFA_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_lab", x => new { x.blg_id, x.utl_id });
+                    table.PrimaryKey("pk_lbg", x => new { x.blg_id, x.utl_id });
                     table.ForeignKey(
                         name: "fk_lbg_blg",
                         column: x => x.blg_id,
@@ -1535,17 +1516,6 @@ namespace FIFA_API.Migrations
                 column: "adr_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_t_e_utilisateur_utl_AdresseId1",
-                table: "t_e_utilisateur_utl",
-                column: "AdresseId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_t_e_utilisateur_utl_CompteId1",
-                table: "t_e_utilisateur_utl",
-                column: "CompteId1",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_t_e_utilisateur_utl_lan_id",
                 table: "t_e_utilisateur_utl",
                 column: "lan_id");
@@ -1603,11 +1573,6 @@ namespace FIFA_API.Migrations
                 name: "IX_t_e_variante_produit_vpd_clr_id",
                 table: "t_e_variante_produit_vpd",
                 column: "clr_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_t_e_variante_produit_vpd_ColorisId1",
-                table: "t_e_variante_produit_vpd",
-                column: "ColorisId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_e_variante_produit_vpd_pro_id",
@@ -1867,10 +1832,10 @@ namespace FIFA_API.Migrations
                 name: "t_e_media_med");
 
             migrationBuilder.DropTable(
-                name: "t_e_coloris_clr");
+                name: "t_e_produit_pro");
 
             migrationBuilder.DropTable(
-                name: "t_e_produit_pro");
+                name: "t_e_coloris_clr");
 
             migrationBuilder.DropTable(
                 name: "t_e_club_clb");

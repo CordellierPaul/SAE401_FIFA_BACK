@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FIFA_API.Migrations
 {
     [DbContext(typeof(FifaDbContext))]
-    [Migration("20240314083311_CreationBDFifa")]
-    partial class CreationBDFifa
+    [Migration("20240314112627_CreationBDFIFA")]
+    partial class CreationBDFIFA
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1050,7 +1050,7 @@ namespace FIFA_API.Migrations
                         .HasColumnName("utl_id");
 
                     b.HasKey("BlogId", "UtilisateurId")
-                        .HasName("pk_lab");
+                        .HasName("pk_lbg");
 
                     b.HasIndex("UtilisateurId");
 
@@ -1510,20 +1510,12 @@ namespace FIFA_API.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UtilisateurId"));
 
                     b.Property<int?>("AdresseId")
-                        .IsRequired()
                         .HasColumnType("integer")
                         .HasColumnName("adr_id");
 
-                    b.Property<int?>("AdresseId1")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("CompteId")
-                        .IsRequired()
                         .HasColumnType("integer")
                         .HasColumnName("com_id");
-
-                    b.Property<int?>("CompteId1")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("DateNaissance")
                         .HasColumnType("date")
@@ -1590,11 +1582,6 @@ namespace FIFA_API.Migrations
 
                     b.HasIndex("AdresseId");
 
-                    b.HasIndex("AdresseId1");
-
-                    b.HasIndex("CompteId1")
-                        .IsUnique();
-
                     b.HasIndex("IdActivite");
 
                     b.HasIndex("LangueId");
@@ -1637,9 +1624,6 @@ namespace FIFA_API.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("clr_id");
 
-                    b.Property<int?>("ColorisId1")
-                        .HasColumnType("integer");
-
                     b.Property<decimal>("PrixVariante")
                         .HasColumnType("decimal")
                         .HasColumnName("vpd_prixvariante");
@@ -1659,8 +1643,6 @@ namespace FIFA_API.Migrations
                         .HasName("pk_vpd");
 
                     b.HasIndex("ColorisId");
-
-                    b.HasIndex("ColorisId1");
 
                     b.HasIndex("ProduitId");
 
@@ -1750,7 +1732,7 @@ namespace FIFA_API.Migrations
                         .HasForeignKey("VilleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("pk_ali");
+                        .HasConstraintName("fk_vil_adr");
 
                     b.Navigation("LienVille");
                 });
@@ -2412,24 +2394,13 @@ namespace FIFA_API.Migrations
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Utilisateur", b =>
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Adresse", "AdresseUtilisateur")
-                        .WithMany()
-                        .HasForeignKey("AdresseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Adresse", null)
                         .WithMany("UtilisateursAdresse")
-                        .HasForeignKey("AdresseId1");
+                        .HasForeignKey("AdresseId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Compte", "CompteUtilisateur")
-                        .WithMany()
-                        .HasForeignKey("CompteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Compte", null)
                         .WithOne("UtilisateurCompte")
-                        .HasForeignKey("FIFA_API.Models.EntityFramework.Utilisateur", "CompteId1");
+                        .HasForeignKey("FIFA_API.Models.EntityFramework.Utilisateur", "CompteId");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Activite", "ActiviteUtilisateur")
                         .WithMany("UtilisateursActivite")
@@ -2487,20 +2458,18 @@ namespace FIFA_API.Migrations
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.VarianteProduit", b =>
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Coloris", "ColorisVariante")
-                        .WithMany()
+                        .WithMany("VariantesColorises")
                         .HasForeignKey("ColorisId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Coloris", null)
-                        .WithMany("VariantesColorises")
-                        .HasForeignKey("ColorisId1");
+                        .IsRequired()
+                        .HasConstraintName("fk_vpd_clr");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Produit", "ProduitVariante")
                         .WithMany()
                         .HasForeignKey("ProduitId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_vpd_pro");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Produit", null)
                         .WithMany("VariantesProduit")
@@ -2655,8 +2624,7 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Compte", b =>
                 {
-                    b.Navigation("UtilisateurCompte")
-                        .IsRequired();
+                    b.Navigation("UtilisateurCompte");
                 });
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Document", b =>
