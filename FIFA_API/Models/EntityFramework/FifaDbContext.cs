@@ -367,7 +367,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<SousCategorie>(entity =>
             {
                 entity.HasKey(e => new { e.CategorieParentId, e.CategorieEnfantId })
-                    .HasName("pk_atm");
+                    .HasName("pk_sct");
 
                 entity.HasOne(e => e.ObjCategorieEnfant)
                     .WithMany(e => e.EnfantsCategorie)
