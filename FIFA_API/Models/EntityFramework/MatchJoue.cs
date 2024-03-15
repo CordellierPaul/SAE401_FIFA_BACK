@@ -32,7 +32,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("mtj_selection")]
         [StringLength(1)]
-        public string MatchJoueSelection { get; set; } = null!;
+        public string? MatchJoueSelection { get; set; }
 
 
 
