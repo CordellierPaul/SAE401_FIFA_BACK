@@ -707,7 +707,7 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_imv_vpd");
 
                 entity.HasOne(e => e.ImageNavigation)
-                    .WithMany()
+                    .WithMany(i => i.ImagesVariante)
                     .HasForeignKey(e => e.ImageId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_imv_img");

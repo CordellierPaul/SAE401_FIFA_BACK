@@ -19,7 +19,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual VarianteProduit VarianteProduitNavigation { get; set; } = null!;
 
         [ForeignKey(nameof(ImageId))]
-        //[InverseProperty(nameof(Image.LiensVarianteProduits))]  // ?
+        [InverseProperty(nameof(Image.ImagesVariante))]
         public virtual Image ImageNavigation { get; set; } = null!;
     }
 }
