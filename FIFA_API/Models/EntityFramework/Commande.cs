@@ -33,7 +33,7 @@ namespace FIFA_API.Models.EntityFramework
         public Boolean CommandeDomicile { get; set; }
 
         [Column("cmd_datelivraison")]
-        public DateTime CommandeDateLivraison { get; set; }
+        public DateTime? CommandeDateLivraison { get; set; }
 
         #region Foreign Key
 
