@@ -42,7 +42,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(CompetitionId))]
         [InverseProperty(nameof(Competition.ProduitsCompetition))]
-        public virtual Competition CompetitionProduit { get; set; } = null!;
+        public virtual Competition? CompetitionProduit { get; set; } = null!;
 
         [ForeignKey(nameof(GenreId))]
         [InverseProperty(nameof(Genre.ProduitsGenre))]
