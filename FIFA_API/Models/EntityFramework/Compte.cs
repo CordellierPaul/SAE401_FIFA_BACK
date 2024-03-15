@@ -19,7 +19,7 @@ namespace FIFA_API.Models.EntityFramework
         public string Comptelogin { get; set; } = null!;
 
         [Column("cpt_mdp", TypeName = "char(128)")]
-        public string? CompteMdp { get; set; } = null!;
+        public string CompteMdp { get; set; } = null!;
 
         [Column("cpt_dateconnexion")]
         public DateTime CompteDateConnexion { get; set; }
