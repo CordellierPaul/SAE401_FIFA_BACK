@@ -49,7 +49,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Livraison.CommandesLivraison))]
         public virtual Livraison LivraisonCommande { get; set; } = null!;
         #endregion
-
+        
 
         [InverseProperty(nameof(LigneCommande.CommandeNavigation))]
         public virtual ICollection<LigneCommande> LignesCommandes { get; set; } = new HashSet<LigneCommande>();

@@ -81,6 +81,31 @@ namespace FIFA_API.Models.EntityFramework
             #endregion
 
             #region foreignkey
+            //ForeignKey Commande
+            modelBuilder.Entity<Commande>()
+                .HasOne(p => p.UtilisateurCommandant)
+                .WithMany(d => d.CommandesUtilisateur)
+                .HasForeignKey(p => p.UtilisateurId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_cmd_utl")
+                .IsRequired(false);
+
+            modelBuilder.Entity<Commande>()
+                .HasOne(p => p.AdresseCommande)
+                .WithMany(d => d.CommandesAdresse)
+                .HasForeignKey(p => p.AdresseId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_cmd_adr")
+                .IsRequired(false);
+
+            modelBuilder.Entity<Commande>()
+                .HasOne(p => p.LivraisonCommande)
+                .WithMany(d => d.CommandesLivraison)
+                .HasForeignKey(p => p.LivraisonId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_cmd_liv")
+                .IsRequired(false);
+
 
             //ForeignKey Commentaire
             modelBuilder.Entity<Commentaire>()
