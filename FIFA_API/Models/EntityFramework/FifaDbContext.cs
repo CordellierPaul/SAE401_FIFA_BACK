@@ -61,14 +61,14 @@ namespace FIFA_API.Models.EntityFramework
         {
             #region Valeurs par défaut + index
 
-            modelBuilder.Entity<Reglement>(entity =>
-            {
-                entity.Property(e => e.ReglementDate).HasDefaultValueSql("now()");
-            });
-
             modelBuilder.Entity<Album>(entity =>
             {
                 entity.Property(e => e.DateHeure).HasDefaultValueSql("now()");
+            });
+
+            modelBuilder.Entity<Commande>(entity =>
+            {
+                entity.Property(e => e.CommandeDateCommande).HasDefaultValueSql("now()");
             });
 
             modelBuilder.Entity<Compte>(entity =>
@@ -76,6 +76,11 @@ namespace FIFA_API.Models.EntityFramework
                 entity.Property(e => e.CompteDateConnexion).HasDefaultValueSql("now()");
                 entity.HasIndex(u => u.CompteEmail).IsUnique();
                 entity.Property(e => e.CompteAnnonces).HasDefaultValue("false");
+            });
+
+            modelBuilder.Entity<Reglement>(entity =>
+            {
+                entity.Property(e => e.ReglementDate).HasDefaultValueSql("now()");
             });
 
             #endregion

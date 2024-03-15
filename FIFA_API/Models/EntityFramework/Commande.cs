@@ -27,13 +27,13 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("cmd_etatcommande")]
         [StringLength(25)]
-        public string CommandeEtatCommande { get; set; } = null!;
+        public string? CommandeEtatCommande { get; set; }
 
         [Column("cmd_domicile")]
-        public Boolean CommandeDomicile { get; set; }
+        public bool CommandeDomicile { get; set; }
 
         [Column("cmd_datelivraison")]
-        public DateTime CommandeDateLivraison { get; set; }
+        public DateTime? CommandeDateLivraison { get; set; }
 
         #region Foreign Key
 
