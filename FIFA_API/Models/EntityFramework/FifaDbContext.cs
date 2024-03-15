@@ -369,7 +369,7 @@ namespace FIFA_API.Models.EntityFramework
 
             modelBuilder.Entity<Remporte>()
                 .HasOne(p => p.TropheeRemporte)
-                .WithMany()
+                .WithMany(t => t.RemportesTrophee)
                 .HasForeignKey(p => p.TropheeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
