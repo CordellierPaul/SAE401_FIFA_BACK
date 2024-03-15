@@ -15,7 +15,7 @@ namespace FIFA_API.Models.EntityFramework
         public int UtilisateurId { get; set; }
 
         [Column("pro_id")]
-        public int? ProduitId { get; set; }
+        public int ProduitId { get; set; }
 
         [Required]
         [Column("dev_sujet")]
