@@ -632,7 +632,7 @@ namespace FIFA_API.Models.EntityFramework
             {
                 entity.HasOne(e => e.ArticleNavigation)
                     .WithMany(a => a.BlogsArticle)
-                    .HasForeignKey(e => e.IdArticle)
+                    .HasForeignKey(e => e.ArticleId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_blg_art");
             });
