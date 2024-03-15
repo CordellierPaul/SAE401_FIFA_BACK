@@ -8,21 +8,21 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("jou_id")]
-        public int IdJoueur { get; set; }
+        public int JoueurId { get; set; }
 
         [Key]
-        [Column("tro_num")]
-        public int NumTrophee { get; set; }
+        [Column("tro_id")]
+        public int TropheeId { get; set; }
 
         [Key]
         [Column("rem_annee", TypeName = "char(4)")]
         public char Annee { get; set; }
 
-        [ForeignKey(nameof(IdJoueur))]
+        [ForeignKey(nameof(JoueurId))]
         [InverseProperty("RemportesJoueur")]
         public virtual Joueur JoueurRemportant { get; set; } = null!;
 
-        [ForeignKey(nameof(NumTrophee))]
+        [ForeignKey(nameof(TropheeId))]
         [InverseProperty(nameof(Trophee.RemportesTrophee))]
         public virtual Trophee TropheeRemporte { get; set; } = null!;
     }

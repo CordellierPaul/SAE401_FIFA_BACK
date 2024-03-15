@@ -7,7 +7,7 @@ namespace FIFA_API.Models.EntityFramework
     public partial class JoueurTheme
     {
         [Key]
-        [Column("the_num")]
+        [Column("the_id")]
         public int ThemeId { get; set; }
 
         [Key]

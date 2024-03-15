@@ -103,7 +103,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<FormulaireAide>()
                .HasOne(p => p.FormulaireAction)
                .WithMany(d => d.ActionFormulaireAide)
-               .HasForeignKey(p => p.NumAction)
+               .HasForeignKey(p => p.IdAction)
                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_foa_act");
 

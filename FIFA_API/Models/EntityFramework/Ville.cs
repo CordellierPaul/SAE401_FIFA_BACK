@@ -9,10 +9,10 @@ namespace FIFA_API.Models.EntityFramework
 
         [Key]
         [Column("vil_id")]
-        public int IdVille { get; set; }
+        public int VilleId { get; set; }
 
         [Column("pay_id")]
-        public int NumPays { get; set; }
+        public int PaysId { get; set; }
 
         [Column("vil_nom")]
         [StringLength(50)]
@@ -22,7 +22,7 @@ namespace FIFA_API.Models.EntityFramework
         public char CodePostal { get; set; }
 
 
-        [ForeignKey(nameof(NumPays))]
+        [ForeignKey(nameof(PaysId))]
         [InverseProperty(nameof(Pays.VillesPays))]
         public virtual Pays PaysVille{ get; set; } = null!;
 

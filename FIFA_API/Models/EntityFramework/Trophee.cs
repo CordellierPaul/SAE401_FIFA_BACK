@@ -9,8 +9,8 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [Key]
-        [Column("tro_num")]
-        public int NumTrophee { get; set; }
+        [Column("tro_id")]
+        public int TropheeId { get; set; }
 
         [Column("tro_nom")]
         [StringLength(100)]

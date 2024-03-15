@@ -12,8 +12,8 @@ namespace FIFA_API.Models.EntityFramework
         public int IdUtilisateur { get; set; }
 
         [Key]
-        [Column("the_num")]
-        public int NumTheme { get; set; }
+        [Column("the_id")]
+        public int ThemeId { get; set; }
 
         [Key]
         [Column("jou_id")]
@@ -27,7 +27,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Utilisateur.VotesUtilisateur))]
         public virtual Utilisateur UtilisateurVotant { get; set; } = null!;
 
-        [ForeignKey(nameof(NumTheme))]
+        [ForeignKey(nameof(ThemeId))]
         [InverseProperty(nameof(Theme.VotesTheme))]
         public virtual Theme ThemeVote { get; set; } = null!;
 
