@@ -14,6 +14,7 @@ namespace FIFA_API.Models.EntityFramework
         public int LangueId { get; set;}
 
         [Required]
+        [StringLength(25)]
         [Column("lng_nom")]
         public string LangueNom { get; set;} = null!;
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -25,16 +26,18 @@ namespace FIFA_API.Models.EntityFramework
         public int VarianteProduitId { get; set; }
 
         [Required]
-        [Column("tll_id")]
+        [Column("tai_id")]
         public int TailleId { get; set; }
 
         [Required]
+        [DefaultValue("1")]
         [Column("lcd_quantite")]
         public int QuantiteLigneCommande { get; set; }
 
         [Required]
+        [DefaultValue("0")]
         [Column("lcd_prix")]
-        public int PrixLigneCommande { get; set; }
+        public double PrixLigneCommande { get; set; }
 
 
         [ForeignKey(nameof(VarianteProduitId))]
