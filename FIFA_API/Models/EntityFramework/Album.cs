@@ -15,7 +15,7 @@ namespace FIFA_API.Models.EntityFramework
         [Column("alb_id")]
         public int Id { get; set; }
 
-        [Column("alb_date_heure")]
+        [Column("alb_date_heure", TypeName = "date")]
         public DateTime DateHeure { get; set; }
 
         [Column("alb_titre")]
@@ -24,7 +24,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("alb_resume")]
         [StringLength(250)]
-        public string Resume { get; set; } = null!;
+        public string Resume { get; set; }
 
         [InverseProperty(nameof(AlbumImage.AlbumNavigation))]
         public virtual ICollection<AlbumImage> LiensImages { get; set; }

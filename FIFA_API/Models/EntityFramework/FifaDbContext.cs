@@ -64,6 +64,15 @@ namespace FIFA_API.Models.EntityFramework
             {
                 entity.Property(e => e.DateReglement).HasDefaultValueSql("now()");
             });
+            modelBuilder.Entity<Album>(entity =>
+            {
+                entity.Property(e => e.DateHeure).HasDefaultValueSql("now()");
+            });
+            modelBuilder.Entity<Compte>(entity =>
+            {
+                entity.Property(e => e.CompteDateConnexion).HasDefaultValueSql("now()");
+            });
+            modelBuilder.Entity<Compte>().HasIndex(u => u.CompteEmail).IsUnique();
 
             #region foreignkey
 
@@ -103,7 +112,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<FormulaireAide>()
                .HasOne(p => p.FormulaireAction)
                .WithMany(d => d.ActionFormulaireAide)
-               .HasForeignKey(p => p.NumAction)
+               .HasForeignKey(p => p.IdAction)
                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_foa_act");
 

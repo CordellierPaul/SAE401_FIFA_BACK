@@ -11,11 +11,11 @@ namespace FIFA_API.Models.EntityFramework
         //public int ProduitSimilaireId { get; set; }
 
         [Key]
-        [Column("pro_id_un")]
+        [Column("pro_un_id")]
         public int ProduitUnId { get; set; }
 
         [Key]
-        [Column("pro_id_deux")]
+        [Column("pro_deux_id")]
         public int ProduitDeuxId { get; set; }
 
         [ForeignKey(nameof(ProduitUnId))]

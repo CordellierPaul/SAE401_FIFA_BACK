@@ -9,11 +9,11 @@ namespace FIFA_API.Models.EntityFramework
 
 
         [Key]
-        [Column("tra_num")]
-        public int NumTransaction { get; set; }
+        [Column("tra_id")]
+        public int TransactionId { get; set; }
 
-        [Column("com_num")]
-        public int NumCommande { get; set; }
+        [Column("com_id")]
+        public int CommandeId { get; set; }
 
         [Column("reg_montant")]
         public decimal Montant { get; set; }
@@ -22,7 +22,7 @@ namespace FIFA_API.Models.EntityFramework
         public DateTime DateReglement { get; set; }
 
 
-        [ForeignKey(nameof(NumCommande))]
+        [ForeignKey(nameof(CommandeId))]
         [InverseProperty(nameof(Commande.ReglementsCommande))]
         public virtual Commande CommandeRegle { get; set; }
     }
