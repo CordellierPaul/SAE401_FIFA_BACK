@@ -570,6 +570,16 @@ namespace FIFA_API.Models.EntityFramework
                     .HasConstraintName("fk_atm_med");
             });
 
+            //ForeignKey Blog
+            modelBuilder.Entity<Blog>(entity =>
+            {
+                entity.HasOne(e => e.ArticleNavigation)
+                    .WithMany(a => a.BlogsArticle)
+                    .HasForeignKey(e => e.IdArticle)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_blg_art");
+            });
+
             //ForeignKey BlogImage
             modelBuilder.Entity<BlogImage>(entity =>
             {

@@ -35,5 +35,10 @@ namespace FIFA_API.Models.EntityFramework
 
         [InverseProperty(nameof(BlogImage.BlogNavigation))]
         public virtual ICollection<BlogImage> LiensImages { get; set; } = new HashSet<BlogImage>();
+
+
+        [ForeignKey(nameof(IdArticle))]
+        [InverseProperty(nameof(Article.BlogsArticle))]
+        public virtual Article ArticleNavigation { get; set; } = null!;
     }
 }
