@@ -473,7 +473,7 @@ namespace FIFA_API.Models.EntityFramework
                     .WithMany(a => a.UtilisateursAdresse)
                     .HasForeignKey(p => p.AdresseId)
                     .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_utl_adr");
+                    .HasConstraintName("fk_utl_adr");
 
                 // Relation one to one entre utilisateur et compte (un compte n'a
                 // pas obligatoirement d'utilisateur donc IsRequired est à false) :
@@ -481,7 +481,7 @@ namespace FIFA_API.Models.EntityFramework
                     .WithOne(e => e.UtilisateurCompte)
                     .HasForeignKey<Utilisateur>(e => e.CompteId)
                     .IsRequired(false)
-                .HasConstraintName("fk_utl_cpt");
+                    .HasConstraintName("fk_utl_cpt");
 
                 entity.HasOne(p => p.LangueUtilisateur)
                     .WithMany(l => l.UtilisateursLangue)
@@ -509,7 +509,7 @@ namespace FIFA_API.Models.EntityFramework
                     .HasForeignKey(e => e.PaysFavoriId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_pay_utl_pays_favori")
-                    .IsRequired();
+                    .IsRequired(false);
             });
 
             //ForeignKey VarianteProduit
