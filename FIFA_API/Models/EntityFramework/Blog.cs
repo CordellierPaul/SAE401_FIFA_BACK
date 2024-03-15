@@ -10,9 +10,8 @@ namespace FIFA_API.Models.EntityFramework
         [Column("blg_id")]
         public int BlogId { get; set; }
 
-        //[Key] ?
         [Column("art_id")]
-        public int IdArticle { get; set; }  // TODO lien article
+        public int ArticleId { get; set; }
 
         [Column("blg_dateheure")]
         public DateTime BlogDateHeure { get; set; }
@@ -37,7 +36,7 @@ namespace FIFA_API.Models.EntityFramework
         public virtual ICollection<BlogImage> LiensImages { get; set; } = new HashSet<BlogImage>();
 
 
-        [ForeignKey(nameof(IdArticle))]
+        [ForeignKey(nameof(ArticleId))]
         [InverseProperty(nameof(Article.BlogsArticle))]
         public virtual Article ArticleNavigation { get; set; } = null!;
     }
