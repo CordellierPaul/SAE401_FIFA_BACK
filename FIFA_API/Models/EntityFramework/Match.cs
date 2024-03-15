@@ -27,12 +27,12 @@ namespace FIFA_API.Models.EntityFramework
 
         [Required]
         [DefaultValue("0")]
-        [Column("mch_scoredomicile")]
+        [Column("mch_score_domicile")]
         public int MatchScoreDomicile { get; set; }
 
         [Required]
         [DefaultValue("0")]
-        [Column("mch_ScoreExterieur")]
+        [Column("mch_score_exterieur")]
         public int MatchScoreExterieur { get; set; }
 
 

@@ -8,9 +8,9 @@ using System.Xml.Linq;
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_e_utilisateur_utl")]
-    [Index(nameof(TelAcheteur), Name = "uq_utl_telacheteur", IsUnique = true)]
-    [Index(nameof(NumTva), Name = "uq_utl_numtva", IsUnique = true)]
-    [Index(nameof(NumSociete), Name = "uq_utl_numSociete", IsUnique = true)]
+    [Index(nameof(UtilisateurTelAcheteur), Name = "uq_utl_telacheteur", IsUnique = true)]
+    [Index(nameof(UtilisateurNumTva), Name = "uq_utl_numtva", IsUnique = true)]
+    [Index(nameof(SocieteId), Name = "uq_utl_numSociete", IsUnique = true)]
     [Index(nameof(CompteId), Name = "uq_utl_idcompte", IsUnique = true)]
     public partial class Utilisateur
     {
@@ -84,7 +84,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Langue.UtilisateursLangue))]
         public virtual Langue LangueUtilisateur { get; set; } = null!;
 
-        [ForeignKey(nameof(IdActivite))]
+        [ForeignKey(nameof(ActiviteId))]
         [InverseProperty(nameof(Activite.UtilisateursActivite))]
         public virtual Activite ActiviteUtilisateur { get; set; } = null!;
 
@@ -96,7 +96,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Pays.UtilisateursNesPays))]
         public virtual Pays PaysNaissanceNavigation { get; set; } = null!;
 
-        [ForeignKey(nameof(NumMonnaie))]
+        [ForeignKey(nameof(MonnaieId))]
         [InverseProperty(nameof(Monnaie.UtilisateursMonnaie))]
         public virtual Monnaie MonnaieUtilisateur { get; set; } = null!;
 

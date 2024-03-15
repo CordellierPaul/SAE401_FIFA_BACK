@@ -7,7 +7,7 @@ using System.Xml.Linq;
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_e_document_doc")]
-    [Index(nameof(LienPdf), Name = "uq_doc_lienpdf", IsUnique = true)]
+    [Index(nameof(DocumentLienPdf), Name = "uq_doc_lienpdf", IsUnique = true)]
     public partial class Document
     {
         [Key]

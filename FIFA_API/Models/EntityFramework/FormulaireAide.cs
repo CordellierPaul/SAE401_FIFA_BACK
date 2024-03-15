@@ -26,7 +26,7 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [Column("foa_telephone")]
         [StringLength(10)]
-        public string FormulaireAideTelephone { get; set; } = null!;
+        public string? FormulaireAideTelephone { get; set; } = null!;
 
         [Required]
         [Column("foa_question")]

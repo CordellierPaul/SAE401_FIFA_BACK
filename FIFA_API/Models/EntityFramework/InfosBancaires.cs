@@ -33,7 +33,7 @@ namespace FIFA_API.Models.EntityFramework
         [Range(0, 99, ErrorMessage = "L'année d'expiration doit être comprise entre 00 et 99")]
         public string AnneeExpiration { get; set; } = null!;
 
-        [ForeignKey(nameof(UtilisateurId))]
+        [ForeignKey(nameof(InfosBancairesId))]
         [InverseProperty(nameof(Utilisateur.InfosBancairesUtilisateur))]
         public virtual Utilisateur UtilisateurInfoBc { get; set; } = null!;
 
