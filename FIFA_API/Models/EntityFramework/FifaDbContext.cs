@@ -403,7 +403,7 @@ namespace FIFA_API.Models.EntityFramework
 
                 entity.HasOne(e => e.TailleStockee)
                     .WithMany(t => t.StocksTaille)
-                    .HasForeignKey(e => e.NumTaille)
+                    .HasForeignKey(e => e.TailleId)
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(e => e.VarianteStockee)
@@ -779,7 +779,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_jou");
 
             modelBuilder.Entity<Langue>()
-                .HasKey(e => e.LangueNum)
+                .HasKey(e => e.LangueId)
                 .HasName("pk_lng");
 
             modelBuilder.Entity<LigneCommande>()
@@ -807,7 +807,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_pay");
 
             modelBuilder.Entity<Poste>()
-                .HasKey(e => e.NumPoste)
+                .HasKey(e => e.PosteId)
                 .HasName("pk_pos");
 
             modelBuilder.Entity<Produit>()
@@ -815,7 +815,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_pro");
 
             modelBuilder.Entity<Reglement>()
-                .HasKey(e => e.NumTransaction) 
+                .HasKey(e => e.TransactionId) 
                 .HasName("pk_reg");
 
             modelBuilder.Entity<Taille>()
@@ -827,7 +827,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_the");
 
             modelBuilder.Entity<Trophee>()
-                .HasKey(e => e.NumTrophee)
+                .HasKey(e => e.TropheeId)
                 .HasName("pk_tro");
 
             modelBuilder.Entity<Utilisateur>() 
@@ -839,7 +839,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_vpd");
 
             modelBuilder.Entity<Ville>()
-                .HasKey(e => e.IdVille)
+                .HasKey(e => e.VilleId)
                 .HasName("pk_vil");
 
             modelBuilder.Entity<Vote>()
