@@ -528,11 +528,13 @@ namespace FIFA_API.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_utl_mon");
 
+                // Activité de l'utilisateur (si c'est un compte d'entreprise par exemple)
                 entity.HasOne(p => p.ActiviteUtilisateur)
                    .WithMany(u => u.UtilisateursActivite)
                    .HasForeignKey(p => p.ActiviteId)
                    .OnDelete(DeleteBehavior.Restrict)
-                   .HasConstraintName("fk_utl_act");
+                   .HasConstraintName("fk_utl_act")
+                   .IsRequired(false);
 
                 // Pays de naissance de l'utilisateur
                 entity.HasOne(e => e.PaysNaissanceNavigation)
