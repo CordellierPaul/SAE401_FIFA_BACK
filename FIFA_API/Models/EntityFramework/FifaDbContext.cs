@@ -428,7 +428,7 @@ namespace FIFA_API.Models.EntityFramework
                     .IsRequired(false);
 
                 entity.HasOne(p => p.LangueUtilisateur)
-                    .WithMany()
+                    .WithMany(l => l.UtilisateursLangue)
                     .HasForeignKey(p => p.LangueId)
                     .OnDelete(DeleteBehavior.Restrict);
 
@@ -502,7 +502,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Ville>(entity =>
             {
                 entity.HasOne(p => p.PaysVille)
-                    .WithMany()
+                    .WithMany(p => p.VillesPays)
                     .HasForeignKey(p => p.PaysId)
                     .OnDelete(DeleteBehavior.Restrict);
 
