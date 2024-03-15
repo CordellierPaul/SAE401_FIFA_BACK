@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
@@ -11,19 +12,26 @@ namespace FIFA_API.Models.EntityFramework
         [Column("mch_id")]
         public int MatchId { get; set; }
 
-
+        [Required]
         [Column("clb_domicileid")]
         public int ClubDomicileId { get; set; }
 
+        [Required]
         [Column("clb_exterieurid")]
         public int ClubExterieurId { get; set; }
 
+        [Required]
+        [DefaultValue("current_date")]
         [Column("mch_datematch", TypeName = "date")]
         public DateTime DateMatch { get; set; }
 
+        [Required]
+        [DefaultValue("0")]
         [Column("mch_scoredomicile")]
         public int ScoreDomicile { get; set; }
 
+        [Required]
+        [DefaultValue("0")]
         [Column("mch_ScoreExterieur")]
         public int ScoreExterieur { get; set; }
 

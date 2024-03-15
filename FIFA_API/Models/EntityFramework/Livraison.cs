@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FIFA_API.Models.EntityFramework
@@ -17,6 +18,7 @@ namespace FIFA_API.Models.EntityFramework
         public string TypeLivraison { get; set; } = null!;
 
         [Required]
+        [DefaultValue("0")]
         [Column("liv_prix")]
         public double PrixLivraison { get; set; }
         

@@ -26,7 +26,7 @@ namespace FIFA_API.Models.EntityFramework
         public int VarianteProduitId { get; set; }
 
         [Required]
-        [Column("tll_id")]
+        [Column("tai_id")]
         public int TailleId { get; set; }
 
         [Required]
