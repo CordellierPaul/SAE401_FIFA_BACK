@@ -80,6 +80,47 @@ namespace FIFA_API.Models.EntityFramework
 
             #region foreignkey
 
+            //ForeignKey Commentaire
+            modelBuilder.Entity<Commentaire>()
+                .HasOne(p => p.CommentaireCommente)
+                .WithOne(d => d.CommenteCommentaire)
+                .HasForeignKey<Commentaire>(p => p.CommentaireIdCommentaire)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_com_com")
+                .IsRequired(false);
+
+            modelBuilder.Entity<Commentaire>()
+                .HasOne(p => p.DocumentCommente)
+                .WithMany(d => d.CommentairesDocument)
+                .HasForeignKey(p => p.DocumentId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_com_doc")
+                .IsRequired(false);
+
+            modelBuilder.Entity<Commentaire>()
+                .HasOne(p => p.AlbumCommente)
+                .WithMany(d => d.CommentairesAlbum)
+                .HasForeignKey(p => p.AlbumId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_com_alb")
+                .IsRequired(false);
+
+            modelBuilder.Entity<Commentaire>()
+                .HasOne(p => p.BlogCommente)
+                .WithMany(d => d.CommentairesBlog)
+                .HasForeignKey(p => p.BlogId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_com_blg")
+                .IsRequired(false);
+
+            modelBuilder.Entity<Commentaire>()
+                .HasOne(p => p.ArticleCommente)
+                .WithMany(d => d.CommentairesArticle)
+                .HasForeignKey(p => p.ArticleId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_com_art")
+                .IsRequired(false);
+
             //ForeignKey Devis
             modelBuilder.Entity<Devis>()
                 .HasOne(p => p.UtilisateurDevis)

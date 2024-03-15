@@ -40,11 +40,11 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Utilisateur.CommentairesUtilisateur))]
         public virtual Utilisateur UtilisateurCommentant { get; set; } = null!;
 
-        [ForeignKey("CommentaireIdCommentaire")]
-        [InverseProperty("CommenteCommentaire")]
+        [ForeignKey(nameof(CommentaireIdCommentaire))]
+        [InverseProperty(nameof(Commentaire.CommenteCommentaire))]
         public virtual Commentaire? CommentaireCommente { get; set; } = null!;
 
-        [ForeignKey("DocumentId")]
+        [ForeignKey(nameof(DocumentId))]
         [InverseProperty("CommentairesDocument")]
         public virtual Document? DocumentCommente { get; set; } = null!;
 
