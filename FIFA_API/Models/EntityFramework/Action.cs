@@ -8,7 +8,7 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("act_id")]
-        public int Id { get; set; }
+        public int ActionId { get; set; }
 
         [Column("act_type")]
         [StringLength(100)]

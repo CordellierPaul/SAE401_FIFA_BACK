@@ -8,36 +8,36 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("foa_id")]
-        public int IdFormulaire { get; set; }
+        public int FormulaireAideId { get; set; }
 
         [Required]
         [Column("act_id")]
-        public int IdAction { get; set; }
+        public int ActionId { get; set; }
 
         [Required]
         [Column("utl_id")]
-        public int IdUtilisateur { get; set; }
+        public int UtilisateurId { get; set; }
 
         [Required]
         [Column("utl_nom")]
         [StringLength(50)]
-        public string NomUtilisateur { get; set; } = null!;
+        public string UtilisateurNom { get; set; } = null!;
 
         [Required]
         [Column("foa_telephone")]
         [StringLength(10)]
-        public string Telephone { get; set; } = null!;
+        public string FormulaireAideTelephone { get; set; } = null!;
 
         [Required]
         [Column("foa_question")]
         [StringLength(250)]
         public string Question { get; set; } = null!;
 
-        [ForeignKey(nameof(IdUtilisateur))]
+        [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty(nameof(Utilisateur.FormulairesAideUtilisateur))]
         public virtual Utilisateur UtilisateurDuFormulaire { get; set; } = null!;
 
-        [ForeignKey(nameof(IdAction))]
+        [ForeignKey(nameof(ActionId))]
         [InverseProperty(nameof(Action.ActionFormulaireAide))]
         public virtual Action FormulaireAction { get; set; } = null!;
     }

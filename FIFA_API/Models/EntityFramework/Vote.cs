@@ -21,7 +21,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Required]
         [Column("vot_note")]
-        public int Note { get; set; }
+        public int VoteNote { get; set; }
 
         [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty(nameof(Utilisateur.VotesUtilisateur))]

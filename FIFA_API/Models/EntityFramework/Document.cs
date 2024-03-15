@@ -16,23 +16,23 @@ namespace FIFA_API.Models.EntityFramework
 
         [Required]
         [Column("doc_dateheure", TypeName = "date")]
-        public DateTime DateHeure { get; set; }
+        public DateTime DocumentDateHeure { get; set; }
 
         [Required]
         [Column("doc_titre")]
         [StringLength(50)]
-        public string Titre { get; set; } = null!;
+        public string DocumentTitre { get; set; } = null!;
 
         [Required]
         [Column("doc_resume")]
         [StringLength(250)]
-        public string Resume { get; set; } = null!;
+        public string DocumentResume { get; set; } = null!;
 
         [Required]
         [Column("doc_lienpdf")]
         [StringLength(100)]
         [RegularExpression(@"\.pdf$", ErrorMessage = "Le lien PDF doit se terminer par l'extension .pdf")]
-        public string LienPdf { get; set; } = null!;
+        public string DocumentLienPdf { get; set; } = null!;
 
 
         [InverseProperty("DocumentCommente")]

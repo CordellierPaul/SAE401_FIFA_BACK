@@ -32,12 +32,12 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [DefaultValue("1")]
         [Column("lcd_quantite")]
-        public int QuantiteLigneCommande { get; set; }
+        public int LigneCommandeQuantite { get; set; }
 
         [Required]
         [DefaultValue("0")]
         [Column("lcd_prix")]
-        public double PrixLigneCommande { get; set; }
+        public double LigneCommandePrix { get; set; }
 
 
         [ForeignKey(nameof(VarianteProduitId))]

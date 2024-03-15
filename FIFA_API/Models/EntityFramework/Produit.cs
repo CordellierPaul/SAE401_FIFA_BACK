@@ -8,7 +8,7 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("pro_id")]
-        public int IdProduit { get; set; }
+        public int ProduitId { get; set; }
 
         [Column("gen_id")]
         public int GenreId { get; set; }
@@ -18,14 +18,14 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("pro_nom")]
         [StringLength(100)]
-        public string NomProduit { get; set; } = null!;
+        public string ProduitNom { get; set; } = null!;
 
         [Column("pro_description")]
         [StringLength(1000)]
-        public string? DescriptionProduit { get; set; }
+        public string? ProduitDescription { get; set; }
 
         [Column("comp_id")]
-        public int? IdCompetition { get; set; }
+        public int? CompetitionId { get; set; }
 
         [Column("pay_id")]
         public int PaysId { get; set; }
@@ -40,7 +40,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Categorie.ProduitsCategorie))]
         public virtual Categorie CategorieNavigation { get; set; } = null!;
 
-        [ForeignKey(nameof(IdCompetition))]
+        [ForeignKey(nameof(CompetitionId))]
         [InverseProperty(nameof(Competition.ProduitsCompetition))]
         public virtual Competition CompetitionProduit { get; set; } = null!;
 

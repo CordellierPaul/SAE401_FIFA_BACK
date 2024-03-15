@@ -16,10 +16,10 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("vil_nom")]
         [StringLength(50)]
-        public string NomVille { get; set; } = null!;
+        public string VilleNom { get; set; } = null!;
 
         [Column("vil_codepostal", TypeName = "char(5)")]
-        public char CodePostal { get; set; }
+        public char VilleCodePostal { get; set; }
 
 
         [ForeignKey(nameof(PaysId))]

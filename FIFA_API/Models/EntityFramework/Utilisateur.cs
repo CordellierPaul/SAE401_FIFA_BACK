@@ -28,7 +28,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("utl_datenaissance", TypeName = "date")]
         [Required]
-        public DateTime DateNaissance { get; set; }
+        public DateTime UtilisateurDateNaissance { get; set; }
 
         [Column("com_id")]
         public int? CompteId { get; set; }
@@ -36,7 +36,7 @@ namespace FIFA_API.Models.EntityFramework
         [Column("mon_id")]
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Le numéro de monnaie doit être supérieur ou égal à 1")]
-        public int NumMonnaie { get; set; } = 1;
+        public int MonnaieId { get; set; } = 1;
 
         [Column("lan_id")]
         [Required]
@@ -53,22 +53,22 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("utl_nomacheteur")]
         [StringLength(50)]
-        public string NomAcheteur { get; set; } = null!;
+        public string UtilisateurNomAcheteur { get; set; } = null!;
 
         [Column("utl_telacheteur")]
         [StringLength(10)]
-        public string TelAcheteur { get; set; } = null!;
+        public string UtilisateurTelAcheteur { get; set; } = null!;
 
         [Column("act_id")]
-        public int? IdActivite { get; set; }
+        public int? ActiviteId { get; set; }
 
-        [Column("soc_num")]
+        [Column("soc_id")]
         [StringLength(14)]
-        public string NumSociete { get; set; } = null!;
+        public string SocieteId { get; set; } = null!;
 
         [Column("utl_numtva")]
         [StringLength(11)]
-        public string NumTva { get; set; } = null!;
+        public string UtilisateurNumTva { get; set; } = null!;
 
         #region Foreign Key
 

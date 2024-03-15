@@ -12,7 +12,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("pay_nom")]
         [StringLength(50)]
-        public string NomPays { get; set; } = null!;
+        public string PaysNom { get; set; } = null!;
 
         [InverseProperty(nameof(Produit.PaysProduit))]
         public virtual ICollection<Produit> ProduitsPays { get; set; } = new HashSet<Produit>();

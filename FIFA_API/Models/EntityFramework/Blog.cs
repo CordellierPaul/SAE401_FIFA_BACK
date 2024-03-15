@@ -8,23 +8,23 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("blg_id")]
-        public int Id { get; set; }
+        public int BlogId { get; set; }
 
         //[Key] ?
         [Column("art_id")]
         public int IdArticle { get; set; }  // TODO lien article
 
         [Column("blg_dateheure")]
-        public DateTime DateHeure { get; set; }
+        public DateTime BlogDateHeure { get; set; }
 
         [Column("blg_titre")]
-        public string Titre { get; set; } = null!;
+        public string BlogTitre { get; set; } = null!;
 
         [Column("blg_resume")]
-        public string Resume { get; set; } = null!;
+        public string BlogResume { get; set; } = null!;
 
-        [Column("blg_descriptionblog")]
-        public string DescriptionBlog { get; set; } = null!;
+        [Column("blg_description")]
+        public string BlogDescription { get; set; } = null!;
 
 
         [InverseProperty(nameof(Commentaire.BlogCommente))]

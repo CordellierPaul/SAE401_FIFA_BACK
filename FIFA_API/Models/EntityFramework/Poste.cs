@@ -12,7 +12,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("pos_libelle")]
         [StringLength(25)]
-        public string LibellePoste { get; set; }
+        public string PosteLibelle { get; set; }
 
 
         [InverseProperty(nameof(Joueur.PosteJoueur))]

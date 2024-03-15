@@ -19,20 +19,20 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [Column("mtj_nbbuts")]
         [DefaultValue("0")]
-        public int NbButs { get; set; }
+        public int MatchJoueNbButs { get; set; }
 
         [Required]
         [Column("mtj_nbminutes")]
         [DefaultValue("0")]
-        public int NbMinutes { get; set; }
+        public int MatchJoueNbMinutes { get; set; }
 
         [Column("mtj_titularisation")]
         [StringLength(1)]
-        public string Titularisation { get; set; } = null!;
+        public string MatchJoueTitularisation { get; set; } = null!;
 
         [Column("mtj_selection")]
         [StringLength(1)]
-        public string Selection { get; set; } = null!;
+        public string MatchJoueSelection { get; set; } = null!;
 
 
 

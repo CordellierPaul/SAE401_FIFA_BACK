@@ -8,23 +8,23 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("inb_id")]
-        public int IdUtilisateur { get; set; }
+        public int InfosBancairesId { get; set; }
 
         [Required]
         [Column("inb_numcarte")]
         [StringLength(228)]
-        public string NumCarte { get; set; } = null!;
+        public string InfosBancaireNumCarte { get; set; } = null!;
 
         [Required]
         [Column("inb_nomcarte")]
         [StringLength(30)]
-        public string NomCarte { get; set; } = null!;
+        public string InfosBancaireNomCarte { get; set; } = null!;
 
         [Required]
         [Column("inb_moisexpiration")]
         [StringLength(2)]
         [RegularExpression(@"^(0[1-9]|1[0-2])$", ErrorMessage = "Le mois d'expiration doit être compris entre 01 et 12")]
-        public string MoisExpiration { get; set; } = null!;
+        public string InfosBancaireMoisExpiration { get; set; } = null!;
 
         [Required]
         [Column("inb_anneeexpiration")]
@@ -33,7 +33,7 @@ namespace FIFA_API.Models.EntityFramework
         [Range(0, 99, ErrorMessage = "L'année d'expiration doit être comprise entre 00 et 99")]
         public string AnneeExpiration { get; set; } = null!;
 
-        [ForeignKey(nameof(IdUtilisateur))]
+        [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty(nameof(Utilisateur.InfosBancairesUtilisateur))]
         public virtual Utilisateur UtilisateurInfoBc { get; set; } = null!;
 

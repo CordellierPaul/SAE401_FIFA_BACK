@@ -8,7 +8,7 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("anc_id")]
-        public int Id { get; set; }
+        public int AnecdoteId { get; set; }
 
         [Column("jou_id")]
         public int JoueurId { get; set; }
@@ -17,7 +17,7 @@ namespace FIFA_API.Models.EntityFramework
         public string Question { get; set; } = null!;
 
         [Column("anc_reponse")]
-        public string Reponse { get; set; } = null!;
+        public string AnecdoteReponse { get; set; } = null!;
 
         [ForeignKey(nameof(JoueurId))]
         [InverseProperty(nameof(Joueur.LienAnecdotes))]

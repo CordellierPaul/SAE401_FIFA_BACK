@@ -17,14 +17,14 @@ namespace FIFA_API.Models.EntityFramework
         [Column("clr_id")]
         public int ColorisId { get; set; }
 
-        [Column("vpd_prixvariante", TypeName = "decimal")]
+        [Column("vpd_prix", TypeName = "decimal")]
         [Required]
-        public decimal PrixVariante { get; set; }
+        public decimal VarianteProduitPrix{ get; set; }
 
         [Column("vpd_promo", TypeName = "decimal")]
         [Required]
         [Range(0, 1, ErrorMessage = "La promo doit être comprise entre 0 et 1")]
-        public decimal Promo { get; set; }
+        public decimal VarianteProduitPromo { get; set; }
 
 
         [ForeignKey(nameof(ProduitId))]

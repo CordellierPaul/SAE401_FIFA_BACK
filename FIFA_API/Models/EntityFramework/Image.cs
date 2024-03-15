@@ -8,12 +8,12 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("img_id")]
-        public int Id { get; set; }
+        public int ImageId { get; set; }
 
         [Column("img_url")]
-        public string Url { get; set; } = null!;
+        public string ImageUrl { get; set; } = null!;
 
-        [ForeignKey(nameof(Url))]
+        [ForeignKey(nameof(ImageUrl))]
         [InverseProperty(nameof(Media.ImagesMedia))]
         public virtual Media MediaImage { get; set; } = null!;
 

@@ -16,7 +16,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Key]
         [Column("rem_annee", TypeName = "char(4)")]
-        public char Annee { get; set; }
+        public char RemporteAnnee { get; set; }
 
         [ForeignKey(nameof(JoueurId))]
         [InverseProperty("RemportesJoueur")]

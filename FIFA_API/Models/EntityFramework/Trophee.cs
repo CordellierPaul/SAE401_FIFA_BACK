@@ -14,7 +14,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("tro_nom")]
         [StringLength(100)]
-        public string NomTrophee { get; set; }
+        public string TropheeNom { get; set; }
 
 
         [InverseProperty(nameof(Remporte.TropheeRemporte))]

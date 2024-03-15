@@ -14,12 +14,12 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [MaxLength(50)]
         [Column("mon_nom")]
-        public string Nom { get; set; } = null!;
+        public string MonnaieNom { get; set; } = null!;
 
         [Required]
         [StringLength(1)]
         [Column("mon_symbole")]
-        public string Symbole { get; set; } = null!;
+        public string MonnaieSymbole { get; set; } = null!;
 
 
         [InverseProperty(nameof(Utilisateur.MonnaieUtilisateur))]

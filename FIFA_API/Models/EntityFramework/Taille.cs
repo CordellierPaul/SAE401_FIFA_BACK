@@ -12,7 +12,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("tai_libelle")]
         [StringLength(25)]
-        public string LibelleTaille { get; set; }
+        public string TailleLibelle { get; set; }
 
 
 

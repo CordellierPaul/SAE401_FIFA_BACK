@@ -8,11 +8,11 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("ati_id")]
-        public int Id { get; set; }
+        public int ActiviteId { get; set; }
 
         [Column("ati_nom")]
         [StringLength(100)]
-        public string Nom { get; set; } = null!;
+        public string ActiviteNom { get; set; } = null!;
 
         [InverseProperty(nameof(Utilisateur.ActiviteUtilisateur))]
         public virtual ICollection<Utilisateur> UtilisateursActivite { get; set; } = new HashSet<Utilisateur>();

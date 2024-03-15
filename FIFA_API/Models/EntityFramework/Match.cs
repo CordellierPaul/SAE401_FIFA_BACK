@@ -23,17 +23,17 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [DefaultValue("current_date")]
         [Column("mch_datematch", TypeName = "date")]
-        public DateTime DateMatch { get; set; }
+        public DateTime MatchDate{ get; set; }
 
         [Required]
         [DefaultValue("0")]
         [Column("mch_scoredomicile")]
-        public int ScoreDomicile { get; set; }
+        public int MatchScoreDomicile { get; set; }
 
         [Required]
         [DefaultValue("0")]
         [Column("mch_ScoreExterieur")]
-        public int ScoreExterieur { get; set; }
+        public int MatchScoreExterieur { get; set; }
 
 
 

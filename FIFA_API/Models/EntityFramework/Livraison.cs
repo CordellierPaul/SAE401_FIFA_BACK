@@ -15,12 +15,12 @@ namespace FIFA_API.Models.EntityFramework
         [Required]
         [StringLength(30)]
         [Column("liv_type")]
-        public string TypeLivraison { get; set; } = null!;
+        public string LivraisonType { get; set; } = null!;
 
         [Required]
         [DefaultValue("0")]
         [Column("liv_prix")]
-        public double PrixLivraison { get; set; }
+        public double LivraisonPrix { get; set; }
         
 
         [InverseProperty(nameof(Commande.LivraisonCommande))]

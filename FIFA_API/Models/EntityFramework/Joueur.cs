@@ -15,61 +15,61 @@ namespace FIFA_API.Models.EntityFramework
 
         [Key]
         [Column("jou_id")]
-        public int IdJoueur { get; set; }
+        public int JoueurId { get; set; }
 
         [Required]
         [Column("jou_datenaissance", TypeName = "date")]
-        public DateTime DateNaissance { get; set; }
+        public DateTime JoueurDateNaissance { get; set; }
 
         [Required]
-        [Column("jou_numposte")]
-        public int NumPoste { get; set; }
+        [Column("pos_id")]
+        public int PosteId { get; set; }
 
         [Column("clb_id")]
-        public int? IdClub { get; set; }
+        public int? ClubId { get; set; }
 
         [Required]
         [Column("vil_id")]
-        public int IdVille { get; set; }
+        public int VilleId { get; set; }
 
         [Required]
         [Column("jou_nom")]
         [StringLength(50)]
-        public string NomJoueur { get; set; } = null!;
+        public string JoueurNom { get; set; } = null!;
 
         [Required]
         [Column("jou_prenom")]
         [StringLength(50)]
-        public string PrenomJoueur { get; set; } = null!;
+        public string JoueurPrenom { get; set; } = null!;
 
         [Required]
         [Column("jou_pied")]
         [StringLength(1)]
-        public string Pied { get; set; } = null!;
+        public string JoueurPied { get; set; } = null!;
 
         [Required]
         [Column("jou_poids", TypeName = "decimal(5,2)")]
-        public decimal Poids { get; set; }
+        public decimal JoueurPoids { get; set; }
 
         [Required]
         [Column("jou_taille")]
-        public int Taille { get; set; }
+        public int JoueurTaille { get; set; }
 
         [Required]
         [Column("jou_description")]
         [StringLength(1000)]
-        public string DescriptionJoueur { get; set; } = null!;
+        public string JoueurDescription { get; set; } = null!;
 
 
-        [ForeignKey(nameof(IdVille))]
+        [ForeignKey(nameof(VilleId))]
         [InverseProperty(nameof(Ville.JoueursVille))]
         public virtual Ville VilleJoueur { get; set; } = null!;
 
-        [ForeignKey(nameof(IdClub))]
+        [ForeignKey(nameof(ClubId))]
         [InverseProperty(nameof(Club.JoueursClub))]
         public virtual Club ClubJoueur { get; set; } = null!;
 
-        [ForeignKey(nameof(NumPoste))]
+        [ForeignKey(nameof(PosteId))]
         [InverseProperty(nameof(Poste.JoueursPoste))]
         public virtual Poste PosteJoueur { get; set; } = null!;
 

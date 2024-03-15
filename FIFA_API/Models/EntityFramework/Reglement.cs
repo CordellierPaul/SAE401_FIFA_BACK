@@ -16,10 +16,10 @@ namespace FIFA_API.Models.EntityFramework
         public int CommandeId { get; set; }
 
         [Column("reg_montant")]
-        public decimal Montant { get; set; }
+        public decimal ReglementMontant { get; set; }
 
         [Column("reg_date", TypeName = "date")]
-        public DateTime DateReglement { get; set; }
+        public DateTime ReglementDate { get; set; }
 
 
         [ForeignKey(nameof(CommandeId))]

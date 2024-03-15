@@ -12,7 +12,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("the_libelle")]
         [StringLength(50)]
-        public string LibelleTheme { get; set; } = null!;
+        public string ThemeLibelle { get; set; } = null!;
 
         [InverseProperty(nameof(Vote.ThemeVote))]
         public virtual ICollection<Vote> VotesTheme { get; set; } = new HashSet<Vote>();

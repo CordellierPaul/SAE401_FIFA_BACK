@@ -8,12 +8,13 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("adr_id")]
-        public int Id { get; set; }
+        public int AdresseId { get; set; }
 
         [Column("adr_rue")] 
         [StringLength(100)]
-        public string Rue { get; set; } = null!;
+        public string AdresseRue { get; set; } = null!;
 
+        [Column("vil_id")]
         public int VilleId { get; set; }
 
         [InverseProperty(nameof(Commande.AdresseCommande))]

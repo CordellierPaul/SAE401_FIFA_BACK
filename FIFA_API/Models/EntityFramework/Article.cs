@@ -14,19 +14,19 @@ namespace FIFA_API.Models.EntityFramework
 
         [Key]
         [Column("art_id")]
-        public int Id { get; set; }
+        public int ArticleId { get; set; }
 
         [Column("art_dateheure")]
-        public DateTime DateHeure { get; set; }
+        public DateTime ArticleDateHeure { get; set; }
 
         [Column("art_titre")]
-        public string Titre { get; set; } = null!;
+        public string ArticleTitre { get; set; } = null!;
 
         [Column("art_resume")]
-        public string Resume { get; set; } = null!;
+        public string ArticleResume { get; set; } = null!;
 
         [Column("art_texte")]
-        public string Texte { get; set; } = null!;
+        public string ArticleTexte { get; set; } = null!;
 
 
         [InverseProperty(nameof(ArticleJoueur.ArticleNavigation))]

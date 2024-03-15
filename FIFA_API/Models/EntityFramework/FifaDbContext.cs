@@ -62,7 +62,7 @@ namespace FIFA_API.Models.EntityFramework
             // Il faudra donner des infos sur la base ici
             modelBuilder.Entity<Reglement>(entity =>
             {
-                entity.Property(e => e.DateReglement).HasDefaultValueSql("now()");
+                entity.Property(e => e.ReglementDate).HasDefaultValueSql("now()");
             });
             modelBuilder.Entity<Album>(entity =>
             {
@@ -109,14 +109,14 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<FormulaireAide>()
                 .HasOne(p => p.UtilisateurDuFormulaire)
                 .WithMany(d => d.FormulairesAideUtilisateur)
-                .HasForeignKey(p => p.IdUtilisateur)
+                .HasForeignKey(p => p.FormulaireAideId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_foa_utl");
 
             modelBuilder.Entity<FormulaireAide>()
                .HasOne(p => p.FormulaireAction)
                .WithMany(d => d.ActionFormulaireAide)
-               .HasForeignKey(p => p.IdAction)
+               .HasForeignKey(p => p.ActionId)
                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_foa_act");
 
@@ -124,7 +124,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Image>()
                 .HasOne(p => p.MediaImage)
                 .WithMany(m => m.ImagesMedia)
-                .HasForeignKey(p => p.Id)
+                .HasForeignKey(p => p.ImageId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_img_med");
 
@@ -132,7 +132,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<InfosBancaires>()
                 .HasOne(p => p.UtilisateurInfoBc)
                 .WithMany(d => d.InfosBancairesUtilisateur)
-                .HasForeignKey(p => p.IdUtilisateur)
+                .HasForeignKey(p => p.InfosBancairesId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_inb_utl");
 
@@ -141,19 +141,19 @@ namespace FIFA_API.Models.EntityFramework
             {
                 entity.HasOne(j => j.VilleJoueur)
                     .WithMany(v => v.JoueursVille)
-                    .HasForeignKey(p => p.IdVille)
+                    .HasForeignKey(p => p.VilleId)
                     .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_jou_vil");
 
                 entity.HasOne(j => j.ClubJoueur)
                     .WithMany(c => c.JoueursClub)
-                    .HasForeignKey(p => p.IdClub)
+                    .HasForeignKey(p => p.ClubId)
                     .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_jou_clb");
 
                 entity.HasOne(j => j.PosteJoueur)
                     .WithMany(d => d.JoueursPoste)
-                    .HasForeignKey(p => p.NumPoste)
+                    .HasForeignKey(p => p.PosteId)
                     .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_jou_pos");
 
@@ -327,7 +327,7 @@ namespace FIFA_API.Models.EntityFramework
 
                 entity.HasOne(p => p.CompetitionProduit)
                     .WithMany(p => p.ProduitsCompetition)
-                    .HasForeignKey(p => p.IdCompetition)
+                    .HasForeignKey(p => p.CompetitionId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_pro_cpn");
 
@@ -381,7 +381,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasConstraintName("fk_rem_tro");
 
             modelBuilder.Entity<Remporte>()
-                .HasKey(e => new { e.JoueurId, e.TropheeId, e.Annee })
+                .HasKey(e => new { e.JoueurId, e.TropheeId, e.RemporteAnnee })
                     .HasName("pk_rem");
 
 
@@ -448,7 +448,7 @@ namespace FIFA_API.Models.EntityFramework
 
                 entity.HasOne(p => p.MonnaieUtilisateur)
                     .WithMany()
-                    .HasForeignKey(p => p.NumMonnaie)
+                    .HasForeignKey(p => p.MonnaieId)
                     .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_utl_mon");
 
@@ -713,31 +713,31 @@ namespace FIFA_API.Models.EntityFramework
             #region Clés primaires d'entités
 
             modelBuilder.Entity<Action>()
-                .HasKey(e => e.Id)
+                .HasKey(e => e.ActionId)
                 .HasName("pk_act");
 
             modelBuilder.Entity<Activite>()
-                .HasKey(e => e.Id)
+                .HasKey(e => e.ActiviteId)
                 .HasName("pk_ati");
 
             modelBuilder.Entity<Adresse>()
-                .HasKey(e => e.Id)
+                .HasKey(e => e.AdresseId)
                 .HasName("pk_adr");
 
             modelBuilder.Entity<Album>()
-                .HasKey(e => e.Id)
+                .HasKey(e => e.AlbumId)
                 .HasName("pk_alb");
 
             modelBuilder.Entity<Anecdote>()
-                .HasKey(e => e.Id)
+                .HasKey(e => e.AnecdoteId)
                 .HasName("pk_anc");
 
             modelBuilder.Entity<Article>()
-                .HasKey(e => e.Id)
+                .HasKey(e => e.ArticleId)
                 .HasName("pk_art");
 
             modelBuilder.Entity<Blog>()
-                .HasKey(e => e.Id)
+                .HasKey(e => e.BlogId)
                 .HasName("pk_blg");
 
             modelBuilder.Entity<Caracteristique>()
@@ -785,7 +785,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_flm");
 
             modelBuilder.Entity<FormulaireAide>()
-                .HasKey(e => e.IdFormulaire)
+                .HasKey(e => e.FormulaireAideId)
                 .HasName("pk_foa");
 
             modelBuilder.Entity<Genre>()
@@ -793,15 +793,15 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_gen");
 
             modelBuilder.Entity<Image>()
-                .HasKey(e => e.Id)
+                .HasKey(e => e.ImageId)
                 .HasName("pk_img");
 
             modelBuilder.Entity<InfosBancaires>()
-                .HasKey(e => e.IdUtilisateur)
+                .HasKey(e => e.InfosBancairesId)
                 .HasName("pk_inb");
 
             modelBuilder.Entity<Joueur>()
-                .HasKey(e => e.IdJoueur) 
+                .HasKey(e => e.JoueurId) 
                 .HasName("pk_jou");
 
             modelBuilder.Entity<Langue>()
@@ -837,7 +837,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_pos");
 
             modelBuilder.Entity<Produit>()
-                .HasKey(e => e.IdProduit)
+                .HasKey(e => e.ProduitId)
                 .HasName("pk_pro");
 
             modelBuilder.Entity<Reglement>()

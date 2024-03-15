@@ -12,7 +12,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Required]
         [Column("med_url")]
-        public string Url { get; set; } = null!;
+        public string MediaUrl { get; set; } = null!;
 
         [InverseProperty(nameof(ArticleMedia.MediaNavigation))]
         public virtual ICollection<ArticleMedia> LiensArticles { get; set; } = new HashSet<ArticleMedia>();

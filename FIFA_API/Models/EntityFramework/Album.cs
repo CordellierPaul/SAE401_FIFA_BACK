@@ -13,18 +13,18 @@ namespace FIFA_API.Models.EntityFramework
 
         [Key]
         [Column("alb_id")]
-        public int Id { get; set; }
+        public int AlbumId { get; set; }
 
         [Column("alb_date_heure", TypeName = "date")]
         public DateTime DateHeure { get; set; }
 
         [Column("alb_titre")]
         [StringLength(50)]
-        public string Titre { get; set; } = null!;
+        public string AlbumTitre { get; set; } = null!;
 
         [Column("alb_resume")]
         [StringLength(250)]
-        public string Resume { get; set; }
+        public string AlbumResume { get; set; }
 
         [InverseProperty(nameof(AlbumImage.AlbumNavigation))]
         public virtual ICollection<AlbumImage> LiensImages { get; set; }
