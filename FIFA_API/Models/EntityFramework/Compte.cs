@@ -25,10 +25,7 @@ namespace FIFA_API.Models.EntityFramework
         public DateTime CompteDateConnexion { get; set; }
 
         [Column("cpt_annonces")]
-        public bool CompteAnnonces { get; set; } = false;
-
-        [Column("cpt_offres")]
-        public bool CompteOffres { get; set; } = false;
+        public bool CompteAnnonces { get; set; }
 
         [Column("cpt_typecompte")]
         public int TypeCompte { get; set; }
