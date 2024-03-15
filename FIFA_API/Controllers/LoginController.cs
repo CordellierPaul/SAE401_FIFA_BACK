@@ -14,12 +14,12 @@ namespace FIFA_API.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private List<User> appUsers = new List<User>
+        private List<Compte> appUsers = new List<Compte>
         {
             //A MODIFIER
-            new User { FullName = "Vincent COUTURIER", UserName = "vince", Password = "1234",
+            new Compte { FullName = "Vincent COUTURIER", UserName = "vince", Password = "1234",
                 UserRole = "Admin" },
-            new User { FullName = "Marc MACHIN", UserName = "marc", Password = "1234", UserRole =
+            new Compte { FullName = "Marc MACHIN", UserName = "marc", Password = "1234", UserRole =
                 "User" }
         };
 
@@ -30,10 +30,10 @@ namespace FIFA_API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] User login)
+        public IActionResult Login([FromBody] Compte login)
         {
             IActionResult response = Unauthorized();
-            User user = AuthenticateUser(login);
+            Compte user = AuthenticateUser(login);
             if (user != null)
             {
                 var tokenString = GenerateJwtToken(user);
@@ -45,11 +45,11 @@ namespace FIFA_API.Controllers
             }
             return response;
         }
-        private User AuthenticateUser(User user)
+        private Compte AuthenticateUser(Compte user)
         {
             return appUsers.SingleOrDefault(x => x.UserName.ToUpper() == user.UserName.ToUpper() && x.Password == user.Password);
         }
-        private string GenerateJwtToken(User userInfo)
+        private string GenerateJwtToken(Compte userInfo)
         {
             var securityKey = new
            SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
