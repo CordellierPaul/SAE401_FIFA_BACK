@@ -1,6 +1,6 @@
 ﻿namespace FIFA_API.Models
 {
-    public class User
+    public partial class Compte
     {
         public string UserName { get; set; }
         public string? FullName { get; set; }
