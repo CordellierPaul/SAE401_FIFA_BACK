@@ -9,7 +9,7 @@ namespace FIFA_API.Models.EntityFramework
     {
 
         [Key]
-        [Column("cmd_numcommande")]
+        [Column("cmd_id")]
         public int CommandeId { get; set; }
 
         [Key]
@@ -25,8 +25,8 @@ namespace FIFA_API.Models.EntityFramework
         public int VarianteProduitId { get; set; }
 
         [Required]
-        [Column("tll_numtaille")]
-        public int NumTaille { get; set; }
+        [Column("tll_id")]
+        public int TailleId { get; set; }
 
         [Required]
         [Column("lcd_quantite")]
@@ -46,7 +46,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty("LignesCommandes")]
         public virtual Commande CommandeNavigation { get; set; } = null!;
 
-        [ForeignKey(nameof(NumTaille))]
+        [ForeignKey(nameof(TailleId))]
         [InverseProperty("LignesCommandes")]
         public virtual Taille TailleNavigation { get; set; } = null!;
 

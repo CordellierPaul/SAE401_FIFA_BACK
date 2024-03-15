@@ -10,8 +10,8 @@ namespace FIFA_API.Models.EntityFramework
 
         [Key]
         [Required]
-        [Column("lng_num")]
-        public int LangueNum { get; set;}
+        [Column("lng_id")]
+        public int LangueId { get; set;}
 
         [Required]
         [Column("lng_nom")]

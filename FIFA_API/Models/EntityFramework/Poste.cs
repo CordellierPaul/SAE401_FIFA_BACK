@@ -7,8 +7,8 @@ namespace FIFA_API.Models.EntityFramework
     public partial class Poste
     {
         [Key]
-        [Column("pos_num")]
-        public int NumPoste { get; set; }
+        [Column("pos_id")]
+        public int PosteId { get; set; }
 
         [Column("pos_libelle")]
         [StringLength(25)]
