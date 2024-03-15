@@ -1,17 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Numerics;
-using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_e_utilisateur_utl")]
-    [Index(nameof(UtilisateurTelAcheteur), Name = "uq_utl_telacheteur", IsUnique = true)]
-    [Index(nameof(UtilisateurNumTva), Name = "uq_utl_numtva", IsUnique = true)]
-    [Index(nameof(SocieteId), Name = "uq_utl_numSociete", IsUnique = true)]
-    [Index(nameof(CompteId), Name = "uq_utl_idcompte", IsUnique = true)]
+    [Microsoft.EntityFrameworkCore.Index(nameof(UtilisateurTelAcheteur), Name = "uq_utl_telacheteur", IsUnique = true)]
+    [Microsoft.EntityFrameworkCore.Index(nameof(UtilisateurNumTva), Name = "uq_utl_numtva", IsUnique = true)]
+    [Microsoft.EntityFrameworkCore.Index(nameof(SocieteId), Name = "uq_utl_numSociete", IsUnique = true)]
+    [Microsoft.EntityFrameworkCore.Index(nameof(CompteId), Name = "uq_utl_idcompte", IsUnique = true)]
     public partial class Utilisateur
     {
         [Key]

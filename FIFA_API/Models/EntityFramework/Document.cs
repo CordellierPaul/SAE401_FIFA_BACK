@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
 
 namespace FIFA_API.Models.EntityFramework
 {
     [Table("t_e_document_doc")]
-    [Index(nameof(DocumentLienPdf), Name = "uq_doc_lienpdf", IsUnique = true)]
+    [Microsoft.EntityFrameworkCore.Index(nameof(DocumentLienPdf), Name = "uq_doc_lienpdf", IsUnique = true)]
     public partial class Document
     {
         [Key]
