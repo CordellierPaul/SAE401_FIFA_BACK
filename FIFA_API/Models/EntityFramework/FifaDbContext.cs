@@ -476,20 +476,25 @@ namespace FIFA_API.Models.EntityFramework
             //ForeignKey Vote
             modelBuilder.Entity<Vote>(entity =>
             {
+                // Les Primary keys sont définies à la fin de ce fichier
+
                 entity.HasOne(p => p.UtilisateurVotant)
-                    .WithMany()
+                    .WithMany(u => u.VotesUtilisateur)
                     .HasForeignKey(p => p.UtilisateurId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_vot_utl");
 
                 entity.HasOne(p => p.ThemeVote)
-                    .WithMany()
+                    .WithMany(t => t.VotesTheme)
                     .HasForeignKey(p => p.ThemeId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_vot_the");
 
                 entity.HasOne(p => p.JoueurVote)
                     .WithMany(j => j.VotesJoueur)
                     .HasForeignKey(p => p.JoueurId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_vot_jou");
             });
 
 
