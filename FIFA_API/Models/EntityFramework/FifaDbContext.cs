@@ -64,6 +64,19 @@ namespace FIFA_API.Models.EntityFramework
             {
                 entity.Property(e => e.DateReglement).HasDefaultValueSql("now()");
             });
+            modelBuilder.Entity<Album>(entity =>
+            {
+                entity.Property(e => e.DateHeure).HasDefaultValueSql("now()");
+            });
+            modelBuilder.Entity<Compte>(entity =>
+            {
+                entity.Property(e => e.CompteDateConnexion).HasDefaultValueSql("now()");
+            });
+            modelBuilder.Entity<Compte>().HasIndex(u => u.CompteEmail).IsUnique();
+
+            #region Null
+
+            #endregion
 
             #region foreignkey
 
@@ -103,7 +116,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<FormulaireAide>()
                .HasOne(p => p.FormulaireAction)
                .WithMany(d => d.ActionFormulaireAide)
-               .HasForeignKey(p => p.NumAction)
+               .HasForeignKey(p => p.IdAction)
                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_foa_act");
 
@@ -461,23 +474,28 @@ namespace FIFA_API.Models.EntityFramework
             });
 
             //ForeignKey Vote
-            modelBuilder.Entity<Vote>()
-                .HasOne(p => p.UtilisateurVotant)
-                .WithMany()
-                .HasForeignKey(p => p.UtilisateurId)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Vote>(entity =>
+            {
+                // Les Primary keys sont définies à la fin de ce fichier
 
-            modelBuilder.Entity<Vote>()
-                .HasOne(p => p.ThemeVote)
-                .WithMany()
-                .HasForeignKey(p => p.ThemeId)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.UtilisateurVotant)
+                    .WithMany(u => u.VotesUtilisateur)
+                    .HasForeignKey(p => p.UtilisateurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_vot_utl");
 
-            modelBuilder.Entity<Vote>()
-                .HasOne(p => p.JoueurVote)
-                .WithMany(j => j.VotesJoueur)
-                .HasForeignKey(p => p.JoueurId)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.ThemeVote)
+                    .WithMany(t => t.VotesTheme)
+                    .HasForeignKey(p => p.ThemeId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_vot_the");
+
+                entity.HasOne(p => p.JoueurVote)
+                    .WithMany(j => j.VotesJoueur)
+                    .HasForeignKey(p => p.JoueurId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_vot_jou");
+            });
 
 
             //ForeignKey Ville

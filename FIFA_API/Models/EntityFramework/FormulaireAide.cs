@@ -11,8 +11,8 @@ namespace FIFA_API.Models.EntityFramework
         public int IdFormulaire { get; set; }
 
         [Required]
-        [Column("foa_numaction")]
-        public int NumAction { get; set; }
+        [Column("act_id")]
+        public int IdAction { get; set; }
 
         [Required]
         [Column("utl_id")]
@@ -37,7 +37,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Utilisateur.FormulairesAideUtilisateur))]
         public virtual Utilisateur UtilisateurDuFormulaire { get; set; } = null!;
 
-        [ForeignKey(nameof(NumAction))]
+        [ForeignKey(nameof(IdAction))]
         [InverseProperty(nameof(Action.ActionFormulaireAide))]
         public virtual Action FormulaireAction { get; set; } = null!;
     }

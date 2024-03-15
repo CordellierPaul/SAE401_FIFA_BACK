@@ -13,8 +13,8 @@ namespace FIFA_API.Models.EntityFramework
         [Column("gen_id")]
         public int GenreId { get; set; }
 
-        [Column("cat_num")]
-        public int NumCategorie { get; set; }
+        [Column("cat_id")]
+        public int CategorieId { get; set; }
 
         [Column("pro_nom")]
         [StringLength(100)]
@@ -27,8 +27,8 @@ namespace FIFA_API.Models.EntityFramework
         [Column("comp_id")]
         public int? IdCompetition { get; set; }
 
-        [Column("pay_num")]
-        public int NumPays { get; set; }
+        [Column("pay_id")]
+        public int PaysId { get; set; }
 
 
         #region Foreign Key

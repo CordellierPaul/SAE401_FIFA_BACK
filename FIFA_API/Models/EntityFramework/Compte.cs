@@ -22,7 +22,7 @@ namespace FIFA_API.Models.EntityFramework
         public string? CompteMdp { get; set; } = null!;
 
         [Column("cpt_dateconnexion")]
-        public DateTime CompteDateConnexion { get; set; } = DateTime.Now;
+        public DateTime CompteDateConnexion { get; set; }
 
         [Column("cpt_annonces")]
         public bool CompteAnnonces { get; set; } = false;

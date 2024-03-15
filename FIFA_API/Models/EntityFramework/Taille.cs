@@ -7,7 +7,7 @@ namespace FIFA_API.Models.EntityFramework
     public partial class Taille
     {
         [Key]
-        [Column("tai_num")]
+        [Column("tai_id")]
         public int NumTaille { get; set; }
 
         [Column("tai_libelle")]

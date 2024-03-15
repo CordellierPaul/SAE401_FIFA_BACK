@@ -10,8 +10,8 @@ namespace FIFA_API.Models.EntityFramework
         [Column("stk_id")]
         public int StockId { get; set; }
 
-        [Column("tai_num")]
-        public int NumTaille { get; set; }
+        [Column("tai_id")]
+        public int NumId{ get; set; }
 
         [Column("vpd_id")]
         public int VarianteProduitId { get; set; }
@@ -20,7 +20,7 @@ namespace FIFA_API.Models.EntityFramework
         public int QuantiteStockeeId { get; set; }
 
 
-        [ForeignKey(nameof(NumTaille))]
+        [ForeignKey(nameof(NumId))]
         [InverseProperty(nameof(Taille.StocksTaille))]
         public virtual Taille TailleStockee { get; set; } = null!;
 
