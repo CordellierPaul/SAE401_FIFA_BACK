@@ -44,31 +44,29 @@ namespace FIFA_API.Models.EntityFramework
         public int LangueId { get; set; } = 1;
 
         [Column("pay_paysnaissance_id")]
-        [Required]
         public int PaysNaissanceId { get; set; }
 
         [Column("pay_paysfavori_id")]
-        [Required]
-        public int PaysFavoriId { get; set; }
+        public int? PaysFavoriId { get; set; }
 
         [Column("utl_nomacheteur")]
         [StringLength(50)]
-        public string UtilisateurNomAcheteur { get; set; } = null!;
+        public string? UtilisateurNomAcheteur { get; set; }
 
         [Column("utl_telacheteur")]
         [StringLength(10)]
-        public string UtilisateurTelAcheteur { get; set; } = null!;
+        public string? UtilisateurTelAcheteur { get; set; }
 
         [Column("act_id")]
         public int? ActiviteId { get; set; }
 
         [Column("soc_id")]
         [StringLength(14)]
-        public string SocieteId { get; set; } = null!;
+        public string? SocieteId { get; set; }
 
         [Column("utl_numtva")]
         [StringLength(11)]
-        public string UtilisateurNumTva { get; set; } = null!;
+        public string? UtilisateurNumTva { get; set; }
 
         #region Foreign Key
 
@@ -90,7 +88,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(PaysFavoriId))]
         [InverseProperty(nameof(Pays.UtilisateursFavorisantPays))]
-        public virtual Pays PaysFavoriNavigation { get; set; } = null!;
+        public virtual Pays? PaysFavoriNavigation { get; set; } = null!;
 
         [ForeignKey(nameof(PaysNaissanceId))]
         [InverseProperty(nameof(Pays.UtilisateursNesPays))]

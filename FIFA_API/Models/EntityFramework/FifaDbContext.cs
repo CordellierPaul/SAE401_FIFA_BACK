@@ -59,26 +59,53 @@ namespace FIFA_API.Models.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Il faudra donner des infos sur la base ici
+            #region Valeurs par défaut + index
+
             modelBuilder.Entity<Reglement>(entity =>
             {
                 entity.Property(e => e.ReglementDate).HasDefaultValueSql("now()");
             });
+
             modelBuilder.Entity<Album>(entity =>
             {
                 entity.Property(e => e.DateHeure).HasDefaultValueSql("now()");
             });
+
             modelBuilder.Entity<Compte>(entity =>
             {
                 entity.Property(e => e.CompteDateConnexion).HasDefaultValueSql("now()");
+                entity.HasIndex(u => u.CompteEmail).IsUnique();
+                entity.Property(e => e.CompteAnnonces).HasDefaultValue("false");
             });
-            modelBuilder.Entity<Compte>().HasIndex(u => u.CompteEmail).IsUnique();
-
-            #region Null
 
             #endregion
 
             #region foreignkey
+            //ForeignKey Commande
+            modelBuilder.Entity<Commande>()
+                .HasOne(p => p.UtilisateurCommandant)
+                .WithMany(d => d.CommandesUtilisateur)
+                .HasForeignKey(p => p.UtilisateurId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_cmd_utl")
+                .IsRequired(false);
+
+            modelBuilder.Entity<Commande>()
+                .HasOne(p => p.AdresseCommande)
+                .WithMany(d => d.CommandesAdresse)
+                .HasForeignKey(p => p.AdresseId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_cmd_adr")
+                .IsRequired(false);
+
+            modelBuilder.Entity<Commande>()
+                .HasOne(p => p.LivraisonCommande)
+                .WithMany(d => d.CommandesLivraison)
+                .HasForeignKey(p => p.LivraisonId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_cmd_liv")
+                .IsRequired(false);
+
 
             //ForeignKey Commentaire
             modelBuilder.Entity<Commentaire>()
@@ -120,6 +147,14 @@ namespace FIFA_API.Models.EntityFramework
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("fk_com_art")
                 .IsRequired(false);
+
+            modelBuilder.Entity<Commentaire>()
+               .HasOne(p => p.UtilisateurCommentant)
+               .WithMany(d => d.CommentairesUtilisateur)
+               .HasForeignKey(p => p.UtilisateurId)
+               .OnDelete(DeleteBehavior.Restrict)
+               .HasConstraintName("fk_com_utl")
+               .IsRequired(false);
 
             //ForeignKey Devis
             modelBuilder.Entity<Devis>()
@@ -472,7 +507,7 @@ namespace FIFA_API.Models.EntityFramework
                     .WithMany(a => a.UtilisateursAdresse)
                     .HasForeignKey(p => p.AdresseId)
                     .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_utl_adr");
+                    .HasConstraintName("fk_utl_adr");
 
                 // Relation one to one entre utilisateur et compte (un compte n'a
                 // pas obligatoirement d'utilisateur donc IsRequired est à false) :
@@ -480,7 +515,7 @@ namespace FIFA_API.Models.EntityFramework
                     .WithOne(e => e.UtilisateurCompte)
                     .HasForeignKey<Utilisateur>(e => e.CompteId)
                     .IsRequired(false)
-                .HasConstraintName("fk_utl_cpt");
+                    .HasConstraintName("fk_utl_cpt");
 
                 entity.HasOne(p => p.LangueUtilisateur)
                     .WithMany(l => l.UtilisateursLangue)
@@ -493,6 +528,14 @@ namespace FIFA_API.Models.EntityFramework
                     .HasForeignKey(p => p.MonnaieId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_utl_mon");
+
+                // Activité de l'utilisateur (si c'est un compte d'entreprise par exemple)
+                entity.HasOne(p => p.ActiviteUtilisateur)
+                   .WithMany(u => u.UtilisateursActivite)
+                   .HasForeignKey(p => p.ActiviteId)
+                   .OnDelete(DeleteBehavior.Restrict)
+                   .HasConstraintName("fk_utl_act")
+                   .IsRequired(false);
 
                 // Pays de naissance de l'utilisateur
                 entity.HasOne(e => e.PaysNaissanceNavigation)
@@ -508,7 +551,7 @@ namespace FIFA_API.Models.EntityFramework
                     .HasForeignKey(e => e.PaysFavoriId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_pay_utl_pays_favori")
-                    .IsRequired();
+                    .IsRequired(false);
             });
 
             //ForeignKey VarianteProduit
@@ -732,23 +775,6 @@ namespace FIFA_API.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_jot_jou");
             });
-
-            //Avait été fait plus haut
-            /*
-            //ForeignKey Remporte
-            modelBuilder.Entity<Remporte>(entity =>
-            {
-                entity.HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
-                    .HasName("pk_rem");
-
-                entity.HasOne(d => d.JoueurRemportant)
-                    .WithMany(p => p.RemportesJoueur)
-                    .HasForeignKey(d => d.IdJoueur)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_rem_jou");
-
-                //TO DO
-            });*/
 
             #endregion
 

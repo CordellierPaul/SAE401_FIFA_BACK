@@ -7,11 +7,11 @@ namespace FIFA_API.Models.EntityFramework
     public partial class ImageJoueur
     {
         [Key]
-        [ForeignKey("img_id")]
+        [Column("img_id")]
         public int ImageId { get; set; }
 
         [Key]
-        [ForeignKey("jou_id")]
+        [Column("jou_id")]
         public int JoueurId { get; set; }
 
         [ForeignKey(nameof(ImageId))]
