@@ -69,6 +69,7 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Commande>(entity =>
             {
                 entity.Property(e => e.CommandeDateCommande).HasDefaultValueSql("now()");
+                entity.Property(e => e.CommandeDomicile).HasDefaultValue("false");
             });
 
             modelBuilder.Entity<Compte>(entity =>
