@@ -20,20 +20,20 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(1000)]
         public string CommentaireTexte { get; set; } = null!;
 
-        [Column("com_id")]
-        public int CommentaireIdCommentaire { get; set; }
+        [Column("com_com_id")]
+        public int? CommentaireIdCommentaire { get; set; }
 
         [Column("doc_id")]
-        public int DocumentId { get; set; }
+        public int? DocumentId { get; set; }
 
         [Column("alb_id")]
-        public int AlbumId { get; set; }
+        public int? AlbumId { get; set; }
 
         [Column("blg_id")]
-        public int BlogId { get; set; }
+        public int? BlogId { get; set; }
 
         [Column("art_id")]
-        public int ArticleId { get; set; }
+        public int? ArticleId { get; set; }
 
 
         [ForeignKey(nameof(UtilisateurId))]
@@ -42,23 +42,23 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey("CommentaireIdCommentaire")]
         [InverseProperty("CommenteCommentaire")]
-        public virtual Commentaire CommentaireCommente { get; set; } = null!;
+        public virtual Commentaire? CommentaireCommente { get; set; } = null!;
 
         [ForeignKey("DocumentId")]
         [InverseProperty("CommentairesDocument")]
-        public virtual Document DocumentCommente { get; set; } = null!;
+        public virtual Document? DocumentCommente { get; set; } = null!;
 
         [ForeignKey("AlbumId")]
         [InverseProperty("CommentairesAlbum")]
-        public virtual Album AlbumCommente { get; set; } = null!;
+        public virtual Album? AlbumCommente { get; set; } = null!;
 
         [ForeignKey(nameof(BlogId))]
         [InverseProperty(nameof(Blog.CommentairesBlog))]
-        public virtual Blog BlogCommente { get; set; } = null!;
+        public virtual Blog? BlogCommente { get; set; } = null!;
 
         [ForeignKey("ArticleId")]
         [InverseProperty("CommentairesArticle")]
-        public virtual Article ArticleCommente { get; set; } = null!;
+        public virtual Article? ArticleCommente { get; set; } = null!;
 
 
         [InverseProperty("CommentaireCommente")]
