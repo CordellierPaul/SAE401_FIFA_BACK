@@ -32,11 +32,11 @@ namespace FIFA_API.Models.EntityFramework
 
 
         #region Foreign Key
-        [ForeignKey(nameof(NumPays))]
+        [ForeignKey(nameof(PaysId))]
         [InverseProperty(nameof(Pays.ProduitsPays))]
         public virtual Pays PaysProduit { get; set; } = null!;
 
-        [ForeignKey(nameof(NumCategorie))]
+        [ForeignKey(nameof(CategorieId))]
         [InverseProperty(nameof(Categorie.ProduitsCategorie))]
         public virtual Categorie CategorieNavigation { get; set; } = null!;
 
