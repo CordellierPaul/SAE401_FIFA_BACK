@@ -30,7 +30,7 @@ namespace FIFA_API.Models.EntityFramework
         public string CommandeEtatCommande { get; set; } = null!;
 
         [Column("cmd_domicile")]
-        public Boolean CommandeDomicil { get; set; }
+        public Boolean CommandeDomicile { get; set; }
 
         [Column("cmd_datelivraison")]
         public DateTime CommandeDateLivraison { get; set; }
