@@ -28,13 +28,13 @@ namespace FIFA_API.Models.EntityFramework
         public int? CompetitionId { get; set; }
 
         [Column("pay_id")]
-        public int PaysId { get; set; }
+        public int? PaysId { get; set; }
 
 
         #region Foreign Key
         [ForeignKey(nameof(PaysId))]
         [InverseProperty(nameof(Pays.ProduitsPays))]
-        public virtual Pays PaysProduit { get; set; } = null!;
+        public virtual Pays? PaysProduit { get; set; } = null!;
 
         [ForeignKey(nameof(CategorieId))]
         [InverseProperty(nameof(Categorie.ProduitsCategorie))]

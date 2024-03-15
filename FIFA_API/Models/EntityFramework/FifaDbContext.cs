@@ -358,7 +358,8 @@ namespace FIFA_API.Models.EntityFramework
                     .WithMany(p => p.ProduitsPays)
                     .HasForeignKey(p => p.PaysId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_pro_pay");
+                    .HasConstraintName("fk_pro_pay")
+                    .IsRequired(false);
 
                 entity.HasOne(p => p.CategorieNavigation)
                     .WithMany(p => p.ProduitsCategorie)
