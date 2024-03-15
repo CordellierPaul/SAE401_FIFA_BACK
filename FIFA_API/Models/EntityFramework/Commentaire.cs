@@ -20,7 +20,7 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(1000)]
         public string CommentaireTexte { get; set; } = null!;
 
-        [Column("com_id")]
+        [Column("com_com_id")]
         public int? CommentaireIdCommentaire { get; set; }
 
         [Column("doc_id")]
