@@ -123,6 +123,14 @@ namespace FIFA_API.Models.EntityFramework
                 .HasConstraintName("fk_com_art")
                 .IsRequired(false);
 
+            modelBuilder.Entity<Commentaire>()
+               .HasOne(p => p.UtilisateurCommentant)
+               .WithMany(d => d.CommentairesUtilisateur)
+               .HasForeignKey(p => p.UtilisateurId)
+               .OnDelete(DeleteBehavior.Restrict)
+               .HasConstraintName("fk_com_utl")
+               .IsRequired(false);
+
             //ForeignKey Devis
             modelBuilder.Entity<Devis>()
                 .HasOne(p => p.UtilisateurDevis)
