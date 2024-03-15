@@ -74,6 +74,10 @@ namespace FIFA_API.Models.EntityFramework
             });
             modelBuilder.Entity<Compte>().HasIndex(u => u.CompteEmail).IsUnique();
 
+            #region Null
+
+            #endregion
+
             #region foreignkey
 
             //ForeignKey Devis
