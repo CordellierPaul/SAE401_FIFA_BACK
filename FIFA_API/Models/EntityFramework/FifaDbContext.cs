@@ -485,13 +485,13 @@ namespace FIFA_API.Models.EntityFramework
                     .WithMany(l => l.UtilisateursLangue)
                     .HasForeignKey(p => p.LangueId)
                     .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_utl_lng");
+                    .HasConstraintName("fk_utl_lng");
 
                 entity.HasOne(p => p.MonnaieUtilisateur)
-                    .WithMany()
+                    .WithMany(u => u.UtilisateursMonnaie)
                     .HasForeignKey(p => p.MonnaieId)
                     .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_utl_mon");
+                    .HasConstraintName("fk_utl_mon");
 
                 // Pays de naissance de l'utilisateur
                 entity.HasOne(e => e.PaysNaissanceNavigation)
