@@ -464,19 +464,19 @@ namespace FIFA_API.Models.EntityFramework
             modelBuilder.Entity<Vote>()
                 .HasOne(p => p.UtilisateurVotant)
                 .WithMany()
-                .HasForeignKey(p => p.IdUtilisateur)
+                .HasForeignKey(p => p.UtilisateurId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Vote>()
                 .HasOne(p => p.ThemeVote)
                 .WithMany()
-                .HasForeignKey(p => p.NumTheme)
+                .HasForeignKey(p => p.ThemeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Vote>()
                 .HasOne(p => p.JoueurVote)
                 .WithMany(j => j.VotesJoueur)
-                .HasForeignKey(p => p.IdJoueur)
+                .HasForeignKey(p => p.JoueurId)
                 .OnDelete(DeleteBehavior.Restrict);
 
 
@@ -825,7 +825,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_vil");
 
             modelBuilder.Entity<Vote>()
-                .HasKey(e => new { e.IdUtilisateur, e.NumTheme, e.IdJoueur })
+                .HasKey(e => new { e.UtilisateurId, e.ThemeId, e.JoueurId })
                 .HasName("pk_vot");
 
             #endregion
