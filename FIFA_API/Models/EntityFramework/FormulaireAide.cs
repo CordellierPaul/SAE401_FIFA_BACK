@@ -19,14 +19,14 @@ namespace FIFA_API.Models.EntityFramework
         public int IdUtilisateur { get; set; }
 
         [Required]
-        [Column("utl_nom")]
+        [Column("foa_nom")]
         [StringLength(50)]
         public string NomUtilisateur { get; set; } = null!;
 
         [Required]
         [Column("foa_telephone")]
         [StringLength(10)]
-        public string Telephone { get; set; } = null!;
+        public string? Telephone { get; set; }
 
         [Required]
         [Column("foa_question")]

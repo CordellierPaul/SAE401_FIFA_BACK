@@ -10,7 +10,7 @@ namespace FIFA_API.Models.EntityFramework
         [Column("img_id")]
         public int Id { get; set; }
 
-        [Column("img_url")]
+        [Column("med_url")]
         public string Url { get; set; } = null!;
 
         [ForeignKey(nameof(Url))]

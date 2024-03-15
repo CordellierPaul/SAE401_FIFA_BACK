@@ -125,7 +125,8 @@ namespace FIFA_API.Models.EntityFramework
                 .HasOne(p => p.MediaImage)
                 .WithMany(m => m.ImagesMedia)
                 .HasForeignKey(p => p.Id)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_img_med");
 
             //ForeignKey InfosBancaires
             modelBuilder.Entity<InfosBancaires>()
@@ -141,17 +142,20 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasOne(j => j.VilleJoueur)
                     .WithMany(v => v.JoueursVille)
                     .HasForeignKey(p => p.IdVille)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_jou_vil");
 
                 entity.HasOne(j => j.ClubJoueur)
-                    .WithMany()
+                    .WithMany(c => c.JoueursClub)
                     .HasForeignKey(p => p.IdClub)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_jou_clb");
 
                 entity.HasOne(j => j.PosteJoueur)
                     .WithMany(d => d.JoueursPoste)
                     .HasForeignKey(p => p.NumPoste)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_jou_pos");
 
                 //Lien Anecdote/joueur
                 entity.HasMany(j => j.LienAnecdotes)
@@ -358,20 +362,23 @@ namespace FIFA_API.Models.EntityFramework
                 .HasOne(p => p.CommandeRegle)
                 .WithMany(p => p.ReglementsCommande)
                 .HasForeignKey(p => p.CommandeId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_reg_cmd");
 
             //ForeignKey Remporte
             modelBuilder.Entity<Remporte>()
                 .HasOne(p => p.JoueurRemportant)
                 .WithMany(p => p.RemportesJoueur)
                 .HasForeignKey(p => p.JoueurId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_rem_jou");
 
             modelBuilder.Entity<Remporte>()
                 .HasOne(p => p.TropheeRemporte)
-                .WithMany(t => t.RemportesTrophee)
+                .WithMany(t=> t.RemportesTrophee)
                 .HasForeignKey(p => p.TropheeId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_rem_tro");
 
             modelBuilder.Entity<Remporte>()
                 .HasKey(e => new { e.JoueurId, e.TropheeId, e.Annee })
@@ -387,12 +394,14 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasOne(e => e.ObjCategorieEnfant)
                     .WithMany(e => e.EnfantsCategorie)
                     .HasForeignKey(e => e.CategorieEnfantId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_sct_catenf");
 
                 entity.HasOne(e => e.ObjCategorieParent)
                     .WithMany(e => e.ParentsCategorie)
                     .HasForeignKey(e => e.CategorieParentId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_sct_catpar");
             });
 
             //ForeignKey Stock
@@ -404,12 +413,14 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasOne(e => e.TailleStockee)
                     .WithMany(t => t.StocksTaille)
                     .HasForeignKey(e => e.TailleId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_stk_tai");
 
                 entity.HasOne(e => e.VarianteStockee)
                     .WithMany(e => e.StocksVariante)
                     .HasForeignKey(e => e.VarianteProduitId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_stk_vpd");
             });
 
             //ForeignKey Utilisateur
@@ -418,31 +429,35 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasOne(p => p.AdresseUtilisateur)
                     .WithMany(a => a.UtilisateursAdresse)
                     .HasForeignKey(p => p.AdresseId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_utl_adr");
 
                 // Relation one to one entre utilisateur et compte (un compte n'a
                 // pas obligatoirement d'utilisateur donc IsRequired est à false) :
                 entity.HasOne(e => e.CompteUtilisateur)
                     .WithOne(e => e.UtilisateurCompte)
                     .HasForeignKey<Utilisateur>(e => e.CompteId)
-                    .IsRequired(false);
+                    .IsRequired(false)
+                .HasConstraintName("fk_utl_cpt");
 
                 entity.HasOne(p => p.LangueUtilisateur)
                     .WithMany(l => l.UtilisateursLangue)
                     .HasForeignKey(p => p.LangueId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_utl_lng");
 
                 entity.HasOne(p => p.MonnaieUtilisateur)
                     .WithMany()
                     .HasForeignKey(p => p.NumMonnaie)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_utl_mon");
 
                 // Pays de naissance de l'utilisateur
                 entity.HasOne(e => e.PaysNaissanceNavigation)
                     .WithMany(e => e.UtilisateursNesPays)
                     .HasForeignKey(e => e.PaysNaissanceId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_pay_utl_pays_nassance")
+                    .HasConstraintName("fk_pay_utl_pays_naissance")
                     .IsRequired();
 
                 // Pays favori de l'utilisateur
@@ -504,7 +519,8 @@ namespace FIFA_API.Models.EntityFramework
                 entity.HasOne(p => p.PaysVille)
                     .WithMany(p => p.VillesPays)
                     .HasForeignKey(p => p.PaysId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("fk_vil_pay");
 
                 entity.HasMany(v => v.LiensAdresses)
                     .WithOne(a => a.LienVille)
@@ -829,7 +845,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_reg");
 
             modelBuilder.Entity<Taille>()
-                .HasKey(e => e.NumTaille)
+                .HasKey(e => e.TailleId)
                 .HasName("pk_tai");
 
             modelBuilder.Entity<Theme>()
