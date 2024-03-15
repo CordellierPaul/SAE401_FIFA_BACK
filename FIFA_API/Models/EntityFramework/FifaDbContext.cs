@@ -461,23 +461,23 @@ namespace FIFA_API.Models.EntityFramework
             });
 
             //ForeignKey Vote
-            modelBuilder.Entity<Vote>()
-                .HasOne(p => p.UtilisateurVotant)
-                .WithMany()
-                .HasForeignKey(p => p.IdUtilisateur)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Vote>(entity =>
+            {
+                entity.HasOne(p => p.UtilisateurVotant)
+                    .WithMany()
+                    .HasForeignKey(p => p.UtilisateurId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Vote>()
-                .HasOne(p => p.ThemeVote)
-                .WithMany()
-                .HasForeignKey(p => p.NumTheme)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.ThemeVote)
+                    .WithMany()
+                    .HasForeignKey(p => p.ThemeId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Vote>()
-                .HasOne(p => p.JoueurVote)
-                .WithMany(j => j.VotesJoueur)
-                .HasForeignKey(p => p.IdJoueur)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(p => p.JoueurVote)
+                    .WithMany(j => j.VotesJoueur)
+                    .HasForeignKey(p => p.JoueurId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
 
 
             //ForeignKey Ville
@@ -825,7 +825,7 @@ namespace FIFA_API.Models.EntityFramework
                 .HasName("pk_vil");
 
             modelBuilder.Entity<Vote>()
-                .HasKey(e => new { e.IdUtilisateur, e.NumTheme, e.IdJoueur })
+                .HasKey(e => new { e.UtilisateurId, e.ThemeId, e.JoueurId })
                 .HasName("pk_vot");
 
             #endregion

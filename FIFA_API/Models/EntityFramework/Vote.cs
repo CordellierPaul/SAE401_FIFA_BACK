@@ -9,7 +9,7 @@ namespace FIFA_API.Models.EntityFramework
     {
         [Key]
         [Column("utl_id")]
-        public int IdUtilisateur { get; set; }
+        public int UtilisateurId { get; set; }
 
         [Key]
         [Column("the_id")]
@@ -17,13 +17,13 @@ namespace FIFA_API.Models.EntityFramework
 
         [Key]
         [Column("jou_id")]
-        public int IdJoueur { get; set; }
+        public int JoueurId { get; set; }
 
         [Required]
         [Column("vot_note")]
         public int Note { get; set; }
 
-        [ForeignKey(nameof(IdUtilisateur))]
+        [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty(nameof(Utilisateur.VotesUtilisateur))]
         public virtual Utilisateur UtilisateurVotant { get; set; } = null!;
 
@@ -31,7 +31,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Theme.VotesTheme))]
         public virtual Theme ThemeVote { get; set; } = null!;
 
-        [ForeignKey(nameof(IdJoueur))]
+        [ForeignKey(nameof(JoueurId))]
         [InverseProperty(nameof(Joueur.VotesJoueur))]
         public virtual Joueur JoueurVote { get; set; } = null!;
     }
