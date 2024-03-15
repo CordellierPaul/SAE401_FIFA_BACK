@@ -18,7 +18,7 @@ namespace FIFA_API.Models.EntityFramework
         [Column("clb_exterieurid")]
         public int ClubExterieurId { get; set; }
 
-        [Column("mch_datematch")]
+        [Column("mch_datematch", TypeName = "date")]
         public DateTime DateMatch { get; set; }
 
         [Column("mch_scoredomicile")]

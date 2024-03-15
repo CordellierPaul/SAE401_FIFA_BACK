@@ -11,9 +11,12 @@ namespace FIFA_API.Models.EntityFramework
         [Column("liv_id")]
         public int LivraisonId { get; set; }
 
+        [Required]
+        [StringLength(30)]
         [Column("liv_type")]
         public string TypeLivraison { get; set; } = null!;
 
+        [Required]
         [Column("liv_prix")]
         public double PrixLivraison { get; set; }
         
