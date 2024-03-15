@@ -59,22 +59,24 @@ namespace FIFA_API.Models.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Il faudra donner des infos sur la base ici
+            #region Valeurs par défaut + index
+
             modelBuilder.Entity<Reglement>(entity =>
             {
                 entity.Property(e => e.ReglementDate).HasDefaultValueSql("now()");
             });
+
             modelBuilder.Entity<Album>(entity =>
             {
                 entity.Property(e => e.DateHeure).HasDefaultValueSql("now()");
             });
+
             modelBuilder.Entity<Compte>(entity =>
             {
                 entity.Property(e => e.CompteDateConnexion).HasDefaultValueSql("now()");
+                entity.HasIndex(u => u.CompteEmail).IsUnique();
+                entity.Property(e => e.CompteAnnonces).HasDefaultValue("false");
             });
-            modelBuilder.Entity<Compte>().HasIndex(u => u.CompteEmail).IsUnique();
-
-            #region Null
 
             #endregion
 
@@ -731,23 +733,6 @@ namespace FIFA_API.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_jot_jou");
             });
-
-            //Avait été fait plus haut
-            /*
-            //ForeignKey Remporte
-            modelBuilder.Entity<Remporte>(entity =>
-            {
-                entity.HasKey(e => new { e.IdJoueur, e.NumTrophee, e.Annee })
-                    .HasName("pk_rem");
-
-                entity.HasOne(d => d.JoueurRemportant)
-                    .WithMany(p => p.RemportesJoueur)
-                    .HasForeignKey(d => d.IdJoueur)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_rem_jou");
-
-                //TO DO
-            });*/
 
             #endregion
 
