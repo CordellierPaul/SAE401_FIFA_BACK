@@ -1,4 +1,4 @@
-﻿using FIFA_API.Models;
+﻿using FIFA_API.Models.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

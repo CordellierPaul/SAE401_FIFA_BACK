@@ -1,4 +1,4 @@
-﻿namespace FIFA_API.Models
+﻿namespace FIFA_API.Models.EntityFramework
 {
     public partial class Compte
     {
