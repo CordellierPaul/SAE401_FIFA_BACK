@@ -17,13 +17,13 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private ProduitController _controller;
-        private IDataRepository<Utilisateur> _dataRepository;
+        private IDataRepository<Produit> _dataRepository;
 
         public ProduitControllerTests()
         {
             var builder = new DbContextOptionsBuilder<FifaDbContext>().UseNpgsql("Server=localhost;port=5432;Database=FifaDB; uid=postgres; password=postgres;");
             _context = new FifaDbContext(builder.Options);
-            //_dataRepository = new ProduitManager(_context);
+            _dataRepository = new ProduitManager(_context);
             //_controller = new ProduitController(_dataRepository);
         }
 

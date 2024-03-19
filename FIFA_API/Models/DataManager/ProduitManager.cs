@@ -10,7 +10,7 @@ namespace FIFA_API.Models.DataManager
         readonly FifaDbContext? fifaDbContext;
 
         public ProduitManager() { }
-        public ProduitManager(FifaDbContext? context)
+        public ProduitManager(FifaDbContext context)
         {
             fifaDbContext = context;
         }
