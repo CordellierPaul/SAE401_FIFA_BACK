@@ -16,11 +16,8 @@ namespace FIFA_API.Controllers
         private readonly IConfiguration _config;
         private List<Compte> appUsers = new List<Compte>
         {
-            //A MODIFIER
-            new Compte { FullName = "Vincent COUTURIER", UserName = "vince", Password = "1234",
-                UserRole = "Admin" },
-            new Compte { FullName = "Marc MACHIN", UserName = "marc", Password = "1234", UserRole =
-                "User" }
+            new Compte { CompteEmail = "ezf@fzefde.com", CompteMdp = "1234", TypeCompte = 1 },
+            new Compte { CompteEmail = "test@fzefeffde.com", CompteMdp = "12345", TypeCompte = 3 }
         };
 
         public LoginController(IConfiguration config)
@@ -33,7 +30,7 @@ namespace FIFA_API.Controllers
         public IActionResult Login([FromBody] Compte login)
         {
             IActionResult response = Unauthorized();
-            Compte user = AuthenticateUser(login);
+            Compte? user = AuthenticateUser(login);
             if (user != null)
             {
                 var tokenString = GenerateJwtToken(user);
@@ -45,9 +42,9 @@ namespace FIFA_API.Controllers
             }
             return response;
         }
-        private Compte AuthenticateUser(Compte user)
+        private Compte? AuthenticateUser(Compte user)
         {
-            return appUsers.SingleOrDefault(x => x.UserName.ToUpper() == user.UserName.ToUpper() && x.Password == user.Password);
+            return appUsers.SingleOrDefault(x => x.CompteEmail.ToUpper() == user.CompteEmail.ToUpper() && x.CompteMdp == user.CompteMdp);
         }
         private string GenerateJwtToken(Compte userInfo)
         {
@@ -56,9 +53,9 @@ namespace FIFA_API.Controllers
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
-                new Claim("fullName", userInfo.FullName.ToString()),
-                new Claim("role",userInfo.UserRole),
+                //new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
+                new Claim("email", userInfo.CompteEmail.ToString()),
+                new Claim("type", userInfo.TypeCompte.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             var token = new JwtSecurityToken(
