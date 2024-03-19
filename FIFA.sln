@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIFA_API", "FIFA_API\FIFA_API.csproj", "{43432C64-AD42-476E-B1EC-D8CD9EC3C75D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIFA_API", "FIFA_API\FIFA_API.csproj", "{43432C64-AD42-476E-B1EC-D8CD9EC3C75D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIFA_APITests", "FIFA_APITests\FIFA_APITests.csproj", "{A4AC24A9-1BB1-4A92-8BB5-22724EB754D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{43432C64-AD42-476E-B1EC-D8CD9EC3C75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43432C64-AD42-476E-B1EC-D8CD9EC3C75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43432C64-AD42-476E-B1EC-D8CD9EC3C75D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4AC24A9-1BB1-4A92-8BB5-22724EB754D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4AC24A9-1BB1-4A92-8BB5-22724EB754D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4AC24A9-1BB1-4A92-8BB5-22724EB754D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4AC24A9-1BB1-4A92-8BB5-22724EB754D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
