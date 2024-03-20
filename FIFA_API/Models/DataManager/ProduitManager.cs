@@ -37,7 +37,7 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<Produit>> GetByIdAsync(int id)
         {
-            Produit? produit = await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitId == id);
+            Produit produit = await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitId == id);
 
             if (produit is null)
                 return produit;
