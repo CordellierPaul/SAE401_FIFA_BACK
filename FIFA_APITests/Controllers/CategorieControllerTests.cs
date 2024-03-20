@@ -149,8 +149,6 @@ namespace FIFA_API.Controllers.Tests
             Assert.AreEqual(cat, (Categorie)result.Value, "Categories pas identiques");
         }
 
-
-
         [TestMethod]
         public void DeleteCategorie_ModelValidated_DeleteOK_AvecMoq()
         {
