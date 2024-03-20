@@ -33,13 +33,13 @@ namespace FIFA_API.Models.DataManager
         }
 
 
-        public async Task<ActionResult<Blog?>> GetByIdAsync(int id)
+        public async Task<ActionResult<Blog>> GetByIdAsync(int id)
         {
             return await fifaDbContext.Blog.FirstOrDefaultAsync(u => u.BlogId == id);
 
         }
 
-        public async Task<ActionResult<Blog?>> GetByStringAsync(string str)
+        public async Task<ActionResult<Blog>> GetByStringAsync(string str)
         {
             return await fifaDbContext.Blog.FirstOrDefaultAsync(u => u.BlogTitre.ToUpper() == str.ToUpper());
         }
