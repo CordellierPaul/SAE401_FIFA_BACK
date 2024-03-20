@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,111 +14,94 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class FilmController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Film> dataRepository;
 
-        public FilmController(FifaDbContext context)
+        public FilmController(IDataRepository<Film> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Film
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Film>>> GetFilm()
         {
-          if (_context.Film == null)
-          {
-              return NotFound();
-          }
-            return await _context.Film.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Film/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Film>> GetFilm(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Film>> GetFilmById(int id)
         {
-          if (_context.Film == null)
-          {
-              return NotFound();
-          }
-            var film = await _context.Film.FindAsync(id);
+            var categorie = await dataRepository.GetByIdAsync(id);
 
-            if (film == null)
+            if (categorie == null)
             {
                 return NotFound();
             }
-
-            return film;
+            return categorie;
         }
 
         // PUT: api/Film/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutFilm(int id, Film film)
         {
             if (id != film.FilmId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(film).State = EntityState.Modified;
-
-            try
+            var filToUpdate = await dataRepository.GetByIdAsync(id);
+            if (filToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!FilmExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(filToUpdate.Value, film);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Film
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Film>> PostFilm(Film film)
         {
-          if (_context.Film == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Film'  is null.");
-          }
-            _context.Film.Add(film);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFilm", new { id = film.FilmId }, film);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(film);
+            return CreatedAtAction("GetById", new { id = film.FilmId }, film);
         }
 
         // DELETE: api/Film/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteFilm(int id)
         {
-            if (_context.Film == null)
+            var categorie = await dataRepository.GetByIdAsync(id);
+            if (categorie == null)
             {
                 return NotFound();
             }
-            var film = await _context.Film.FindAsync(id);
-            if (film == null)
-            {
-                return NotFound();
-            }
-
-            _context.Film.Remove(film);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
         }
 
-        private bool FilmExists(int id)
+        /*private bool FilmExists(int id)
         {
-            return (_context.Film?.Any(e => e.FilmId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Film?.Any(e => e.FilmId == id)).GetValueOrDefault();
+        }*/
     }
 }
