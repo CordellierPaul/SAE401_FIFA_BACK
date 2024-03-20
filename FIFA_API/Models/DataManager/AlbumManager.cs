@@ -14,7 +14,7 @@ namespace FIFA_API.Models.DataManager
         {
             fifaDbContext = context;
         }
-        public async Task<ActionResult<IEnumerable<Album>>> GetAllAsync(
+        public async Task<ActionResult<IEnumerable<Album>>> GetAllAsync()
         {
             return await fifaDbContext.Album.ToListAsync();
         }
