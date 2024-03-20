@@ -36,6 +36,7 @@ namespace FIFA_API.Models.EntityFramework
         public int? ArticleId { get; set; }
 
 
+        #region ForeignKey
         [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty(nameof(Utilisateur.CommentairesUtilisateur))]
         public virtual Utilisateur UtilisateurCommentant { get; set; } = null!;
@@ -60,6 +61,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty("CommentairesArticle")]
         public virtual Article? ArticleCommente { get; set; } = null!;
 
+        #endregion
 
         [InverseProperty("CommentaireCommente")]
         public virtual Commentaire? CommenteCommentaire { get; set; }
