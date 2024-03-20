@@ -36,11 +36,8 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<Article>> GetByIdAsync(int id)
         {
-            Article? article = await fifaDbContext.Article.FirstOrDefaultAsync(u => u.ArticleId == id);
+            return await fifaDbContext.Article.FirstOrDefaultAsync(u => u.ArticleId == id);
 
-            if (article is null)
-                return article;
-            return article;
         }
 
         public async Task<ActionResult<Article>> GetByStringAsync(string str)

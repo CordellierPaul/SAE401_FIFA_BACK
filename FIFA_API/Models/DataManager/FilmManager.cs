@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class FilmManager : IDataRepository<Film>
+    public class FilmManager : IDataRepositoryWithoutStr<Film>
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -38,10 +38,6 @@ namespace FIFA_API.Models.DataManager
 
         }
 
-        public async Task<ActionResult<Film>> GetByStringAsync(string str)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task UpdateAsync(Film entityToUpdate, Film entity)
         {

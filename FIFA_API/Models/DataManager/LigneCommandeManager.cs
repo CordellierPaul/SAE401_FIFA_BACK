@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class LigneCommandeManager : IDataRepository<LigneCommande>
+    public class LigneCommandeManager : IDataRepositoryWithoutStr<LigneCommande>
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -38,10 +38,6 @@ namespace FIFA_API.Models.DataManager
 
         }
 
-        public async Task<ActionResult<LigneCommande>> GetByStringAsync(string str)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task UpdateAsync(LigneCommande entityToUpdate, LigneCommande entity)
         {

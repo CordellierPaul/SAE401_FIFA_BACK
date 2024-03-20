@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class CommandeManager : IDataRepository<Commande>
+    public class CommandeManager : IDataRepositoryWithoutStr<Commande>
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -36,11 +36,6 @@ namespace FIFA_API.Models.DataManager
         {
             return await fifaDbContext.Commande.FirstOrDefaultAsync(u => u.CommandeId == id);
 
-        }
-
-        public async Task<ActionResult<Commande?>> GetByStringAsync(string str)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task UpdateAsync(Commande entityToUpdate, Commande entity)

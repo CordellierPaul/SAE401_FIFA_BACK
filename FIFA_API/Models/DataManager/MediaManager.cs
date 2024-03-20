@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class MediaManager : IDataRepository<Media>
+    public class MediaManager : IDataRepositoryWithoutStr<Media>
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -38,10 +38,6 @@ namespace FIFA_API.Models.DataManager
 
         }
 
-        public async Task<ActionResult<Media>> GetByStringAsync(string str)
-        {
-            throw new NotImplementedException(); // a changer le répository
-        }
 
         public async Task UpdateAsync(Media entityToUpdate, Media entity)
         {

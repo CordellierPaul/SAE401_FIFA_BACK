@@ -959,5 +959,35 @@ namespace FIFA_API.Models.EntityFramework
         public DbSet<FIFA_API.Models.EntityFramework.AlbumImage>? AlbumImage { get; set; }
 
         public DbSet<FIFA_API.Models.EntityFramework.Stock>? Stock { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.ArticleJoueur>? ArticleJoueur { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.ArticleMedia>? ArticleMedia { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.BlogImage>? BlogImage { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.CaracteristiqueProduit>? CaracteristiqueProduit { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.ImageJoueur>? ImageJoueur { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.ImageVariante>? ImageVariante { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.JoueurTheme>? JoueurTheme { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.LikeAlbum>? LikeAlbum { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.LikeArticle>? LikeArticle { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.LikeBlog>? LikeBlog { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.LikeDocument>? LikeDocument { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.MatchJoue>? MatchJoue { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.ProduitSimilaire>? ProduitSimilaire { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.Remporte>? Remporte { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.SousCategorie>? SousCategorie { get; set; }
     }
 }
