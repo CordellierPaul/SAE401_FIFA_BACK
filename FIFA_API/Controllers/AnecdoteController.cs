@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,111 +14,92 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class AnecdoteController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Anecdote> dataRepository;
 
-        public AnecdoteController(FifaDbContext context)
+        public AnecdoteController(IDataRepository<Anecdote> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Anecdote
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Anecdote>>> GetAnecdote()
         {
-          if (_context.Anecdote == null)
-          {
-              return NotFound();
-          }
-            return await _context.Anecdote.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Anecdote/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Anecdote>> GetAnecdote(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Anecdote>> GetAnecdoteById(int id)
         {
-          if (_context.Anecdote == null)
-          {
-              return NotFound();
-          }
-            var anecdote = await _context.Anecdote.FindAsync(id);
+            var anecdote = await dataRepository.GetByIdAsync(id);
 
             if (anecdote == null)
             {
                 return NotFound();
             }
-
             return anecdote;
         }
 
         // PUT: api/Anecdote/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutAnecdote(int id, Anecdote anecdote)
         {
             if (id != anecdote.AnecdoteId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(anecdote).State = EntityState.Modified;
-
-            try
+            var anectodeToUpdate = await dataRepository.GetByIdAsync(id);
+            if (anectodeToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!AnecdoteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(anectodeToUpdate.Value, anecdote);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Anecdote
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Anecdote>> PostAnecdote(Anecdote anecdote)
         {
-          if (_context.Anecdote == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Anecdote'  is null.");
-          }
-            _context.Anecdote.Add(anecdote);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetAnecdote", new { id = anecdote.AnecdoteId }, anecdote);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(anecdote);
+            return CreatedAtAction("GetById", new { id = anecdote.AnecdoteId }, anecdote);
         }
 
         // DELETE: api/Anecdote/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAnecdote(int id)
         {
-            if (_context.Anecdote == null)
-            {
-                return NotFound();
-            }
-            var anecdote = await _context.Anecdote.FindAsync(id);
+            var anecdote = await dataRepository.GetByIdAsync(id);
             if (anecdote == null)
             {
                 return NotFound();
             }
-
-            _context.Anecdote.Remove(anecdote);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(anecdote.Value);
             return NoContent();
         }
 
-        private bool AnecdoteExists(int id)
+        /*private bool AnecdoteExists(int id)
         {
-            return (_context.Anecdote?.Any(e => e.AnecdoteId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Anecdote?.Any(e => e.AnecdoteId == id)).GetValueOrDefault();
+        }*/
     }
 }
