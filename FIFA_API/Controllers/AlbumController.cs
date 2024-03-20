@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +14,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class AlbumController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Album> dataRepository;
 
-        public AlbumController(FifaDbContext context)
+        public AlbumController(IDataRepository<Album> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Album
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Album>>> GetAlbum()
         {
-          if (_context.Album == null)
-          {
-              return NotFound();
-          }
-            return await _context.Album.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Album/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Album>> GetAlbum(int id)
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Album>> GetAlbumByID(int id)
         {
-          if (_context.Album == null)
-          {
-              return NotFound();
-          }
-            var album = await _context.Album.FindAsync(id);
+            var album = await dataRepository.GetByIdAsync(id);
 
             if (album == null)
             {
@@ -52,72 +49,60 @@ namespace FIFA_API.Controllers
         // PUT: api/Album/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutAlbum(int id, Album album)
         {
             if (id != album.AlbumId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(album).State = EntityState.Modified;
-
-            try
+            var albToUpdate = await dataRepository.GetByIdAsync(id);
+            if (albToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!AlbumExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(albToUpdate.Value, album);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Album
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Album>> PostAlbum(Album album)
         {
-          if (_context.Album == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Album'  is null.");
-          }
-            _context.Album.Add(album);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetAlbum", new { id = album.AlbumId }, album);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(album);
+            return CreatedAtAction("GetById", new { id = album.AlbumId }, album);
         }
 
         // DELETE: api/Album/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteAlbum(int id)
         {
-            if (_context.Album == null)
-            {
-                return NotFound();
-            }
-            var album = await _context.Album.FindAsync(id);
+            var album = await dataRepository.GetByIdAsync(id);
             if (album == null)
             {
                 return NotFound();
             }
-
-            _context.Album.Remove(album);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(album.Value);
             return NoContent();
         }
 
-        private bool AlbumExists(int id)
+        /*private bool AlbumExists(int id)
         {
-            return (_context.Album?.Any(e => e.AlbumId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Album?.Any(e => e.AlbumId == id)).GetValueOrDefault();
+        }*/
     }
 }

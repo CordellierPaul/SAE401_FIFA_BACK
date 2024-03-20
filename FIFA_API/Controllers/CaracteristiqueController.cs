@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,111 +14,92 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class CaracteristiqueController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Caracteristique> dataRepository;
 
-        public CaracteristiqueController(FifaDbContext context)
+        public CaracteristiqueController(IDataRepository<Caracteristique> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Caracteristique
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Caracteristique>>> GetCaracteristique()
         {
-          if (_context.Caracteristique == null)
-          {
-              return NotFound();
-          }
-            return await _context.Caracteristique.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Caracteristique/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Caracteristique>> GetCaracteristique(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Caracteristique>> GetCaracteristiqueById(int id)
         {
-          if (_context.Caracteristique == null)
-          {
-              return NotFound();
-          }
-            var caracteristique = await _context.Caracteristique.FindAsync(id);
+            var caract = await dataRepository.GetByIdAsync(id);
 
-            if (caracteristique == null)
+            if (caract == null)
             {
                 return NotFound();
             }
-
-            return caracteristique;
+            return caract;
         }
 
         // PUT: api/Caracteristique/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutCaracteristique(int id, Caracteristique caracteristique)
         {
             if (id != caracteristique.CaracteristiqueId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(caracteristique).State = EntityState.Modified;
-
-            try
+            var carToUpdate = await dataRepository.GetByIdAsync(id);
+            if (carToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!CaracteristiqueExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(carToUpdate.Value, caracteristique);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Caracteristique
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Caracteristique>> PostCaracteristique(Caracteristique caracteristique)
         {
-          if (_context.Caracteristique == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Caracteristique'  is null.");
-          }
-            _context.Caracteristique.Add(caracteristique);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCaracteristique", new { id = caracteristique.CaracteristiqueId }, caracteristique);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(caracteristique);
+            return CreatedAtAction("GetById", new { id = caracteristique.CaracteristiqueId }, caracteristique);
         }
 
         // DELETE: api/Caracteristique/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCaracteristique(int id)
         {
-            if (_context.Caracteristique == null)
+            var caract = await dataRepository.GetByIdAsync(id);
+            if (caract == null)
             {
                 return NotFound();
             }
-            var caracteristique = await _context.Caracteristique.FindAsync(id);
-            if (caracteristique == null)
-            {
-                return NotFound();
-            }
-
-            _context.Caracteristique.Remove(caracteristique);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(caract.Value);
             return NoContent();
         }
 
-        private bool CaracteristiqueExists(int id)
+        /*private bool CaracteristiqueExists(int id)
         {
-            return (_context.Caracteristique?.Any(e => e.CaracteristiqueId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Caracteristique?.Any(e => e.CaracteristiqueId == id)).GetValueOrDefault();
+        }*/
     }
 }

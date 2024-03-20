@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,39 +14,30 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ClubController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Club> dataRepository;
 
-        public ClubController(FifaDbContext context)
+        public ClubController(IDataRepository<Club> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Club
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Club>>> GetClub()
         {
-          if (_context.Club == null)
-          {
-              return NotFound();
-          }
-            return await _context.Club.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Club/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Club>> GetClub(int id)
+        public async Task<ActionResult<Club>> GetClubById(int id)
         {
-          if (_context.Club == null)
-          {
-              return NotFound();
-          }
-            var club = await _context.Club.FindAsync(id);
+            var club = await dataRepository.GetByIdAsync(id);
 
             if (club == null)
             {
                 return NotFound();
             }
-
             return club;
         }
 
@@ -58,66 +50,49 @@ namespace FIFA_API.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(club).State = EntityState.Modified;
-
-            try
+            var clubToUpdate = await dataRepository.GetByIdAsync(id);
+            if (clubToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ClubExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(clubToUpdate.Value, club);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Club
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Club>> PostClub(Club club)
         {
-          if (_context.Club == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Club'  is null.");
-          }
-            _context.Club.Add(club);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetClub", new { id = club.ClubId }, club);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(club);
+            return CreatedAtAction("GetById", new { id = club.ClubId }, club);
         }
 
         // DELETE: api/Club/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClub(int id)
         {
-            if (_context.Club == null)
+            var categorie = await dataRepository.GetByIdAsync(id);
+            if (categorie == null)
             {
                 return NotFound();
             }
-            var club = await _context.Club.FindAsync(id);
-            if (club == null)
-            {
-                return NotFound();
-            }
-
-            _context.Club.Remove(club);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
         }
 
-        private bool ClubExists(int id)
+        /*private bool ClubExists(int id)
         {
-            return (_context.Club?.Any(e => e.ClubId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Club?.Any(e => e.ClubId == id)).GetValueOrDefault();
+        }*/
     }
 }

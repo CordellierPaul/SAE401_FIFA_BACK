@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,111 +14,95 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class AdresseController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Adresse> dataRepository;
 
-        public AdresseController(FifaDbContext context)
+        public AdresseController(IDataRepository<Adresse> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Adresse
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Adresse>>> GetAdresse()
         {
-          if (_context.Adresse == null)
-          {
-              return NotFound();
-          }
-            return await _context.Adresse.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Adresse/5
         [HttpGet("{id}")]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Adresse>> GetAdresse(int id)
         {
-          if (_context.Adresse == null)
-          {
-              return NotFound();
-          }
-            var adresse = await _context.Adresse.FindAsync(id);
+            var adresse = await dataRepository.GetByIdAsync(id);
 
             if (adresse == null)
             {
                 return NotFound();
             }
-
             return adresse;
         }
 
         // PUT: api/Adresse/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutAdresse(int id, Adresse adresse)
         {
             if (id != adresse.AdresseId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(adresse).State = EntityState.Modified;
-
-            try
+            var adrToUpdate = await dataRepository.GetByIdAsync(id);
+            if (adrToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!AdresseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(adrToUpdate.Value, adresse);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Adresse
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Adresse>> PostAdresse(Adresse adresse)
         {
-          if (_context.Adresse == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Adresse'  is null.");
-          }
-            _context.Adresse.Add(adresse);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetAdresse", new { id = adresse.AdresseId }, adresse);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(adresse);
+            return CreatedAtAction("GetById", new { id = adresse.AdresseId }, adresse);
         }
 
         // DELETE: api/Adresse/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteAdresse(int id)
         {
-            if (_context.Adresse == null)
-            {
-                return NotFound();
-            }
-            var adresse = await _context.Adresse.FindAsync(id);
+            var adresse = await dataRepository.GetByIdAsync(id);
             if (adresse == null)
             {
                 return NotFound();
             }
 
-            _context.Adresse.Remove(adresse);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(adresse.Value);
             return NoContent();
         }
 
-        private bool AdresseExists(int id)
+        /*private bool AdresseExists(int id)
         {
-            return (_context.Adresse?.Any(e => e.AdresseId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Adresse?.Any(e => e.AdresseId == id)).GetValueOrDefault();
+        }*/
     }
 }

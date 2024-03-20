@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,111 +14,94 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class CommentaireController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Commentaire> dataRepository;
 
-        public CommentaireController(FifaDbContext context)
+        public CommentaireController(IDataRepository<Commentaire> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Command
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaire()
         {
-          if (_context.Commentaire == null)
-          {
-              return NotFound();
-          }
-            return await _context.Commentaire.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Command/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Commentaire>> GetCommentaire(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Commentaire>> GetCommentaireByID(int id)
         {
-          if (_context.Commentaire == null)
-          {
-              return NotFound();
-          }
-            var commentaire = await _context.Commentaire.FindAsync(id);
+            var commentaire = await dataRepository.GetByIdAsync(id);
 
             if (commentaire == null)
             {
                 return NotFound();
             }
-
             return commentaire;
         }
 
         // PUT: api/Command/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutCommentaire(int id, Commentaire commentaire)
         {
             if (id != commentaire.CommentaireId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(commentaire).State = EntityState.Modified;
-
-            try
+            var commentaireToUpdate = await dataRepository.GetByIdAsync(id);
+            if (commentaireToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!CommentaireExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(commentaireToUpdate.Value, commentaire);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Command
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Commentaire>> PostCommentaire(Commentaire commentaire)
         {
-          if (_context.Commentaire == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Commentaire'  is null.");
-          }
-            _context.Commentaire.Add(commentaire);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCommentaire", new { id = commentaire.CommentaireId }, commentaire);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(commentaire);
+            return CreatedAtAction("GetById", new { id = commentaire.CommentaireId }, commentaire);
         }
 
         // DELETE: api/Command/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCommentaire(int id)
         {
-            if (_context.Commentaire == null)
+            var categorie = await dataRepository.GetByIdAsync(id);
+            if (categorie == null)
             {
                 return NotFound();
             }
-            var commentaire = await _context.Commentaire.FindAsync(id);
-            if (commentaire == null)
-            {
-                return NotFound();
-            }
-
-            _context.Commentaire.Remove(commentaire);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
         }
 
-        private bool CommentaireExists(int id)
+        /*private bool CommentaireExists(int id)
         {
-            return (_context.Commentaire?.Any(e => e.CommentaireId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Commentaire?.Any(e => e.CommentaireId == id)).GetValueOrDefault();
+        }*/
     }
 }
