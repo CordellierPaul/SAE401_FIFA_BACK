@@ -42,7 +42,8 @@ namespace FIFA_API.Controllers
             {
                 return NotFound();
             }
-            return produit;
+
+            return produit!;
         }
 
         // PUT: api/Produit/5
