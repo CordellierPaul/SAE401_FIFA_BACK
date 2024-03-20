@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,111 +14,94 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class CompteController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Compte> dataRepository;
 
-        public CompteController(FifaDbContext context)
+        public CompteController(IDataRepository<Compte> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Compte
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Compte>>> GetCompte()
         {
-          if (_context.Compte == null)
-          {
-              return NotFound();
-          }
-            return await _context.Compte.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Compte/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Compte>> GetCompte(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Compte>> GetCompteById(int id)
         {
-          if (_context.Compte == null)
-          {
-              return NotFound();
-          }
-            var compte = await _context.Compte.FindAsync(id);
+            var compte = await dataRepository.GetByIdAsync(id);
 
             if (compte == null)
             {
                 return NotFound();
             }
-
             return compte;
         }
 
         // PUT: api/Compte/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutCompte(int id, Compte compte)
         {
             if (id != compte.CompteId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(compte).State = EntityState.Modified;
-
-            try
+            var comToUpdate = await dataRepository.GetByIdAsync(id);
+            if (comToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!CompteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(comToUpdate.Value, compte);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Compte
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Compte>> PostCompte(Compte compte)
         {
-          if (_context.Compte == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Compte'  is null.");
-          }
-            _context.Compte.Add(compte);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCompte", new { id = compte.CompteId }, compte);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(compte);
+            return CreatedAtAction("GetById", new { id = compte.CompteId }, compte);
         }
 
         // DELETE: api/Compte/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCompte(int id)
         {
-            if (_context.Compte == null)
+            var categorie = await dataRepository.GetByIdAsync(id);
+            if (categorie == null)
             {
                 return NotFound();
             }
-            var compte = await _context.Compte.FindAsync(id);
-            if (compte == null)
-            {
-                return NotFound();
-            }
-
-            _context.Compte.Remove(compte);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
         }
 
-        private bool CompteExists(int id)
+        /*private bool CompteExists(int id)
         {
-            return (_context.Compte?.Any(e => e.CompteId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Compte?.Any(e => e.CompteId == id)).GetValueOrDefault();
+        }*/
     }
 }
