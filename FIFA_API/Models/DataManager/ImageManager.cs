@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class ImageManager : IDataRepository<Image>
+    public class ImageManager : IDataRepositoryWithoutStr<Image>
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -36,11 +36,6 @@ namespace FIFA_API.Models.DataManager
         {
             return await fifaDbContext.Image.FirstOrDefaultAsync(u => u.ImageId == id);
 
-        }
-
-        public async Task<ActionResult<Image>> GetByStringAsync(string str)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task UpdateAsync(Image entityToUpdate, Image entity)

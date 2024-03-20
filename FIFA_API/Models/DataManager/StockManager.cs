@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class StockManager : IDataRepository<Stock>
+    public class StockManager : IDataRepositoryWithoutStr<Stock>
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -37,11 +37,6 @@ namespace FIFA_API.Models.DataManager
         {
             return await fifaDbContext.Stock.FirstOrDefaultAsync(u => u.StockId == id);
 
-        }
-
-        public async Task<ActionResult<Stock>> GetByStringAsync(string str)
-        {
-           throw new NotImplementedException();
         }
 
         public async Task UpdateAsync(Stock entityToUpdate, Stock entity)

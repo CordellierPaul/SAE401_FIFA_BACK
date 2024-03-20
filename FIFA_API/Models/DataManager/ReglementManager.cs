@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class ReglementManager : IDataRepository<Reglement>
+    public class ReglementManager : IDataRepositoryWithoutStr<Reglement>
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -37,11 +37,6 @@ namespace FIFA_API.Models.DataManager
         {
             return await fifaDbContext.Reglement.FirstOrDefaultAsync(u => u.TransactionId == id);
 
-        }
-
-        public async Task<ActionResult<Reglement>> GetByStringAsync(string str)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task UpdateAsync(Reglement entityToUpdate, Reglement entity)

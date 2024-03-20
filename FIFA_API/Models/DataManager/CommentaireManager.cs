@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class CommentaireManager : IDataRepository<Commentaire>
+    public class CommentaireManager : IDataRepositoryWithoutStr<Commentaire>
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -38,10 +38,6 @@ namespace FIFA_API.Models.DataManager
 
         }
 
-        public async Task<ActionResult<Commentaire?>> GetByStringAsync(string str)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task UpdateAsync(Commentaire entityToUpdate, Commentaire entity)
         {

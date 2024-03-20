@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class VarianteProduitManager : IDataRepository<VarianteProduit>
+    public class VarianteProduitManager : IDataRepositoryWithoutStr<VarianteProduit>
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -38,10 +38,6 @@ namespace FIFA_API.Models.DataManager
 
         }
 
-        public async Task<ActionResult<VarianteProduit>> GetByStringAsync(string str)
-        {
-          throw new NotImplementedException();
-        }
 
         public async Task UpdateAsync(VarianteProduit entityToUpdate, VarianteProduit entity)
         {
