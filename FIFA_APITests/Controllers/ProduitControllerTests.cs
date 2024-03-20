@@ -1,10 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FIFA_API.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
 using Microsoft.EntityFrameworkCore;
