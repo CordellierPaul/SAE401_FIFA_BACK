@@ -33,12 +33,12 @@ namespace FIFA_API.Models.DataManager
         }
 
 
-        public async Task<ActionResult<Activite?>> GetByIdAsync(int id)
+        public async Task<ActionResult<Activite>> GetByIdAsync(int id)
         {
             return await fifaDbContext.Activite.FirstOrDefaultAsync(u => u.ActiviteId == id);
         }
 
-        public async Task<ActionResult<Activite?>> GetByStringAsync(string str)
+        public async Task<ActionResult<Activite>> GetByStringAsync(string str)
         {
             return await fifaDbContext.Activite.FirstOrDefaultAsync(u => u.ActiviteNom.ToUpper() == str.ToUpper());
         }

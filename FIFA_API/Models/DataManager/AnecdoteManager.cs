@@ -34,7 +34,7 @@ namespace FIFA_API.Models.DataManager
         }
 
 
-        public async Task<ActionResult<Anecdote?>> GetByIdAsync(int id)
+        public async Task<ActionResult<Anecdote>> GetByIdAsync(int id)
         {
             Anecdote? anecdote = await fifaDbContext.Anecdote.FirstOrDefaultAsync(u => u.AnecdoteId == id);
 
@@ -44,7 +44,7 @@ namespace FIFA_API.Models.DataManager
             return anecdote;
         }
 
-        public async Task<ActionResult<Anecdote?>> GetByStringAsync(string str)
+        public async Task<ActionResult<Anecdote>> GetByStringAsync(string str)
         {
             return await fifaDbContext.Anecdote.FirstOrDefaultAsync(u => u.AnecdoteReponse.ToUpper() == str.ToUpper());
         }

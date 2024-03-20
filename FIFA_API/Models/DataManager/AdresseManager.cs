@@ -33,12 +33,12 @@ namespace FIFA_API.Models.DataManager
         }
 
 
-        public async Task<ActionResult<Adresse?>> GetByIdAsync(int id)
+        public async Task<ActionResult<Adresse>> GetByIdAsync(int id)
         {
             return await fifaDbContext.Adresse.FirstOrDefaultAsync(u => u.AdresseId == id);
         }
 
-        public async Task<ActionResult<Adresse?>> GetByStringAsync(string str)
+        public async Task<ActionResult<Adresse>> GetByStringAsync(string str)
         {
             return await fifaDbContext.Adresse.FirstOrDefaultAsync(u => u.AdresseRue.ToUpper() == str.ToUpper());
         }

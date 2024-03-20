@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
+#nullable disable
+
 namespace FIFA_API.Models.DataManager
 {
     public class ProduitManager : IDataRepository<Produit>
@@ -33,9 +35,9 @@ namespace FIFA_API.Models.DataManager
         }
 
 
-        public async Task<ActionResult<Produit?>> GetByIdAsync(int id)
+        public async Task<ActionResult<Produit>> GetByIdAsync(int id)
         {
-            Produit? produit = await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitId == id);
+            Produit produit = await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitId == id);
 
             if (produit is null)
                 return produit;
@@ -53,7 +55,7 @@ namespace FIFA_API.Models.DataManager
             return produit;
         }
 
-        public async Task<ActionResult<Produit?>> GetByStringAsync(string str)
+        public async Task<ActionResult<Produit>> GetByStringAsync(string str)
         {
             return await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitNom.ToUpper() == str.ToUpper());
         }

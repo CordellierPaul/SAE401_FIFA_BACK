@@ -34,7 +34,7 @@ namespace FIFA_API.Models.DataManager
         }
 
 
-        public async Task<ActionResult<Article?>> GetByIdAsync(int id)
+        public async Task<ActionResult<Article>> GetByIdAsync(int id)
         {
             Article? article = await fifaDbContext.Article.FirstOrDefaultAsync(u => u.ArticleId == id);
 
@@ -43,7 +43,7 @@ namespace FIFA_API.Models.DataManager
             return article;
         }
 
-        public async Task<ActionResult<Article?>> GetByStringAsync(string str)
+        public async Task<ActionResult<Article>> GetByStringAsync(string str)
         {
             return await fifaDbContext.Article.FirstOrDefaultAsync(u => u.ArticleTitre.ToUpper() == str.ToUpper());
         }

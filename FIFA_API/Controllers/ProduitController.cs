@@ -36,9 +36,9 @@ namespace FIFA_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Produit>> GetProduitById(int id)
         {
-            var produit = await dataRepository.GetByIdAsync(id);
+            ActionResult<Produit> produit = await dataRepository.GetByIdAsync(id);
 
-            if (produit == null)
+            if (produit.Value == null)
             {
                 return NotFound();
             }
