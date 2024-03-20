@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
+using FIFA_API.Models.EntityFramework;
 
 namespace FIFA_API.Models.EntityFramework
 {
@@ -954,5 +955,7 @@ namespace FIFA_API.Models.EntityFramework
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<FIFA_API.Models.EntityFramework.AlbumImage>? AlbumImage { get; set; }
     }
 }
