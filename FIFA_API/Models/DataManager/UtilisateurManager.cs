@@ -30,12 +30,12 @@ namespace FIFA_API.Models.DataManager
             throw new NotImplementedException();
         }
 
-        public Task<ActionResult<Utilisateur?>> GetByIdAsync(int id)
+        public Task<ActionResult<Utilisateur>> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ActionResult<Utilisateur?>> GetByStringAsync(string str)
+        public Task<ActionResult<Utilisateur>> GetByStringAsync(string str)
         {
             throw new NotImplementedException();
         }

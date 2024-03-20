@@ -32,7 +32,7 @@ namespace FIFA_API.Models.DataManager
         }
 
 
-        public async Task<ActionResult<Vote?>> GetByIdAsync(int uid, int tid, int jid)
+        public async Task<ActionResult<Vote>> GetByIdAsync(int uid, int tid, int jid)
         {
             return await fifaDbContext.Vote.FirstOrDefaultAsync(u => u.UtilisateurId == uid && u.ThemeId == tid && u.JoueurId == jid);
         }
@@ -48,12 +48,12 @@ namespace FIFA_API.Models.DataManager
             await fifaDbContext.SaveChangesAsync();
         }
 
-        public Task<ActionResult<Vote?>> GetByIdAsync(int id)
+        public Task<ActionResult<Vote>> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ActionResult<Vote?>> GetByStringAsync(string str)
+        public Task<ActionResult<Vote>> GetByStringAsync(string str)
         {
             throw new NotImplementedException();
         }
