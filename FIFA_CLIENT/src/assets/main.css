@@ -18,3 +18,10 @@ a,
     background-color: hsla(160, 100%, 37%, 0.2);
   }
 }
+
+
+html, body{
+  overflow-x: hidden; /* Empêche la barre de défilement horizontale sur tout le document */
+  margin: 0;
+  padding: 0;
+}

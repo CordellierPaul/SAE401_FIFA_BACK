@@ -1,15 +1,18 @@
 <template>
   <header>
-    <a href="/" id="coteGauche"><h1>FIFA</h1></a> 
+    <RouterLink to="/" id="coteGauche"><h1>FIFA</h1></RouterLink> 
 
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/about">A propos</RouterLink>
+      <RouterLink to="/products">Produits</RouterLink>
+      <RouterLink to="/user"><i class="fa-regular fa-user"></i></RouterLink>
     </nav>
   </header>
+  
 </template>
 
 <script setup>
+
 </script>
 
 <style scoped>
