@@ -1,5 +1,7 @@
 using FIFA_API.Models;
+using FIFA_API.Models.DataManager;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +20,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<FifaDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("FifaDbContext")));
+
+builder.Services.AddScoped<IDataRepository<Produit>, ProduitManager>();
+builder.Services.AddScoped<IDataRepository<Categorie>, CategorieManager>();
 
 //Token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
