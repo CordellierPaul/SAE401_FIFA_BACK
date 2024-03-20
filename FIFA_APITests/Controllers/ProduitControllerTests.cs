@@ -61,7 +61,7 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod()]
         public void PutProduitTest_OK()
         {
-            Produit expected = _context.Produit.Where(u => u.CategorieId == 1).First();
+            Produit expected = _context.Produit.Where(u => u.ProduitId == 1).First();
             expected.ProduitNom = "Test";
 
             var result = _controller.PutProduit(1, expected).Result;
@@ -92,6 +92,27 @@ namespace FIFA_API.Controllers.Tests
 
             Assert.AreEqual(proRecupere, proAtester, "Produits pas identiques");
         }
+
+/*
+        [TestMethod()]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void DeleteCategorieTest_OK()
+        {
+            Produit pdt = new Produit()
+            {
+                ProduitNom = "Test" + DateTime.UtcNow.ToString()
+            };
+
+            _context.Produit.Add(pdt);
+            _context.SaveChanges();
+
+            int id = _context.Produit.Where(u => u.ProduitNom == pdt.ProduitNom).First().ProduitId;
+
+            var resultDelete = _controller.DeleteProduit(id).Result;
+
+            Assert.AreEqual(StatusCodes.Status204NoContent, ((NoContentResult)resultDelete).StatusCode, "Pas de code 204");
+            _context.Produit.Where(u => u.ProduitId == id).First();
+        }*/
 
 
 
