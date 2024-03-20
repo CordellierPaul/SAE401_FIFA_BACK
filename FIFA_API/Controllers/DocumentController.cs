@@ -14,11 +14,11 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class DocumentController : ControllerBase
     {
-        private readonly IDataRepository<Document> _context;
+        private readonly IDataRepository<Document> dataRepository;
 
         public DocumentController(IDataRepository<Document> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Document
