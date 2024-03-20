@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,125 +14,94 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ImageController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Image> dataRepository;
 
-        public ImageController(FifaDbContext context)
+        public ImageController(IDataRepository<Image> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Image
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Image>>> GetImage()
         {
-          if (_context.Image == null)
-          {
-              return NotFound();
-          }
-            return await _context.Image.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Image/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Image>> GetImage(int id)
         {
-          if (_context.Image == null)
-          {
-              return NotFound();
-          }
-            var image = await _context.Image.FindAsync(id);
+            var image = await dataRepository.GetByIdAsync(id);
 
             if (image == null)
             {
                 return NotFound();
             }
-
             return image;
         }
 
         // PUT: api/Image/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutImage(int id, Image image)
         {
             if (id != image.ImageId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(image).State = EntityState.Modified;
-
-            try
+            var imaToUpdate = await dataRepository.GetByIdAsync(id);
+            if (imaToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ImageExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(imaToUpdate.Value, image);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Image
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Image>> PostImage(Image image)
         {
-          if (_context.Image == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Image'  is null.");
-          }
-            _context.Image.Add(image);
-            try
+            if (!ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
+                return BadRequest(ModelState);
             }
-            catch (DbUpdateException)
-            {
-                if (ImageExists(image.ImageId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetImage", new { id = image.ImageId }, image);
+            await dataRepository.AddAsync(image);
+            return CreatedAtAction("GetById", new { id = image.ImageId }, image);
         }
 
         // DELETE: api/Image/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteImage(int id)
         {
-            if (_context.Image == null)
-            {
-                return NotFound();
-            }
-            var image = await _context.Image.FindAsync(id);
+            var image = await dataRepository.GetByIdAsync(id);
             if (image == null)
             {
                 return NotFound();
             }
-
-            _context.Image.Remove(image);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(image.Value);
             return NoContent();
         }
 
-        private bool ImageExists(int id)
+        /*private bool ImageExists(int id)
         {
-            return (_context.Image?.Any(e => e.ImageId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Image?.Any(e => e.ImageId == id)).GetValueOrDefault();
+        }*/
     }
 }
