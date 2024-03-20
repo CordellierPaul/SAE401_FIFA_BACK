@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.DataManager;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,111 +15,110 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class CategorieController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Categorie> dataRepository;
 
-        public CategorieController(FifaDbContext context)
+        public CategorieController(IDataRepository<Categorie> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Categorie
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Categorie>>> GetCategorie()
         {
-          if (_context.Categorie == null)
-          {
-              return NotFound();
-          }
-            return await _context.Categorie.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Categorie/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Categorie>> GetCategorie(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Categorie>> GetCategorieById(int id)
         {
-          if (_context.Categorie == null)
-          {
-              return NotFound();
-          }
-            var categorie = await _context.Categorie.FindAsync(id);
+            var categorie = await dataRepository.GetByIdAsync(id);
 
             if (categorie == null)
             {
                 return NotFound();
             }
+            return categorie;
+        }
 
+        // GET: api/Categorie/Chaussette
+        [HttpGet]
+        [Route("[action]/{nom}")]
+        [ActionName("GetByNom")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Categorie>> GetUCategorieByNom(string nomCat)
+        {
+            var categorie = await dataRepository.GetByStringAsync(nomCat);
+            if (categorie == null)
+            {
+                return NotFound();
+            }
             return categorie;
         }
 
         // PUT: api/Categorie/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutCategorie(int id, Categorie categorie)
         {
             if (id != categorie.CategorieId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(categorie).State = EntityState.Modified;
-
-            try
+            var userToUpdate = await dataRepository.GetByIdAsync(id);
+            if (userToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!CategorieExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(userToUpdate.Value, categorie);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Categorie
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Categorie>> PostCategorie(Categorie categorie)
         {
-          if (_context.Categorie == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Categorie'  is null.");
-          }
-            _context.Categorie.Add(categorie);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCategorie", new { id = categorie.CategorieId }, categorie);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(categorie);
+            return CreatedAtAction("GetById", new { id = categorie.CategorieId }, categorie);
         }
 
         // DELETE: api/Categorie/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCategorie(int id)
         {
-            if (_context.Categorie == null)
-            {
-                return NotFound();
-            }
-            var categorie = await _context.Categorie.FindAsync(id);
+            var categorie = await dataRepository.GetByIdAsync(id);
             if (categorie == null)
             {
                 return NotFound();
             }
-
-            _context.Categorie.Remove(categorie);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
         }
 
-        private bool CategorieExists(int id)
+        /*private bool CategorieExists(int id)
         {
-            return (_context.Categorie?.Any(e => e.CategorieId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Categorie?.Any(e => e.CategorieId == id)).GetValueOrDefault();
+        }*/
     }
 }
