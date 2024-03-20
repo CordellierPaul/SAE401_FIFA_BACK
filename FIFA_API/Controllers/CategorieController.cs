@@ -74,14 +74,14 @@ namespace FIFA_API.Controllers
             {
                 return BadRequest();
             }
-            var userToUpdate = await dataRepository.GetByIdAsync(id);
-            if (userToUpdate == null)
+            var catToUpdate = await dataRepository.GetByIdAsync(id);
+            if (catToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                await dataRepository.UpdateAsync(userToUpdate.Value, categorie);
+                await dataRepository.UpdateAsync(catToUpdate.Value, categorie);
                 return NoContent();
             }
         }
