@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +14,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ActiviteController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Activite> dataRepository;
 
-        public ActiviteController(FifaDbContext context)
+        public ActiviteController(IDataRepository<Activite> dataRepo)
         {
-            _context = context;
+            dataRepository = dataRepo;
         }
 
         // GET: api/Activite
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Activite>>> GetActivite()
         {
-          if (_context.Activite == null)
-          {
-              return NotFound();
-          }
-            return await _context.Activite.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Activite/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Activite>> GetActivite(int id)
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Activite>> GetActiviteById(int id)
         {
-          if (_context.Activite == null)
-          {
-              return NotFound();
-          }
-            var activite = await _context.Activite.FindAsync(id);
+            var activite = await dataRepository.GetByIdAsync(id);
 
             if (activite == null)
             {
@@ -52,72 +49,63 @@ namespace FIFA_API.Controllers
         // PUT: api/Activite/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutActivite(int id, Activite activite)
         {
             if (id != activite.ActiviteId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(activite).State = EntityState.Modified;
-
-            try
+            var catToUpdate = await dataRepository.GetByIdAsync(id);
+            if (catToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ActiviteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(catToUpdate.Value, activite);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Activite
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Activite>> PostActivite(Activite activite)
         {
-          if (_context.Activite == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Activite'  is null.");
-          }
-            _context.Activite.Add(activite);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(activite);
+            return CreatedAtAction("GetById", new { id = activite.ActiviteId }, activite);
 
-            return CreatedAtAction("GetActivite", new { id = activite.ActiviteId }, activite);
+
         }
 
         // DELETE: api/Activite/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteActivite(int id)
         {
-            if (_context.Activite == null)
-            {
-                return NotFound();
-            }
-            var activite = await _context.Activite.FindAsync(id);
+            var activite = await dataRepository.GetByIdAsync(id);
             if (activite == null)
             {
                 return NotFound();
             }
-
-            _context.Activite.Remove(activite);
-            await _context.SaveChangesAsync();
+            await dataRepository.DeleteAsync(activite.Value);
 
             return NoContent();
         }
 
-        private bool ActiviteExists(int id)
+        /*private bool ActiviteExists(int id)
         {
-            return (_context.Activite?.Any(e => e.ActiviteId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Activite?.Any(e => e.ActiviteId == id)).GetValueOrDefault();
+        }*/
     }
 }
