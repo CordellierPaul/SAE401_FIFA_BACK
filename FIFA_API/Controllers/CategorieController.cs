@@ -52,7 +52,7 @@ namespace FIFA_API.Controllers
         [ActionName("GetByNom")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Categorie>> GetUCategorieByNom(string nomCat)
+        public async Task<ActionResult<Categorie>> GetCategorieByNom(string nomCat)
         {
             var categorie = await dataRepository.GetByStringAsync(nomCat);
             if (categorie == null)
