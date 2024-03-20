@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,111 +14,93 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class DevisController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Devis> dataRepository;
 
-        public DevisController(FifaDbContext context)
+        public DevisController(IDataRepository<Devis> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Devis
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Devis>>> GetDevis()
         {
-          if (_context.Devis == null)
-          {
-              return NotFound();
-          }
-            return await _context.Devis.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Devis/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Devis>> GetDevis(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Devis>> GetDevisByID(int id)
         {
-          if (_context.Devis == null)
-          {
-              return NotFound();
-          }
-            var devis = await _context.Devis.FindAsync(id);
+            var devis = await dataRepository.GetByIdAsync(id);
 
             if (devis == null)
             {
                 return NotFound();
             }
-
             return devis;
         }
 
         // PUT: api/Devis/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutDevis(int id, Devis devis)
         {
             if (id != devis.DevisId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(devis).State = EntityState.Modified;
-
-            try
+            var devToUpdate = await dataRepository.GetByIdAsync(id);
+            if (devToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!DevisExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(devToUpdate.Value, devis);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Devis
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Devis>> PostDevis(Devis devis)
         {
-          if (_context.Devis == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Devis'  is null.");
-          }
-            _context.Devis.Add(devis);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(devis);
 
-            return CreatedAtAction("GetDevis", new { id = devis.DevisId }, devis);
+            return CreatedAtAction("GetById", new { id = devis.DevisId }, devis);
         }
 
         // DELETE: api/Devis/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDevis(int id)
         {
-            if (_context.Devis == null)
-            {
-                return NotFound();
-            }
-            var devis = await _context.Devis.FindAsync(id);
+            var devis = await dataRepository.GetByIdAsync(id);
             if (devis == null)
             {
                 return NotFound();
             }
-
-            _context.Devis.Remove(devis);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(devis.Value);
             return NoContent();
         }
 
-        private bool DevisExists(int id)
+        /*private bool DevisExists(int id)
         {
-            return (_context.Devis?.Any(e => e.DevisId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Devis?.Any(e => e.DevisId == id)).GetValueOrDefault();
+        }*/
     }
 }
