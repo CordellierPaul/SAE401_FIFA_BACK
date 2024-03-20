@@ -1,3 +1,8 @@
+<script setup>
+import ProduitComponent from '@/components/ProduitComponent.vue'
+
+</script>
+
 <template>
     <div id="container">
         <div id="left_part">
@@ -27,10 +32,20 @@
                 <li><input type="checkbox" id="orange"><label for="orange">Orange</label></li>
             </ul>
         </div>
-        <div id="right_part"></div>
+        <div id="right_part">
+            <ProduitComponent></ProduitComponent>
+            <ProduitComponent></ProduitComponent>
+            <ProduitComponent></ProduitComponent>
+            <ProduitComponent></ProduitComponent>
+        </div>
     </div>
 </template>
-<script setup></script>
+
+
+
+
+
+
 <style scoped>
 #container{
     display: flex;
@@ -45,5 +60,7 @@
     background-color: blue;
     width: 100%;
     height: 100vh;
+    display: flex;
+    
 }
 </style>
