@@ -7,13 +7,13 @@ namespace FIFA_API.Models.DataManager
 {
     public class ProduitManager : IDataRepository<Produit>
     {
-        readonly FifaDbContext? fifaDbContext;
+        private readonly FifaDbContext fifaDbContext;
 
-        public ProduitManager() { }
         public ProduitManager(FifaDbContext context)
         {
             fifaDbContext = context;
         }
+
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllAsync()
         {
             return await fifaDbContext.Produit.ToListAsync();
@@ -32,12 +32,22 @@ namespace FIFA_API.Models.DataManager
         }
 
 
-        public async Task<ActionResult<Produit>> GetByIdAsync(int id)
+        public async Task<ActionResult<Produit?>> GetByIdAsync(int id)
         {
-            return await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitId == id);
+            Produit? produit = await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitId == id);
+
+            if (produit is null)
+                return produit;
+
+            fifaDbContext.Entry(produit).Reference(p => p.PaysProduit).Load();
+            fifaDbContext.Entry(produit).Reference(p => p.CategorieNavigation).Load();
+
+            fifaDbContext.Entry(produit).Collection(p => p.VariantesProduit).Load();
+
+            return produit;
         }
 
-        public async Task<ActionResult<Produit>> GetByStringAsync(string str)
+        public async Task<ActionResult<Produit?>> GetByStringAsync(string str)
         {
             return await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitNom.ToUpper() == str.ToUpper());
         }

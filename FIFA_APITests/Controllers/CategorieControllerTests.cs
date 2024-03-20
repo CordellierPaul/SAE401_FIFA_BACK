@@ -1,10 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FIFA_API.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
 using FIFA_API.Models.DataManager;
@@ -21,9 +15,7 @@ namespace FIFA_API.Controllers.Tests
         private CategorieController _controller;
         private IDataRepository<Categorie> _dataRepository;
 
-
-        [TestMethod()]
-        public void CategorieControllerTest()
+        public CategorieControllerTests()
         {
             var builder = new DbContextOptionsBuilder<FifaDbContext>().UseNpgsql("Server=localhost;port=5432;Database=FilmRatingsDB; uid=postgres; password=postgres;");
             _context = new FifaDbContext(builder.Options);
