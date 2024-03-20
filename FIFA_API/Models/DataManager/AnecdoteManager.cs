@@ -36,12 +36,12 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<Anecdote?>> GetByIdAsync(int id)
         {
-            Anecdote? produit = await fifaDbContext.Anecdote.FirstOrDefaultAsync(u => u.AnecdoteId == id);
+            Anecdote? anecdote = await fifaDbContext.Anecdote.FirstOrDefaultAsync(u => u.AnecdoteId == id);
 
-            if (produit is null)
-                return produit;
+            if (anecdote is null)
+                return anecdote;
 
-            return produit;
+            return anecdote;
         }
 
         public async Task<ActionResult<Anecdote?>> GetByStringAsync(string str)
