@@ -15,6 +15,7 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class CategorieController : ControllerBase
     {
+        IDataRepository<>
         private readonly IDataRepository<Categorie> dataRepository;
 
         public CategorieController(IDataRepository<Categorie> context)
