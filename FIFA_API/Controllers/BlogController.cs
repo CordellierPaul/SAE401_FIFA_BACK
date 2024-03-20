@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,111 +14,95 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Blog> dataRepository;
 
-        public BlogController(FifaDbContext context)
+        public BlogController(IDataRepository<Blog> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Blog
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Blog>>> GetBlog()
         {
-          if (_context.Blog == null)
-          {
-              return NotFound();
-          }
-            return await _context.Blog.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Blog/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Blog>> GetBlog(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Blog>> GetBlogById(int id)
         {
-          if (_context.Blog == null)
-          {
-              return NotFound();
-          }
-            var blog = await _context.Blog.FindAsync(id);
+            var blog = await dataRepository.GetByIdAsync(id);
 
             if (blog == null)
             {
                 return NotFound();
             }
-
             return blog;
         }
 
         // PUT: api/Blog/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutBlog(int id, Blog blog)
         {
             if (id != blog.BlogId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(blog).State = EntityState.Modified;
-
-            try
+            var bloToUpdate = await dataRepository.GetByIdAsync(id);
+            if (bloToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!BlogExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(bloToUpdate.Value, blog);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Blog
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Blog>> PostBlog(Blog blog)
         {
-          if (_context.Blog == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Blog'  is null.");
-          }
-            _context.Blog.Add(blog);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(blog);
 
-            return CreatedAtAction("GetBlog", new { id = blog.BlogId }, blog);
+            return CreatedAtAction("GetById", new { id = blog.BlogId }, blog);
         }
 
         // DELETE: api/Blog/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteBlog(int id)
         {
-            if (_context.Blog == null)
+            var categorie = await dataRepository.GetByIdAsync(id);
+            if (categorie == null)
             {
                 return NotFound();
             }
-            var blog = await _context.Blog.FindAsync(id);
-            if (blog == null)
-            {
-                return NotFound();
-            }
-
-            _context.Blog.Remove(blog);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
         }
 
-        private bool BlogExists(int id)
+        /*private bool BlogExists(int id)
         {
-            return (_context.Blog?.Any(e => e.BlogId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Blog?.Any(e => e.BlogId == id)).GetValueOrDefault();
+        }*/
     }
 }
