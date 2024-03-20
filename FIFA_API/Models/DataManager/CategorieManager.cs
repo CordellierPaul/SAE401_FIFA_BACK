@@ -32,12 +32,12 @@ namespace FIFA_API.Models.DataManager
             return await fifaDbContext.Categorie.ToListAsync();
         }
 
-        public async Task<ActionResult<Categorie>> GetByIdAsync(int id)
+        public async Task<ActionResult<Categorie?>> GetByIdAsync(int id)
         {
             return await fifaDbContext.Categorie.FirstOrDefaultAsync(u => u.CategorieId == id);
         }
 
-        public async Task<ActionResult<Categorie>> GetByStringAsync(string str)
+        public async Task<ActionResult<Categorie?>> GetByStringAsync(string str)
         {
             return await fifaDbContext.Categorie.FirstOrDefaultAsync(u => u.CategorieNom.ToUpper() == str.ToUpper());
         }
