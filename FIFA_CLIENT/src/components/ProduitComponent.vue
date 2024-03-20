@@ -1,7 +1,7 @@
 <template>
-    <div class="produit">
-        <div class="img_container">
-            <img src="https://one-football.com/wp-content/uploads/2023/04/Maillot-Femme-Japon-Exterieur-2023-2024.jpg" alt="">
+    <div class="relative border-solid border-0.5 border-black w-1/4 h-auto">
+        <div class="flex justify-center items-center p-2">
+            <img class="w-full" src="https://one-football.com/wp-content/uploads/2023/04/Maillot-Femme-Japon-Exterieur-2023-2024.jpg" alt="">
         </div>
         <div>
             <h3>Nom produit ..........</h3>
@@ -17,19 +17,6 @@
 
 
 <style scoped>
-.produit{
-    position: relative;
-    border: solid 0.5px black;
-    width: 25%;
-    height: auto;
-}
-.img_container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
-}
-img{
-    width: 100%;
-}
+
+
 </style>
