@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,125 +14,93 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class InfosBancairesController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<InfosBancaires> dataRepository;
 
-        public InfosBancairesController(FifaDbContext context)
+        public InfosBancairesController(IDataRepository<InfosBancaires> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/InfosBancaires
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InfosBancaires>>> GetInfosBancaires()
         {
-          if (_context.InfosBancaires == null)
-          {
-              return NotFound();
-          }
-            return await _context.InfosBancaires.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/InfosBancaires/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<InfosBancaires>> GetInfosBancaires(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<InfosBancaires>> GetInfosBancairesbyId(int id)
         {
-          if (_context.InfosBancaires == null)
-          {
-              return NotFound();
-          }
-            var infosBancaires = await _context.InfosBancaires.FindAsync(id);
+            var categorie = await dataRepository.GetByIdAsync(id);
 
-            if (infosBancaires == null)
+            if (categorie == null)
             {
                 return NotFound();
             }
-
-            return infosBancaires;
+            return categorie;
         }
 
         // PUT: api/InfosBancaires/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutInfosBancaires(int id, InfosBancaires infosBancaires)
         {
             if (id != infosBancaires.InfosBancairesId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(infosBancaires).State = EntityState.Modified;
-
-            try
+            var ibToUpdate = await dataRepository.GetByIdAsync(id);
+            if (ibToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!InfosBancairesExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(ibToUpdate.Value, infosBancaires);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/InfosBancaires
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<InfosBancaires>> PostInfosBancaires(InfosBancaires infosBancaires)
         {
-          if (_context.InfosBancaires == null)
-          {
-              return Problem("Entity set 'FifaDbContext.InfosBancaires'  is null.");
-          }
-            _context.InfosBancaires.Add(infosBancaires);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (InfosBancairesExists(infosBancaires.InfosBancairesId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return CreatedAtAction("GetInfosBancaires", new { id = infosBancaires.InfosBancairesId }, infosBancaires);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(infosBancaires);
+            return CreatedAtAction("GetbyId", new { id = infosBancaires.InfosBancairesId }, infosBancaires);
         }
 
         // DELETE: api/InfosBancaires/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInfosBancaires(int id)
         {
-            if (_context.InfosBancaires == null)
+            var categorie = await dataRepository.GetByIdAsync(id);
+            if (categorie == null)
             {
                 return NotFound();
             }
-            var infosBancaires = await _context.InfosBancaires.FindAsync(id);
-            if (infosBancaires == null)
-            {
-                return NotFound();
-            }
-
-            _context.InfosBancaires.Remove(infosBancaires);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
         }
 
-        private bool InfosBancairesExists(int id)
+        /*private bool InfosBancairesExists(int id)
         {
-            return (_context.InfosBancaires?.Any(e => e.InfosBancairesId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.InfosBancaires?.Any(e => e.InfosBancairesId == id)).GetValueOrDefault();
+        }*/
     }
 }
