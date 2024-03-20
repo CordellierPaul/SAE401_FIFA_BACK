@@ -217,7 +217,7 @@ namespace FIFA_API.Controllers.Tests
         }
 
         [TestMethod]
-        public void GetUtilisateurById_ExistingIdPassed_ReturnsRightItem_AvecMoq()
+        public void GetCategorieById_ExistingIdPassed_ReturnsRightItem_AvecMoq()
         {
             // Arrange
             Categorie cat = new Categorie
