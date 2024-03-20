@@ -42,14 +42,13 @@ namespace FIFA_API.Models.DataManager
 
             EntityEntry<Produit> produitEntityEntry = fifaDbContext.Entry(produit);
 
-            produitEntityEntry.Reference(p => p.PaysProduit).Load();
-            produitEntityEntry.Reference(p => p.CategorieNavigation).Load();
-
-            produitEntityEntry.Collection(p => p.ProduitSimilaireLienUn).Load();
-            produitEntityEntry.Collection(p => p.ProduitSimilaireLienDeux).Load();
-            produitEntityEntry.Collection(p => p.VariantesProduit).Load();
-            produitEntityEntry.Collection(p => p.LienCaracteristiques).Load();
-            produitEntityEntry.Collection(p => p.DevisProduit).Load();
+            await produitEntityEntry.Reference(p => p.PaysProduit).LoadAsync();
+            await produitEntityEntry.Reference(p => p.CategorieNavigation).LoadAsync();
+            await produitEntityEntry.Collection(p => p.ProduitSimilaireLienUn).LoadAsync();
+            await produitEntityEntry.Collection(p => p.ProduitSimilaireLienDeux).LoadAsync();
+            await produitEntityEntry.Collection(p => p.VariantesProduit).LoadAsync();
+            await produitEntityEntry.Collection(p => p.LienCaracteristiques).LoadAsync();
+            await produitEntityEntry.Collection(p => p.DevisProduit).LoadAsync();
 
             return produit;
         }
