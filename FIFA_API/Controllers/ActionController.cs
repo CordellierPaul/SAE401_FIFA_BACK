@@ -24,7 +24,7 @@ namespace FIFA_API.Controllers
 
         // GET: api/Action
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Action>>> GetAction()
+        public async Task<ActionResult<IEnumerable<Action>>> GetAllAction()
         {
             return await dataRepository.GetAllAsync();
         }

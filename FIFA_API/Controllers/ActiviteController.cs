@@ -29,9 +29,9 @@ namespace FIFA_API.Controllers
         }
 
         // GET: api/Activite/5
-        [HttpGet("{id}")]
+        [HttpGet]
         [Route("[action]/{id}")]
-        [ActionName("GetById")]
+        [ActionName("GetActiviteById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Activite>> GetActiviteById(int id)
