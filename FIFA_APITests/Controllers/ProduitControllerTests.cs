@@ -24,7 +24,7 @@ namespace FIFA_API.Controllers.Tests
             var builder = new DbContextOptionsBuilder<FifaDbContext>().UseNpgsql("Server=localhost;port=5432;Database=FifaDB; uid=postgres; password=postgres;");
             _context = new FifaDbContext(builder.Options);
             _dataRepository = new ProduitManager(_context);
-            //_controller = new ProduitController(_dataRepository);
+            _controller = new ProduitController(_dataRepository);
         }
 
         /*[TestMethod()]
@@ -33,6 +33,12 @@ namespace FIFA_API.Controllers.Tests
             Assert.Fail();
         }*/
 
+        [TestMethod()]
+        public void ProduitControllerTest_OK()
+        {
+            Assert.IsNotNull(_controller, "Le controlleur est null.");
+        }
+
 
 
         [TestMethod()]
@@ -40,7 +46,7 @@ namespace FIFA_API.Controllers.Tests
         {
             Produit expected = _context.Produit.Where(u => u.ProduitId == 1).First();
 
-            var result = _controller.GetProduit(1).Result.Value;
+            var result = _controller.GetProduitById(1).Result.Value;
 
             Assert.AreEqual(expected, result, "Pas les mêmes produits");
         }
