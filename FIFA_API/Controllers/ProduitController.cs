@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,71 +14,59 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ProduitController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Produit> dataRepository;
 
-        public ProduitController(FifaDbContext context)
+        public ProduitController(IDataRepository<Produit> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Produit
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Produit>>> GetProduit()
         {
-          if (_context.Produit == null)
-          {
-              return NotFound();
-          }
-            return await _context.Produit.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Produit/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Produit>> GetProduit(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Produit>> GetProduitById(int id)
         {
-          if (_context.Produit == null)
-          {
-              return NotFound();
-          }
-            var produit = await _context.Produit.FindAsync(id);
+            var produit = await dataRepository.GetByIdAsync(id);
 
             if (produit == null)
             {
                 return NotFound();
             }
-
             return produit;
         }
 
         // PUT: api/Produit/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutProduit(int id, Produit produit)
         {
             if (id != produit.ProduitId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(produit).State = EntityState.Modified;
-
-            try
+            var userToUpdate = await dataRepository.GetByIdAsync(id);
+            if (userToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ProduitExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(userToUpdate.Value, produit);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Produit
@@ -85,12 +74,11 @@ namespace FIFA_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Produit>> PostProduit(Produit produit)
         {
-          if (_context.Produit == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Produit'  is null.");
-          }
-            _context.Produit.Add(produit);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(produit);
 
             return CreatedAtAction("GetProduit", new { id = produit.ProduitId }, produit);
         }
@@ -99,25 +87,18 @@ namespace FIFA_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduit(int id)
         {
-            if (_context.Produit == null)
-            {
-                return NotFound();
-            }
-            var produit = await _context.Produit.FindAsync(id);
+            var produit = await dataRepository.GetByIdAsync(id);
             if (produit == null)
             {
                 return NotFound();
             }
-
-            _context.Produit.Remove(produit);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(produit.Value);
             return NoContent();
         }
 
-        private bool ProduitExists(int id)
+        /*private bool ProduitExists(int id)
         {
-            return (_context.Produit?.Any(e => e.ProduitId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Produit?.Any(e => e.ProduitId == id)).GetValueOrDefault();
+        }*/
     }
 }
