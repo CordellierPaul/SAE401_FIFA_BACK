@@ -3,8 +3,8 @@
     <a href="/" id="coteGauche"><h1>FIFA</h1></a> 
 
     <nav>
-      <RouterLink to="/">Pages par</RouterLink>
-      <RouterLink to="/about">défaut</RouterLink>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
     </nav>
   </header>
 </template>
