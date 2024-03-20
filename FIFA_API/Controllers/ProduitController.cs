@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace FIFA_API.Controllers
 {
@@ -14,9 +15,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ProduitController : ControllerBase
     {
-        private readonly IDataRepository<Produit> dataRepository;
+        private readonly IProduitRepository dataRepository;
 
-        public ProduitController(IDataRepository<Produit> context)
+        public ProduitController(IProduitRepository context)
         {
             dataRepository = context;
         }
@@ -44,6 +45,19 @@ namespace FIFA_API.Controllers
             }
 
             return produit!;
+        }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetAnImageOfProduitById")]
+        public async Task<ActionResult<string>> GetAnImageOfProduitById(int id)
+        {
+            var result = await dataRepository.GetAnImagePathOfProduitById(id);
+
+            if (result is null || result.Value is null)
+                return NotFound();
+
+            return result.Value;
         }
 
         // PUT: api/Produit/5
