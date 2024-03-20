@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class ProduitManager : IDataRepository<Produit>
+    public class ProduitManager : IProduitRepository
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -20,6 +20,39 @@ namespace FIFA_API.Models.DataManager
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllAsync()
         {
             return await fifaDbContext.Produit.ToListAsync();
+
+            // Les commentaires suivant montrent ce que j'essayais de faire. (c'est Paul qui écrit)
+            // Je voulais qui à partir de GetAllAsync, on puisse accéder à une image du produit.
+            // Mais pour accéder à une image depuis produit il faut faire :
+            // Produit -> VarianteProduit -> ImageVariante -> Image
+            // J'ai essayé de faire le lien mais ça ne marchait pas. Voici ce que j'essayais de faire : 
+
+
+            //return await fifaDbContext.Produit
+            //    .Include(p => p.VariantesProduit)
+            //    .ThenInclude(vp => vp.LienImages)
+            //    .ToListAsync();
+
+            // Résultat : fonctionne mais on ne peut pas accéder à ImageUrl
+
+
+            //return await fifaDbContext.Produit
+            //    .Include(p => p.VariantesProduit)
+            //    .ThenInclude(vp => vp.LienImages)
+            //    .ThenInclude(iv => iv.ImageNavigation)
+            //    .ToListAsync();
+
+            // Erreur : A possible object cycle was detected. This can either be due to a cycle or if the
+            // object depth is larger than the maximum allowed depth of 32. Consider using
+            // ReferenceHandler.Preserve on JsonSerializerOptions to support cycles. Path:
+            // $.VariantesProduit.LienImages.ImageNavigation.ImagesVariante.VarianteProduitNavigation.
+            // LienImages.ImageNavigation.ImagesVariante.VarianteProduitNavigation.ProduitVariante.
+            // VariantesProduit.LienImages.ImageNavigation.ImagesVariante.VarianteProduitNavigation.
+            // LienImages.ImageNavigation.ImagesVariante.VarianteProduitNavigation.ProduitVariante.
+            // ProduitId.
+
+
+            // à la place j'ai créé GetAnImagePathOfProduitById
         }
 
         public async Task AddAsync(Produit entity)
@@ -46,6 +79,7 @@ namespace FIFA_API.Models.DataManager
 
             await produitEntityEntry.Reference(p => p.PaysProduit).LoadAsync();
             await produitEntityEntry.Reference(p => p.CategorieNavigation).LoadAsync();
+
             await produitEntityEntry.Collection(p => p.ProduitSimilaireLienUn).LoadAsync();
             await produitEntityEntry.Collection(p => p.ProduitSimilaireLienDeux).LoadAsync();
             await produitEntityEntry.Collection(p => p.VariantesProduit).LoadAsync();
@@ -74,6 +108,31 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.ProduitSimilaireLienUn = entity.ProduitSimilaireLienUn;
             entityToUpdate.DevisProduit = entity.DevisProduit;
             await fifaDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<string>> GetAnImagePathOfProduitById(int id)
+        {
+            Produit leProduit = await fifaDbContext.Produit.FindAsync(id);
+            if (leProduit is null)
+                return null;
+            await fifaDbContext.Entry(leProduit).Collection(p => p.VariantesProduit).LoadAsync();
+
+            VarianteProduit uneVarianteProduit = leProduit.VariantesProduit.FirstOrDefault();
+            if (uneVarianteProduit is null)
+                return null;
+            await fifaDbContext.Entry(uneVarianteProduit).Collection(vp => vp.LienImages).LoadAsync();
+
+            ImageVariante imageVariante = uneVarianteProduit.LienImages.FirstOrDefault();
+            if (imageVariante is null)
+                return null;
+            await fifaDbContext.Entry(imageVariante).Reference(iv => iv.ImageNavigation).LoadAsync();
+
+            return imageVariante.ImageNavigation.ImageUrl;
+        }
+
+        public Task<ActionResult<IEnumerable<Produit>>> GetSearchResult(string searchInput)
+        {
+            throw new NotImplementedException();
         }
     }
 }

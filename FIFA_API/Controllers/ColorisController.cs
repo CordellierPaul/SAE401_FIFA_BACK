@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,111 +14,95 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ColorisController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Coloris> dataRepository;
 
-        public ColorisController(FifaDbContext context)
+        public ColorisController(IDataRepository<Coloris> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Coloris
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Coloris>>> GetColoris()
         {
-          if (_context.Coloris == null)
-          {
-              return NotFound();
-          }
-            return await _context.Coloris.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Coloris/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Coloris>> GetColoris(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Coloris>> GetColorisById(int id)
         {
-          if (_context.Coloris == null)
-          {
-              return NotFound();
-          }
-            var coloris = await _context.Coloris.FindAsync(id);
+            var coloris = await dataRepository.GetByIdAsync(id);
 
             if (coloris == null)
             {
                 return NotFound();
             }
-
             return coloris;
         }
 
         // PUT: api/Coloris/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutColoris(int id, Coloris coloris)
         {
             if (id != coloris.ColorisId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(coloris).State = EntityState.Modified;
-
-            try
+            var colToUpdate = await dataRepository.GetByIdAsync(id);
+            if (colToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ColorisExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(colToUpdate.Value, coloris);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Coloris
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Coloris>> PostColoris(Coloris coloris)
         {
-          if (_context.Coloris == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Coloris'  is null.");
-          }
-            _context.Coloris.Add(coloris);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(coloris);
 
-            return CreatedAtAction("GetColoris", new { id = coloris.ColorisId }, coloris);
+            return CreatedAtAction("GetById", new { id = coloris.ColorisId }, coloris);
         }
 
         // DELETE: api/Coloris/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteColoris(int id)
         {
-            if (_context.Coloris == null)
-            {
-                return NotFound();
-            }
-            var coloris = await _context.Coloris.FindAsync(id);
+            var coloris = await dataRepository.GetByIdAsync(id);
             if (coloris == null)
             {
                 return NotFound();
             }
-
-            _context.Coloris.Remove(coloris);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(coloris.Value);
             return NoContent();
         }
 
-        private bool ColorisExists(int id)
+        /*private bool ColorisExists(int id)
         {
-            return (_context.Coloris?.Any(e => e.ColorisId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Coloris?.Any(e => e.ColorisId == id)).GetValueOrDefault();
+        }*/
     }
 }
