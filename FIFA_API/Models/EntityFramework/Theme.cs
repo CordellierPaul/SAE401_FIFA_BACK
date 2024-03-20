@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FIFA_API.Models.EntityFramework
 {
-    [Table("t_j_theme_the")]
+    [Table("t_e_theme_the")]
     public partial class Theme
     {
         [Key]
