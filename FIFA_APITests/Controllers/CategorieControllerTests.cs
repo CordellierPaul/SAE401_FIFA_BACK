@@ -17,7 +17,7 @@ namespace FIFA_API.Controllers.Tests
 
         public CategorieControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<FifaDbContext>().UseNpgsql("Server=localhost;port=5432;Database=FilmRatingsDB; uid=postgres; password=postgres;");
+            var builder = new DbContextOptionsBuilder<FifaDbContext>().UseNpgsql("Server=localhost;port=5432;Database=FifaDB; uid=postgres; password=postgres;");
             _context = new FifaDbContext(builder.Options);
             _dataRepository = new CategorieManager(_context);
             _controller = new CategorieController(_dataRepository);
