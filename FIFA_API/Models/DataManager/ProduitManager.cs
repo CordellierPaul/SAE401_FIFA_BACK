@@ -2,18 +2,21 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+
+#nullable disable
 
 namespace FIFA_API.Models.DataManager
 {
     public class ProduitManager : IDataRepository<Produit>
     {
-        readonly FifaDbContext? fifaDbContext;
+        private readonly FifaDbContext fifaDbContext;
 
-        public ProduitManager() { }
         public ProduitManager(FifaDbContext context)
         {
             fifaDbContext = context;
         }
+
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllAsync()
         {
             return await fifaDbContext.Produit.ToListAsync();
@@ -34,7 +37,22 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<Produit>> GetByIdAsync(int id)
         {
-            return await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitId == id);
+            Produit produit = await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitId == id);
+
+            if (produit is null)
+                return produit;
+
+            EntityEntry<Produit> produitEntityEntry = fifaDbContext.Entry(produit);
+
+            await produitEntityEntry.Reference(p => p.PaysProduit).LoadAsync();
+            await produitEntityEntry.Reference(p => p.CategorieNavigation).LoadAsync();
+            await produitEntityEntry.Collection(p => p.ProduitSimilaireLienUn).LoadAsync();
+            await produitEntityEntry.Collection(p => p.ProduitSimilaireLienDeux).LoadAsync();
+            await produitEntityEntry.Collection(p => p.VariantesProduit).LoadAsync();
+            await produitEntityEntry.Collection(p => p.LienCaracteristiques).LoadAsync();
+            await produitEntityEntry.Collection(p => p.DevisProduit).LoadAsync();
+
+            return produit;
         }
 
         public async Task<ActionResult<Produit>> GetByStringAsync(string str)

@@ -1,16 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FIFA_API.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
 using FIFA_API.Models.DataManager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 
 namespace FIFA_API.Controllers.Tests
 {
@@ -21,11 +16,9 @@ namespace FIFA_API.Controllers.Tests
         private CategorieController _controller;
         private IDataRepository<Categorie> _dataRepository;
 
-
-        [TestMethod()]
-        public void CategorieControllerTest()
+        public CategorieControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<FifaDbContext>().UseNpgsql("Server=localhost;port=5432;Database=FilmRatingsDB; uid=postgres; password=postgres;");
+            var builder = new DbContextOptionsBuilder<FifaDbContext>().UseNpgsql("Server=localhost;port=5432;Database=FifaDB; uid=postgres; password=postgres;");
             _context = new FifaDbContext(builder.Options);
             _dataRepository = new CategorieManager(_context);
             _controller = new CategorieController(_dataRepository);
@@ -91,7 +84,7 @@ namespace FIFA_API.Controllers.Tests
             Assert.AreEqual(StatusCodes.Status204NoContent, ((NoContentResult)result).StatusCode, "Pas de code 204");
             Assert.AreEqual(expected, resultUser, "Pas les mêmes categories");
         }
-
+/*
         [TestMethod]
         public void PostCategorieTest_OK()
         {
@@ -130,7 +123,161 @@ namespace FIFA_API.Controllers.Tests
 
             Assert.AreEqual(StatusCodes.Status204NoContent, ((NoContentResult)resultDelete).StatusCode, "Pas de code 204");
             _context.Categorie.Where(u => u.CategorieId == id).First();
+        }*/
+
+
+        #region Test moq
+
+        [TestMethod]
+        public void PostCategorie_ModelValidated_CreationOK_AvecMoq()
+        {
+            // Arrange
+            var mockRepository = new Mock<IDataRepository<Categorie>>();
+            var catController = new CategorieController(mockRepository.Object);
+            Categorie cat = new Categorie
+            {
+                CategorieNom = "Test"
+            };
+            // Act
+            var actionResult = catController.PostCategorie(cat).Result;
+            // Assert
+            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<Categorie>), "Pas un ActionResult<Categorie>");
+            Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
+            var result = actionResult.Result as CreatedAtActionResult;
+            Assert.IsInstanceOfType(result.Value, typeof(Categorie), "Pas un Categorie");
+            cat.CategorieId = ((Categorie)result.Value).CategorieId;
+            Assert.AreEqual(cat, (Categorie)result.Value, "Categories pas identiques");
         }
+
+        [TestMethod]
+        public void DeleteCategorie_ModelValidated_DeleteOK_AvecMoq()
+        {
+            // Arrange
+            Categorie cat = new Categorie
+            {
+                CategorieId = 1,
+                CategorieNom = "Test"
+            };
+            var mockRepository = new Mock<IDataRepository<Categorie>>();
+            mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(cat);
+            var catController = new CategorieController(mockRepository.Object);
+            // Act
+            var actionResult = catController.DeleteCategorie(1).Result;
+            // Assert
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+        }
+
+        [TestMethod]
+        public void PutCategorieTest_ModelValidated_PutOK_AvecMoq()
+        {
+            // Arrange
+            Categorie cat = new Categorie
+            {
+                CategorieId = 1,
+                CategorieNom = "Test"
+            };
+            Categorie catModif = new Categorie
+            {
+                CategorieId = 1,
+                CategorieNom = "Update"
+            };
+
+            var mockRepository = new Mock<IDataRepository<Categorie>>();
+            mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(cat);
+            var catController = new CategorieController(mockRepository.Object);
+
+            // Act
+            var actionResult = catController.PutCategorie(1, catModif).Result;
+
+            // Assert
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+        }
+
+        [TestMethod]
+        public void GetCategorieByNom_PutOK_AvecMoq()
+        {
+            // Arrange
+            Categorie cat = new Categorie
+            {
+                CategorieId = 1,
+                CategorieNom = "Testputmoq"
+            };
+
+            var mockRepository = new Mock<IDataRepository<Categorie>>();
+            mockRepository.Setup(x => x.GetByStringAsync("Testputmoq").Result).Returns(cat);
+            var catController = new CategorieController(mockRepository.Object);
+
+            // Act
+            var actionResult = catController.GetCategorieByNom("Testputmoq").Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(cat, actionResult.Value as Categorie);
+        }
+
+        [TestMethod]
+        public void GetCategorieById_ExistingIdPassed_ReturnsRightItem_AvecMoq()
+        {
+            // Arrange
+            Categorie cat = new Categorie
+            {
+                CategorieId = 1,
+                CategorieNom = "Testgetidmoq"
+            };
+
+            var mockRepository = new Mock<IDataRepository<Categorie>>();
+            mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(cat);
+            var catController = new CategorieController(mockRepository.Object);
+
+            // Act
+            var actionResult = catController.GetCategorieById(1).Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(cat, actionResult.Value as Categorie);
+        }
+
+        [TestMethod]
+        public void GetCategorieById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
+        {
+            var mockRepository = new Mock<IDataRepository<Categorie>>();
+            var catController = new CategorieController(mockRepository.Object);
+            // Act
+            var actionResult = catController.GetCategorieById(0).Result;
+            // Assert
+            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
+
+        }
+
+        [TestMethod]
+        public void Postcategorie_ModelValidated_CreationOK_AvecMoq()
+        {
+            // Arrange
+            var mockRepository = new Mock<IDataRepository<Categorie>>();
+            var catController = new CategorieController(mockRepository.Object);
+
+            Categorie cat = new Categorie
+            {
+                CategorieId = 1,
+                CategorieNom = "Testputmoq"
+            };
+
+            // Act
+            var actionResult = catController.PostCategorie(cat).Result;
+
+            // Assert
+            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<Categorie>), "Pas un ActionResult<Utilisateur>");
+            Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
+            var result = actionResult.Result as CreatedAtActionResult;
+            Assert.IsInstanceOfType(result.Value, typeof(Categorie), "Pas une Categorie");
+            cat.CategorieId = ((Categorie)result.Value).CategorieId;
+            Assert.AreEqual(cat, (Categorie)result.Value, "Categories pas identiques");
+        }
+
+
+        #endregion
 
     }
 }

@@ -36,13 +36,14 @@ namespace FIFA_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Produit>> GetProduitById(int id)
         {
-            var produit = await dataRepository.GetByIdAsync(id);
+            ActionResult<Produit> produit = await dataRepository.GetByIdAsync(id);
 
-            if (produit == null)
+            if (produit.Value == null)
             {
                 return NotFound();
             }
-            return produit;
+
+            return produit!;
         }
 
         // PUT: api/Produit/5
@@ -57,14 +58,14 @@ namespace FIFA_API.Controllers
             {
                 return BadRequest();
             }
-            var userToUpdate = await dataRepository.GetByIdAsync(id);
-            if (userToUpdate == null)
+            var pdtToUpdate = await dataRepository.GetByIdAsync(id);
+            if (pdtToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                await dataRepository.UpdateAsync(userToUpdate.Value, produit);
+                await dataRepository.UpdateAsync(pdtToUpdate.Value, produit);
                 return NoContent();
             }
         }

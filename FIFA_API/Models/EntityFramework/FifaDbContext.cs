@@ -957,5 +957,7 @@ namespace FIFA_API.Models.EntityFramework
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
         public DbSet<FIFA_API.Models.EntityFramework.AlbumImage>? AlbumImage { get; set; }
+
+        public DbSet<FIFA_API.Models.EntityFramework.Stock>? Stock { get; set; }
     }
 }
