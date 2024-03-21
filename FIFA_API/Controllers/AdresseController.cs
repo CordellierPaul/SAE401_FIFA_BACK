@@ -34,7 +34,7 @@ namespace FIFA_API.Controllers
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Adresse>> GetAdresse(int id)
+        public async Task<ActionResult<Adresse>> GetAdresseById(int id)
         {
             var adresse = await dataRepository.GetByIdAsync(id);
 
