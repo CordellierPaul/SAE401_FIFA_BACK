@@ -22,6 +22,9 @@ builder.Services.AddDbContext<FifaDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("FifaDbContext")));
 
 builder.Services.AddScoped<IProduitRepository, ProduitManager>();
+builder.Services.AddScoped<IDataRepository<Activite>, ActiviteManager>();
+builder.Services.AddScoped<IDataRepository<Adresse>, AdresseManager>();
+builder.Services.AddScoped<IDataRepository2clues<LikeAlbum>, LikeAlbumManager>();
 builder.Services.AddScoped<IDataRepository<Categorie>, CategorieManager>();
 
 //Token
