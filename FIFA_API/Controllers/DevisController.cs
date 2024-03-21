@@ -34,7 +34,7 @@ namespace FIFA_API.Controllers
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Devis>> GetDevisByID(int id)
+        public async Task<ActionResult<Devis>> GetDevisById(int id)
         {
             var devis = await dataRepository.GetByIdAsync(id);
 
