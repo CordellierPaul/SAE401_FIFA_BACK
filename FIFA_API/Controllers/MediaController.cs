@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using System.Diagnostics;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +15,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class MediaController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Media> dataRepository;
 
-        public MediaController(FifaDbContext context)
+        public MediaController(IDataRepository<Media> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Media
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Media>>> GetMedia()
         {
-          if (_context.Media == null)
-          {
-              return NotFound();
-          }
-            return await _context.Media.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Media/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Media>> GetMedia(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Media>> GetMediaById(int id)
         {
-          if (_context.Media == null)
-          {
-              return NotFound();
-          }
-            var media = await _context.Media.FindAsync(id);
+            var media = await dataRepository.GetByIdAsync(id);
 
             if (media == null)
             {
@@ -52,32 +50,25 @@ namespace FIFA_API.Controllers
         // PUT: api/Media/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutMedia(int id, Media media)
         {
             if (id != media.MediaId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(media).State = EntityState.Modified;
-
-            try
+            var medToUpdate = await dataRepository.GetByIdAsync(id);
+            if (medToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!MediaExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(medToUpdate.Value, media);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Media
@@ -85,12 +76,12 @@ namespace FIFA_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Media>> PostMedia(Media media)
         {
-          if (_context.Media == null)
+          if (dataRepository.Media == null)
           {
               return Problem("Entity set 'FifaDbContext.Media'  is null.");
           }
-            _context.Media.Add(media);
-            await _context.SaveChangesAsync();
+            dataRepository.Media.Add(media);
+            await dataRepository.SaveChangesAsync();
 
             return CreatedAtAction("GetMedia", new { id = media.MediaId }, media);
         }
@@ -99,25 +90,25 @@ namespace FIFA_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMedia(int id)
         {
-            if (_context.Media == null)
+            if (dataRepository.Media == null)
             {
                 return NotFound();
             }
-            var media = await _context.Media.FindAsync(id);
+            var media = await dataRepository.Media.FindAsync(id);
             if (media == null)
             {
                 return NotFound();
             }
 
-            _context.Media.Remove(media);
-            await _context.SaveChangesAsync();
+            dataRepository.Media.Remove(media);
+            await dataRepository.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool MediaExists(int id)
         {
-            return (_context.Media?.Any(e => e.MediaId == id)).GetValueOrDefault();
+            return (dataRepository.Media?.Any(e => e.MediaId == id)).GetValueOrDefault();
         }
     }
 }
