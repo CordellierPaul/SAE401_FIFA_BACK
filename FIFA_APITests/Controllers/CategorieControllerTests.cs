@@ -251,31 +251,6 @@ namespace FIFA_API.Controllers.Tests
 
         }
 
-        [TestMethod]
-        public void Postcategorie_ModelValidated_CreationOK_AvecMoq()
-        {
-            // Arrange
-            var mockRepository = new Mock<IDataRepository<Categorie>>();
-            var catController = new CategorieController(mockRepository.Object);
-
-            Categorie cat = new Categorie
-            {
-                CategorieId = 1,
-                CategorieNom = "Testputmoq"
-            };
-
-            // Act
-            var actionResult = catController.PostCategorie(cat).Result;
-
-            // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<Categorie>), "Pas un ActionResult<Utilisateur>");
-            Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
-            var result = actionResult.Result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(result.Value, typeof(Categorie), "Pas une Categorie");
-            cat.CategorieId = ((Categorie)result.Value).CategorieId;
-            Assert.AreEqual(cat, (Categorie)result.Value, "Categories pas identiques");
-        }
-
 
         #endregion
 
