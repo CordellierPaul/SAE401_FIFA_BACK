@@ -49,6 +49,7 @@ builder.Services.AddScoped<IDataRepository<Joueur>, JoueurManager>();
 builder.Services.AddScoped<IDataRepository<Langue>, LangueManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Match>, MatchManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Media>, MediaManager>();
+builder.Services.AddScoped<IDataRepository<Monnaie>, MonnaieManager>();
 
 //Token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
