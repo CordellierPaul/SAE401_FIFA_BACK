@@ -40,7 +40,7 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<Compte>> GetByStringAsync(string str)
         {
-            return await fifaDbContext.Compte.FirstOrDefaultAsync(u => u.Comptelogin.ToUpper() == str.ToUpper());
+            return await fifaDbContext.Compte.FirstOrDefaultAsync(u => u.CompteEmail.ToUpper() == str.ToUpper());
         }
 
         public async Task UpdateAsync(Compte entityToUpdate, Compte entity)
