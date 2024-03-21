@@ -42,6 +42,17 @@ builder.Services.AddScoped<IDataRepositoryWithoutStr<Commentaire>, CommentaireMa
 builder.Services.AddScoped<IDataRepository<Competition>, CompetitionManager>();
 builder.Services.AddScoped<IDataRepository<Compte>, CompteManager>();
 builder.Services.AddScoped<IDataRepository<Devis>, DevisManager>();
+builder.Services.AddScoped<IDataRepository<Document>, DocumentManager>();
+builder.Services.AddScoped<IDataRepository<Genre>, GenreManager>();
+builder.Services.AddScoped<IDataRepository<InfosBancaires>, InfosBancairesManager>();
+builder.Services.AddScoped<IDataRepository<Joueur>, JoueurManager>();
+builder.Services.AddScoped<IDataRepository<Langue>, LangueManager>();
+builder.Services.AddScoped<IDataRepositoryWithoutStr<Match>, MatchManager>();
+builder.Services.AddScoped<IDataRepositoryWithoutStr<Media>, MediaManager>();
+builder.Services.AddScoped<IDataRepository<Monnaie>, MonnaieManager>();
+builder.Services.AddScoped<IDataRepository<Pays>, PaysManager>();
+builder.Services.AddScoped<IDataRepository<Trophee>, TropheeManager>();
+builder.Services.AddScoped<IDataRepository<Ville>, VilleManager>();
 
 //Token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

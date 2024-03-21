@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using System.Diagnostics;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +15,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class PosteController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Poste> dataRepository;
 
-        public PosteController(FifaDbContext context)
+        public PosteController(IDataRepository<Poste> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Poste
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Poste>>> GetPoste()
         {
-          if (_context.Poste == null)
-          {
-              return NotFound();
-          }
-            return await _context.Poste.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Poste/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Poste>> GetPoste(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Poste>> GetPosteById(int id)
         {
-          if (_context.Poste == null)
-          {
-              return NotFound();
-          }
-            var poste = await _context.Poste.FindAsync(id);
+            var poste = await dataRepository.GetByIdAsync(id);
 
             if (poste == null)
             {
@@ -52,72 +50,62 @@ namespace FIFA_API.Controllers
         // PUT: api/Poste/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutPoste(int id, Poste poste)
         {
             if (id != poste.PosteId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(poste).State = EntityState.Modified;
-
-            try
+            var actToUpdate = await dataRepository.GetByIdAsync(id);
+            if (actToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!PosteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(actToUpdate.Value, poste);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Poste
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Poste>> PostPoste(Poste poste)
         {
-          if (_context.Poste == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Poste'  is null.");
-          }
-            _context.Poste.Add(poste);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(poste);
+            return CreatedAtAction("GetById", new { id = poste.PosteId }, poste);
 
-            return CreatedAtAction("GetPoste", new { id = poste.PosteId }, poste);
         }
 
         // DELETE: api/Poste/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeletePoste(int id)
         {
-            if (_context.Poste == null)
-            {
-                return NotFound();
-            }
-            var poste = await _context.Poste.FindAsync(id);
+            var poste = await dataRepository.GetByIdAsync(id);
             if (poste == null)
             {
                 return NotFound();
             }
-
-            _context.Poste.Remove(poste);
-            await _context.SaveChangesAsync();
+            await dataRepository.DeleteAsync(poste.Value);
 
             return NoContent();
         }
 
-        private bool PosteExists(int id)
-        {
-            return (_context.Poste?.Any(e => e.PosteId == id)).GetValueOrDefault();
-        }
+        //private bool PosteExists(int id)
+        //{
+        //    return (dataRepository.Poste?.Any(e => e.PosteId == id)).GetValueOrDefault();
+        //}
     }
 }

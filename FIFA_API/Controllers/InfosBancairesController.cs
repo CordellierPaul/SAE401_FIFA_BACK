@@ -34,7 +34,7 @@ namespace FIFA_API.Controllers
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<InfosBancaires>> GetInfosBancairesbyId(int id)
+        public async Task<ActionResult<InfosBancaires>> GetInfosBancairesById(int id)
         {
             var categorie = await dataRepository.GetByIdAsync(id);
 

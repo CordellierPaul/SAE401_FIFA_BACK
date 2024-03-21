@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using Moq;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +15,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class VilleController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Ville> dataRepository;
 
-        public VilleController(FifaDbContext context)
+        public VilleController(IDataRepository<Ville> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Ville
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ville>>> GetVille()
         {
-          if (_context.Ville == null)
-          {
-              return NotFound();
-          }
-            return await _context.Ville.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Ville/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Ville>> GetVille(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Ville>> GetVilleById(int id)
         {
-          if (_context.Ville == null)
-          {
-              return NotFound();
-          }
-            var ville = await _context.Ville.FindAsync(id);
+            var ville = await dataRepository.GetByIdAsync(id);
 
             if (ville == null)
             {
@@ -52,6 +50,9 @@ namespace FIFA_API.Controllers
         // PUT: api/Ville/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutVille(int id, Ville ville)
         {
             if (id != ville.VilleId)
@@ -59,39 +60,30 @@ namespace FIFA_API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(ville).State = EntityState.Modified;
-
-            try
+            var vilToUpdate = await dataRepository.GetByIdAsync(id);
+            if (vilToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!VilleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(vilToUpdate.Value, ville);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Ville
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Ville>> PostVille(Ville ville)
         {
-          if (_context.Ville == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Ville'  is null.");
-          }
-            _context.Ville.Add(ville);
-            await _context.SaveChangesAsync();
-
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(ville);
             return CreatedAtAction("GetVille", new { id = ville.VilleId }, ville);
         }
 
@@ -99,25 +91,18 @@ namespace FIFA_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVille(int id)
         {
-            if (_context.Ville == null)
-            {
-                return NotFound();
-            }
-            var ville = await _context.Ville.FindAsync(id);
+            var ville = await dataRepository.GetByIdAsync(id);
             if (ville == null)
             {
                 return NotFound();
             }
-
-            _context.Ville.Remove(ville);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(ville.Value);
             return NoContent();
         }
 
-        private bool VilleExists(int id)
+        /*private bool VilleExists(int id)
         {
-            return (_context.Ville?.Any(e => e.VilleId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Ville?.Any(e => e.VilleId == id)).GetValueOrDefault();
+        }*/
     }
 }
