@@ -88,27 +88,23 @@ namespace FIFA_API.Controllers
 
         // DELETE: api/Reglement/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteReglement(int id)
         {
-            if (dataRepository.Reglement == null)
-            {
-                return NotFound();
-            }
-            var reglement = await dataRepository.Reglement.FindAsync(id);
+            var reglement = await dataRepository.GetByIdAsync(id);
             if (reglement == null)
             {
                 return NotFound();
             }
-
-            dataRepository.Reglement.Remove(reglement);
-            await dataRepository.SaveChangesAsync();
+            await dataRepository.DeleteAsync(reglement.Value);
 
             return NoContent();
         }
 
-        private bool ReglementExists(int id)
-        {
-            return (dataRepository.Reglement?.Any(e => e.TransactionId == id)).GetValueOrDefault();
-        }
+        //private bool ReglementExists(int id)
+        //{
+        //    return (dataRepository.Reglement?.Any(e => e.TransactionId == id)).GetValueOrDefault();
+        //}
     }
 }
