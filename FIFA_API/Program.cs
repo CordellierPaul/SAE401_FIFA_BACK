@@ -24,8 +24,21 @@ builder.Services.AddDbContext<FifaDbContext>(options =>
 builder.Services.AddScoped<IProduitRepository, ProduitManager>();
 builder.Services.AddScoped<IDataRepository<Activite>, ActiviteManager>();
 builder.Services.AddScoped<IDataRepository<Adresse>, AdresseManager>();
+builder.Services.AddScoped<IDataRepository<Album>, AlbumManager>();
 builder.Services.AddScoped<IDataRepository2clues<LikeAlbum>, LikeAlbumManager>();
+builder.Services.AddScoped<IDataRepository<Anecdote>, AnecdoteManager>();
+builder.Services.AddScoped<IDataRepository<Article>, ArticleManager>();
+builder.Services.AddScoped<IDataRepository2clues<ArticleJoueur>, ArticleJoueurManager>();
+builder.Services.AddScoped<IDataRepository2clues<ArticleMedia>, ArticleMediaManager>();
+builder.Services.AddScoped<IDataRepository<Blog>, BlogManager>();
+builder.Services.AddScoped<IDataRepository2clues<BlogImage>, BlogImageManager>();
+builder.Services.AddScoped<IDataRepository<Caracteristique>, CaracteristiqueManager>();
+builder.Services.AddScoped<IDataRepository2clues<CaracteristiqueProduit>, CaracteristiqueProduitManager>();
 builder.Services.AddScoped<IDataRepository<Categorie>, CategorieManager>();
+builder.Services.AddScoped<IDataRepository<Club>, ClubManager>();
+builder.Services.AddScoped<IDataRepository<Coloris>, ColorisManager>();
+builder.Services.AddScoped<IDataRepository<Compte>, CompteManager>();
+builder.Services.AddScoped<IDataRepository<Devis>, DevisManager>();
 
 //Token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
