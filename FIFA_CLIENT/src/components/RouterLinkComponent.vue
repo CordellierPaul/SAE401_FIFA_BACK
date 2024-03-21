@@ -1,6 +1,6 @@
 <template>
     
-    <RouterLink class="px-2 py-1 text-white text-2xl" :to="to" v-html="text"></RouterLink>
+    <RouterLink class="btn btn-ghost text-xl" :to="{name: name}" v-html="text"></RouterLink>
 
 </template>
 
@@ -10,6 +10,7 @@
     const props = defineProps({
         text: String,
         to: String, 
+        name: String
     });
 </script>
 
