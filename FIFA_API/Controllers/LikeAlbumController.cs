@@ -46,7 +46,6 @@ namespace FIFA_API.Controllers
             return likeAlbum;
         }
 
-
         // PUT: api/LikeAlbum/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{albumId}/{utilisateurId}")]
@@ -73,29 +72,34 @@ namespace FIFA_API.Controllers
             }
         }
 
-
         // POST: api/LikeAlbum
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("{albumId}/{utilisateurId}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<LikeAlbum>> PostLikeAlbum(LikeAlbum likeAlbum)
+        public async Task<ActionResult<LikeAlbum>> PostLikeAlbum(int albumId, int utilisateurId, LikeAlbum likeAlbum)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            likeAlbum.AlbumId = albumId;
+            likeAlbum.UtilisateurId = utilisateurId;
+
             await dataRepository.AddAsync(likeAlbum);
-            return CreatedAtAction("GetById", new { id = likeAlbum.AlbumId }, likeAlbum);
+
+            return CreatedAtAction("GetById", new { albumId, utilisateurId }, likeAlbum);
         }
 
-        // DELETE: api/LikeAlbum/5
-        [HttpDelete("{id}")]
+
+        // DELETE: api/LikeAlbum/5/4
+        [HttpDelete("{albumId}/{utilisateurId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteLikeAlbum(int aid, int uid)
+        public async Task<IActionResult> DeleteLikeAlbum(int albumId, int utilisateurId)
         {
-            var likeAlbum = await dataRepository.GetByIdAsync(aid, uid);
+            var likeAlbum = await dataRepository.GetByIdAsync(albumId, utilisateurId);
             if (likeAlbum == null)
             {
                 return NotFound();

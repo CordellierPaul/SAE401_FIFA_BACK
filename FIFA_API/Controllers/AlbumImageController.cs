@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +14,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class AlbumImageController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository2clues<AlbumImage> dataRepository;
 
-        public AlbumImageController(FifaDbContext context)
+        public AlbumImageController(IDataRepository2clues<AlbumImage> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/AlbumImage
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AlbumImage>>> GetAlbumImage()
         {
-          if (_context.AlbumImage == null)
-          {
-              return NotFound();
-          }
-            return await _context.AlbumImage.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/AlbumImage/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AlbumImage>> GetAlbumImage(int id)
+        [HttpGet]
+        [Route("[action]/{albumId}/{imageid}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<AlbumImage>> GetAlbumImage(int albumId, int imageId)
         {
-          if (_context.AlbumImage == null)
-          {
-              return NotFound();
-          }
-            var albumImage = await _context.AlbumImage.FindAsync(id);
+            var albumImage = await dataRepository.GetByIdAsync(albumId, imageId);
 
             if (albumImage == null)
             {
@@ -51,87 +48,68 @@ namespace FIFA_API.Controllers
 
         // PUT: api/AlbumImage/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAlbumImage(int id, AlbumImage albumImage)
+        [HttpPut("{albumId}/{imageId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> PutAlbumImage(int albumId, int imageId, AlbumImage albumImage)
         {
-            if (id != albumImage.AlbumId)
+            if (albumId != albumImage.AlbumId || imageId != albumImage.ImageId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(albumImage).State = EntityState.Modified;
+            var aliToUpdate = await dataRepository.GetByIdAsync(albumId, imageId);
 
-            try
+            if (aliToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!AlbumImageExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(aliToUpdate.Value, albumImage);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/AlbumImage
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<AlbumImage>> PostAlbumImage(AlbumImage albumImage)
+        [HttpPost("{albumId}/{imageId}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<AlbumImage>> PostAlbumImage(int albumId, int imageId, AlbumImage albumImage)
         {
-          if (_context.AlbumImage == null)
-          {
-              return Problem("Entity set 'FifaDbContext.AlbumImage'  is null.");
-          }
-            _context.AlbumImage.Add(albumImage);
-            try
+            if (!ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (AlbumImageExists(albumImage.AlbumId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(ModelState);
             }
 
-            return CreatedAtAction("GetAlbumImage", new { id = albumImage.AlbumId }, albumImage);
+            albumImage.AlbumId = albumId;
+            albumImage.ImageId = imageId;
+
+            await dataRepository.AddAsync(albumImage);
+
+            return CreatedAtAction("GetById", new { albumId, imageId }, albumImage);
         }
 
         // DELETE: api/AlbumImage/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAlbumImage(int id)
+        [HttpDelete("{albumId}/{imageId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteAlbumImage(int albumId, int imageId)
         {
-            if (_context.AlbumImage == null)
-            {
-                return NotFound();
-            }
-            var albumImage = await _context.AlbumImage.FindAsync(id);
+            var albumImage = await dataRepository.GetByIdAsync(albumId, imageId);
             if (albumImage == null)
             {
                 return NotFound();
             }
-
-            _context.AlbumImage.Remove(albumImage);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(albumImage.Value);
             return NoContent();
         }
 
-        private bool AlbumImageExists(int id)
-        {
-            return (_context.AlbumImage?.Any(e => e.AlbumId == id)).GetValueOrDefault();
-        }
+        //private bool AlbumImageExists(int id)
+        //{
+        //    return (dataRepository.AlbumImage?.Any(e => e.AlbumId == id)).GetValueOrDefault();
+        //}
     }
 }
