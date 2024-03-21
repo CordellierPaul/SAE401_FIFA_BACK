@@ -11,7 +11,8 @@ namespace FIFA_API.Models.EntityFramework
         public int CompteId { get; set; }
 
         [Column("cpt_email")]
-        [StringLength(100)]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "La longueur d’un email doit être entre 6 et 100 caractères.")]
+        [EmailAddress(ErrorMessage = "Le format de l'e-mail n'est pas correct.")]
         public string CompteEmail { get; set; } = null!;
 
         [Column("cpt_login")]

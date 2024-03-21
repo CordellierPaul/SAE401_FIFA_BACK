@@ -92,7 +92,6 @@ namespace FIFA_API.Controllers
             return CreatedAtAction("GetById", new { albumId, utilisateurId }, likeAlbum);
         }
 
-
         // DELETE: api/LikeAlbum/5/4
         [HttpDelete("{albumId}/{utilisateurId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
