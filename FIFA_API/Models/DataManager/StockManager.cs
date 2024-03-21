@@ -45,7 +45,7 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.StockId = entity.StockId;
             entityToUpdate.TailleId = entity.TailleId;
             entityToUpdate.VarianteProduitId = entity.VarianteProduitId;
-            entityToUpdate.QuantiteStockeeId = entity.QuantiteStockeeId;
+            entityToUpdate.QuantiteStockee = entity.QuantiteStockee;
             await fifaDbContext.SaveChangesAsync();
         }
     }

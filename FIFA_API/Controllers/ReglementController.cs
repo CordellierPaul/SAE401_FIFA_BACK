@@ -15,9 +15,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ReglementController : ControllerBase
     {
-        private readonly IDataRepository<Reglement> dataRepository;
+        private readonly IDataRepositoryWithoutStr<Reglement> dataRepository;
 
-        public ReglementController(IDataRepository<Reglement> context)
+        public ReglementController(IDataRepositoryWithoutStr<Reglement> context)
         {
             dataRepository = context;
         }

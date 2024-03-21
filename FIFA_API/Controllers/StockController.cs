@@ -15,9 +15,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
-        private readonly IDataRepository<Stock> dataRepository;
+        private readonly IDataRepositoryWithoutStr<Stock> dataRepository;
 
-        public StockController(IDataRepository<Stock> context)
+        public StockController(IDataRepositoryWithoutStr<Stock> context)
         {
             dataRepository = context;
         }

@@ -17,7 +17,7 @@ namespace FIFA_API.Models.EntityFramework
         public int VarianteProduitId { get; set; }
 
         [Column("stk_quantitestockee")]
-        public int QuantiteStockeeId { get; set; }
+        public int QuantiteStockee { get; set; }
 
 
         [ForeignKey(nameof(TailleId))]

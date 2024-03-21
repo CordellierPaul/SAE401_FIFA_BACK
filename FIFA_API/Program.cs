@@ -52,6 +52,7 @@ builder.Services.AddScoped<IDataRepositoryWithoutStr<Media>, MediaManager>();
 builder.Services.AddScoped<IDataRepository<Monnaie>, MonnaieManager>();
 builder.Services.AddScoped<IDataRepository<Pays>, PaysManager>();
 builder.Services.AddScoped<IDataRepository<Poste>, PosteManager>();
+builder.Services.AddScoped<IDataRepositoryWithoutStr<Stock>, StockManager>();
 builder.Services.AddScoped<IDataRepository<Trophee>, TropheeManager>();
 builder.Services.AddScoped<IDataRepository<Ville>, VilleManager>();
 
