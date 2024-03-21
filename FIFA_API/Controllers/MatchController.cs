@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using Moq;
+using Match = FIFA_API.Models.EntityFramework.Match;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +16,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class MatchController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepositoryWithoutStr<Match> dataRepository;
 
-        public MatchController(FifaDbContext context)
+        public MatchController(IDataRepositoryWithoutStr<Match> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Match
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Match>>> GetMatch()
         {
-          if (_context.Match == null)
-          {
-              return NotFound();
-          }
-            return await _context.Match.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Match/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Match>> GetMatch(int id)
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Match>> GetMatchById(int id)
         {
-          if (_context.Match == null)
-          {
-              return NotFound();
-          }
-            var match = await _context.Match.FindAsync(id);
+            var match = await dataRepository.GetByIdAsync(id);
 
             if (match == null)
             {
@@ -59,65 +58,49 @@ namespace FIFA_API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(match).State = EntityState.Modified;
-
-            try
+            var matToUpdate = await dataRepository.GetByIdAsync(id);
+            if (matToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!MatchExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(matToUpdate.Value, match);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Match
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Match>> PostMatch(Match match)
         {
-          if (_context.Match == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Match'  is null.");
-          }
-            _context.Match.Add(match);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetMatch", new { id = match.MatchId }, match);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(match);
+            return CreatedAtAction("GetById", new { id = match.MatchId }, match);
         }
 
         // DELETE: api/Match/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMatch(int id)
         {
-            if (_context.Match == null)
-            {
-                return NotFound();
-            }
-            var match = await _context.Match.FindAsync(id);
+            var match = await dataRepository.GetByIdAsync(id);
             if (match == null)
             {
                 return NotFound();
             }
-
-            _context.Match.Remove(match);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(match.Value);
             return NoContent();
         }
 
-        private bool MatchExists(int id)
+        /*private bool MatchExists(int id)
         {
-            return (_context.Match?.Any(e => e.MatchId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Match?.Any(e => e.MatchId == id)).GetValueOrDefault();
+        }*/
     }
 }
