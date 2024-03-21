@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class CommentaireController : ControllerBase
     {
-        private readonly IDataRepository<Commentaire> dataRepository;
+        private readonly IDataRepositoryWithoutStr<Commentaire> dataRepository;
 
-        public CommentaireController(IDataRepository<Commentaire> context)
+        public CommentaireController(IDataRepositoryWithoutStr<Commentaire> context)
         {
             dataRepository = context;
         }
@@ -34,7 +34,7 @@ namespace FIFA_API.Controllers
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Commentaire>> GetCommentaireByID(int id)
+        public async Task<ActionResult<Commentaire>> GetCommentaireById(int id)
         {
             var commentaire = await dataRepository.GetByIdAsync(id);
 

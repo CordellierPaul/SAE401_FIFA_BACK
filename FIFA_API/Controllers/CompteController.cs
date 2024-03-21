@@ -45,6 +45,22 @@ namespace FIFA_API.Controllers
             return compte;
         }
 
+        // GET: api/Compte/toto@titi.fr
+        [HttpGet]
+        [Route("[action]/{email}")]
+        [ActionName("GetByEmail")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Compte>> GetCompteByEmail(string email)
+        {
+            var compte = await dataRepository.GetByStringAsync(email);
+            if (compte == null)
+            {
+                return NotFound();
+            }
+            return compte;
+        }
+
         // PUT: api/Compte/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
