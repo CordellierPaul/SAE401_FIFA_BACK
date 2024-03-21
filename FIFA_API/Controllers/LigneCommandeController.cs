@@ -100,9 +100,9 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        private bool LigneCommandeExists(int id)
+        /*private bool LigneCommandeExists(int id)
         {
             return (dataRepository.LigneCommande?.Any(e => e.LigneCommandeId == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }
