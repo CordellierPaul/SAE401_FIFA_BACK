@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +14,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ArticleJoueurController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository2clues<ArticleJoueur> dataRepository;
 
-        public ArticleJoueurController(FifaDbContext context)
+        public ArticleJoueurController(IDataRepository2clues<ArticleJoueur> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/ArticleJoueur
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArticleJoueur>>> GetArticleJoueur()
         {
-          if (_context.ArticleJoueur == null)
-          {
-              return NotFound();
-          }
-            return await _context.ArticleJoueur.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/ArticleJoueur/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ArticleJoueur>> GetArticleJoueur(int id)
+        [HttpGet]
+        [Route("[action]/{articleId}/{joueurId}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ArticleJoueur>> GetArticleJoueur(int articleId, int joueurId)
         {
-          if (_context.ArticleJoueur == null)
-          {
-              return NotFound();
-          }
-            var articleJoueur = await _context.ArticleJoueur.FindAsync(id);
+            var articleJoueur = await dataRepository.GetByIdAsync(articleId, joueurId);
 
             if (articleJoueur == null)
             {
@@ -51,87 +48,69 @@ namespace FIFA_API.Controllers
 
         // PUT: api/ArticleJoueur/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutArticleJoueur(int id, ArticleJoueur articleJoueur)
+        [HttpPut("{articleId}/{joueurId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> PutArticleJoueur(int articleId, int joueurId, ArticleJoueur articleJoueur)
         {
-            if (id != articleJoueur.ArticleId)
+            if (articleId != articleJoueur.ArticleId || joueurId != articleJoueur.JoueurId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(articleJoueur).State = EntityState.Modified;
+            var labToUpdate = await dataRepository.GetByIdAsync(articleId, joueurId);
 
-            try
+            if (labToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ArticleJoueurExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(labToUpdate.Value, articleJoueur);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/ArticleJoueur
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<ArticleJoueur>> PostArticleJoueur(ArticleJoueur articleJoueur)
+        [HttpPost("{articleId}/{joueurId}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ArticleJoueur>> PostArticleJoueur(int articleId, int joueurId, ArticleJoueur articleJoueur)
         {
-          if (_context.ArticleJoueur == null)
-          {
-              return Problem("Entity set 'FifaDbContext.ArticleJoueur'  is null.");
-          }
-            _context.ArticleJoueur.Add(articleJoueur);
-            try
+            if (!ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ArticleJoueurExists(articleJoueur.ArticleId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(ModelState);
             }
 
-            return CreatedAtAction("GetArticleJoueur", new { id = articleJoueur.ArticleId }, articleJoueur);
+            articleJoueur.ArticleId = articleId;
+            articleJoueur.JoueurId = joueurId;
+
+            await dataRepository.AddAsync(articleJoueur);
+
+            return CreatedAtAction("GetById", new { articleId, joueurId }, articleJoueur);
         }
 
         // DELETE: api/ArticleJoueur/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteArticleJoueur(int id)
+
+        [HttpDelete("{articleId}/{joueurId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteArticleJoueur(int articleId, int joueurId)
         {
-            if (_context.ArticleJoueur == null)
-            {
-                return NotFound();
-            }
-            var articleJoueur = await _context.ArticleJoueur.FindAsync(id);
+            var articleJoueur = await dataRepository.GetByIdAsync(articleId, joueurId);
             if (articleJoueur == null)
             {
                 return NotFound();
             }
-
-            _context.ArticleJoueur.Remove(articleJoueur);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(articleJoueur.Value);
             return NoContent();
         }
 
-        private bool ArticleJoueurExists(int id)
-        {
-            return (_context.ArticleJoueur?.Any(e => e.ArticleId == id)).GetValueOrDefault();
-        }
+        //private bool ArticleJoueurExists(int id)
+        //{
+        //    return (dataRepository.ArticleJoueur?.Any(e => e.ArticleId == id)).GetValueOrDefault();
+        //}
     }
 }

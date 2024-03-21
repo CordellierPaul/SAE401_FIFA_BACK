@@ -38,6 +38,11 @@ namespace FIFA_API.Models.DataManager
             return await fifaDbContext.LikeAlbum.FirstOrDefaultAsync(u => u.AlbumId == uid && u.UtilisateurId == tid);
         }
 
+        //public async Task<ActionResult<IEnumerable<LikeAlbum>>> GetByAlbumIdAsync(int id)
+        //{
+        //    return await fifaDbContext.LikeAlbum.Where(u => u.AlbumId == id).ToListAsync();
+        //}
+
 
         public async Task UpdateAsync(LikeAlbum entityToUpdate, LikeAlbum entity)
         {

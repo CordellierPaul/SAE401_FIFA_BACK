@@ -68,7 +68,9 @@ namespace FIFA_API.Controllers.Tests
             Assert.IsNull(result.Value);
         }
 
-        [TestMethod()]
+
+        #region Test remplacer par moq
+        /*[TestMethod()]
         public void PutAnecdoteTest_OK()
         {
             Anecdote expected = _context.Anecdote.Where(u => u.AnecdoteId == 1).First();
@@ -79,7 +81,7 @@ namespace FIFA_API.Controllers.Tests
 
             Assert.AreEqual(StatusCodes.Status204NoContent, ((NoContentResult)result).StatusCode, "Pas de code 204");
             Assert.AreEqual(expected, resultUser, "Pas les mêmes Anecdotes");
-        }
+        }*/
         /*
                 [TestMethod]
                 public void PostAnecdoteTest_OK()
@@ -120,7 +122,7 @@ namespace FIFA_API.Controllers.Tests
                     Assert.AreEqual(StatusCodes.Status204NoContent, ((NoContentResult)resultDelete).StatusCode, "Pas de code 204");
                     _context.Anecdote.Where(u => u.AnecdoteId == id).First();
                 }*/
-
+        #endregion
 
         #region Test moq
 
