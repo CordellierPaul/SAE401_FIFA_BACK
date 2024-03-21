@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,71 +14,59 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class JoueurController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Joueur> dataRepository;
 
-        public JoueurController(FifaDbContext context)
+        public JoueurController(IDataRepository<Joueur> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Joueur
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Joueur>>> GetJoueur()
         {
-          if (_context.Joueur == null)
-          {
-              return NotFound();
-          }
-            return await _context.Joueur.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Joueur/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Joueur>> GetJoueur(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Joueur>> GetJoueurById(int id)
         {
-          if (_context.Joueur == null)
-          {
-              return NotFound();
-          }
-            var joueur = await _context.Joueur.FindAsync(id);
+            var joueur = await dataRepository.GetByIdAsync(id);
 
             if (joueur == null)
             {
                 return NotFound();
             }
-
             return joueur;
         }
 
         // PUT: api/Joueur/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutJoueur(int id, Joueur joueur)
         {
             if (id != joueur.JoueurId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(joueur).State = EntityState.Modified;
-
-            try
+            var catToUpdate = await dataRepository.GetByIdAsync(id);
+            if (catToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!JoueurExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(catToUpdate.Value, joueur);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Joueur
@@ -85,39 +74,30 @@ namespace FIFA_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Joueur>> PostJoueur(Joueur joueur)
         {
-          if (_context.Joueur == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Joueur'  is null.");
-          }
-            _context.Joueur.Add(joueur);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetJoueur", new { id = joueur.JoueurId }, joueur);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(joueur);
+            return CreatedAtAction("GetById", new { id = joueur.JoueurId }, joueur);
         }
 
         // DELETE: api/Joueur/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteJoueur(int id)
         {
-            if (_context.Joueur == null)
-            {
-                return NotFound();
-            }
-            var joueur = await _context.Joueur.FindAsync(id);
+            var joueur = await dataRepository.GetByIdAsync(id);
             if (joueur == null)
             {
                 return NotFound();
             }
-
-            _context.Joueur.Remove(joueur);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(joueur.Value);
             return NoContent();
         }
 
-        private bool JoueurExists(int id)
+        /*private bool JoueurExists(int id)
         {
-            return (_context.Joueur?.Any(e => e.JoueurId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Joueur?.Any(e => e.JoueurId == id)).GetValueOrDefault();
+        }*/
     }
 }
