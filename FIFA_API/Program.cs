@@ -48,6 +48,10 @@ builder.Services.AddScoped<IDataRepository<InfosBancaires>, InfosBancairesManage
 builder.Services.AddScoped<IDataRepository<Joueur>, JoueurManager>();
 builder.Services.AddScoped<IDataRepository<Langue>, LangueManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Match>, MatchManager>();
+builder.Services.AddScoped<IDataRepositoryWithoutStr<Media>, MediaManager>();
+builder.Services.AddScoped<IDataRepository<Monnaie>, MonnaieManager>();
+builder.Services.AddScoped<IDataRepository<Trophee>, TropheeManager>();
+builder.Services.AddScoped<IDataRepository<Ville>, VilleManager>();
 
 //Token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
