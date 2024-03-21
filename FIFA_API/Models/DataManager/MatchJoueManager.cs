@@ -43,6 +43,10 @@ namespace FIFA_API.Models.DataManager
             fifaDbContext.Entry(entityToUpdate).State = EntityState.Modified;
             entityToUpdate.JoueurId = entity.JoueurId;
             entityToUpdate.MatchId = entity.MatchId;
+            entityToUpdate.MatchJoueNbButs = entity.MatchJoueNbButs;
+            entityToUpdate.MatchJoueNbMinutes = entity.MatchJoueNbMinutes;
+            entityToUpdate.MatchJoueTitularisation = entity.MatchJoueTitularisation;
+            entityToUpdate.MatchJoueSelection = entity.MatchJoueSelection;
             await fifaDbContext.SaveChangesAsync();
         }
     }
