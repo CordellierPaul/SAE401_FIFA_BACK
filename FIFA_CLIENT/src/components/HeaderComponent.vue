@@ -8,15 +8,15 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
         </div>
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
-          <li><RouterLink :to="{name: 'produits'}">A Propos</RouterLink></li>
+          <li><RouterLink :to="{name: 'apropos'}">A Propos</RouterLink></li>
           <li>
             <RouterLink :to="{name: 'produits'}">Produits</RouterLink>
-            <ul class="p-2">
+            <ul id="dropDownCenter" class="p-2">
               <li><RouterLink :to="{name: 'produits'}">Maillots</RouterLink></li>
               <li><RouterLink :to="{name: 'produits'}">Ballons</RouterLink></li>
             </ul>
           </li>
-          <li><RouterLink :to="{name: 'produits'}">Contact</RouterLink></li>
+          <li><RouterLink :to="{name: 'contact'}">Contact</RouterLink></li>
         </ul>
       </div>
       <RouterLink :to="{name: 'index'}" class="btn btn-ghost text-3xl">FIFA</RouterLink>
@@ -28,17 +28,9 @@
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
         
-        <li><RouterLink :to="{name: 'produits'}">A Propos</RouterLink></li>
-        <li>
-          <details class="z-[1]">
-            <summary>Produits</summary>
-            <ul class="p-2 bg-base-300">
-              <li><RouterLink :to="{name: 'produits'}">Maillots</RouterLink></li>
-              <li><RouterLink :to="{name: 'produits'}">Ballons</RouterLink></li>
-            </ul>
-          </details>
-        </li>
-        <li><RouterLink :to="{name: 'produits'}">Contact</RouterLink></li>
+        <li><RouterLink :to="{name: 'apropos'}">A Propos</RouterLink></li>
+        <li><RouterLink :to="{name: 'produits'}">Produits</RouterLink></li>
+        <li><RouterLink :to="{name: 'contact'}">Contact</RouterLink></li>
       </ul>
     </div>
 
@@ -90,4 +82,6 @@
 </template>
 
 <script setup>
+  import { ref } from 'vue';
+  const open = ref(false);
 </script>
