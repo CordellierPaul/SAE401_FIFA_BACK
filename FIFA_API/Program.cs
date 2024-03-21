@@ -38,6 +38,7 @@ builder.Services.AddScoped<IDataRepository<Categorie>, CategorieManager>();
 builder.Services.AddScoped<IDataRepository<Club>, ClubManager>();
 builder.Services.AddScoped<IDataRepository<Coloris>, ColorisManager>();
 builder.Services.AddScoped<IDataRepository<Compte>, CompteManager>();
+builder.Services.AddScoped<IDataRepositoryWithoutStr<Commande>, CommandeManager>();
 builder.Services.AddScoped<IDataRepository<Devis>, DevisManager>();
 
 //Token
