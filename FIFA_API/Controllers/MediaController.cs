@@ -74,41 +74,38 @@ namespace FIFA_API.Controllers
         // POST: api/Media
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Media>> PostMedia(Media media)
         {
-          if (dataRepository.Media == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Media'  is null.");
-          }
-            dataRepository.Media.Add(media);
-            await dataRepository.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(media);
+            return CreatedAtAction("GetById", new { id = media.MediaId }, media);
 
-            return CreatedAtAction("GetMedia", new { id = media.MediaId }, media);
         }
 
         // DELETE: api/Media/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteMedia(int id)
         {
-            if (dataRepository.Media == null)
-            {
-                return NotFound();
-            }
-            var media = await dataRepository.Media.FindAsync(id);
+            var media = await dataRepository.GetByIdAsync(id);
             if (media == null)
             {
                 return NotFound();
             }
-
-            dataRepository.Media.Remove(media);
-            await dataRepository.SaveChangesAsync();
+            await dataRepository.DeleteAsync(media.Value);
 
             return NoContent();
         }
 
-        private bool MediaExists(int id)
-        {
-            return (dataRepository.Media?.Any(e => e.MediaId == id)).GetValueOrDefault();
-        }
+        //private bool MediaExists(int id)
+        //{
+        //    return (dataRepository.Media?.Any(e => e.MediaId == id)).GetValueOrDefault();
+        //}
     }
 }

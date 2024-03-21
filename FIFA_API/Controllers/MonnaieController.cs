@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using System.Diagnostics;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +15,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class MonnaieController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Monnaie> dataRepository;
 
-        public MonnaieController(FifaDbContext context)
+        public MonnaieController(IDataRepository<Monnaie> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Monnaie
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Monnaie>>> GetMonnaie()
         {
-          if (_context.Monnaie == null)
-          {
-              return NotFound();
-          }
-            return await _context.Monnaie.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Monnaie/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Monnaie>> GetMonnaie(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Monnaie>> GetMonnaieById(int id)
         {
-          if (_context.Monnaie == null)
-          {
-              return NotFound();
-          }
-            var monnaie = await _context.Monnaie.FindAsync(id);
+            var monnaie = await dataRepository.GetByIdAsync(id);
 
             if (monnaie == null)
             {
@@ -52,72 +50,62 @@ namespace FIFA_API.Controllers
         // PUT: api/Monnaie/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutMonnaie(int id, Monnaie monnaie)
         {
             if (id != monnaie.MonnaieId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(monnaie).State = EntityState.Modified;
-
-            try
+            var medToUpdate = await dataRepository.GetByIdAsync(id);
+            if (medToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!MonnaieExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(medToUpdate.Value, monnaie);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Monnaie
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Monnaie>> PostMonnaie(Monnaie monnaie)
         {
-          if (_context.Monnaie == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Monnaie'  is null.");
-          }
-            _context.Monnaie.Add(monnaie);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(monnaie);
+            return CreatedAtAction("GetById", new { id = monnaie.MonnaieId }, monnaie);
 
-            return CreatedAtAction("GetMonnaie", new { id = monnaie.MonnaieId }, monnaie);
         }
 
         // DELETE: api/Monnaie/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteMonnaie(int id)
         {
-            if (_context.Monnaie == null)
-            {
-                return NotFound();
-            }
-            var monnaie = await _context.Monnaie.FindAsync(id);
+            var monnaie = await dataRepository.GetByIdAsync(id);
             if (monnaie == null)
             {
                 return NotFound();
             }
-
-            _context.Monnaie.Remove(monnaie);
-            await _context.SaveChangesAsync();
+            await dataRepository.DeleteAsync(monnaie.Value);
 
             return NoContent();
         }
 
-        private bool MonnaieExists(int id)
-        {
-            return (_context.Monnaie?.Any(e => e.MonnaieId == id)).GetValueOrDefault();
-        }
+        //private bool MonnaieExists(int id)
+        //{
+        //    return (dataRepository.Monnaie?.Any(e => e.MonnaieId == id)).GetValueOrDefault();
+        //}
     }
 }
