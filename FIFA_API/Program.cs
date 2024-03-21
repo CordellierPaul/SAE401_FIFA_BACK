@@ -42,6 +42,8 @@ builder.Services.AddScoped<IDataRepositoryWithoutStr<Commentaire>, CommentaireMa
 builder.Services.AddScoped<IDataRepository<Competition>, CompetitionManager>();
 builder.Services.AddScoped<IDataRepository<Compte>, CompteManager>();
 builder.Services.AddScoped<IDataRepository<Devis>, DevisManager>();
+builder.Services.AddScoped<IDataRepository<Document>, DocumentManager>();
+builder.Services.AddScoped<IDataRepository<Genre>, GenreManager>();
 
 //Token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

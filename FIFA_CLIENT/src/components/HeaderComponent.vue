@@ -30,7 +30,7 @@
         
         <li><RouterLink :to="{name: 'produits'}">A Propos</RouterLink></li>
         <li>
-          <details>
+          <details class="z-[1]">
             <summary>Produits</summary>
             <ul class="p-2 bg-base-300">
               <li><RouterLink :to="{name: 'produits'}">Maillots</RouterLink></li>
