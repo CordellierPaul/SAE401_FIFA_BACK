@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class LikeAlbumController : ControllerBase
     {
-        private readonly IDataRepository<LikeAlbum> dataRepository;
+        private readonly IDataRepository2clues<LikeAlbum> dataRepository;
 
-        public LikeAlbumController(IDataRepository<LikeAlbum> context)
+        public LikeAlbumController(IDataRepository2clues<LikeAlbum> context)
         {
             dataRepository = context;
         }
@@ -30,45 +30,49 @@ namespace FIFA_API.Controllers
 
         // GET: api/LikeAlbum/5
         [HttpGet]
-        [Route("[action]/{id}")]
+        [Route("[action]/{albumId}/{utilisateurId}")]
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<LikeAlbum>> GetLikeAlbumById(int id)
+        public async Task<ActionResult<LikeAlbum>> GetLikeAlbumById(int albumId, int utilisateurId)
         {
-            var album = await dataRepository.GetByIdAsync(id);
+            var likeAlbum = await dataRepository.GetByIdAsync(albumId, utilisateurId);
 
-            if (album == null)
+            if (likeAlbum == null)
             {
                 return NotFound();
             }
 
-            return album;
+            return likeAlbum;
         }
+
 
         // PUT: api/LikeAlbum/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("{albumId}/{utilisateurId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PutLikeAlbum(int id, LikeAlbum likeAlbum)
+        public async Task<IActionResult> PutLikeAlbum(int albumId, int utilisateurId, LikeAlbum likeAlbum)
         {
-            if (id != likeAlbum.AlbumId)
+            if (albumId != likeAlbum.AlbumId || utilisateurId != likeAlbum.UtilisateurId)
             {
                 return BadRequest();
             }
-            var albToUpdate = await dataRepository.GetByIdAsync(id);
-            if (albToUpdate == null)
+
+            var labToUpdate = await dataRepository.GetByIdAsync(albumId, utilisateurId);
+
+            if (labToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                await dataRepository.UpdateAsync(albToUpdate.Value, likeAlbum);
+                await dataRepository.UpdateAsync(labToUpdate.Value, likeAlbum);
                 return NoContent();
             }
         }
+
 
         // POST: api/LikeAlbum
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -89,9 +93,9 @@ namespace FIFA_API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteLikeAlbum(int id)
+        public async Task<IActionResult> DeleteLikeAlbum(int aid, int uid)
         {
-            var likeAlbum = await dataRepository.GetByIdAsync(id);
+            var likeAlbum = await dataRepository.GetByIdAsync(aid, uid);
             if (likeAlbum == null)
             {
                 return NotFound();
