@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using Moq;
 
 namespace FIFA_API.Controllers
 {
@@ -13,45 +15,44 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class LivraisonController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Livraison> dataRepository;
 
-        public LivraisonController(FifaDbContext context)
+        public LivraisonController(IDataRepository<Livraison> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Livraison
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Livraison>>> GetLivraison()
         {
-          if (_context.Livraison == null)
-          {
-              return NotFound();
-          }
-            return await _context.Livraison.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Livraison/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Livraison>> GetLivraison(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Livraison>> GetLivraisonById(int id)
         {
-          if (_context.Livraison == null)
-          {
-              return NotFound();
-          }
-            var livraison = await _context.Livraison.FindAsync(id);
+            var liv = await dataRepository.GetByIdAsync(id);
 
-            if (livraison == null)
+            if (liv == null)
             {
                 return NotFound();
             }
 
-            return livraison;
+            return liv;
         }
 
         // PUT: api/Livraison/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutLivraison(int id, Livraison livraison)
         {
             if (id != livraison.LivraisonId)
@@ -59,65 +60,49 @@ namespace FIFA_API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(livraison).State = EntityState.Modified;
-
-            try
+            var livToUpdate = await dataRepository.GetByIdAsync(id);
+            if (livToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!LivraisonExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(livToUpdate.Value, livraison);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Livraison
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Livraison>> PostLivraison(Livraison livraison)
         {
-          if (_context.Livraison == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Livraison'  is null.");
-          }
-            _context.Livraison.Add(livraison);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetLivraison", new { id = livraison.LivraisonId }, livraison);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(livraison);
+            return CreatedAtAction("GetById", new { id = livraison.LivraisonId }, livraison);
         }
 
         // DELETE: api/Livraison/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLivraison(int id)
         {
-            if (_context.Livraison == null)
+            var langue = await dataRepository.GetByIdAsync(id);
+            if (langue == null)
             {
                 return NotFound();
             }
-            var livraison = await _context.Livraison.FindAsync(id);
-            if (livraison == null)
-            {
-                return NotFound();
-            }
-
-            _context.Livraison.Remove(livraison);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(langue.Value);
             return NoContent();
         }
 
-        private bool LivraisonExists(int id)
+        /*private bool LivraisonExists(int id)
         {
-            return (_context.Livraison?.Any(e => e.LivraisonId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Livraison?.Any(e => e.LivraisonId == id)).GetValueOrDefault();
+        }*/
     }
 }

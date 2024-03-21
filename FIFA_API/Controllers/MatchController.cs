@@ -31,7 +31,7 @@ namespace FIFA_API.Controllers
         }
 
         // GET: api/Match/5
-        [HttpGet("{id}")]
+        [HttpGet]
         [Route("[action]/{id}")]
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
