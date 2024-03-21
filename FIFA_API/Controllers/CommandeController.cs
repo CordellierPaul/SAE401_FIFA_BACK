@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class CommandeController : ControllerBase
     {
-        private readonly IDataRepository<Commande> dataRepository;
+        private readonly IDataRepositoryWithoutStr<Commande> dataRepository;
 
-        public CommandeController(IDataRepository<Commande> context)
+        public CommandeController(IDataRepositoryWithoutStr<Commande> context)
         {
             dataRepository = context;
         }
