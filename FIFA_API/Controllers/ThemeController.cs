@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using System.Diagnostics;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +15,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ThemeController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Theme> dataRepository;
 
-        public ThemeController(FifaDbContext context)
+        public ThemeController(IDataRepository<Theme> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Theme
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Theme>>> GetTheme()
         {
-          if (_context.Theme == null)
-          {
-              return NotFound();
-          }
-            return await _context.Theme.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Theme/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Theme>> GetTheme(int id)
         {
-          if (_context.Theme == null)
-          {
-              return NotFound();
-          }
-            var theme = await _context.Theme.FindAsync(id);
+            var theme = await dataRepository.GetByIdAsync(id);
 
             if (theme == null)
             {
@@ -52,72 +50,62 @@ namespace FIFA_API.Controllers
         // PUT: api/Theme/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutTheme(int id, Theme theme)
         {
             if (id != theme.ThemeId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(theme).State = EntityState.Modified;
-
-            try
+            var actToUpdate = await dataRepository.GetByIdAsync(id);
+            if (actToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ThemeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(actToUpdate.Value, theme);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Theme
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Theme>> PostTheme(Theme theme)
         {
-          if (_context.Theme == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Theme'  is null.");
-          }
-            _context.Theme.Add(theme);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(theme);
+            return CreatedAtAction("GetById", new { id = theme.ThemeId }, theme);
 
-            return CreatedAtAction("GetTheme", new { id = theme.ThemeId }, theme);
         }
 
         // DELETE: api/Theme/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteTheme(int id)
         {
-            if (_context.Theme == null)
-            {
-                return NotFound();
-            }
-            var theme = await _context.Theme.FindAsync(id);
+            var theme = await dataRepository.GetByIdAsync(id);
             if (theme == null)
             {
                 return NotFound();
             }
-
-            _context.Theme.Remove(theme);
-            await _context.SaveChangesAsync();
+            await dataRepository.DeleteAsync(theme.Value);
 
             return NoContent();
         }
 
-        private bool ThemeExists(int id)
-        {
-            return (_context.Theme?.Any(e => e.ThemeId == id)).GetValueOrDefault();
-        }
+        //private bool ThemeExists(int id)
+        //{
+        //    return (dataRepository.Theme?.Any(e => e.ThemeId == id)).GetValueOrDefault();
+        //}
     }
 }
