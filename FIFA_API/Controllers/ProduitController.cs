@@ -39,7 +39,7 @@ namespace FIFA_API.Controllers
         {
             ActionResult<Produit> produit = await dataRepository.GetByIdAsync(id);
 
-            if (produit.Value == null)
+            if (produit == null)
             {
                 return NotFound();
             }
