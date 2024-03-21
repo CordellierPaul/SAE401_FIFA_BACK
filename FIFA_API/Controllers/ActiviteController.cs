@@ -31,7 +31,7 @@ namespace FIFA_API.Controllers
         // GET: api/Activite/5
         [HttpGet]
         [Route("[action]/{id}")]
-        [ActionName("GetActiviteById")]
+        [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Activite>> GetActiviteById(int id)
@@ -58,14 +58,14 @@ namespace FIFA_API.Controllers
             {
                 return BadRequest();
             }
-            var catToUpdate = await dataRepository.GetByIdAsync(id);
-            if (catToUpdate == null)
+            var actToUpdate = await dataRepository.GetByIdAsync(id);
+            if (actToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                await dataRepository.UpdateAsync(catToUpdate.Value, activite);
+                await dataRepository.UpdateAsync(actToUpdate.Value, activite);
                 return NoContent();
             }
         }
