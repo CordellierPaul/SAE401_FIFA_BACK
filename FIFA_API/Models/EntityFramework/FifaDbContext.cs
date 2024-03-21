@@ -60,6 +60,8 @@ namespace FIFA_API.Models.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("FifaDB");
+
             #region Valeurs par défaut + index
 
             modelBuilder.Entity<Album>(entity =>
