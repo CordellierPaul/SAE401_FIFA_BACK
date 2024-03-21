@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
 using Moq;
+using FIFA_API.Models.Repository;
+using System.Diagnostics;
 
 namespace FIFA_API.Controllers
 {
@@ -90,6 +92,8 @@ namespace FIFA_API.Controllers
 
         // DELETE: api/Monnaie/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteMonnaie(int id)
         {
             var monnaie = await dataRepository.GetByIdAsync(id);
@@ -98,12 +102,13 @@ namespace FIFA_API.Controllers
                 return NotFound();
             }
             await dataRepository.DeleteAsync(monnaie.Value);
+
             return NoContent();
         }
 
-        /*private bool MonnaieExists(int id)
-        {
-            return (dataRepository.Monnaie?.Any(e => e.MonnaieId == id)).GetValueOrDefault();
-        }*/
+        //private bool MonnaieExists(int id)
+        //{
+        //    return (dataRepository.Monnaie?.Any(e => e.MonnaieId == id)).GetValueOrDefault();
+        //}
     }
 }

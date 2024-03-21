@@ -89,6 +89,8 @@ namespace FIFA_API.Controllers
 
         // DELETE: api/Media/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteMedia(int id)
         {
             var media = await dataRepository.GetByIdAsync(id);
@@ -97,12 +99,13 @@ namespace FIFA_API.Controllers
                 return NotFound();
             }
             await dataRepository.DeleteAsync(media.Value);
+
             return NoContent();
         }
 
-        /*private bool MediaExists(int id)
-        {
-            return (dataRepository.Media?.Any(e => e.MediaId == id)).GetValueOrDefault();
-        }*/
+        //private bool MediaExists(int id)
+        //{
+        //    return (dataRepository.Media?.Any(e => e.MediaId == id)).GetValueOrDefault();
+        //}
     }
 }
