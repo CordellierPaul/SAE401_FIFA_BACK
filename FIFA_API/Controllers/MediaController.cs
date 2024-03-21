@@ -15,9 +15,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class MediaController : ControllerBase
     {
-        private readonly IDataRepository<Media> dataRepository;
+        private readonly IDataRepositoryWithoutStr<Media> dataRepository;
 
-        public MediaController(IDataRepository<Media> context)
+        public MediaController(IDataRepositoryWithoutStr<Media> context)
         {
             dataRepository = context;
         }
