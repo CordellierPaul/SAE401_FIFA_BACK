@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using System.Diagnostics;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +15,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Stock> dataRepository;
 
-        public StockController(FifaDbContext context)
+        public StockController(IDataRepository<Stock> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Stock
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Stock>>> GetStock()
         {
-          if (_context.Stock == null)
-          {
-              return NotFound();
-          }
-            return await _context.Stock.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Stock/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Stock>> GetStock(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Stock>> GetStockById(int id)
         {
-          if (_context.Stock == null)
-          {
-              return NotFound();
-          }
-            var stock = await _context.Stock.FindAsync(id);
+            var stock = await dataRepository.GetByIdAsync(id);
 
             if (stock == null)
             {
@@ -52,72 +50,61 @@ namespace FIFA_API.Controllers
         // PUT: api/Stock/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutStock(int id, Stock stock)
         {
             if (id != stock.StockId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(stock).State = EntityState.Modified;
-
-            try
+            var actToUpdate = await dataRepository.GetByIdAsync(id);
+            if (actToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!StockExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(actToUpdate.Value, stock);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Stock
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Stock>> PostStock(Stock stock)
         {
-          if (_context.Stock == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Stock'  is null.");
-          }
-            _context.Stock.Add(stock);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetStock", new { id = stock.StockId }, stock);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(stock);
+            return CreatedAtAction("GetById", new { id = stock.StockId }, stock);
         }
 
         // DELETE: api/Stock/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteStock(int id)
         {
-            if (_context.Stock == null)
-            {
-                return NotFound();
-            }
-            var stock = await _context.Stock.FindAsync(id);
+            var stock = await dataRepository.GetByIdAsync(id);
             if (stock == null)
             {
                 return NotFound();
             }
-
-            _context.Stock.Remove(stock);
-            await _context.SaveChangesAsync();
+            await dataRepository.DeleteAsync(stock.Value);
 
             return NoContent();
         }
 
-        private bool StockExists(int id)
-        {
-            return (_context.Stock?.Any(e => e.StockId == id)).GetValueOrDefault();
-        }
+        //private bool StockExists(int id)
+        //{
+        //    return (dataRepository.Stock?.Any(e => e.StockId == id)).GetValueOrDefault();
+        //}
     }
 }
