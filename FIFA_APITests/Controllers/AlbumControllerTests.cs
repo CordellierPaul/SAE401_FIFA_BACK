@@ -24,7 +24,7 @@ namespace FIFA_API.Controllers.Tests
 
         public AlbumControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<FifaDbContext>().UseNpgsql("Server=localhost;port=5432;Database=FifaDB; uid=postgres; password=postgres;");
+            var builder = new DbContextOptionsBuilder<FifaDbContext>().UseNpgsql("Server=51.83.36.122;port=5432;Database=sa13;uid=sa13;password=Fifa13;");
             _context = new FifaDbContext(builder.Options);
             _dataRepository = new AlbumManager(_context);
             _controller = new AlbumController(_dataRepository);
