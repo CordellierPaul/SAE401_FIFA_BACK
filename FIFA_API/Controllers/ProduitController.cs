@@ -60,6 +60,15 @@ namespace FIFA_API.Controllers
             return result.Value;
         }
 
+        [HttpGet]
+        [Route("[action]/{searchInput}")]
+        [ActionName("GetSearchResults")]
+        public async Task<ActionResult<IEnumerable<Produit>>> GetSearchResults(string searchInput)
+        {
+            return await dataRepository.GetSearchResults(searchInput);
+        }
+
+
         // PUT: api/Produit/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

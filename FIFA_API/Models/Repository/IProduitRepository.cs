@@ -5,7 +5,7 @@ namespace FIFA_API.Models.Repository
 {
     public interface IProduitRepository : IDataRepository<Produit>
     {
-        Task<ActionResult<IEnumerable<Produit>>> GetSearchResult(string searchInput);
+        Task<ActionResult<IEnumerable<Produit>>> GetSearchResults(string searchInput);
         Task<ActionResult<string>> GetAnImagePathOfProduitById(int id);
     }
 }

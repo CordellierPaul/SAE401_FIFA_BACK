@@ -130,9 +130,25 @@ namespace FIFA_API.Models.DataManager
             return imageVariante.ImageNavigation.ImageUrl;
         }
 
-        public Task<ActionResult<IEnumerable<Produit>>> GetSearchResult(string searchInput)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetSearchResults(string searchInput)
         {
-            throw new NotImplementedException();
+            string[] keywords = searchInput.ToLower().Split(' ');
+
+            searchInput = searchInput.ToLower();
+
+            return await fifaDbContext.Produit.Where(x => x.ProduitNom.ToLower() == searchInput).ToListAsync();
         }
+
+        //public async Task<ActionResult<IEnumerable<Produit>>> GetSearchResults(string searchInput)
+        //{
+        //    string[] keywords = searchInput.ToLower().Split(' ');
+
+        //    return await fifaDbContext.Produit.Where(produit => NameMatchWithKeywords(produit.ProduitNom.ToLower(), keywords)).ToListAsync();
+        //}
+
+        //private static bool NameMatchWithKeywords(string name, string[] keywords)
+        //{
+        //    return keywords.Any(x => x.Contains(name));
+        //}
     }
 }

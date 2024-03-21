@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FIFA_API.Migrations
 {
     [DbContext(typeof(FifaDbContext))]
-    [Migration("20240314112627_CreationBDFIFA")]
+    [Migration("20240321105037_CreationBDFIFA")]
     partial class CreationBDFIFA
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,12 +26,12 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Action", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ActionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("act_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ActionId"));
 
                     b.Property<string>("TypeAction")
                         .IsRequired()
@@ -39,7 +39,7 @@ namespace FIFA_API.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("act_type");
 
-                    b.HasKey("Id")
+                    b.HasKey("ActionId")
                         .HasName("pk_act");
 
                     b.ToTable("t_e_action_act");
@@ -47,20 +47,20 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Activite", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ActiviteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("ati_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ActiviteId"));
 
-                    b.Property<string>("Nom")
+                    b.Property<string>("ActiviteNom")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("ati_nom");
 
-                    b.HasKey("Id")
+                    b.HasKey("ActiviteId")
                         .HasName("pk_ati");
 
                     b.ToTable("t_e_activite_ati");
@@ -68,23 +68,24 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Adresse", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AdresseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("adr_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AdresseId"));
 
-                    b.Property<string>("Rue")
+                    b.Property<string>("AdresseRue")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("adr_rue");
 
                     b.Property<int>("VilleId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("vil_id");
 
-                    b.HasKey("Id")
+                    b.HasKey("AdresseId")
                         .HasName("pk_adr");
 
                     b.HasIndex("VilleId");
@@ -94,30 +95,32 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Album", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AlbumId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("alb_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AlbumId"));
 
-                    b.Property<DateTime>("DateHeure")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("alb_date_heure");
-
-                    b.Property<string>("Resume")
+                    b.Property<string>("AlbumResume")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)")
                         .HasColumnName("alb_resume");
 
-                    b.Property<string>("Titre")
+                    b.Property<string>("AlbumTitre")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("alb_titre");
 
-                    b.HasKey("Id")
+                    b.Property<DateTime>("DateHeure")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasColumnName("alb_date_heure")
+                        .HasDefaultValueSql("now()");
+
+                    b.HasKey("AlbumId")
                         .HasName("pk_alb");
 
                     b.ToTable("t_e_album_alb");
@@ -143,12 +146,17 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Anecdote", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AnecdoteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("anc_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AnecdoteId"));
+
+                    b.Property<string>("AnecdoteReponse")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("anc_reponse");
 
                     b.Property<int>("JoueurId")
                         .HasColumnType("integer")
@@ -159,12 +167,7 @@ namespace FIFA_API.Migrations
                         .HasColumnType("text")
                         .HasColumnName("anc_question");
 
-                    b.Property<string>("Reponse")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("anc_reponse");
-
-                    b.HasKey("Id")
+                    b.HasKey("AnecdoteId")
                         .HasName("pk_anc");
 
                     b.HasIndex("JoueurId");
@@ -174,33 +177,33 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Article", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ArticleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("art_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ArticleId"));
 
-                    b.Property<DateTime>("DateHeure")
+                    b.Property<DateTime>("ArticleDateHeure")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("art_dateheure");
 
-                    b.Property<string>("Resume")
+                    b.Property<string>("ArticleResume")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("art_resume");
 
-                    b.Property<string>("Texte")
+                    b.Property<string>("ArticleTexte")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("art_texte");
 
-                    b.Property<string>("Titre")
+                    b.Property<string>("ArticleTitre")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("art_titre");
 
-                    b.HasKey("Id")
+                    b.HasKey("ArticleId")
                         .HasName("pk_art");
 
                     b.ToTable("t_e_article_art");
@@ -244,38 +247,40 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Blog", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BlogId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("blg_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BlogId"));
 
-                    b.Property<DateTime>("DateHeure")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("blg_dateheure");
-
-                    b.Property<string>("DescriptionBlog")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("blg_descriptionblog");
-
-                    b.Property<int>("IdArticle")
+                    b.Property<int>("ArticleId")
                         .HasColumnType("integer")
                         .HasColumnName("art_id");
 
-                    b.Property<string>("Resume")
+                    b.Property<DateTime>("BlogDateHeure")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("blg_dateheure");
+
+                    b.Property<string>("BlogDescription")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("blg_description");
+
+                    b.Property<string>("BlogResume")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("blg_resume");
 
-                    b.Property<string>("Titre")
+                    b.Property<string>("BlogTitre")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("blg_titre");
 
-                    b.HasKey("Id")
+                    b.HasKey("BlogId")
                         .HasName("pk_blg");
+
+                    b.HasIndex("ArticleId");
 
                     b.ToTable("t_e_blog_blg");
                 });
@@ -420,19 +425,22 @@ namespace FIFA_API.Migrations
                         .HasColumnName("adr_id");
 
                     b.Property<DateTime>("CommandeDateCommande")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("cmd_datecommande");
+                        .HasColumnName("cmd_datecommande")
+                        .HasDefaultValueSql("now()");
 
-                    b.Property<DateTime>("CommandeDateLivraison")
+                    b.Property<DateTime?>("CommandeDateLivraison")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("cmd_datelivraison");
 
-                    b.Property<bool>("CommandeDomicil")
+                    b.Property<bool>("CommandeDomicile")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(false)
                         .HasColumnName("cmd_domicile");
 
                     b.Property<string>("CommandeEtatCommande")
-                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)")
                         .HasColumnName("cmd_etatcommande");
@@ -470,15 +478,15 @@ namespace FIFA_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CommentaireId"));
 
-                    b.Property<int>("AlbumId")
+                    b.Property<int?>("AlbumId")
                         .HasColumnType("integer")
                         .HasColumnName("alb_id");
 
-                    b.Property<int>("ArticleId")
+                    b.Property<int?>("ArticleId")
                         .HasColumnType("integer")
                         .HasColumnName("art_id");
 
-                    b.Property<int>("BlogId")
+                    b.Property<int?>("BlogId")
                         .HasColumnType("integer")
                         .HasColumnName("blg_id");
 
@@ -486,9 +494,9 @@ namespace FIFA_API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("com_dateheure");
 
-                    b.Property<int>("CommentaireIdCommentaire")
+                    b.Property<int?>("CommentaireIdCommentaire")
                         .HasColumnType("integer")
-                        .HasColumnName("com_id");
+                        .HasColumnName("com_com_id");
 
                     b.Property<string>("CommentaireTexte")
                         .IsRequired()
@@ -496,7 +504,7 @@ namespace FIFA_API.Migrations
                         .HasColumnType("character varying(1000)")
                         .HasColumnName("com_texte");
 
-                    b.Property<int>("DocumentId")
+                    b.Property<int?>("DocumentId")
                         .HasColumnType("integer")
                         .HasColumnName("doc_id");
 
@@ -554,12 +562,16 @@ namespace FIFA_API.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CompteId"));
 
                     b.Property<bool>("CompteAnnonces")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(false)
                         .HasColumnName("cpt_annonces");
 
                     b.Property<DateTime>("CompteDateConnexion")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("cpt_dateconnexion");
+                        .HasColumnName("cpt_dateconnexion")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("CompteEmail")
                         .IsRequired()
@@ -568,12 +580,9 @@ namespace FIFA_API.Migrations
                         .HasColumnName("cpt_email");
 
                     b.Property<string>("CompteMdp")
+                        .IsRequired()
                         .HasColumnType("char(128)")
                         .HasColumnName("cpt_mdp");
-
-                    b.Property<bool>("CompteOffres")
-                        .HasColumnType("boolean")
-                        .HasColumnName("cpt_offres");
 
                     b.Property<string>("Comptelogin")
                         .IsRequired()
@@ -587,6 +596,9 @@ namespace FIFA_API.Migrations
 
                     b.HasKey("CompteId")
                         .HasName("pk_cpt");
+
+                    b.HasIndex("CompteEmail")
+                        .IsUnique();
 
                     b.ToTable("t_e_compte_cpt");
                 });
@@ -606,8 +618,7 @@ namespace FIFA_API.Migrations
                         .HasColumnType("character varying(1000)")
                         .HasColumnName("dev_message");
 
-                    b.Property<int?>("ProduitId")
-                        .IsRequired()
+                    b.Property<int>("ProduitId")
                         .HasColumnType("integer")
                         .HasColumnName("pro_id");
 
@@ -640,23 +651,23 @@ namespace FIFA_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DocumentId"));
 
-                    b.Property<DateTime>("DateHeure")
+                    b.Property<DateTime>("DocumentDateHeure")
                         .HasColumnType("date")
                         .HasColumnName("doc_dateheure");
 
-                    b.Property<string>("LienPdf")
+                    b.Property<string>("DocumentLienPdf")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("doc_lienpdf");
 
-                    b.Property<string>("Resume")
+                    b.Property<string>("DocumentResume")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)")
                         .HasColumnName("doc_resume");
 
-                    b.Property<string>("Titre")
+                    b.Property<string>("DocumentTitre")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
@@ -665,7 +676,7 @@ namespace FIFA_API.Migrations
                     b.HasKey("DocumentId")
                         .HasName("pk_doc");
 
-                    b.HasIndex(new[] { "LienPdf" }, "uq_doc_lienpdf")
+                    b.HasIndex(new[] { "DocumentLienPdf" }, "uq_doc_lienpdf")
                         .IsUnique();
 
                     b.ToTable("t_e_document_doc");
@@ -694,26 +705,19 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.FormulaireAide", b =>
                 {
-                    b.Property<int>("IdFormulaire")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("FormulaireAideId")
                         .HasColumnType("integer")
                         .HasColumnName("foa_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdFormulaire"));
-
-                    b.Property<int>("IdUtilisateur")
+                    b.Property<int>("ActionId")
                         .HasColumnType("integer")
-                        .HasColumnName("utl_id");
+                        .HasColumnName("act_id");
 
-                    b.Property<string>("NomUtilisateur")
+                    b.Property<string>("FormulaireAideTelephone")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("utl_nom");
-
-                    b.Property<int>("NumAction")
-                        .HasColumnType("integer")
-                        .HasColumnName("foa_numaction");
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("foa_telephone");
 
                     b.Property<string>("Question")
                         .IsRequired()
@@ -721,18 +725,20 @@ namespace FIFA_API.Migrations
                         .HasColumnType("character varying(250)")
                         .HasColumnName("foa_question");
 
-                    b.Property<string>("Telephone")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("foa_telephone");
+                    b.Property<int>("UtilisateurId")
+                        .HasColumnType("integer")
+                        .HasColumnName("utl_id");
 
-                    b.HasKey("IdFormulaire")
+                    b.Property<string>("UtilisateurNom")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("foa_nom");
+
+                    b.HasKey("FormulaireAideId")
                         .HasName("pk_foa");
 
-                    b.HasIndex("IdUtilisateur");
-
-                    b.HasIndex("NumAction");
+                    b.HasIndex("ActionId");
 
                     b.ToTable("t_e_formulaireaide_foa");
                 });
@@ -760,16 +766,16 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Image", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ImageId")
                         .HasColumnType("integer")
                         .HasColumnName("img_id");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("img_url");
 
-                    b.HasKey("Id")
+                    b.HasKey("ImageId")
                         .HasName("pk_img");
 
                     b.ToTable("t_e_image_img");
@@ -778,10 +784,12 @@ namespace FIFA_API.Migrations
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.ImageJoueur", b =>
                 {
                     b.Property<int>("ImageId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("img_id");
 
                     b.Property<int>("JoueurId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("jou_id");
 
                     b.HasKey("ImageId", "JoueurId")
                         .HasName("pk_imj");
@@ -811,7 +819,7 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.InfosBancaires", b =>
                 {
-                    b.Property<int>("IdUtilisateur")
+                    b.Property<int>("InfosBancairesId")
                         .HasColumnType("integer")
                         .HasColumnName("inb_id");
 
@@ -821,25 +829,25 @@ namespace FIFA_API.Migrations
                         .HasColumnType("character varying(2)")
                         .HasColumnName("inb_anneeexpiration");
 
-                    b.Property<string>("MoisExpiration")
+                    b.Property<string>("InfosBancaireMoisExpiration")
                         .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("character varying(2)")
                         .HasColumnName("inb_moisexpiration");
 
-                    b.Property<string>("NomCarte")
+                    b.Property<string>("InfosBancaireNomCarte")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("inb_nomcarte");
 
-                    b.Property<string>("NumCarte")
+                    b.Property<string>("InfosBancaireNumCarte")
                         .IsRequired()
                         .HasMaxLength(228)
                         .HasColumnType("character varying(228)")
                         .HasColumnName("inb_numcarte");
 
-                    b.HasKey("IdUtilisateur")
+                    b.HasKey("InfosBancairesId")
                         .HasName("pk_inb");
 
                     b.ToTable("t_e_infos_bancaires_inb");
@@ -847,75 +855,70 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Joueur", b =>
                 {
-                    b.Property<int>("IdJoueur")
+                    b.Property<int>("JoueurId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("jou_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdJoueur"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("JoueurId"));
 
                     b.Property<int?>("ClubId")
-                        .HasColumnType("integer");
+                        .IsRequired()
+                        .HasColumnType("integer")
+                        .HasColumnName("clb_id");
 
-                    b.Property<DateTime>("DateNaissance")
+                    b.Property<DateTime>("JoueurDateNaissance")
                         .HasColumnType("date")
                         .HasColumnName("jou_datenaissance");
 
-                    b.Property<string>("DescriptionJoueur")
+                    b.Property<string>("JoueurDescription")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)")
                         .HasColumnName("jou_description");
 
-                    b.Property<int?>("IdClub")
-                        .IsRequired()
-                        .HasColumnType("integer")
-                        .HasColumnName("clb_id");
-
-                    b.Property<int>("IdVille")
-                        .HasColumnType("integer")
-                        .HasColumnName("vil_id");
-
-                    b.Property<string>("NomJoueur")
+                    b.Property<string>("JoueurNom")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("jou_nom");
 
-                    b.Property<int>("NumPoste")
-                        .HasColumnType("integer")
-                        .HasColumnName("jou_numposte");
-
-                    b.Property<string>("Pied")
+                    b.Property<string>("JoueurPied")
                         .IsRequired()
                         .HasMaxLength(1)
                         .HasColumnType("character varying(1)")
                         .HasColumnName("jou_pied");
 
-                    b.Property<decimal>("Poids")
+                    b.Property<decimal>("JoueurPoids")
                         .HasColumnType("numeric(5,2)")
                         .HasColumnName("jou_poids");
 
-                    b.Property<string>("PrenomJoueur")
+                    b.Property<string>("JoueurPrenom")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("jou_prenom");
 
-                    b.Property<int>("Taille")
+                    b.Property<int>("JoueurTaille")
                         .HasColumnType("integer")
                         .HasColumnName("jou_taille");
 
-                    b.HasKey("IdJoueur")
+                    b.Property<int>("PosteId")
+                        .HasColumnType("integer")
+                        .HasColumnName("pos_id");
+
+                    b.Property<int>("VilleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("vil_id");
+
+                    b.HasKey("JoueurId")
                         .HasName("pk_jou");
 
                     b.HasIndex("ClubId");
 
-                    b.HasIndex("IdClub");
+                    b.HasIndex("PosteId");
 
-                    b.HasIndex("IdVille");
-
-                    b.HasIndex("NumPoste");
+                    b.HasIndex("VilleId");
 
                     b.ToTable("t_e_joueur_jou");
                 });
@@ -924,7 +927,7 @@ namespace FIFA_API.Migrations
                 {
                     b.Property<int>("ThemeId")
                         .HasColumnType("integer")
-                        .HasColumnName("the_num");
+                        .HasColumnName("the_id");
 
                     b.Property<int>("JoueurId")
                         .HasColumnType("integer")
@@ -940,19 +943,20 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Langue", b =>
                 {
-                    b.Property<int>("LangueNum")
+                    b.Property<int>("LangueId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("lng_num");
+                        .HasColumnName("lng_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LangueNum"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LangueId"));
 
                     b.Property<string>("LangueNom")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(25)
+                        .HasColumnType("character varying(25)")
                         .HasColumnName("lng_nom");
 
-                    b.HasKey("LangueNum")
+                    b.HasKey("LangueId")
                         .HasName("pk_lng");
 
                     b.ToTable("t_e_langue_lng");
@@ -969,23 +973,23 @@ namespace FIFA_API.Migrations
 
                     b.Property<int>("CommandeId")
                         .HasColumnType("integer")
-                        .HasColumnName("cmd_numcommande");
+                        .HasColumnName("cmd_id");
 
-                    b.Property<int>("NumTaille")
+                    b.Property<double>("LigneCommandePrix")
+                        .HasColumnType("double precision")
+                        .HasColumnName("lcd_prix");
+
+                    b.Property<int>("LigneCommandeQuantite")
                         .HasColumnType("integer")
-                        .HasColumnName("tll_numtaille");
+                        .HasColumnName("lcd_quantite");
 
                     b.Property<int>("NumeroLigneCommande")
                         .HasColumnType("integer")
                         .HasColumnName("lcd_num");
 
-                    b.Property<int>("PrixLigneCommande")
+                    b.Property<int>("TailleId")
                         .HasColumnType("integer")
-                        .HasColumnName("lcd_prix");
-
-                    b.Property<int>("QuantiteLigneCommande")
-                        .HasColumnType("integer")
-                        .HasColumnName("lcd_quantite");
+                        .HasColumnName("tai_id");
 
                     b.Property<int>("VarianteProduitId")
                         .HasColumnType("integer")
@@ -996,7 +1000,7 @@ namespace FIFA_API.Migrations
 
                     b.HasIndex("CommandeId");
 
-                    b.HasIndex("NumTaille");
+                    b.HasIndex("TailleId");
 
                     b.HasIndex("VarianteProduitId");
 
@@ -1084,13 +1088,14 @@ namespace FIFA_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LivraisonId"));
 
-                    b.Property<double>("PrixLivraison")
+                    b.Property<double>("LivraisonPrix")
                         .HasColumnType("double precision")
                         .HasColumnName("liv_prix");
 
-                    b.Property<string>("TypeLivraison")
+                    b.Property<string>("LivraisonType")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
                         .HasColumnName("liv_type");
 
                     b.HasKey("LivraisonId")
@@ -1116,17 +1121,17 @@ namespace FIFA_API.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("clb_exterieurid");
 
-                    b.Property<DateTime>("DateMatch")
-                        .HasColumnType("timestamp with time zone")
+                    b.Property<DateTime>("MatchDate")
+                        .HasColumnType("date")
                         .HasColumnName("mch_datematch");
 
-                    b.Property<int>("ScoreDomicile")
+                    b.Property<int>("MatchScoreDomicile")
                         .HasColumnType("integer")
-                        .HasColumnName("mch_scoredomicile");
+                        .HasColumnName("mch_score_domicile");
 
-                    b.Property<int>("ScoreExterieur")
+                    b.Property<int>("MatchScoreExterieur")
                         .HasColumnType("integer")
-                        .HasColumnName("mch_ScoreExterieur");
+                        .HasColumnName("mch_score_exterieur");
 
                     b.HasKey("MatchId")
                         .HasName("pk_mch");
@@ -1148,22 +1153,23 @@ namespace FIFA_API.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("mch_id");
 
-                    b.Property<int>("NbButs")
+                    b.Property<int>("MatchJoueNbButs")
                         .HasColumnType("integer")
                         .HasColumnName("mtj_nbbuts");
 
-                    b.Property<int>("NbMinutes")
+                    b.Property<int>("MatchJoueNbMinutes")
                         .HasColumnType("integer")
                         .HasColumnName("mtj_nbminutes");
 
-                    b.Property<string>("Selection")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<string>("MatchJoueSelection")
+                        .HasMaxLength(1)
+                        .HasColumnType("character varying(1)")
                         .HasColumnName("mtj_selection");
 
-                    b.Property<string>("Titularisation")
+                    b.Property<string>("MatchJoueTitularisation")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(1)
+                        .HasColumnType("character varying(1)")
                         .HasColumnName("mtj_titularisation");
 
                     b.HasKey("JoueurId", "MatchId")
@@ -1183,7 +1189,7 @@ namespace FIFA_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MediaId"));
 
-                    b.Property<string>("Url")
+                    b.Property<string>("MediaUrl")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("med_url");
@@ -1203,14 +1209,16 @@ namespace FIFA_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MonnaieId"));
 
-                    b.Property<string>("Nom")
+                    b.Property<string>("MonnaieNom")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("mon_nom");
 
-                    b.Property<string>("Symbole")
+                    b.Property<string>("MonnaieSymbole")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(1)
+                        .HasColumnType("character varying(1)")
                         .HasColumnName("mon_symbole");
 
                     b.HasKey("MonnaieId")
@@ -1228,7 +1236,7 @@ namespace FIFA_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PaysId"));
 
-                    b.Property<string>("NomPays")
+                    b.Property<string>("PaysNom")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
@@ -1242,20 +1250,20 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Poste", b =>
                 {
-                    b.Property<int>("NumPoste")
+                    b.Property<int>("PosteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("pos_num");
+                        .HasColumnName("pos_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NumPoste"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PosteId"));
 
-                    b.Property<string>("LibellePoste")
+                    b.Property<string>("PosteLibelle")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)")
                         .HasColumnName("pos_libelle");
 
-                    b.HasKey("NumPoste")
+                    b.HasKey("PosteId")
                         .HasName("pk_pos");
 
                     b.ToTable("t_e_poste_pos");
@@ -1263,51 +1271,50 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Produit", b =>
                 {
-                    b.Property<int>("IdProduit")
+                    b.Property<int>("ProduitId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("pro_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdProduit"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProduitId"));
 
-                    b.Property<string>("DescriptionProduit")
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
-                        .HasColumnName("pro_description");
+                    b.Property<int>("CategorieId")
+                        .HasColumnType("integer")
+                        .HasColumnName("cat_id");
+
+                    b.Property<int?>("CompetitionId")
+                        .HasColumnType("integer")
+                        .HasColumnName("comp_id");
 
                     b.Property<int>("GenreId")
                         .HasColumnType("integer")
                         .HasColumnName("gen_id");
 
-                    b.Property<int?>("IdCompetition")
-                        .IsRequired()
+                    b.Property<int?>("PaysId")
                         .HasColumnType("integer")
-                        .HasColumnName("comp_id");
+                        .HasColumnName("pay_id");
 
-                    b.Property<string>("NomProduit")
+                    b.Property<string>("ProduitDescription")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("pro_description");
+
+                    b.Property<string>("ProduitNom")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("pro_nom");
 
-                    b.Property<int>("NumCategorie")
-                        .HasColumnType("integer")
-                        .HasColumnName("cat_num");
-
-                    b.Property<int>("NumPays")
-                        .HasColumnType("integer")
-                        .HasColumnName("pay_num");
-
-                    b.HasKey("IdProduit")
+                    b.HasKey("ProduitId")
                         .HasName("pk_pro");
+
+                    b.HasIndex("CategorieId");
+
+                    b.HasIndex("CompetitionId");
 
                     b.HasIndex("GenreId");
 
-                    b.HasIndex("IdCompetition");
-
-                    b.HasIndex("NumCategorie");
-
-                    b.HasIndex("NumPays");
+                    b.HasIndex("PaysId");
 
                     b.ToTable("t_e_produit_pro");
                 });
@@ -1316,11 +1323,11 @@ namespace FIFA_API.Migrations
                 {
                     b.Property<int>("ProduitUnId")
                         .HasColumnType("integer")
-                        .HasColumnName("pro_id_un");
+                        .HasColumnName("pro_un_id");
 
                     b.Property<int>("ProduitDeuxId")
                         .HasColumnType("integer")
-                        .HasColumnName("pro_id_deux");
+                        .HasColumnName("pro_deux_id");
 
                     b.HasKey("ProduitUnId", "ProduitDeuxId")
                         .HasName("pk_prs");
@@ -1332,58 +1339,53 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Reglement", b =>
                 {
-                    b.Property<int>("NumTransaction")
+                    b.Property<int>("TransactionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("tra_num");
+                        .HasColumnName("tra_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NumTransaction"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TransactionId"));
 
-                    b.Property<DateTime>("DateReglement")
+                    b.Property<int>("CommandeId")
+                        .HasColumnType("integer")
+                        .HasColumnName("com_id");
+
+                    b.Property<DateTime>("ReglementDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("date")
                         .HasColumnName("reg_date")
                         .HasDefaultValueSql("now()");
 
-                    b.Property<decimal>("Montant")
+                    b.Property<decimal>("ReglementMontant")
                         .HasColumnType("numeric")
                         .HasColumnName("reg_montant");
 
-                    b.Property<int>("NumCommande")
-                        .HasColumnType("integer")
-                        .HasColumnName("com_num");
-
-                    b.HasKey("NumTransaction")
+                    b.HasKey("TransactionId")
                         .HasName("pk_reg");
 
-                    b.HasIndex("NumCommande");
+                    b.HasIndex("CommandeId");
 
                     b.ToTable("t_e_reglement_reg");
                 });
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Remporte", b =>
                 {
-                    b.Property<int>("IdJoueur")
+                    b.Property<int>("JoueurId")
                         .HasColumnType("integer")
                         .HasColumnName("jou_id");
 
-                    b.Property<int>("NumTrophee")
+                    b.Property<int>("TropheeId")
                         .HasColumnType("integer")
-                        .HasColumnName("tro_num");
+                        .HasColumnName("tro_id");
 
-                    b.Property<char>("Annee")
+                    b.Property<char>("RemporteAnnee")
                         .HasColumnType("char(4)")
                         .HasColumnName("rem_annee");
 
-                    b.Property<int?>("TropheeNumTrophee")
-                        .HasColumnType("integer");
-
-                    b.HasKey("IdJoueur", "NumTrophee", "Annee")
+                    b.HasKey("JoueurId", "TropheeId", "RemporteAnnee")
                         .HasName("pk_rem");
 
-                    b.HasIndex("NumTrophee");
-
-                    b.HasIndex("TropheeNumTrophee");
+                    b.HasIndex("TropheeId");
 
                     b.ToTable("t_j_remporte_rem");
                 });
@@ -1415,13 +1417,13 @@ namespace FIFA_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("StockId"));
 
-                    b.Property<int>("NumTaille")
-                        .HasColumnType("integer")
-                        .HasColumnName("tai_num");
-
                     b.Property<int>("QuantiteStockeeId")
                         .HasColumnType("integer")
                         .HasColumnName("stk_quantitestockee");
+
+                    b.Property<int>("TailleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("tai_id");
 
                     b.Property<int>("VarianteProduitId")
                         .HasColumnType("integer")
@@ -1430,7 +1432,7 @@ namespace FIFA_API.Migrations
                     b.HasKey("StockId")
                         .HasName("pk_stk");
 
-                    b.HasIndex("NumTaille");
+                    b.HasIndex("TailleId");
 
                     b.HasIndex("VarianteProduitId");
 
@@ -1439,20 +1441,20 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Taille", b =>
                 {
-                    b.Property<int>("NumTaille")
+                    b.Property<int>("TailleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("tai_num");
+                        .HasColumnName("tai_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NumTaille"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TailleId"));
 
-                    b.Property<string>("LibelleTaille")
+                    b.Property<string>("TailleLibelle")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)")
                         .HasColumnName("tai_libelle");
 
-                    b.HasKey("NumTaille")
+                    b.HasKey("TailleId")
                         .HasName("pk_tai");
 
                     b.ToTable("t_e_taille_tai");
@@ -1467,7 +1469,7 @@ namespace FIFA_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ThemeId"));
 
-                    b.Property<string>("LibelleTheme")
+                    b.Property<string>("ThemeLibelle")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
@@ -1476,25 +1478,25 @@ namespace FIFA_API.Migrations
                     b.HasKey("ThemeId")
                         .HasName("pk_the");
 
-                    b.ToTable("t_j_theme_the");
+                    b.ToTable("t_e_theme_the");
                 });
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Trophee", b =>
                 {
-                    b.Property<int>("NumTrophee")
+                    b.Property<int>("TropheeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("tro_num");
+                        .HasColumnName("tro_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NumTrophee"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TropheeId"));
 
-                    b.Property<string>("NomTrophee")
+                    b.Property<string>("TropheeNom")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("tro_nom");
 
-                    b.HasKey("NumTrophee")
+                    b.HasKey("TropheeId")
                         .HasName("pk_tro");
 
                     b.ToTable("t_e_trophee_tro");
@@ -1509,6 +1511,10 @@ namespace FIFA_API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UtilisateurId"));
 
+                    b.Property<int?>("ActiviteId")
+                        .HasColumnType("integer")
+                        .HasColumnName("act_id");
+
                     b.Property<int?>("AdresseId")
                         .HasColumnType("integer")
                         .HasColumnName("adr_id");
@@ -1517,47 +1523,15 @@ namespace FIFA_API.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("com_id");
 
-                    b.Property<DateTime>("DateNaissance")
-                        .HasColumnType("date")
-                        .HasColumnName("utl_datenaissance");
-
-                    b.Property<int?>("IdActivite")
-                        .HasColumnType("integer")
-                        .HasColumnName("act_id");
-
                     b.Property<int>("LangueId")
                         .HasColumnType("integer")
                         .HasColumnName("lan_id");
 
-                    b.Property<int?>("LangueNum")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("MonnaieId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("NomAcheteur")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("utl_nomacheteur");
-
-                    b.Property<int>("NumMonnaie")
+                    b.Property<int>("MonnaieId")
                         .HasColumnType("integer")
                         .HasColumnName("mon_id");
 
-                    b.Property<string>("NumSociete")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("character varying(14)")
-                        .HasColumnName("soc_num");
-
-                    b.Property<string>("NumTva")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("character varying(11)")
-                        .HasColumnName("utl_numtva");
-
-                    b.Property<int>("PaysFavoriId")
+                    b.Property<int?>("PaysFavoriId")
                         .HasColumnType("integer")
                         .HasColumnName("pay_paysfavori_id");
 
@@ -1571,8 +1545,26 @@ namespace FIFA_API.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("utl_prenom");
 
-                    b.Property<string>("TelAcheteur")
-                        .IsRequired()
+                    b.Property<string>("SocieteId")
+                        .HasMaxLength(14)
+                        .HasColumnType("character varying(14)")
+                        .HasColumnName("soc_id");
+
+                    b.Property<DateTime>("UtilisateurDateNaissance")
+                        .HasColumnType("date")
+                        .HasColumnName("utl_datenaissance");
+
+                    b.Property<string>("UtilisateurNomAcheteur")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("utl_nomacheteur");
+
+                    b.Property<string>("UtilisateurNumTva")
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)")
+                        .HasColumnName("utl_numtva");
+
+                    b.Property<string>("UtilisateurTelAcheteur")
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)")
                         .HasColumnName("utl_telacheteur");
@@ -1580,17 +1572,13 @@ namespace FIFA_API.Migrations
                     b.HasKey("UtilisateurId")
                         .HasName("pk_utl");
 
-                    b.HasIndex("AdresseId");
+                    b.HasIndex("ActiviteId");
 
-                    b.HasIndex("IdActivite");
+                    b.HasIndex("AdresseId");
 
                     b.HasIndex("LangueId");
 
-                    b.HasIndex("LangueNum");
-
                     b.HasIndex("MonnaieId");
-
-                    b.HasIndex("NumMonnaie");
 
                     b.HasIndex("PaysFavoriId");
 
@@ -1599,13 +1587,13 @@ namespace FIFA_API.Migrations
                     b.HasIndex(new[] { "CompteId" }, "uq_utl_idcompte")
                         .IsUnique();
 
-                    b.HasIndex(new[] { "NumSociete" }, "uq_utl_numSociete")
+                    b.HasIndex(new[] { "SocieteId" }, "uq_utl_numSociete")
                         .IsUnique();
 
-                    b.HasIndex(new[] { "NumTva" }, "uq_utl_numtva")
+                    b.HasIndex(new[] { "UtilisateurNumTva" }, "uq_utl_numtva")
                         .IsUnique();
 
-                    b.HasIndex(new[] { "TelAcheteur" }, "uq_utl_telacheteur")
+                    b.HasIndex(new[] { "UtilisateurTelAcheteur" }, "uq_utl_telacheteur")
                         .IsUnique();
 
                     b.ToTable("t_e_utilisateur_utl");
@@ -1624,18 +1612,15 @@ namespace FIFA_API.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("clr_id");
 
-                    b.Property<decimal>("PrixVariante")
-                        .HasColumnType("decimal")
-                        .HasColumnName("vpd_prixvariante");
-
                     b.Property<int>("ProduitId")
                         .HasColumnType("integer")
                         .HasColumnName("pro_id");
 
-                    b.Property<int?>("ProduitIdProduit")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("VarianteProduitPrix")
+                        .HasColumnType("decimal")
+                        .HasColumnName("vpd_prix");
 
-                    b.Property<decimal>("Promo")
+                    b.Property<decimal>("VarianteProduitPromo")
                         .HasColumnType("decimal")
                         .HasColumnName("vpd_promo");
 
@@ -1646,41 +1631,34 @@ namespace FIFA_API.Migrations
 
                     b.HasIndex("ProduitId");
 
-                    b.HasIndex("ProduitIdProduit");
-
                     b.ToTable("t_e_variante_produit_vpd");
                 });
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Ville", b =>
                 {
-                    b.Property<int>("IdVille")
+                    b.Property<int>("VilleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("vil_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdVille"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("VilleId"));
 
-                    b.Property<char>("CodePostal")
+                    b.Property<int>("PaysId")
+                        .HasColumnType("integer")
+                        .HasColumnName("pay_id");
+
+                    b.Property<char>("VilleCodePostal")
                         .HasColumnType("char(5)")
                         .HasColumnName("vil_codepostal");
 
-                    b.Property<string>("NomVille")
+                    b.Property<string>("VilleNom")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("vil_nom");
 
-                    b.Property<int>("NumPays")
-                        .HasColumnType("integer")
-                        .HasColumnName("pay_id");
-
-                    b.Property<int?>("PaysId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("IdVille")
+                    b.HasKey("VilleId")
                         .HasName("pk_vil");
-
-                    b.HasIndex("NumPays");
 
                     b.HasIndex("PaysId");
 
@@ -1689,38 +1667,28 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Vote", b =>
                 {
-                    b.Property<int>("IdUtilisateur")
+                    b.Property<int>("UtilisateurId")
                         .HasColumnType("integer")
                         .HasColumnName("utl_id");
 
-                    b.Property<int>("NumTheme")
+                    b.Property<int>("ThemeId")
                         .HasColumnType("integer")
-                        .HasColumnName("the_num");
+                        .HasColumnName("the_id");
 
-                    b.Property<int>("IdJoueur")
+                    b.Property<int>("JoueurId")
                         .HasColumnType("integer")
                         .HasColumnName("jou_id");
 
-                    b.Property<int>("Note")
+                    b.Property<int>("VoteNote")
                         .HasColumnType("integer")
                         .HasColumnName("vot_note");
 
-                    b.Property<int?>("ThemeId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("UtilisateurId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("IdUtilisateur", "NumTheme", "IdJoueur")
+                    b.HasKey("UtilisateurId", "ThemeId", "JoueurId")
                         .HasName("pk_vot");
 
-                    b.HasIndex("IdJoueur");
-
-                    b.HasIndex("NumTheme");
+                    b.HasIndex("JoueurId");
 
                     b.HasIndex("ThemeId");
-
-                    b.HasIndex("UtilisateurId");
 
                     b.ToTable("t_e_vote_vot");
                 });
@@ -1812,6 +1780,18 @@ namespace FIFA_API.Migrations
                     b.Navigation("MediaNavigation");
                 });
 
+            modelBuilder.Entity("FIFA_API.Models.EntityFramework.Blog", b =>
+                {
+                    b.HasOne("FIFA_API.Models.EntityFramework.Article", "ArticleNavigation")
+                        .WithMany("BlogsArticle")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_blg_art");
+
+                    b.Navigation("ArticleNavigation");
+                });
+
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.BlogImage", b =>
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Blog", "BlogNavigation")
@@ -1859,20 +1839,20 @@ namespace FIFA_API.Migrations
                     b.HasOne("FIFA_API.Models.EntityFramework.Adresse", "AdresseCommande")
                         .WithMany("CommandesAdresse")
                         .HasForeignKey("AdresseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_cmd_adr");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Livraison", "LivraisonCommande")
                         .WithMany("CommandesLivraison")
                         .HasForeignKey("LivraisonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_cmd_liv");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Utilisateur", "UtilisateurCommandant")
                         .WithMany("CommandesUtilisateur")
                         .HasForeignKey("UtilisateurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_cmd_utl");
 
                     b.Navigation("AdresseCommande");
 
@@ -1886,38 +1866,38 @@ namespace FIFA_API.Migrations
                     b.HasOne("FIFA_API.Models.EntityFramework.Album", "AlbumCommente")
                         .WithMany("CommentairesAlbum")
                         .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_com_alb");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Article", "ArticleCommente")
                         .WithMany("CommentairesArticle")
                         .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_com_art");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Blog", "BlogCommente")
                         .WithMany("CommentairesBlog")
                         .HasForeignKey("BlogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_com_blg");
 
-                    b.HasOne("FIFA_API.Models.EntityFramework.Commentaire", "CommenteCommentaire")
-                        .WithOne("CommentaireCommente")
+                    b.HasOne("FIFA_API.Models.EntityFramework.Commentaire", "CommentaireCommente")
+                        .WithOne("CommenteCommentaire")
                         .HasForeignKey("FIFA_API.Models.EntityFramework.Commentaire", "CommentaireIdCommentaire")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_com_com");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Document", "DocumentCommente")
                         .WithMany("CommentairesDocument")
                         .HasForeignKey("DocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_com_doc");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Utilisateur", "UtilisateurCommentant")
                         .WithMany("CommentairesUtilisateur")
                         .HasForeignKey("UtilisateurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_com_utl");
 
                     b.Navigation("AlbumCommente");
 
@@ -1925,7 +1905,7 @@ namespace FIFA_API.Migrations
 
                     b.Navigation("BlogCommente");
 
-                    b.Navigation("CommenteCommentaire");
+                    b.Navigation("CommentaireCommente");
 
                     b.Navigation("DocumentCommente");
 
@@ -1967,19 +1947,19 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.FormulaireAide", b =>
                 {
-                    b.HasOne("FIFA_API.Models.EntityFramework.Utilisateur", "UtilisateurDuFormulaire")
-                        .WithMany("FormulairesAideUtilisateur")
-                        .HasForeignKey("IdUtilisateur")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_foa_utl");
-
                     b.HasOne("FIFA_API.Models.EntityFramework.Action", "FormulaireAction")
                         .WithMany("ActionFormulaireAide")
-                        .HasForeignKey("NumAction")
+                        .HasForeignKey("ActionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_foa_act");
+
+                    b.HasOne("FIFA_API.Models.EntityFramework.Utilisateur", "UtilisateurDuFormulaire")
+                        .WithMany("FormulairesAideUtilisateur")
+                        .HasForeignKey("FormulaireAideId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_foa_utl");
 
                     b.Navigation("FormulaireAction");
 
@@ -1990,9 +1970,10 @@ namespace FIFA_API.Migrations
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Media", "MediaImage")
                         .WithMany("ImagesMedia")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_img_med");
 
                     b.Navigation("MediaImage");
                 });
@@ -2021,7 +2002,7 @@ namespace FIFA_API.Migrations
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.ImageVariante", b =>
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Image", "ImageNavigation")
-                        .WithMany()
+                        .WithMany("ImagesVariante")
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
@@ -2043,7 +2024,7 @@ namespace FIFA_API.Migrations
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Utilisateur", "UtilisateurInfoBc")
                         .WithMany("InfosBancairesUtilisateur")
-                        .HasForeignKey("IdUtilisateur")
+                        .HasForeignKey("InfosBancairesId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_inb_utl");
@@ -2053,27 +2034,26 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Joueur", b =>
                 {
-                    b.HasOne("FIFA_API.Models.EntityFramework.Club", null)
-                        .WithMany("JoueursClub")
-                        .HasForeignKey("ClubId");
-
                     b.HasOne("FIFA_API.Models.EntityFramework.Club", "ClubJoueur")
-                        .WithMany()
-                        .HasForeignKey("IdClub")
+                        .WithMany("JoueursClub")
+                        .HasForeignKey("ClubId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Ville", "VilleJoueur")
-                        .WithMany("JoueursVille")
-                        .HasForeignKey("IdVille")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_jou_clb");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Poste", "PosteJoueur")
                         .WithMany("JoueursPoste")
-                        .HasForeignKey("NumPoste")
+                        .HasForeignKey("PosteId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_jou_pos");
+
+                    b.HasOne("FIFA_API.Models.EntityFramework.Ville", "VilleJoueur")
+                        .WithMany("JoueursVille")
+                        .HasForeignKey("VilleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_jou_vil");
 
                     b.Navigation("ClubJoueur");
 
@@ -2114,7 +2094,7 @@ namespace FIFA_API.Migrations
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Taille", "TailleNavigation")
                         .WithMany("LignesCommandes")
-                        .HasForeignKey("NumTaille")
+                        .HasForeignKey("TailleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_lcd_tai");
@@ -2261,6 +2241,19 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Produit", b =>
                 {
+                    b.HasOne("FIFA_API.Models.EntityFramework.Categorie", "CategorieNavigation")
+                        .WithMany("ProduitsCategorie")
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_pro_cat");
+
+                    b.HasOne("FIFA_API.Models.EntityFramework.Competition", "CompetitionProduit")
+                        .WithMany("ProduitsCompetition")
+                        .HasForeignKey("CompetitionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_pro_cpn");
+
                     b.HasOne("FIFA_API.Models.EntityFramework.Genre", "GenreProduit")
                         .WithMany("ProduitsGenre")
                         .HasForeignKey("GenreId")
@@ -2268,25 +2261,10 @@ namespace FIFA_API.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_pro_gen");
 
-                    b.HasOne("FIFA_API.Models.EntityFramework.Competition", "CompetitionProduit")
-                        .WithMany("ProduitsCompetition")
-                        .HasForeignKey("IdCompetition")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_pro_cpn");
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Categorie", "CategorieNavigation")
-                        .WithMany("ProduitsCategorie")
-                        .HasForeignKey("NumCategorie")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_pro_cat");
-
                     b.HasOne("FIFA_API.Models.EntityFramework.Pays", "PaysProduit")
                         .WithMany("ProduitsPays")
-                        .HasForeignKey("NumPays")
+                        .HasForeignKey("PaysId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
                         .HasConstraintName("fk_pro_pay");
 
                     b.Navigation("CategorieNavigation");
@@ -2323,9 +2301,10 @@ namespace FIFA_API.Migrations
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Commande", "CommandeRegle")
                         .WithMany("ReglementsCommande")
-                        .HasForeignKey("NumCommande")
+                        .HasForeignKey("CommandeId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_reg_cmd");
 
                     b.Navigation("CommandeRegle");
                 });
@@ -2334,19 +2313,17 @@ namespace FIFA_API.Migrations
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Joueur", "JoueurRemportant")
                         .WithMany("RemportesJoueur")
-                        .HasForeignKey("IdJoueur")
+                        .HasForeignKey("JoueurId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_rem_jou");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Trophee", "TropheeRemporte")
-                        .WithMany()
-                        .HasForeignKey("NumTrophee")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Trophee", null)
                         .WithMany("RemportesTrophee")
-                        .HasForeignKey("TropheeNumTrophee");
+                        .HasForeignKey("TropheeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_rem_tro");
 
                     b.Navigation("JoueurRemportant");
 
@@ -2359,13 +2336,15 @@ namespace FIFA_API.Migrations
                         .WithMany("EnfantsCategorie")
                         .HasForeignKey("CategorieEnfantId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_sct_catenf");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Categorie", "ObjCategorieParent")
                         .WithMany("ParentsCategorie")
                         .HasForeignKey("CategorieParentId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_sct_catpar");
 
                     b.Navigation("ObjCategorieEnfant");
 
@@ -2376,15 +2355,17 @@ namespace FIFA_API.Migrations
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Taille", "TailleStockee")
                         .WithMany("StocksTaille")
-                        .HasForeignKey("NumTaille")
+                        .HasForeignKey("TailleId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_stk_tai");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.VarianteProduit", "VarianteStockee")
                         .WithMany("StocksVariante")
                         .HasForeignKey("VarianteProduitId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_stk_vpd");
 
                     b.Navigation("TailleStockee");
 
@@ -2393,44 +2374,41 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Utilisateur", b =>
                 {
+                    b.HasOne("FIFA_API.Models.EntityFramework.Activite", "ActiviteUtilisateur")
+                        .WithMany("UtilisateursActivite")
+                        .HasForeignKey("ActiviteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_utl_act");
+
                     b.HasOne("FIFA_API.Models.EntityFramework.Adresse", "AdresseUtilisateur")
                         .WithMany("UtilisateursAdresse")
                         .HasForeignKey("AdresseId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_utl_adr");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Compte", "CompteUtilisateur")
                         .WithOne("UtilisateurCompte")
-                        .HasForeignKey("FIFA_API.Models.EntityFramework.Utilisateur", "CompteId");
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Activite", "ActiviteUtilisateur")
-                        .WithMany("UtilisateursActivite")
-                        .HasForeignKey("IdActivite");
+                        .HasForeignKey("FIFA_API.Models.EntityFramework.Utilisateur", "CompteId")
+                        .HasConstraintName("fk_utl_cpt");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Langue", "LangueUtilisateur")
-                        .WithMany()
+                        .WithMany("UtilisateursLangue")
                         .HasForeignKey("LangueId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Langue", null)
-                        .WithMany("UtilisateursLangue")
-                        .HasForeignKey("LangueNum");
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Monnaie", null)
-                        .WithMany("UtilisateursMonnaie")
-                        .HasForeignKey("MonnaieId");
+                        .IsRequired()
+                        .HasConstraintName("fk_utl_lng");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Monnaie", "MonnaieUtilisateur")
-                        .WithMany()
-                        .HasForeignKey("NumMonnaie")
+                        .WithMany("UtilisateursMonnaie")
+                        .HasForeignKey("MonnaieId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_utl_mon");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Pays", "PaysFavoriNavigation")
                         .WithMany("UtilisateursFavorisantPays")
                         .HasForeignKey("PaysFavoriId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
                         .HasConstraintName("fk_pay_utl_pays_favori");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Pays", "PaysNaissanceNavigation")
@@ -2438,7 +2416,7 @@ namespace FIFA_API.Migrations
                         .HasForeignKey("PaysNaissanceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_pay_utl_pays_nassance");
+                        .HasConstraintName("fk_pay_utl_pays_naissance");
 
                     b.Navigation("ActiviteUtilisateur");
 
@@ -2465,15 +2443,11 @@ namespace FIFA_API.Migrations
                         .HasConstraintName("fk_vpd_clr");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Produit", "ProduitVariante")
-                        .WithMany()
+                        .WithMany("VariantesProduit")
                         .HasForeignKey("ProduitId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_vpd_pro");
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Produit", null)
-                        .WithMany("VariantesProduit")
-                        .HasForeignKey("ProduitIdProduit");
 
                     b.Navigation("ColorisVariante");
 
@@ -2483,14 +2457,11 @@ namespace FIFA_API.Migrations
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Ville", b =>
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Pays", "PaysVille")
-                        .WithMany()
-                        .HasForeignKey("NumPays")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Pays", null)
                         .WithMany("VillesPays")
-                        .HasForeignKey("PaysId");
+                        .HasForeignKey("PaysId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_vil_pay");
 
                     b.Navigation("PaysVille");
                 });
@@ -2499,29 +2470,24 @@ namespace FIFA_API.Migrations
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Joueur", "JoueurVote")
                         .WithMany("VotesJoueur")
-                        .HasForeignKey("IdJoueur")
+                        .HasForeignKey("JoueurId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Utilisateur", "UtilisateurVotant")
-                        .WithMany()
-                        .HasForeignKey("IdUtilisateur")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_vot_jou");
 
                     b.HasOne("FIFA_API.Models.EntityFramework.Theme", "ThemeVote")
-                        .WithMany()
-                        .HasForeignKey("NumTheme")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FIFA_API.Models.EntityFramework.Theme", null)
                         .WithMany("VotesTheme")
-                        .HasForeignKey("ThemeId");
+                        .HasForeignKey("ThemeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_vot_the");
 
-                    b.HasOne("FIFA_API.Models.EntityFramework.Utilisateur", null)
+                    b.HasOne("FIFA_API.Models.EntityFramework.Utilisateur", "UtilisateurVotant")
                         .WithMany("VotesUtilisateur")
-                        .HasForeignKey("UtilisateurId");
+                        .HasForeignKey("UtilisateurId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_vot_utl");
 
                     b.Navigation("JoueurVote");
 
@@ -2558,6 +2524,8 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Article", b =>
                 {
+                    b.Navigation("BlogsArticle");
+
                     b.Navigation("CommentairesArticle");
 
                     b.Navigation("LiensJoueur");
@@ -2613,8 +2581,7 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Commentaire", b =>
                 {
-                    b.Navigation("CommentaireCommente")
-                        .IsRequired();
+                    b.Navigation("CommenteCommentaire");
                 });
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Competition", b =>
@@ -2641,6 +2608,8 @@ namespace FIFA_API.Migrations
 
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.Image", b =>
                 {
+                    b.Navigation("ImagesVariante");
+
                     b.Navigation("LiensAlbums");
 
                     b.Navigation("LiensBlogs");
