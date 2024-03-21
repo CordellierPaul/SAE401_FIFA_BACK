@@ -84,7 +84,6 @@ namespace FIFA_API.Controllers
             await dataRepository.AddAsync(activite);
             return CreatedAtAction("GetById", new { id = activite.ActiviteId }, activite);
 
-
         }
 
         // DELETE: api/Activite/5

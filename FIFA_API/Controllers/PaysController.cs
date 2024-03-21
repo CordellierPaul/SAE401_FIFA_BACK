@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using System.Diagnostics;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +15,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class PaysController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Pays> dataRepository;
 
-        public PaysController(FifaDbContext context)
+        public PaysController(IDataRepository<Pays> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Pays
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pays>>> GetPays()
         {
-          if (_context.Pays == null)
-          {
-              return NotFound();
-          }
-            return await _context.Pays.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Pays/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Pays>> GetPays(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Pays>> GetPaysById(int id)
         {
-          if (_context.Pays == null)
-          {
-              return NotFound();
-          }
-            var pays = await _context.Pays.FindAsync(id);
+            var pays = await dataRepository.GetByIdAsync(id);
 
             if (pays == null)
             {
@@ -52,72 +50,62 @@ namespace FIFA_API.Controllers
         // PUT: api/Pays/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutPays(int id, Pays pays)
         {
             if (id != pays.PaysId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(pays).State = EntityState.Modified;
-
-            try
+            var actToUpdate = await dataRepository.GetByIdAsync(id);
+            if (actToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!PaysExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(actToUpdate.Value, pays);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Pays
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Pays>> PostPays(Pays pays)
         {
-          if (_context.Pays == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Pays'  is null.");
-          }
-            _context.Pays.Add(pays);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(pays);
+            return CreatedAtAction("GetById", new { id = pays.PaysId }, pays);
 
-            return CreatedAtAction("GetPays", new { id = pays.PaysId }, pays);
         }
 
         // DELETE: api/Pays/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeletePays(int id)
         {
-            if (_context.Pays == null)
-            {
-                return NotFound();
-            }
-            var pays = await _context.Pays.FindAsync(id);
+            var pays = await dataRepository.GetByIdAsync(id);
             if (pays == null)
             {
                 return NotFound();
             }
-
-            _context.Pays.Remove(pays);
-            await _context.SaveChangesAsync();
+            await dataRepository.DeleteAsync(pays.Value);
 
             return NoContent();
         }
 
-        private bool PaysExists(int id)
-        {
-            return (_context.Pays?.Any(e => e.PaysId == id)).GetValueOrDefault();
-        }
+        //private bool PaysExists(int id)
+        //{
+        //    return (dataRepository.Pays?.Any(e => e.PaysId == id)).GetValueOrDefault();
+        //}
     }
 }

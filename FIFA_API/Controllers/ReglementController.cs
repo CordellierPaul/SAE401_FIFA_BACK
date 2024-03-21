@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using System.Diagnostics;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +15,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ReglementController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Reglement> dataRepository;
 
-        public ReglementController(FifaDbContext context)
+        public ReglementController(IDataRepository<Reglement> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Reglement
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Reglement>>> GetReglement()
         {
-          if (_context.Reglement == null)
-          {
-              return NotFound();
-          }
-            return await _context.Reglement.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Reglement/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Reglement>> GetReglement(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Reglement>> GetReglementById(int id)
         {
-          if (_context.Reglement == null)
-          {
-              return NotFound();
-          }
-            var reglement = await _context.Reglement.FindAsync(id);
+            var reglement = await dataRepository.GetByIdAsync(id);
 
             if (reglement == null)
             {
@@ -52,72 +50,65 @@ namespace FIFA_API.Controllers
         // PUT: api/Reglement/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutReglement(int id, Reglement reglement)
         {
             if (id != reglement.TransactionId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(reglement).State = EntityState.Modified;
-
-            try
+            var regToUpdate = await dataRepository.GetByIdAsync(id);
+            if (regToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ReglementExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(regToUpdate.Value, reglement);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Reglement
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Reglement>> PostReglement(Reglement reglement)
         {
-          if (_context.Reglement == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Reglement'  is null.");
-          }
-            _context.Reglement.Add(reglement);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetReglement", new { id = reglement.TransactionId }, reglement);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(reglement);
+            return CreatedAtAction("GetById", new { id = reglement.TransactionId }, reglement);
         }
 
         // DELETE: api/Reglement/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReglement(int id)
         {
-            if (_context.Reglement == null)
+            if (dataRepository.Reglement == null)
             {
                 return NotFound();
             }
-            var reglement = await _context.Reglement.FindAsync(id);
+            var reglement = await dataRepository.Reglement.FindAsync(id);
             if (reglement == null)
             {
                 return NotFound();
             }
 
-            _context.Reglement.Remove(reglement);
-            await _context.SaveChangesAsync();
+            dataRepository.Reglement.Remove(reglement);
+            await dataRepository.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool ReglementExists(int id)
         {
-            return (_context.Reglement?.Any(e => e.TransactionId == id)).GetValueOrDefault();
+            return (dataRepository.Reglement?.Any(e => e.TransactionId == id)).GetValueOrDefault();
         }
     }
 }
