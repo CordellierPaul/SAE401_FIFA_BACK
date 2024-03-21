@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using Moq;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +15,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class TropheeController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Trophee> dataRepository;
 
-        public TropheeController(FifaDbContext context)
+        public TropheeController(IDataRepository<Trophee> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Trophee
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Trophee>>> GetTrophee()
         {
-          if (_context.Trophee == null)
-          {
-              return NotFound();
-          }
-            return await _context.Trophee.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Trophee/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Trophee>> GetTrophee(int id)
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Trophee>> GetTropheeById(int id)
         {
-          if (_context.Trophee == null)
-          {
-              return NotFound();
-          }
-            var trophee = await _context.Trophee.FindAsync(id);
+            var trophee = await dataRepository.GetByIdAsync(id);
 
             if (trophee == null)
             {
@@ -52,6 +50,9 @@ namespace FIFA_API.Controllers
         // PUT: api/Trophee/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutTrophee(int id, Trophee trophee)
         {
             if (id != trophee.TropheeId)
@@ -59,65 +60,49 @@ namespace FIFA_API.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(trophee).State = EntityState.Modified;
-
-            try
+            var troToUpdate = await dataRepository.GetByIdAsync(id);
+            if (troToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!TropheeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(troToUpdate.Value, trophee);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Trophee
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Trophee>> PostTrophee(Trophee trophee)
         {
-          if (_context.Trophee == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Trophee'  is null.");
-          }
-            _context.Trophee.Add(trophee);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTrophee", new { id = trophee.TropheeId }, trophee);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(trophee);
+            return CreatedAtAction("GetById", new { id = trophee.TropheeId }, trophee);
         }
 
         // DELETE: api/Trophee/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTrophee(int id)
         {
-            if (_context.Trophee == null)
-            {
-                return NotFound();
-            }
-            var trophee = await _context.Trophee.FindAsync(id);
+            var trophee = await dataRepository.GetByIdAsync(id);
             if (trophee == null)
             {
                 return NotFound();
             }
-
-            _context.Trophee.Remove(trophee);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(trophee.Value);
             return NoContent();
         }
 
-        private bool TropheeExists(int id)
+        /*private bool TropheeExists(int id)
         {
-            return (_context.Trophee?.Any(e => e.TropheeId == id)).GetValueOrDefault();
-        }
+            return (dataRepository.Trophee?.Any(e => e.TropheeId == id)).GetValueOrDefault();
+        }*/
     }
 }
