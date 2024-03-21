@@ -14,7 +14,7 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private ProduitController _controller;
-        private IDataRepository<Produit> _dataRepository;
+        private IProduitRepository _dataRepository;
 
         public ProduitControllerTests()
         {
@@ -122,7 +122,7 @@ namespace FIFA_API.Controllers.Tests
         public void PostProduit_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepository<Produit>>();
+            var mockRepository = new Mock<IProduitRepository>();
             var pdtController = new ProduitController(mockRepository.Object);
             Produit pdt = new Produit
             {
@@ -154,7 +154,7 @@ namespace FIFA_API.Controllers.Tests
                 ProduitNom = "PostProduit",
                 ProduitDescription = "postProduit est un test",
             };
-            var mockRepository = new Mock<IDataRepository<Produit>>();
+            var mockRepository = new Mock<IProduitRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(pdt);
             var pdtController = new ProduitController(mockRepository.Object);
             // Act
@@ -184,7 +184,7 @@ namespace FIFA_API.Controllers.Tests
                 ProduitDescription = "ModifProduit est un test",
             };
 
-            var mockRepository = new Mock<IDataRepository<Produit>>();
+            var mockRepository = new Mock<IProduitRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(pdt);
             var pdtController = new ProduitController(mockRepository.Object);
 
@@ -208,7 +208,7 @@ namespace FIFA_API.Controllers.Tests
                 ProduitDescription = "ModifProduit est un test",
             };
 
-            var mockRepository = new Mock<IDataRepository<Produit>>();
+            var mockRepository = new Mock<IProduitRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(pdt);
             var pdtController = new ProduitController(mockRepository.Object);
 
@@ -224,7 +224,7 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetProduitById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepository<Produit>>();
+            var mockRepository = new Mock<IProduitRepository>();
             var pdtController = new ProduitController(mockRepository.Object);
             // Act
             var actionResult = pdtController.GetProduitById(0).Result;
@@ -237,7 +237,7 @@ namespace FIFA_API.Controllers.Tests
         public void Postcategorie_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepository<Produit>>();
+            var mockRepository = new Mock<IProduitRepository>();
             var pdtController = new ProduitController(mockRepository.Object);
 
             Produit pdt = new Produit

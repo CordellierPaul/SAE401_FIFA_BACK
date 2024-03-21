@@ -34,7 +34,7 @@ namespace FIFA_API.Controllers
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Album>> GetAlbumByID(int id)
+        public async Task<ActionResult<Album>> GetAlbumById(int id)
         {
             var album = await dataRepository.GetByIdAsync(id);
 
