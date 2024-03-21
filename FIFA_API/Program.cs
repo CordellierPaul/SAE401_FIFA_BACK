@@ -47,6 +47,7 @@ builder.Services.AddScoped<IDataRepository<Genre>, GenreManager>();
 builder.Services.AddScoped<IDataRepository<InfosBancaires>, InfosBancairesManager>();
 builder.Services.AddScoped<IDataRepository<Joueur>, JoueurManager>();
 builder.Services.AddScoped<IDataRepository<Langue>, LangueManager>();
+builder.Services.AddScoped<IDataRepositoryWithoutStr<Match>, MatchManager>();
 
 //Token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
