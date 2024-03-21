@@ -3,12 +3,14 @@ using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+#nullable disable
+
 namespace FIFA_API.Models.DataManager
 {
     public class CompteManager : IDataRepository<Compte>
     {
 
-        readonly FifaDbContext? fifaDbContext;
+        readonly FifaDbContext fifaDbContext;
 
         public CompteManager() { }
         public CompteManager(FifaDbContext context)
