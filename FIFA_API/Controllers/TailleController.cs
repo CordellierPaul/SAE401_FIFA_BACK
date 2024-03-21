@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
+using System.Diagnostics;
 
 namespace FIFA_API.Controllers
 {
@@ -13,33 +15,29 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class TailleController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository<Taille> dataRepository;
 
-        public TailleController(FifaDbContext context)
+        public TailleController(IDataRepository<Taille> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/Taille
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Taille>>> GetTaille()
         {
-          if (_context.Taille == null)
-          {
-              return NotFound();
-          }
-            return await _context.Taille.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Taille/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Taille>> GetTaille(int id)
         {
-          if (_context.Taille == null)
-          {
-              return NotFound();
-          }
-            var taille = await _context.Taille.FindAsync(id);
+            var taille = await dataRepository.GetByIdAsync(id);
 
             if (taille == null)
             {
@@ -52,72 +50,61 @@ namespace FIFA_API.Controllers
         // PUT: api/Taille/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutTaille(int id, Taille taille)
         {
             if (id != taille.TailleId)
             {
                 return BadRequest();
             }
-
-            _context.Entry(taille).State = EntityState.Modified;
-
-            try
+            var taiToUpdate = await dataRepository.GetByIdAsync(id);
+            if (taiToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!TailleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(taiToUpdate.Value, taille);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/Taille
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Taille>> PostTaille(Taille taille)
         {
-          if (_context.Taille == null)
-          {
-              return Problem("Entity set 'FifaDbContext.Taille'  is null.");
-          }
-            _context.Taille.Add(taille);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTaille", new { id = taille.TailleId }, taille);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await dataRepository.AddAsync(taille);
+            return CreatedAtAction("GetById", new { id = taille.TailleId }, taille);
         }
 
         // DELETE: api/Taille/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteTaille(int id)
         {
-            if (_context.Taille == null)
-            {
-                return NotFound();
-            }
-            var taille = await _context.Taille.FindAsync(id);
+            var taille = await dataRepository.GetByIdAsync(id);
             if (taille == null)
             {
                 return NotFound();
             }
-
-            _context.Taille.Remove(taille);
-            await _context.SaveChangesAsync();
+            await dataRepository.DeleteAsync(taille.Value);
 
             return NoContent();
         }
 
-        private bool TailleExists(int id)
-        {
-            return (_context.Taille?.Any(e => e.TailleId == id)).GetValueOrDefault();
-        }
+        //private bool TailleExists(int id)
+        //{
+        //    return (dataRepository.Taille?.Any(e => e.TailleId == id)).GetValueOrDefault();
+        //}
     }
 }

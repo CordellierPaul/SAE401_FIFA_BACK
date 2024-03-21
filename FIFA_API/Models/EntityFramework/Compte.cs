@@ -17,7 +17,7 @@ namespace FIFA_API.Models.EntityFramework
 
         [Column("cpt_login")]
         [StringLength(50)]
-        public string Comptelogin { get; set; } = null!;
+        public string? Comptelogin { get; set; }
 
         [Column("cpt_mdp", TypeName = "char(128)")]
         public string CompteMdp { get; set; } = null!;

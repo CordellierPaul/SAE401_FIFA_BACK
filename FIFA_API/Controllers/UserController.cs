@@ -16,6 +16,7 @@ namespace FIFA_API.Controllers
         {
             return Ok("This is a response from user method");
         }
+
         [HttpGet]
         [Route("GetAdminData")]
         [Authorize(Policy = Policies.Admin)]
