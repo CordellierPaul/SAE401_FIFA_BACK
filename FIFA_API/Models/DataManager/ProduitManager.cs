@@ -3,6 +3,8 @@ using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 #nullable disable
 
@@ -136,19 +138,28 @@ namespace FIFA_API.Models.DataManager
 
             searchInput = searchInput.ToLower();
 
-            return await fifaDbContext.Produit.Where(x => x.ProduitNom.ToLower() == searchInput).ToListAsync();
+            IEnumerable<Produit> produits = await Task.Run(() =>
+            {
+                // AsEnumerable() est obligatoire pour faire les requêtes linq avancées suivantes :
+                // Sinon, filtrages sont faits sur un IQueryable et le tri ne fonctionne pas
+                produits = fifaDbContext.Produit.AsEnumerable();
+
+                // Filtrage des produits :
+
+                // Filtrage par texte :
+                produits = produits.Where(x => NameMatchWithKeywords(x.ProduitNom.ToLower(), keywords));
+
+                // Filtrer par catégorie ici
+
+                return produits.ToList();   // Calcul de toutes les données en asyncrone
+            });
+
+            return new ActionResult<IEnumerable<Produit>>(produits);
         }
 
-        //public async Task<ActionResult<IEnumerable<Produit>>> GetSearchResults(string searchInput)
-        //{
-        //    string[] keywords = searchInput.ToLower().Split(' ');
-
-        //    return await fifaDbContext.Produit.Where(produit => NameMatchWithKeywords(produit.ProduitNom.ToLower(), keywords)).ToListAsync();
-        //}
-
-        //private static bool NameMatchWithKeywords(string name, string[] keywords)
-        //{
-        //    return keywords.Any(x => x.Contains(name));
-        //}
+        private static bool NameMatchWithKeywords(string name, string[] keywords)
+        {
+            return keywords.All(x => name.Contains(x));
+        }
     }
 }
