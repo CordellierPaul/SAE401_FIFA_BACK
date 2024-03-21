@@ -44,6 +44,7 @@ builder.Services.AddScoped<IDataRepository<Compte>, CompteManager>();
 builder.Services.AddScoped<IDataRepository<Devis>, DevisManager>();
 builder.Services.AddScoped<IDataRepository<Document>, DocumentManager>();
 builder.Services.AddScoped<IDataRepository<Genre>, GenreManager>();
+builder.Services.AddScoped<IDataRepository<InfosBancaires>, InfosBancairesManager>();
 
 //Token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
