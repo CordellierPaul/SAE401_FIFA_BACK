@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
+using Moq;
+using FIFA_API.Models.Repository;
 using System.Diagnostics;
 
 namespace FIFA_API.Controllers
@@ -59,14 +61,15 @@ namespace FIFA_API.Controllers
             {
                 return BadRequest();
             }
-            var medToUpdate = await dataRepository.GetByIdAsync(id);
-            if (medToUpdate == null)
+
+            var monToUpdate = await dataRepository.GetByIdAsync(id);
+            if (monToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                await dataRepository.UpdateAsync(medToUpdate.Value, monnaie);
+                await dataRepository.UpdateAsync(monToUpdate.Value, monnaie);
                 return NoContent();
             }
         }
@@ -83,8 +86,8 @@ namespace FIFA_API.Controllers
                 return BadRequest(ModelState);
             }
             await dataRepository.AddAsync(monnaie);
-            return CreatedAtAction("GetById", new { id = monnaie.MonnaieId }, monnaie);
 
+            return CreatedAtAction("GetById", new { id = monnaie.MonnaieId }, monnaie);
         }
 
         // DELETE: api/Monnaie/5

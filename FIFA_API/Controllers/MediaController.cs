@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
-using System.Diagnostics;
+using Moq;
 
 namespace FIFA_API.Controllers
 {
@@ -59,6 +59,7 @@ namespace FIFA_API.Controllers
             {
                 return BadRequest();
             }
+
             var medToUpdate = await dataRepository.GetByIdAsync(id);
             if (medToUpdate == null)
             {
@@ -83,8 +84,7 @@ namespace FIFA_API.Controllers
                 return BadRequest(ModelState);
             }
             await dataRepository.AddAsync(media);
-            return CreatedAtAction("GetById", new { id = media.MediaId }, media);
-
+            return CreatedAtAction("GetMedia", new { id = media.MediaId }, media);
         }
 
         // DELETE: api/Media/5
