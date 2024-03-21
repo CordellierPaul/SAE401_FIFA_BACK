@@ -46,7 +46,6 @@ namespace FIFA_API.Controllers
             return likeAlbum;
         }
 
-
         // PUT: api/LikeAlbum/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{albumId}/{utilisateurId}")]
@@ -72,7 +71,6 @@ namespace FIFA_API.Controllers
                 return NoContent();
             }
         }
-
 
         // POST: api/LikeAlbum
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
