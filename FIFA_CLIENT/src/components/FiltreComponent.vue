@@ -1,7 +1,7 @@
 <template>
     
-    <div class="">
-        <div class="divider mx-10"></div> 
+  <div class="">
+    <div class="divider mx-10"></div> 
       <div class="ml-5">
         <p class="text-lg mb-4">{{ titre }}</p>
         <div v-for="option in options" :key="option" class="flex items-center">
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-  </template>
+</template>
   
   <script setup>
   import { defineProps } from 'vue';
