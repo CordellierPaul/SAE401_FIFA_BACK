@@ -10,6 +10,30 @@ module.exports = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["aqua"],
+    themes: [
+      {
+        mytheme: {
+          
+          "primary": "#000000",
+                   
+          "secondary": "#262626",
+                   
+          "accent": "#0075ff",
+                   
+          "neutral": "#ff00ff",
+                   
+          "base-100": "#ffffff",
+                   
+          "info": "#1d33c4",
+                   
+          "success": "#84cc16",
+                   
+          "warning": "#facc15",
+                   
+          "error": "#ef4444",
+                   },
+      },
+      
+    ],
   },
 }
