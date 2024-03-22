@@ -5,7 +5,10 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
 
 <template>
     <div>
-        <div class="sticky top-20 z-50 bg-base-200 p-4 flex justify-end items-center" id="right_part">
+        <div class="sticky top-20 z-[5] bg-secondary p-4 flex justify-end items-center" id="right_part">
+            <select class="select select-primary w-full max-w-xs lg:hidden">
+                <option selected>Filtrer par</option>
+            </select>
             <select class="select select-primary w-full max-w-xs">
                 <option selected>Classer par défaut</option>
                 <option>Prix: Par ordre croissant</option>
@@ -23,12 +26,12 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
 
 
             </div>
-            <div id="right_part" class="w-full">
+            <div id="right_part" class="w-full bg-base-200">
                 <div class="m-5">
                     <p>30 résultats</p>
 
                 </div>
-                <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-10">
+                <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
                     <ProduitComponent v-for="index in 21" :key="index" />
                 </div>
                 <div class="m-10 flex items-center justify-center">
