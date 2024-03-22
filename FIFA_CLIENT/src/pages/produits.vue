@@ -9,7 +9,7 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
             <select class="select select-primary w-full max-w-xs lg:hidden">
                 <option selected>Filtrer par</option>
             </select>
-            <select class="select select-primary w-full max-w-xs">
+            <select class="select select-primary w-full max-w-xs bg-secondary text-white border-white">
                 <option selected>Classer par défaut</option>
                 <option>Prix: Par ordre croissant</option>
                 <option>Prix: Par ordre décroissant</option>
