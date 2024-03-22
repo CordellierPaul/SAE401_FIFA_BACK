@@ -6,7 +6,7 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
 <template>
     <div class="flex">
         <div id="left_part" class="bg-base-300 hidden lg:block w-72">
-            <p class="flex justify-center text-xl">Filtres</p>
+            <p class="flex justify-center text-xl m-5">Filtres</p>
             
             <FiltreComponent :filtreData="{ titre: 'Taille', options: ['S', 'M', 'L', 'XL'] }" />
             <FiltreComponent :filtreData="{ titre: 'Genre', options: ['Homme', 'Femme', 'Jeune'] }" />
