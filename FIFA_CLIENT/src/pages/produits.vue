@@ -15,8 +15,13 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
 
         </div>
         <div id="right_part" class="w-full">
-            <div class="bg-base-200 p-10">
-                <p>dezbjfrbi</p>
+            <div class="bg-base-200 p-4 flex justify-between items-center">
+                <p>30 résultats</p>
+                <select class="select select-primary w-full max-w-xs">
+                    <option selected>Classer par défaut</option>
+                    <option>Prix: Par ordre croissant</option>
+                    <option>Prix: Par ordre décroissant</option>
+                </select>
             </div>
             <div id="container" class="flex flex-wrap items-center justify-center gap-10">
                 <ProduitComponent v-for="index in 30" :key="index" />
