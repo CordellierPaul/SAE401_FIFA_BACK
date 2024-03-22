@@ -31,7 +31,6 @@ namespace FIFA_API.Controllers.Tests
             _controller = new ActionController(_dataRepository);
         }
 
-
         [TestMethod()]
         public void ActionControllerTest_OK()
         {
