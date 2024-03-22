@@ -37,7 +37,7 @@ namespace FIFA_API.Controllers.Tests
 
             var results = _controller.GetProduit().Result.Value;
 
-            CollectionAssert.AreEqual(expected, results.ToList(), "Pas les mêmes listes");
+            CollectionAssert.AreEqual(expected, results?.ToList(), "Pas les mêmes listes");
         }
 
         [TestMethod()]
@@ -91,6 +91,40 @@ namespace FIFA_API.Controllers.Tests
             proAtester.CategorieId = proRecupere.CategorieId;
 
             Assert.AreEqual(proRecupere, proAtester, "Produits pas identiques");
+        }
+
+        [TestMethod]
+        public void GetSearchResults_OK()
+        {
+            // Arrange
+            var mockRepository = new Mock<IProduitRepository>();
+            var moqProduitController = new ProduitController(mockRepository.Object);
+
+            var produitTrouve1 = new Produit()
+            {
+                ProduitNom = "un produit vert qui est un pull"
+            };
+            var produitTrouve2 = new Produit()
+            {
+                ProduitNom = "pull-vert"
+            };
+            var produitPasTrouve1 = new Produit()
+            {
+                ProduitNom = "pull rouge"
+            };
+            var produitPasTrouve2 = new Produit()
+            {
+                ProduitNom = "batte de baseball"
+            };
+            mockRepository.Object.AddAsync(produitTrouve1).Wait();
+
+            // Act
+            ActionResult<IEnumerable<Produit>> result = _controller.GetSearchResults("pull vert").Result;
+
+            // Assert
+            //Assert.IsInstanceOfType(result., typeof(ActionResult), "Le type du résultat n'est pas Ok");
+
+            //Assert.IsNotNull(result.Value);
         }
 
 /*
