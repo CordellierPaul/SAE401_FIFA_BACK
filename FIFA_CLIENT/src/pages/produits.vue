@@ -24,8 +24,10 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
                 </select>
             </div>
             <div id="container" class="flex flex-wrap items-center justify-center gap-10">
-                <ProduitComponent v-for="index in 30" :key="index" />
-
+                <ProduitComponent v-for="index in 21" :key="index" />
+            </div>
+            <div class="m-10 flex items-center justify-center">
+                <button class="btn btn-primary text-white">Voir plus</button>
             </div>
         </div>
     </div>
