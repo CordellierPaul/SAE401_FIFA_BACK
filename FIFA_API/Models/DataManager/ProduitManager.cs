@@ -138,12 +138,15 @@ namespace FIFA_API.Models.DataManager
 
             searchInput = searchInput.ToLower();
 
-            IEnumerable<Produit> produits = await Task.Run(() =>
-            {
-                // AsEnumerable() est obligatoire pour faire les requêtes linq avancées suivantes :
-                // Sinon, filtrages sont faits sur un IQueryable et le tri ne fonctionne pas
-                produits = fifaDbContext.Produit.AsEnumerable();
+            var result = await GetAllAsync();
 
+            if (result.Value is null)
+                return result;
+
+            IEnumerable<Produit> produits = result.Value;
+                
+            await Task.Run(() =>
+            {
                 // Filtrage des produits :
 
                 // Filtrage par texte :

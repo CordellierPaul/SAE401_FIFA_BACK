@@ -6,6 +6,7 @@ using FIFA_API.Models.DataManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Microsoft.AspNetCore.Http.Connections;
 
 namespace FIFA_API.Controllers.Tests
 {
@@ -96,35 +97,51 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetSearchResults_OK()
         {
-            // Arrange
-            var mockRepository = new Mock<IProduitRepository>();
-            var moqProduitController = new ProduitController(mockRepository.Object);
+            // Essai de faire des tests mock qui a échoué :
 
-            var produitTrouve1 = new Produit()
-            {
-                ProduitNom = "un produit vert qui est un pull"
-            };
-            var produitTrouve2 = new Produit()
-            {
-                ProduitNom = "pull-vert"
-            };
-            var produitPasTrouve1 = new Produit()
-            {
-                ProduitNom = "pull rouge"
-            };
-            var produitPasTrouve2 = new Produit()
-            {
-                ProduitNom = "batte de baseball"
-            };
-            mockRepository.Object.AddAsync(produitTrouve1).Wait();
+            // Arrange
+            //var mockRepository = new Mock<IProduitRepository>();
+            //var moqProduitController = new ProduitController(mockRepository.Object);
+
+            //var produitATrouver1 = new Produit()
+            //{
+            //    ProduitId = 1,
+            //    ProduitNom = "un produit vert qui est un pull"
+            //};
+            //var produitATrouver2 = new Produit()
+            //{
+            //    ProduitId = 2,
+            //    ProduitNom = "pull-vert"
+            //};
+            //var produitANePasTrouver1 = new Produit()
+            //{
+            //    ProduitId = 3,
+            //    ProduitNom = "pull rouge"
+            //};
+            //var produitANePasTrouver2 = new Produit()
+            //{
+            //    ProduitId = 4,
+            //    ProduitNom = "batte de baseball"
+            //};
+
+            //IEnumerable<Produit> produitAAjouter = new List<Produit>() { produitATrouver1, produitATrouver2, produitANePasTrouver1, produitANePasTrouver2 };
+
+            //mockRepository.Setup(x => x.GetAllAsync().Result.Value).Returns(produitAAjouter);
 
             // Act
-            ActionResult<IEnumerable<Produit>> result = _controller.GetSearchResults("pull vert").Result;
+            ActionResult<IEnumerable<Produit>> result = _controller.GetSearchResults("maillot adidas").Result;
+            //ActionResult<IEnumerable<Produit>> result = _controller.GetProduit().Result;
+
+            IEnumerable<Produit>? produitsRecherches = result.Value;
 
             // Assert
-            //Assert.IsInstanceOfType(result., typeof(ActionResult), "Le type du résultat n'est pas Ok");
+            Assert.IsNotNull(produitsRecherches);
 
-            //Assert.IsNotNull(result.Value);
+            Assert.IsTrue(produitsRecherches.Any(x => x.ProduitNom == "Maillot extérieur espagne adidas"), "Le produit nommé '" + "Maillot extérieur espagne adidas" + "' n'est pas présent dans les résultats de recherche");
+            Assert.IsTrue(produitsRecherches.Any(x => x.ProduitNom == "Adidas Maillot d'échauffement Belgique"), "La produit nommé '" + "Adidas Maillot d'échauffement Belgique" + "' n'est pas présent dans les résultats de recherche");
+
+            Assert.IsFalse(produitsRecherches.Any(x => x.ProduitNom == "T-shirt adidas Argentine Messi numéro 10"), "Le produit nommé '" + "T-shirt adidas Argentine Messi numéro 10" + "' est présent dans les résultats de recherche");
+            Assert.IsFalse(produitsRecherches.Any(x => x.ProduitNom == "MINI-BALLON ADIDAS FINAL OCEAUNZ"), "Le produit nommé '" + "MINI-BALLON ADIDAS FINAL OCEAUNZ" + "' est présent dans les résultats de recherche");
         }
 
 /*
