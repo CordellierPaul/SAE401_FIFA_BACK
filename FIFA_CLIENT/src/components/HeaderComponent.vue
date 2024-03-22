@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar bg-primary">
+  <div class="navbar bg-primary sticky top-0 z-50 min-h-20">
     <!-- Menu a droite avec titre + navigation quand petit ecran -->
     <div class="navbar-start">
       <!-- Menu navigation quand petit écran -->
