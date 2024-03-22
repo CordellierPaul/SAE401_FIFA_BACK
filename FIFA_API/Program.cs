@@ -28,8 +28,6 @@ builder.Services.AddScoped<IDataRepository<Album>, AlbumManager>();
 builder.Services.AddScoped<IDataRepository2clues<LikeAlbum>, LikeAlbumManager>();
 builder.Services.AddScoped<IDataRepository<Anecdote>, AnecdoteManager>();
 builder.Services.AddScoped<IDataRepository<Article>, ArticleManager>();
-builder.Services.AddScoped<IDataRepository2clues<ArticleJoueur>, ArticleJoueurManager>();
-builder.Services.AddScoped<IDataRepository2clues<ArticleMedia>, ArticleMediaManager>();
 builder.Services.AddScoped<IDataRepository<Blog>, BlogManager>();
 builder.Services.AddScoped<IDataRepository2clues<BlogImage>, BlogImageManager>();
 builder.Services.AddScoped<IDataRepository<Caracteristique>, CaracteristiqueManager>();
