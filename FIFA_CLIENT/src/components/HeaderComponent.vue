@@ -73,10 +73,9 @@
           </div>
           <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52">
             <li>
-              <a class="justify-between">
-                Profil
-                <span class="badge badge-accent">Nouveau</span>
-              </a>
+              <RouterLink class="justify-between" :to="{name: 'login'}">
+                Profil<span class="badge badge-accent">Nouveau</span>
+              </RouterLink>
             </li>
             <li><a>Paramètres</a></li>
             <li><a>Déconnexion</a></li>

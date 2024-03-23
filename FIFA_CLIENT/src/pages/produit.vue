@@ -37,6 +37,7 @@
                 </div> 
             </div>
         </div>
+
     
         <div  class="w-1/2 bg-base-300 p-2">
             <p class="text-2xl font-bold">ADIDAS ARGENTINA WINNERS HOME JERSEY - WOMEN'S</p>

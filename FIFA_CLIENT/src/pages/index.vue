@@ -3,6 +3,8 @@
 
 <template>
   <div>
-    <h1 class="min-h-screen">Home View</h1>
+    <div class="min-h-screen flex items-center justify-center">
+      <h1>Bienvenue</h1>
+    </div>
   </div>
 </template>
