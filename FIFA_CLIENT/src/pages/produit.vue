@@ -1,11 +1,13 @@
 <template>
     
-    <div class="sticky top-20 z-[5] bg-secondary p-4 flex  items-center text-white" >
+    <div class="sticky top-20 z-[5] bg-secondary p-4 flex  items-center text-white min-h-20" >
 
-        <div class="text-sm breadcrumbs">
+        <!-- Liens entre les pages -->
+        <div class="text-sm breadcrumbs hidden lg:block">
             <ul>
                 <li><RouterLink :to="{name: 'index'}" class="hover:opacity-50 hover:cursor-pointer">FIFA</RouterLink></li> 
                 <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Produits</a></li> 
+                <!-- Titre de la page actuelle -->
                 <li>ADIDAS ARGENTINA WINNERS HOME JERSEY - WOMEN'S</li>
             </ul>
         </div>
@@ -37,13 +39,13 @@
         </div>
     
         <div  class="w-1/2 bg-base-300 p-2">
-            <p class="text-2xl">ADIDAS ARGENTINA WINNERS HOME JERSEY - WOMEN'S</p>
+            <p class="text-2xl font-bold">ADIDAS ARGENTINA WINNERS HOME JERSEY - WOMEN'S</p>
             <p class="text-2xl">90€</p>
-            <div class="flex justify-between">
-                <p>SIZE</p>
-                <p>SIZE GUIDE</p>
+            <div class="flex justify-between my-3">
+                <p>Taille</p>
+                <p>Guide des tailles</p>
             </div>
-            <div class="flex gap-1">
+            <div class="flex gap-1 py-5">
                 <button class="btn btn-square btn-outline btn-disabled">2XS</button>
                 <button class="btn btn-square btn-outline">XS</button>
                 <button class="btn btn-square btn-outline">S</button>
@@ -57,7 +59,11 @@
                 <p>BLUE</p>
             </div>
 
-            <button class="btn btn-block">ADD TO CART</button>
+            <button class="btn btn-block btn-accent my-5">AJOUTER AU PANIER</button>
+            <div>
+                <p class="font-semibold">Description</p>
+                <p class="my-5">Un style indémodable pour les vainqueurs de la Coupe du Monde de la FIFA 2022™. Que les puristes se rassurent, on retrouve bien évidemment les mythiques bandes bleues et blanches, ainsi que le fameux emblème « Sol de Mayo », sur ce maillot domicile de l’Argentine. Les trois étoiles évoquent les titres mondiaux de l’Albiceleste, dont le sacre décroché au Qatar. Doté de la technologie absorbante AEROREADY et d’un écusson brodé, ce maillot permet d’exprimer votre passion dans un confort optimal en toute circonstance. Cet article est fabriqué à l’aide de matériaux 100% recyclés. Réutiliser d’anciens articles nous permet de diminuer les déchets, notre dépendance aux ressources limitées ainsi que l’empreinte carbone de nos produits.</p>
+            </div>
         </div>
 
     </div>

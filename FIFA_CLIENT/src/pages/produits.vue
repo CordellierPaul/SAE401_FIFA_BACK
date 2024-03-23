@@ -5,8 +5,8 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
 
 <template>
     <div>
-        <div class="sticky top-20 z-[5] bg-secondary p-4 flex justify-between items-center" id="right_part">
-            <div class="text-sm breadcrumbs text-white start">
+        <div class="sticky top-20 z-[5] bg-secondary p-4 flex justify-between items-center min-h-20 " id="right_part">
+            <div class="text-sm breadcrumbs text-white start hidden lg:block">
             <ul>
                 <li><RouterLink :to="{name: 'index'}" class="hover:opacity-50 hover:cursor-pointer">FIFA</RouterLink></li> 
                 <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Produits</a></li>
