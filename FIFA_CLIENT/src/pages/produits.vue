@@ -5,7 +5,13 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
 
 <template>
     <div>
-        <div class="sticky top-20 z-[5] bg-secondary p-4 flex justify-end items-center" id="right_part">
+        <div class="sticky top-20 z-[5] bg-secondary p-4 flex justify-between items-center" id="right_part">
+            <div class="text-sm breadcrumbs text-white start">
+            <ul>
+                <li><RouterLink :to="{name: 'index'}" class="hover:opacity-50 hover:cursor-pointer">FIFA</RouterLink></li> 
+                <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Produits</a></li>
+            </ul>
+        </div>
             <select class="select select-primary w-full max-w-xs lg:hidden">
                 <option selected>Filtrer par</option>
             </select>
