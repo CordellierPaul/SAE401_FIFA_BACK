@@ -16,7 +16,7 @@
 
     <div class="flex">
         <div  class="bg-base-300 hidden lg:block w-1/2 p-2">
-            <div class="carousel carousel-center size-11/12 p-8 space-x-4 bg-neutral rounded-box">
+            <div class="carousel carousel-center size-11/12 p-8 space-x-4 bg-neutral rounded-box scrollbar" >
                 <div class="carousel-item w-fit">
                     <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Flegends.broadleafcloud.com%2Fapi%2Fasset%2Fcontent%2FARG%2520FRONT.png%3FcontextRequest%3D%257B%2522forceCatalogForFetch%2522%3Afalse%2C%2522applicationId%2522%3A%252201GPYEXET5B7Y61HW8TB4R0YWE%2522%2C%2522tenantId%2522%3A%2522FIFA%2522%257D&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
                 </div> 
@@ -86,4 +86,7 @@
     }
 
 </script>
+
+<style scoped>
+</style>
     
