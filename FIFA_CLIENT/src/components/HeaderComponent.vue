@@ -58,7 +58,8 @@
               <span class="font-bold text-lg">0 Articles</span>
               <span class="text-info">Total: 0,00€</span>
               <div class="card-actions">
-                <button class="btn btn-primary btn-block">Voir le panier</button>
+                <RouterLink :to="{name: 'panier'}"><button class="btn btn-primary btn-block">Voir le panier</button></RouterLink>
+                
               </div>
             </div>
           </div>
@@ -66,11 +67,19 @@
 
         <!-- Partie utilisateur -->
         <div class="dropdown dropdown-end">
-          <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
-            <div class="w-10 rounded-full">
-              <img alt="Photo de profil utilisateur" src="https://freesvg.org/img/abstract-user-flat-4.png" />
+
+          
+          <!-- SI UTILISATEUR CONNECTE -->
+          <!-- <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
+            <div class="w-10 rounded-full ">
+              <div class="avatar placeholder">
+                <div class="bg-accent text-neutral-content rounded-full w-8">
+                  <span class="text-xs">M</span>
+                </div>
+              </div>
             </div>
           </div>
+
           <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52">
             <li>
               <RouterLink class="justify-between" :to="{name: 'login'}">
@@ -79,8 +88,20 @@
             </li>
             <li><a>Paramètres</a></li>
             <li><a>Déconnexion</a></li>
-          </ul>
+          </ul> -->
+
+
+          <!-- SI UTILISATEUR LOGOUT -->
+          <RouterLink :to="{name: 'login'}">
+            <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
+              <div class="w-10 rounded-full ">
+                <img alt="Photo de profil utilisateur" class="bg-accent" src="https://static.thenounproject.com/png/363640-200.png" />
+              </div>
+            </div>
+          </RouterLink>
+          
         </div>
+        
       </div>
     </div>
 
