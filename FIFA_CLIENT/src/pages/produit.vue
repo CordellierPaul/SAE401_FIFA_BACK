@@ -69,10 +69,10 @@
         </div>    
     </div>
     
-    <div class="p-2 w-full">
+    <div class="p-2 w-full bg-base-200 mt-2">
         <p class="text-2xl font-bold">Produits associés</p>
-        <div id="container" class="flex w-full bg-red-50 gap-10 p-2">
-            <ProduitComponent v-for="index in 21" :key="index" />
+        <div id="container" class="flex overflow-x-auto w-full gap-10 p-2">
+            <ProduitComponent class="min-w-96" v-for="index in 21" :key="index" />
         </div>
     </div>
     
