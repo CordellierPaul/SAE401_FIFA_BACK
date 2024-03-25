@@ -68,11 +68,11 @@
                         </div>
                         <p class="text-2xl font-semibold">1749 €</p>
                     </div>
-                    <button class="btn  btn-block btn-accent">
-                        <RouterLink :to="{name: 'commander'}" class="hover:opacity-50 hover:cursor-pointer">
+                    <RouterLink :to="{name: 'commander'}" class="hover:opacity-50 hover:cursor-pointer">
+                        <button class="btn  btn-block btn-accent">
                             COMMANDER
-                        </RouterLink>
-                    </button>
+                        </button>
+                    </RouterLink>
                 </div>
             </div>
         </div>
