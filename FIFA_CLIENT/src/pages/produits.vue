@@ -1,6 +1,28 @@
 <script setup>
 import ProduitComponent from '@/components/ProduitComponent.vue'
 import FiltreComponent from '@/components/FiltreComponent.vue';
+
+import { onMounted, ref } from "vue"
+import { isProxy, toRaw } from 'vue';
+
+const produits = ref()
+
+async function fetchProduits() {
+    const response = await fetch("https://apififa.azurewebsites.net/api/produit", {
+        method: "GET",
+        mode: "cors"
+    })
+
+    produits.value = await response.json()
+
+    // À ce moment du code, produits.value est peut-être un élément Proxy. 
+    // code suivant s'assure que la valeur est un Object :
+    if (isProxy(produits.value)) {
+        produits.value = toRaw(produits.value).$values
+    }
+}
+
+onMounted(fetchProduits)
 </script>
 
 <template>
@@ -38,7 +60,7 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
 
                 </div>
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
-                    <ProduitComponent v-for="index in 21" :key="index" />
+                    <ProduitComponent v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
                 </div>
                 <div class="m-10 flex items-center justify-center">
                     <button class="btn btn-primary text-white">Voir plus</button>
@@ -47,12 +69,3 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
         </div>
     </div>
 </template>
-
-
-
-
-
-
-<style scoped>
-
-</style>

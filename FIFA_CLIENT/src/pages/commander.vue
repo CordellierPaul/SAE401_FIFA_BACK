@@ -1,10 +1,13 @@
 <script setup>
     import CommanderProduitComponent from '@/components/commander/ProduitComponent.vue';
     import StepInscription from '@/components/commander/StepInscription.vue';
+    import StepLivraison from '@/components/commander/StepLivraison.vue';
+    import StepPaiement from '@/components/commander/StepPaiement.vue';
     import { ref } from 'vue';
     
 
     const step = ref('inscription')
+
 </script>
 
 <template>
@@ -13,7 +16,9 @@
     <div class="flex w-full ">
         <!-- Partie gauche -->
         <div class="flex items-center  flex-col w-7/12 bg-base-200 p-2 mr-1" >
-            <StepInscription v-if="step === 'inscription'" @next="step = 'paiement'"></StepInscription>
+            <StepInscription v-if="step === 'inscription'" @next="step = 'livraison'" ></StepInscription>
+            <StepLivraison v-if="step === 'livraison'" @next="step = 'paiement'" @previous="step = 'inscription'"></StepLivraison>
+            <StepPaiement v-if="step === 'paiement'"  @previous="step = 'livraison'"></StepPaiement>
         </div>
 
         <!-- Partie droite -->
