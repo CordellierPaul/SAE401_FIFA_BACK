@@ -1,9 +1,9 @@
 <template>
 
-    <div class="flex h-fit items-center  gap-2   ">
+    <div class="flex h-fit items-center bg-white rounded-xl gap-2">
         <img class="h-32" :src="img" alt="">
 
-        <div class="flex gap-2 bg-neutral-400 justify-between">
+        <div class="flex gap-2  justify-between">
 
             <div class="w-3/5  flex flex-col gap-2">
                 <p class="text-xl">{{ title }}</p>

@@ -1,28 +1,25 @@
 <script setup>
     import CommanderProduitComponent from '@/components/commander/ProduitComponent.vue';
+    import StepInscription from '@/components/commander/StepInscription.vue';
+    import { ref } from 'vue';
+    
+
+    const step = ref('inscription')
 </script>
 
 <template>
 
     
-    <div class="flex w-full">
+    <div class="flex w-full ">
         <!-- Partie gauche -->
-        <div class="flex items-start flex-col w-7/12" >
-            <div class="flex justify-center items-end">
-                <p class="text-2xl font-bold">Votre panier</p><p class="mx-1">(1 produit)</p>
-            </div>
-            <div>
-                <!-- Produits dans le panier -->
-                <div class="bg-base-200 mx-5 ">
-
-                </div>
-            </div>
+        <div class="flex items-center  flex-col w-7/12 bg-base-200 p-2 mr-1" >
+            <StepInscription v-if="step === 'inscription'" @next="step = 'paiement'"></StepInscription>
         </div>
-        <!-- Partie droite -->
 
-        <div class="flex flex-col ">
+        <!-- Partie droite -->
+        <div class="flex flex-col h-fit w-5/12 bg-base-200 p-2 ml-1" >
             
-            <div class="flex flex-col gap-2 h-2/3/ overflow-auto ">
+            <div class="flex flex-col gap-2 h-96 overflow-auto p-2">
                 <CommanderProduitComponent :prz="'80,00'" :oldprz="'160,00'" :clr="'Multicolore'" :size="'M'" :qte="'1'" :title="'Maillot Football Domicile Comores Macron - hommes'" :img="'https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FFIFAMZ004803_1_b626dcf8-06c3-4a28-bb72-af7e424592a8.jpg%3Fv%3D1664464182&w=3840&q=85'"></CommanderProduitComponent>
                 <CommanderProduitComponent :prz="'80,00'" :oldprz="'160,00'" :clr="'Multicolore'" :size="'M'" :qte="'1'" :title="'Maillot Football Domicile Comores Macron - hommes'" :img="'https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FFIFAMZ004803_1_b626dcf8-06c3-4a28-bb72-af7e424592a8.jpg%3Fv%3D1664464182&w=3840&q=85'"></CommanderProduitComponent>
                 <CommanderProduitComponent :prz="'80,00'" :oldprz="'160,00'" :clr="'Multicolore'" :size="'M'" :qte="'1'" :title="'Maillot Football Domicile Comores Macron - hommes'" :img="'https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FFIFAMZ004803_1_b626dcf8-06c3-4a28-bb72-af7e424592a8.jpg%3Fv%3D1664464182&w=3840&q=85'"></CommanderProduitComponent>
@@ -30,15 +27,16 @@
                 <CommanderProduitComponent :prz="'80,00'" :oldprz="'160,00'" :clr="'Multicolore'" :size="'M'" :qte="'1'" :title="'Maillot Football Domicile Comores Macron - hommes'" :img="'https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FFIFAMZ004803_1_b626dcf8-06c3-4a28-bb72-af7e424592a8.jpg%3Fv%3D1664464182&w=3840&q=85'"></CommanderProduitComponent>
                 
             </div>
+            
             <div class="">
-                <div class="bg-base-200 p-5 my-5">
+                <div class="bg-base-200 p-5">
                     <p class="font-semibold">Utiliser un code promo</p>
                     <div class="my-2">
         
-                        <p class="text-xs">Votre code:</p>
+                        <p class="text-xs pb-1">Votre code:</p>
                         <div class="flex">
                             <input type="text" placeholder="Code promo" class="input input-bordered w-full max-w-xs mx-2" />
-                            <input type="button" class="btn btn-accent" value="Valider">
+                            <input type="button" class="btn btn-accent text-white" value="Valider">
                         </div>
                     </div>
                 </div>
@@ -71,6 +69,6 @@
             </div>
             
         </div>
-            </div>
+    </div>
     
 </template>
