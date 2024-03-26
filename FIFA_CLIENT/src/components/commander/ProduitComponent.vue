@@ -5,7 +5,7 @@
 
         <div class="flex gap-2  justify-between">
 
-            <div class="w-3/5  flex flex-col gap-2">
+            <div class="w-3/5  flex flex-col gap-1">
                 <p class="text-xl">{{ title }}</p>
                 <p><strong>Qté:</strong> {{ qte }}</p>
                 <p><strong>Taille:</strong> {{ size }}</p>

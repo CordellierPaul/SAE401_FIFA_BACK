@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NuGet.Packaging.Signing;
 
 namespace FIFA_API.Controllers
 {
@@ -43,9 +45,24 @@ namespace FIFA_API.Controllers
             {
                 return NotFound();
             }
-
             return produit!;
         }
+
+        [HttpGet("GetByIds/{ids}")]
+        public async Task<ActionResult<IEnumerable<Produit>>> GetProduitsByIds(string ids)
+        {
+            int[] idArray = ids.Split(',').Select(int.Parse).ToArray();
+
+            IEnumerable<Produit> produits = await dataRepository.GetProduitsByIdsAsync(idArray);
+
+            if (!produits.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(produits);
+        }
+
 
         [HttpGet]
         [Route("[action]/{id}")]

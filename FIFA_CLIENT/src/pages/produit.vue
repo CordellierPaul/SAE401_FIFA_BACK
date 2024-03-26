@@ -41,7 +41,7 @@
         
 
         <div  class="bg-base-200 w-1/2  p-2 ml-1">
-            <p class="text-2xl font-bold">MAILLOT DOMICILE VAINQUEUR ARGENTINE ADIDAS – FEMME</p>
+            <p class="text-2xl font-bold">hhhhhhh</p>
             <p class="text-2xl">90€</p>
             <div class="flex justify-between my-3">
                 <p>Taille</p>
@@ -103,20 +103,25 @@
 </template>
     
 <script setup>
-    import { defineProps, ref } from 'vue';
+    import { defineProps, ref, onMounted } from 'vue';
     import { useRoute,useRouter } from 'vue-router';
     import ProduitComponent from '@/components/ProduitComponent.vue';
+    import { isProxy, toRaw } from 'vue';
 
     const router = useRouter();
+    const route = useRoute();
 
     const props = defineProps({
         
     });
 
+    // Pour retourner à la page précédente
+
     function retour (){
         router.back()
     }
 
+    // Pour changer le le sans du chevron de la déscription
     const classChevron = ref('fa-solid fa-chevron-down')
 
     function toggleChevronDescription() {
@@ -127,6 +132,29 @@
             classChevron.value = 'fa-solid fa-chevron-down'
         }
     }
+
+    const produit = ref()
+
+
+    async function fetchProduit() {
+        const response = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${route.query.id}`, {
+            method: "GET",
+            mode: "cors"
+        })
+
+        produit.value = await response.json()
+        
+        // À ce moment du code, produits.value est peut-être un élément Proxy. 
+        // code suivant s'assure que la valeur est un Object :
+        // if (isProxy(produit.value)) {
+            //     produit.value = toRaw(produit.value).$values
+            // }
+            
+            console.log(produit.value.produitNom)
+    }
+
+    onMounted(fetchProduit)
+
 
 </script>
 

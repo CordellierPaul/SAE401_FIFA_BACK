@@ -32,7 +32,11 @@ onMounted(fetchProductImagePath)
 
 <template>
   <div class="card w-96 bg-neutral-400 shadow-xl overflow-hidden">
-    <RouterLink  :to="{name: 'produit'}">
+    <RouterLink  :to="{
+                name: 'produit', 
+                query:{
+                    id: id
+                }}">
       <figure class="relative">
         <img v-if="image" :src="image" alt="Image du produit" class="hover:grayscale hover:brightness-50" />
         <div class="cursor-pointer absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center opacity-0 transition-opacity hover:opacity-100">

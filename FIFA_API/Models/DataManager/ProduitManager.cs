@@ -91,6 +91,32 @@ namespace FIFA_API.Models.DataManager
             return produit;
         }
 
+        public async Task<IEnumerable<Produit>> GetProduitsByIdsAsync(int[] ids)
+        {
+            IEnumerable<Produit> produits = await fifaDbContext.Produit.Where(p => ids.Contains(p.ProduitId)).ToListAsync();
+
+            if (produits == null || !produits.Any())
+                return null;
+
+            foreach (var produit in produits)
+            {
+                var produitEntityEntry = fifaDbContext.Entry(produit);
+
+                await produitEntityEntry.Reference(p => p.PaysProduit).LoadAsync();
+                await produitEntityEntry.Reference(p => p.CategorieNavigation).LoadAsync();
+
+                await produitEntityEntry.Collection(p => p.ProduitSimilaireLienUn).LoadAsync();
+                await produitEntityEntry.Collection(p => p.ProduitSimilaireLienDeux).LoadAsync();
+                await produitEntityEntry.Collection(p => p.VariantesProduit).LoadAsync();
+                await produitEntityEntry.Collection(p => p.LienCaracteristiques).LoadAsync();
+                await produitEntityEntry.Collection(p => p.DevisProduit).LoadAsync();
+            }
+
+            return produits.ToList();
+        }
+
+
+
         public async Task<ActionResult<Produit>> GetByStringAsync(string str)
         {
             return await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitNom.ToUpper() == str.ToUpper());
