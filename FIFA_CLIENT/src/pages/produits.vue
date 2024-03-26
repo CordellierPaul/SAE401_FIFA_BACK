@@ -1,29 +1,14 @@
 <script setup>
 import ProduitComponent from '@/components/ProduitComponent.vue'
 import FiltreComponent from '@/components/FiltreComponent.vue';
-
-import { onMounted, ref } from "vue"
-import { isProxy, toRaw } from 'vue';
+    
+import { onMounted, ref } from 'vue'
+import { getRequest } from '../composable/httpRequests.js'
 
 const produits = ref()
 
-async function fetchProduits() {
-    const response = await fetch("https://apififa.azurewebsites.net/api/produit", {
-        method: "GET",
-        mode: "cors"
-    })
+getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
 
-    produits.value = await response.json()
-
-    // À ce moment du code, produits.value est peut-être un élément Proxy. 
-    // code suivant s'assure que la valeur est un Object :
-    if (isProxy(produits.value)) {
-        produits.value = toRaw(produits.value).$values
-    }
-
-}
-
-onMounted(fetchProduits)
 </script>
 
 <template>
@@ -69,4 +54,4 @@ onMounted(fetchProduits)
             </div>
         </div>
     </div>
-</template>
+</template>../composable/httpRequests.js
