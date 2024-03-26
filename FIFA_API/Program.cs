@@ -89,6 +89,21 @@ builder.Services.AddAuthorization(config =>
     config.AddPolicy(Policies.User, Policies.UserPolicy());
 });
 
+// Le code suivant premet d'autoriser le site, qu'on développe en http, à accéder à l'api, en https.
+// Cette façon de procéder n'est pas du tout sécurisée et il faudra supprimer ce code à la fin de la SAÉ
+// TODO : supprimer/améliorer le code CORS 
+
+const string CorsPolicyName = "CorsAllowPolicy";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(CorsPolicyName, policy =>
+    {
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+        policy.AllowAnyOrigin();
+    });
+});
 
 var app = builder.Build();
 
@@ -99,7 +114,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
+
+app.UseCors(CorsPolicyName);
 
 app.UseAuthentication();
 app.UseAuthorization();
