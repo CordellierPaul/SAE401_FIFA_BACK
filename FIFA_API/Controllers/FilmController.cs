@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class FilmController : ControllerBase
     {
-        private readonly IDataRepository<Film> dataRepository;
+        private readonly IDataRepositoryWithoutStr<Film> dataRepository;
 
-        public FilmController(IDataRepository<Film> context)
+        public FilmController(IDataRepositoryWithoutStr<Film> context)
         {
             dataRepository = context;
         }
