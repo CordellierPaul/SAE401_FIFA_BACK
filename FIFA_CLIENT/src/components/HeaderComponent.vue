@@ -37,7 +37,7 @@
 
     <!-- //Partie droite du header-->
     <div class="navbar-end">
-      <div class="flex *:mx-1">
+      <div class="flex">
         
         <!-- Barre de recherche -->
         <label class="input input-bordered flex items-center gap-2 bg-secondary">
@@ -45,67 +45,72 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="white" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
         </label>
 
+        <!-- Partie panier -->
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle">
+            <div class="indicator">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              <span class="badge badge-sm badge-accent indicator-item">1</span>
+            </div>
+          </div>
+          <!-- RAJOUTER tabindex="0" apres -->
+          <div class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-base-200 shadow"> 
+            <div class="card-body">
+              <span class="font-bold text-lg">Votre panier</span>
+              <div class="max-h-96 overflow-y-auto">
+
+                <div v-for="index in 10" class="flex">
+                  <div class="divider"></div> 
+                  <img class="w-32" src="https://store.fifa.com/_next/image?url=https%3A%2F%2Flegends.broadleafcloud.com%2Fapi%2Fasset%2Fcontent%2FARG%2520FRONT.png%3FcontextRequest%3D%257B%2522forceCatalogForFetch%2522%3Afalse%2C%2522applicationId%2522%3A%252201GPYEXET5B7Y61HW8TB4R0YWE%2522%2C%2522tenantId%2522%3A%2522FIFA%2522%257D&w=3840&q=85" alt="">
+                  <div>
+                    <p>MAILLOT DOMICILE VAINQUEUR ARGENTINE ADIDAS – FEMME</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-primary btn-block"><RouterLink :to="{name: 'panier'}">Payer la commande</RouterLink></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         <!-- Partie utilisateur -->
         <div class="dropdown dropdown-end">
 
           
-        <!-- SI UTILISATEUR CONNECTE -->
-        <!-- <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
-          <div class="w-10 rounded-full ">
-            <div class="avatar placeholder">
-              <div class="bg-accent text-neutral-content rounded-full w-8">
-                <span class="text-xs">M</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52">
-          <li>
-            <RouterLink class="justify-between" :to="{name: 'login'}">
-              Profil<span class="badge badge-accent">Nouveau</span>
-            </RouterLink>
-          </li>
-          <li><a>Paramètres</a></li>
-          <li><a>Déconnexion</a></li>
-        </ul> -->
-
-
-        <!-- SI UTILISATEUR LOGOUT -->
-        <RouterLink :to="{name: 'login'}">
-          <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
+          <!-- SI UTILISATEUR CONNECTE -->
+          <!-- <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
             <div class="w-10 rounded-full ">
-              <img alt="Photo de profil utilisateur" class="bg-accent" src="https://static.thenounproject.com/png/363640-200.png" />
-            </div>
-          </div>
-        </RouterLink>
-
-        </div>
-
-        <!-- Partie panier -->
-        <div class="drawer drawer-end">
-          <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
-          <div class="drawer-content">
-            <!-- Page content here -->
-            <label for="my-drawer-4">
-              <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle z-0">
-                <div class="indicator">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                  <span class="badge badge-sm badge-accent indicator-item">1</span>
+              <div class="avatar placeholder">
+                <div class="bg-accent text-neutral-content rounded-full w-8">
+                  <span class="text-xs">M</span>
                 </div>
               </div>
-            </label>
-          </div> 
-          <!-- MENU QUI SOUVRE -->
-          <div class="drawer-side">
-            <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
-            <div class="menu w-80 min-h-full bg-base-200 text-base-content z-50">
-
             </div>
           </div>
+
+          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52">
+            <li>
+              <RouterLink class="justify-between" :to="{name: 'login'}">
+                Profil<span class="badge badge-accent">Nouveau</span>
+              </RouterLink>
+            </li>
+            <li><a>Paramètres</a></li>
+            <li><a>Déconnexion</a></li>
+          </ul> -->
+
+
+          <!-- SI UTILISATEUR LOGOUT -->
+          <RouterLink :to="{name: 'login'}">
+            <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
+              <div class="w-10 rounded-full ">
+                <img alt="Photo de profil utilisateur" class="bg-accent" src="https://static.thenounproject.com/png/363640-200.png" />
+              </div>
+            </div>
+          </RouterLink>
+          
         </div>
-
-
         
       </div>
     </div>
