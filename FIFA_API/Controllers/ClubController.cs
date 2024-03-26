@@ -29,7 +29,11 @@ namespace FIFA_API.Controllers
         }
 
         // GET: api/Club/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Club>> GetClubById(int id)
         {
             var club = await dataRepository.GetByIdAsync(id);
@@ -44,6 +48,9 @@ namespace FIFA_API.Controllers
         // PUT: api/Club/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutClub(int id, Club club)
         {
             if (id != club.ClubId)
@@ -79,6 +86,8 @@ namespace FIFA_API.Controllers
 
         // DELETE: api/Club/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteClub(int id)
         {
             var categorie = await dataRepository.GetByIdAsync(id);
