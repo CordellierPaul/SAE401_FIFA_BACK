@@ -58,7 +58,7 @@
               <span class="font-bold text-lg">1 Articles</span>
               <span class="text-info">Total: 1749,00€</span>
               <div class="card-actions">
-                <RouterLink :to="{name: 'panier'}"><button class="btn btn-primary btn-block">Voir le panier</button></RouterLink>
+                <RouterLink :to="{name: 'commander'}"><button class="btn btn-primary btn-block">Voir le panier</button></RouterLink>
                 
               </div>
             </div>
