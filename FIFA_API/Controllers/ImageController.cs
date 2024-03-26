@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ImageController : ControllerBase
     {
-        private readonly IDataRepository<Image> dataRepository;
+        private readonly IDataRepositoryWithoutStr<Image> dataRepository;
 
-        public ImageController(IDataRepository<Image> context)
+        public ImageController(IDataRepositoryWithoutStr<Image> context)
         {
             dataRepository = context;
         }
