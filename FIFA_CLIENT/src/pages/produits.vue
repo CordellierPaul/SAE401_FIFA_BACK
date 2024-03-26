@@ -20,6 +20,7 @@ async function fetchProduits() {
     if (isProxy(produits.value)) {
         produits.value = toRaw(produits.value).$values
     }
+
 }
 
 onMounted(fetchProduits)
