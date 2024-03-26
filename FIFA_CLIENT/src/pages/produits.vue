@@ -15,7 +15,8 @@ async function fetchProduits() {
 
     produits.value = await response.json()
 
-    // À ce moment du code, produits.value est une élément Proxy. Le code suivant le transforme en Object :
+    // À ce moment du code, produits.value est peut-être un élément Proxy. 
+    // code suivant s'assure que la valeur est un Object :
     if (isProxy(produits.value)) {
         produits.value = toRaw(produits.value).$values
     }
