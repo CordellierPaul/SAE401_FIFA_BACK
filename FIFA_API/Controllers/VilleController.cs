@@ -100,9 +100,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool VilleExists(int id)
-        {
-            return (dataRepository.Ville?.Any(e => e.VilleId == id)).GetValueOrDefault();
-        }*/
     }
 }

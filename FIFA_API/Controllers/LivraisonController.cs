@@ -100,9 +100,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool LivraisonExists(int id)
-        {
-            return (dataRepository.Livraison?.Any(e => e.LivraisonId == id)).GetValueOrDefault();
-        }*/
     }
 }

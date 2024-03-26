@@ -99,10 +99,5 @@ namespace FIFA_API.Controllers
             await dataRepository.DeleteAsync(adresse.Value);
             return NoContent();
         }
-
-        /*private bool AdresseExists(int id)
-        {
-            return (dataRepository.Adresse?.Any(e => e.AdresseId == id)).GetValueOrDefault();
-        }*/
     }
 }

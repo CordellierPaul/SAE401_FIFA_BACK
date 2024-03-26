@@ -99,9 +99,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool GenreExists(int id)
-        {
-            return (dataRepository.Genre?.Any(e => e.GenreId == id)).GetValueOrDefault();
-        }*/
     }
 }

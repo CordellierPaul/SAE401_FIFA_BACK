@@ -100,9 +100,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool ColorisExists(int id)
-        {
-            return (dataRepository.Coloris?.Any(e => e.ColorisId == id)).GetValueOrDefault();
-        }*/
     }
 }

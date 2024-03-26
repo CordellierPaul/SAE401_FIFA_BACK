@@ -102,10 +102,5 @@ namespace FIFA_API.Controllers
 
             return NoContent();
         }
-
-        //private bool PaysExists(int id)
-        //{
-        //    return (dataRepository.Pays?.Any(e => e.PaysId == id)).GetValueOrDefault();
-        //}
     }
 }

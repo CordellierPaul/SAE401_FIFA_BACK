@@ -102,10 +102,5 @@ namespace FIFA_API.Controllers
 
             return NoContent();
         }
-
-        //private bool PosteExists(int id)
-        //{
-        //    return (dataRepository.Poste?.Any(e => e.PosteId == id)).GetValueOrDefault();
-        //}
     }
 }

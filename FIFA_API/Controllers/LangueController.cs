@@ -101,9 +101,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        //private bool LangueExists(int id)
-        //{
-        //    return (dataRepository.Langue?.Any(e => e.LangueId == id)).GetValueOrDefault();
-        //}
     }
 }

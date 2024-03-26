@@ -99,10 +99,5 @@ namespace FIFA_API.Controllers
             await dataRepository.DeleteAsync(trophee.Value);
             return NoContent();
         }
-
-        /*private bool TropheeExists(int id)
-        {
-            return (dataRepository.Trophee?.Any(e => e.TropheeId == id)).GetValueOrDefault();
-        }*/
     }
 }

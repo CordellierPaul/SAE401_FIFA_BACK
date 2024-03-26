@@ -101,10 +101,5 @@ namespace FIFA_API.Controllers
 
             return NoContent();
         }
-
-        //private bool StockExists(int id)
-        //{
-        //    return (dataRepository.Stock?.Any(e => e.StockId == id)).GetValueOrDefault();
-        //}
     }
 }

@@ -97,10 +97,5 @@ namespace FIFA_API.Controllers
             await dataRepository.DeleteAsync(devis.Value);
             return NoContent();
         }
-
-        /*private bool DevisExists(int id)
-        {
-            return (dataRepository.Devis?.Any(e => e.DevisId == id)).GetValueOrDefault();
-        }*/
     }
 }

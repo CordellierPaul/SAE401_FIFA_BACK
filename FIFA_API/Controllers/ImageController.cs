@@ -98,10 +98,5 @@ namespace FIFA_API.Controllers
             await dataRepository.DeleteAsync(image.Value);
             return NoContent();
         }
-
-        /*private bool ImageExists(int id)
-        {
-            return (dataRepository.Image?.Any(e => e.ImageId == id)).GetValueOrDefault();
-        }*/
     }
 }
