@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 #nullable disable
 
@@ -179,6 +180,97 @@ namespace FIFA_API.Models.DataManager
                 produits = produits.Where(x => NameMatchWithKeywords(x.ProduitNom.ToLower(), keywords));
 
                 // Filtrer par catégorie ici
+
+                return produits.ToList();   // Calcul de toutes les données en asyncrone
+            });
+
+            return new ActionResult<IEnumerable<Produit>>(produits);
+        }
+
+        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter(int? catId, int? taiId = null, int? colId = null, int? genreId = null, int? paysId=null)
+        {
+
+            var result = await GetAllAsync();
+
+            if (result.Value is null)
+                return result;
+
+            IEnumerable<Produit> produits = result.Value;
+
+            await Task.Run(() =>
+            {
+                // Filtrer par catégorie ici
+                if(catId != null && catId!=0)
+                    produits = produits.Where(x => x.CategorieId == catId);
+
+                //Filtrage par Pays :
+                if (paysId != null && paysId != 0)
+                    produits = produits.Where(x => x.PaysId == paysId);
+
+                //Filtrage par Genre :
+                if (genreId != null && genreId != 0)
+                    produits = produits.Where(x => x.GenreId == genreId);
+
+                // Filtrage par coloris :
+                if (colId != null && colId != 0)
+                {
+                    bool possedeCol = false;
+                    foreach (Produit produit in produits)
+                    {
+                        foreach (VarianteProduit variante in produit.VariantesProduit)
+                        {
+                            if (variante.ColorisId == colId)
+                            {
+                                possedeCol = true;
+                                break;
+                            }
+
+                        }
+                        if (possedeCol)
+                        {
+                            possedeCol = false;
+                        }
+                        else
+                        {
+                            produits.ToList().Remove(produit);
+                        }
+
+
+                    }
+                }
+
+                // Filtrage par taille
+                if (taiId != null && taiId != 0)
+                {
+                    bool possedeTai = false;
+                    foreach (Produit produit in produits)
+                    {
+                        foreach (VarianteProduit variante in produit.VariantesProduit)
+                        {
+                            foreach (Stock stck in variante.StocksVariante)
+                            {
+                                if (stck.TailleId == taiId)
+                                {
+                                    possedeTai = true;
+                                    break;
+                                }
+                            }
+
+                        }
+                        if (possedeTai)
+                        {
+                            possedeTai = false;
+                        }
+                        else
+                        {
+                            produits.ToList().Remove(produit);
+                        }
+
+
+                    }
+
+                }
+
 
                 return produits.ToList();   // Calcul de toutes les données en asyncrone
             });

@@ -54,4 +54,4 @@ getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
             </div>
         </div>
     </div>
-</template>../composable/httpRequests.js
+</template>
