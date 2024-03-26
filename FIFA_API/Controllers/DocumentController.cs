@@ -96,10 +96,5 @@ namespace FIFA_API.Controllers
             await dataRepository.DeleteAsync(document.Value);
             return NoContent();
         }
-
-        /*private bool DocumentExists(int id)
-        {
-            return (_context.Document?.Any(e => e.DocumentId == id)).GetValueOrDefault();
-        }*/
     }
 }

@@ -45,61 +45,10 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="white" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
         </label>
 
-        <!-- Partie panier -->
-        <div class="dropdown dropdown-end">
-          <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle">
-            <div class="indicator">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-              <span class="badge badge-sm badge-accent indicator-item">10</span>
-            </div>
-          </div>
-          <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-base-200 shadow"> 
-            <div class="card-body">
-              <div class="flex justify-center flex-col items-center">
-                <p class="font-bold text-lg">Votre panier</p>
-                <p>10 articles</p>
-              </div>
-
-              <!-- PANIER VIDE -->
-              <!-- <div class="h-96">
-                <div class="h-full flex flex-col justify-center items-center">
-                    <p class="flex items-center font-bold text-2xl">Votre panier est vide !</p>
-                    <RouterLink :to="{name: 'produits'}" class="btn-block btn btn-primary">Visiter la boutique</RouterLink>
-                </div>
-                </div> -->
-
-              <!-- PANIER PAS VIDE -->
-              <div class="max-h-96 overflow-y-auto">
-                <div v-for="index in 10" class="flex m-5">
-                  <div class="divider"></div> 
-                  <img class="w-32" src="https://store.fifa.com/_next/image?url=https%3A%2F%2Flegends.broadleafcloud.com%2Fapi%2Fasset%2Fcontent%2FARG%2520FRONT.png%3FcontextRequest%3D%257B%2522forceCatalogForFetch%2522%3Afalse%2C%2522applicationId%2522%3A%252201GPYEXET5B7Y61HW8TB4R0YWE%2522%2C%2522tenantId%2522%3A%2522FIFA%2522%257D&w=3840&q=85" alt="">
-                  <div class="m-3">
-                    <p>MAILLOT DOMICILE VAINQUEUR ARGENTINE ADIDAS – FEMME</p>
-                    <div class="flex justify-between items-center">
-                        <p class="text-base font-bold">100€</p>
-                        <select class="bg-base-200 font-bold">
-                        <option v-for="index in 10">{{ index }}</option>
-                        </select>
-                    </div>
-                    
-                  </div>
-                </div>
-              </div>
-              <div class="card-actions">
-                <RouterLink :to="{name: 'commander'}" class="btn-block btn btn-primary">Payer la commande</RouterLink>
-              </div>
-
-
-
-            </div>
-          </div>
-        </div>
-
-
         <!-- Partie utilisateur -->
-        <div class="dropdown dropdown-end">
+        <div class="dropdown dropdown-end ml-3">
 
-          
+            
           <!-- SI UTILISATEUR CONNECTE -->
           <!-- <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
             <div class="w-10 rounded-full ">
@@ -124,14 +73,67 @@
 
           <!-- SI UTILISATEUR LOGOUT -->
           <RouterLink :to="{name: 'login'}">
-            <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
-              <div class="w-10 rounded-full ">
-                <img alt="Photo de profil utilisateur" class="bg-white" src="https://static.thenounproject.com/png/363640-200.png" />
+            <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle flex justify-center items-center">
+              <div class="w-10 rounded-full  flex justify-center items-center">
+                <i class="fa-solid fa-user text-xl text-white"></i>
               </div>
             </div>
           </RouterLink>
-          
+
         </div>
+
+        <!-- Partie panier -->
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle">
+            <div class="indicator">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              <span class="badge badge-sm badge-accent indicator-item">10</span>
+            </div>
+          </div>
+          <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-base-200 shadow "> 
+            <div class="card-body">
+              <div class="flex justify-center flex-col items-center">
+                <p class="font-bold text-lg">Votre panier</p>
+                <p>10 articles</p>
+              </div>
+
+              <!-- PANIER VIDE -->
+              <!-- <div class="h-96">
+                <div class="h-full flex flex-col justify-center items-center">
+                    <p class="flex items-center font-bold text-2xl">Votre panier est vide !</p>
+                    <RouterLink :to="{name: 'produits'}" class="btn-block btn btn-primary">Visiter la boutique</RouterLink>
+                </div>
+                </div> -->
+
+              <!-- PANIER PAS VIDE -->
+              <div class="max-h-96 overflow-y-auto">
+                <div v-for="index in 10" class="flex m-5">
+                  <img class="w-32" src="https://store.fifa.com/_next/image?url=https%3A%2F%2Flegends.broadleafcloud.com%2Fapi%2Fasset%2Fcontent%2FARG%2520FRONT.png%3FcontextRequest%3D%257B%2522forceCatalogForFetch%2522%3Afalse%2C%2522applicationId%2522%3A%252201GPYEXET5B7Y61HW8TB4R0YWE%2522%2C%2522tenantId%2522%3A%2522FIFA%2522%257D&w=3840&q=85" alt="">
+                  <div class="mx-3 flex flex-col justify-between">
+                    <p>MAILLOT DOMICILE VAINQUEUR ARGENTINE ADIDAS – FEMME</p>
+                    <div class="flex justify-between items-center">
+                      <p class="text-base font-bold">100€</p>
+                      <select class="bg-base-200 font-bold w-7">
+                        <option v-for="index in 10">{{ index }}</option>
+                      </select>
+                      <i class="fa-solid fa-trash ml-2"></i>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="card-actions">
+                <RouterLink :to="{name: 'commander'}" class="btn-block btn btn-primary">Payer la commande</RouterLink>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+
+
+
         
       </div>
     </div>

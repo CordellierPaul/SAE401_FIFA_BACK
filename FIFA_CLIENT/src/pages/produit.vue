@@ -40,9 +40,12 @@
 
         
 
-        <div  class="bg-base-200 w-1/2  p-2 ml-1">
-            <p class="text-2xl font-bold">MAILLOT DOMICILE VAINQUEUR ARGENTINE ADIDAS – FEMME</p>
-            <p class="text-2xl">90€</p>
+        <div  class="bg-base-200 w-1/2  p-2 ml-1" >
+            <p class="text-2xl font-bold" v-if="produit">{{produit.produitNom}}</p>
+            <div class="flex gap-2">
+                <p class="text-xl" v-if="varianteProduitPrix && varianteProduitPromo && variantProduitPrixAvecPromo"  >{{ variantProduitPrixAvecPromo}}€</p>
+                <p class="text-xl font-light line-through" v-if="varianteProduitPrix">{{varianteProduitPrix}}€</p>
+            </div>
             <div class="flex justify-between my-3">
                 <p>Taille</p>
                 <p>Guide des tailles</p>
@@ -103,20 +106,25 @@
 </template>
     
 <script setup>
-    import { defineProps, ref } from 'vue';
+    import { defineProps, ref, onMounted } from 'vue';
     import { useRoute,useRouter } from 'vue-router';
     import ProduitComponent from '@/components/ProduitComponent.vue';
+    import { isProxy, toRaw } from 'vue';
 
     const router = useRouter();
+    const route = useRoute();
 
     const props = defineProps({
         
     });
 
+    // Pour retourner à la page précédente
+
     function retour (){
         router.back()
     }
 
+    // Pour changer le le sans du chevron de la déscription
     const classChevron = ref('fa-solid fa-chevron-down')
 
     function toggleChevronDescription() {
@@ -127,6 +135,39 @@
             classChevron.value = 'fa-solid fa-chevron-down'
         }
     }
+
+    const produit = ref([])
+
+    const variantesProduit = ref([])
+
+    const varianteProduitPrix = ref()
+    const varianteProduitPromo = ref()
+    const variantProduitPrixAvecPromo = ref()
+
+
+    async function fetchProduit() {
+        const response = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${route.query.id}`, {
+            method: "GET",
+            mode: "cors"
+        })
+
+        produit.value = await response.json()
+        variantesProduit.value = produit.value.variantesProduit
+        varianteProduitPromo.value = variantesProduit.value.$values[0].varianteProduitPromo
+        varianteProduitPrix.value = variantesProduit.value.$values[0].varianteProduitPrix
+
+        // calcul du prix avec promo
+        if (varianteProduitPrix.value) {
+            variantProduitPrixAvecPromo.value = (varianteProduitPrix.value - (varianteProduitPrix.value * varianteProduitPromo.value)).toFixed(2);
+        }
+
+        
+
+
+    }
+
+    onMounted(fetchProduit)
+
 
 </script>
 

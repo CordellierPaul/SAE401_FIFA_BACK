@@ -1,6 +1,14 @@
 <script setup>
 import ProduitComponent from '@/components/ProduitComponent.vue'
 import FiltreComponent from '@/components/FiltreComponent.vue';
+    
+import { onMounted, ref } from 'vue'
+import { getRequest } from '../composable/httpRequests.js'
+
+const produits = ref()
+
+getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
+
 </script>
 
 <template>
@@ -38,7 +46,7 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
 
                 </div>
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
-                    <ProduitComponent v-for="index in 21" :key="index" />
+                    <ProduitComponent v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
                 </div>
                 <div class="m-10 flex items-center justify-center">
                     <button class="btn btn-primary text-white">Voir plus</button>
@@ -47,12 +55,3 @@ import FiltreComponent from '@/components/FiltreComponent.vue';
         </div>
     </div>
 </template>
-
-
-
-
-
-
-<style scoped>
-
-</style>
