@@ -101,10 +101,5 @@ namespace FIFA_API.Controllers
 
             return NoContent();
         }
-
-        //private bool TailleExists(int id)
-        //{
-        //    return (dataRepository.Taille?.Any(e => e.TailleId == id)).GetValueOrDefault();
-        //}
     }
 }

@@ -101,10 +101,5 @@ namespace FIFA_API.Controllers
 
             return NoContent();
         }
-
-        //private bool ReglementExists(int id)
-        //{
-        //    return (dataRepository.Reglement?.Any(e => e.TransactionId == id)).GetValueOrDefault();
-        //}
     }
 }

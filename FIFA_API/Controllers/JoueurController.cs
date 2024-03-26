@@ -95,9 +95,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool JoueurExists(int id)
-        {
-            return (dataRepository.Joueur?.Any(e => e.JoueurId == id)).GetValueOrDefault();
-        }*/
     }
 }

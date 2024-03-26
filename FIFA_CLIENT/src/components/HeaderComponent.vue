@@ -45,6 +45,43 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="white" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
         </label>
 
+        <!-- Partie utilisateur -->
+        <div class="dropdown dropdown-end ml-3">
+
+            
+          <!-- SI UTILISATEUR CONNECTE -->
+          <!-- <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
+            <div class="w-10 rounded-full ">
+              <div class="avatar placeholder">
+                <div class="bg-accent text-neutral-content rounded-full w-8">
+                  <span class="text-xs">M</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52">
+            <li>
+              <RouterLink class="justify-between" :to="{name: 'login'}">
+                Profil<span class="badge badge-accent">Nouveau</span>
+              </RouterLink>
+            </li>
+            <li><a>Paramètres</a></li>
+            <li><a>Déconnexion</a></li>
+          </ul> -->
+
+
+          <!-- SI UTILISATEUR LOGOUT -->
+          <RouterLink :to="{name: 'login'}">
+            <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle flex justify-center items-center">
+              <div class="w-10 rounded-full  flex justify-center items-center">
+                <i class="fa-solid fa-user text-xl text-white"></i>
+              </div>
+            </div>
+          </RouterLink>
+
+        </div>
+
         <!-- Partie panier -->
         <div class="dropdown dropdown-end">
           <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle">
@@ -71,15 +108,15 @@
               <!-- PANIER PAS VIDE -->
               <div class="max-h-96 overflow-y-auto">
                 <div v-for="index in 10" class="flex m-5">
-                  <div class="divider"></div> 
                   <img class="w-32" src="https://store.fifa.com/_next/image?url=https%3A%2F%2Flegends.broadleafcloud.com%2Fapi%2Fasset%2Fcontent%2FARG%2520FRONT.png%3FcontextRequest%3D%257B%2522forceCatalogForFetch%2522%3Afalse%2C%2522applicationId%2522%3A%252201GPYEXET5B7Y61HW8TB4R0YWE%2522%2C%2522tenantId%2522%3A%2522FIFA%2522%257D&w=3840&q=85" alt="">
-                  <div class="m-3">
+                  <div class="mx-3 flex flex-col justify-between">
                     <p>MAILLOT DOMICILE VAINQUEUR ARGENTINE ADIDAS – FEMME</p>
                     <div class="flex justify-between items-center">
-                        <p class="text-base font-bold">100€</p>
-                        <select class="bg-base-200 font-bold">
+                      <p class="text-base font-bold">100€</p>
+                      <select class="bg-base-200 font-bold w-7">
                         <option v-for="index in 10">{{ index }}</option>
-                        </select>
+                      </select>
+                      <i class="fa-solid fa-trash ml-2"></i>
                     </div>
                     
                   </div>
@@ -96,42 +133,7 @@
         </div>
 
 
-        <!-- Partie utilisateur -->
-        <div class="dropdown dropdown-end">
 
-          
-          <!-- SI UTILISATEUR CONNECTE -->
-          <!-- <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
-            <div class="w-10 rounded-full ">
-              <div class="avatar placeholder">
-                <div class="bg-accent text-neutral-content rounded-full w-8">
-                  <span class="text-xs">M</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52">
-            <li>
-              <RouterLink class="justify-between" :to="{name: 'login'}">
-                Profil<span class="badge badge-accent">Nouveau</span>
-              </RouterLink>
-            </li>
-            <li><a>Paramètres</a></li>
-            <li><a>Déconnexion</a></li>
-          </ul> -->
-
-
-          <!-- SI UTILISATEUR LOGOUT -->
-          <RouterLink :to="{name: 'login'}">
-            <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
-              <div class="w-10 rounded-full ">
-                <img alt="Photo de profil utilisateur" class="bg-white" src="https://static.thenounproject.com/png/363640-200.png" />
-              </div>
-            </div>
-          </RouterLink>
-          
-        </div>
         
       </div>
     </div>

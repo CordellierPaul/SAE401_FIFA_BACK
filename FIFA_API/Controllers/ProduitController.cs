@@ -120,9 +120,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool ProduitExists(int id)
-        {
-            return (dataRepository.Produit?.Any(e => e.ProduitId == id)).GetValueOrDefault();
-        }*/
     }
 }

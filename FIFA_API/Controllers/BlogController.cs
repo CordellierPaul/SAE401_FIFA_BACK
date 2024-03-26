@@ -98,11 +98,7 @@ namespace FIFA_API.Controllers
             }
             await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
-        }
 
-        /*private bool BlogExists(int id)
-        {
-            return (dataRepository.Blog?.Any(e => e.BlogId == id)).GetValueOrDefault();
-        }*/
+        }
     }
 }

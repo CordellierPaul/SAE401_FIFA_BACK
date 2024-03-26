@@ -102,10 +102,5 @@ namespace FIFA_API.Controllers
 
             return NoContent();
         }
-
-        //private bool ThemeExists(int id)
-        //{
-        //    return (dataRepository.Theme?.Any(e => e.ThemeId == id)).GetValueOrDefault();
-        //}
     }
 }

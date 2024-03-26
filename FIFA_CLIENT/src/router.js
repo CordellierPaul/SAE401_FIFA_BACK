@@ -48,6 +48,14 @@ const routes = [
       component: () => import('@/pages/login.vue')
     },
     {
+      path: '/register',
+      name: 'register',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('@/pages/register.vue')
+    },
+    {
       path: '/commander',
       name: 'commander',
       // route level code-splitting
