@@ -90,7 +90,7 @@
               <span class="badge badge-sm badge-accent indicator-item">10</span>
             </div>
           </div>
-          <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-base-200 shadow"> 
+          <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-96 bg-base-200 shadow "> 
             <div class="card-body">
               <div class="flex justify-center flex-col items-center">
                 <p class="font-bold text-lg">Votre panier</p>
