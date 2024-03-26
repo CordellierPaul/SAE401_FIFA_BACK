@@ -98,9 +98,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool MatchExists(int id)
-        {
-            return (dataRepository.Match?.Any(e => e.MatchId == id)).GetValueOrDefault();
-        }*/
     }
 }

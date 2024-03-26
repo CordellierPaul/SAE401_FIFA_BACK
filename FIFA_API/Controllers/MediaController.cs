@@ -103,9 +103,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        //private bool MediaExists(int id)
-        //{
-        //    return (dataRepository.Media?.Any(e => e.MediaId == id)).GetValueOrDefault();
-        //}
     }
 }

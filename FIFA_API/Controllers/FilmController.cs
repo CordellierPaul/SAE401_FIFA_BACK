@@ -99,9 +99,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool FilmExists(int id)
-        {
-            return (dataRepository.Film?.Any(e => e.FilmId == id)).GetValueOrDefault();
-        }*/
     }
 }

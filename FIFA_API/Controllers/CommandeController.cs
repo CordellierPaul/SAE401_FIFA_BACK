@@ -97,9 +97,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool CommandeExists(int id)
-        {
-            return (dataRepository.Commande?.Any(e => e.CommandeId == id)).GetValueOrDefault();
-        }*/
     }
 }

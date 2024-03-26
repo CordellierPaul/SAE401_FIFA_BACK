@@ -105,10 +105,5 @@ namespace FIFA_API.Controllers
 
             return NoContent();
         }
-
-        //private bool MonnaieExists(int id)
-        //{
-        //    return (dataRepository.Monnaie?.Any(e => e.MonnaieId == id)).GetValueOrDefault();
-        //}
     }
 }
