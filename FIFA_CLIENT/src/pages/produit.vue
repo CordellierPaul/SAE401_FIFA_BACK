@@ -60,10 +60,10 @@
                 <button class="btn btn-square btn-outline">2XL</button>
             </div>
             <div class="flex gap-1">
-                <p>COLOR:</p>
-                <p>BLUE</p>
+                <p class="font-bold">COULEUR :</p>
+                <p>{{ colorisNom }}</p>
             </div>
-            <div class="size-8 bg-blue-500 border-solid border-black border-2">
+            <div v-if="colorisHexa" :class="colorisHexa" class="size-8 border-solid border-black border-2">
 
             </div>
 
@@ -96,12 +96,12 @@
         </div>    
     </div>
     
-    <div class="p-2 w-full bg-base-200 mt-2">
+    <!-- <div class="p-2 w-full bg-base-200 mt-2">
         <p class="text-2xl font-bold">Produits associés</p>
         <div id="container" class="flex overflow-x-auto w-full gap-10 p-2">
             <ProduitComponent class="min-w-96" v-for="index in 21" :key="index" />
         </div>
-    </div>
+    </div> -->
     
 </template>
     
@@ -144,14 +144,20 @@
     const varianteProduitPromo = ref()
     const variantProduitPrixAvecPromo = ref()
 
+    const coloris = ref()
+
+    const colorisNom = ref()
+
+    const colorisHexa = ref()
+
 
     async function fetchProduit() {
-        const response = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${route.query.id}`, {
+        const firstResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${route.query.id}`, {
             method: "GET",
             mode: "cors"
         })
 
-        produit.value = await response.json()
+        produit.value = await firstResponse.json()
         variantesProduit.value = produit.value.variantesProduit
         varianteProduitPromo.value = variantesProduit.value.$values[0].varianteProduitPromo
         varianteProduitPrix.value = variantesProduit.value.$values[0].varianteProduitPrix
@@ -159,10 +165,57 @@
         // calcul du prix avec promo
         if (varianteProduitPrix.value) {
             variantProduitPrixAvecPromo.value = (varianteProduitPrix.value - (varianteProduitPrix.value * varianteProduitPromo.value)).toFixed(2);
+        }   
+
+        const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value.$values[0].colorisId }`, {
+            method: "GET",
+            mode: "cors"
+        })
+
+        coloris.value = await secondResponse.json()
+        colorisNom.value = coloris.value.colorisNom 
+
+        if (coloris.value.colorisNom == 1) {
+            colorisHexa.value = "bg-orange-200"
+        }
+        else if (coloris.value.colorisId == 2){
+            colorisHexa.value = "bg-black"
+        }
+        else if (coloris.value.colorisId == 3){
+            colorisHexa.value = "bg-blue-500"
+        }
+        else if (coloris.value.colorisId == 4){
+            colorisHexa.value = "bg-green-500"
+        }
+        else if (coloris.value.colorisId == 5){
+            colorisHexa.value = "bg-gray-500"
+        }
+        else if (coloris.value.colorisId == 6){
+            colorisHexa.value = "bg-gradient-to-bl from-violet-600 via-yellow-400 to-green-600"
+        }
+        else if (coloris.value.colorisId == 7){
+            colorisHexa.value = "bg-blue-800"
+        }
+        else if (coloris.value.colorisId == 8){
+            colorisHexa.value = "bg-orange-500"
+        }
+        else if (coloris.value.colorisId == 9){
+            colorisHexa.value = "bg-pink-500"
+        }
+        else if (coloris.value.colorisId == 10){
+            colorisHexa.value = "bg-red-500"
+        }
+        else if (coloris.value.colorisId == 11){
+            colorisHexa.value = "bg-white"
+        }
+        else if (coloris.value.colorisId == 12){
+            colorisHexa.value = "bg-yellow-500"
+        }
+        else if (coloris.value.colorisId == 13){
+            colorisHexa.value = "bg-purple-500"
         }
 
-        
-
+        console.log(colorisHexa)
 
     }
 
