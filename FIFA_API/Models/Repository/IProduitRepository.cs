@@ -7,5 +7,8 @@ namespace FIFA_API.Models.Repository
     {
         Task<ActionResult<IEnumerable<Produit>>> GetSearchResults(string searchInput);
         Task<ActionResult<string>> GetAnImagePathOfProduitById(int id);
+        Task<IEnumerable<Produit>> GetProduitsByIdsAsync(int[] ids);
+
+
     }
 }
