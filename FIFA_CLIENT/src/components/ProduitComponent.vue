@@ -18,7 +18,6 @@ async function fetchProductImagePath() {
   })
 
   if (response.status === 404) {
-    console.log("erreur 404")
     image.value = "/images/image_pas_trouvee.jpg"
     return
   }
