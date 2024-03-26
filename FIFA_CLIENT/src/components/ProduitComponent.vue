@@ -1,3 +1,12 @@
+<script setup>
+
+defineProps({
+    id: Number,
+    nom: String
+});
+
+</script>
+
 <template>
   <div class="card w-96 bg-neutral-400 shadow-xl overflow-hidden">
     <RouterLink  :to="{name: 'produit'}">
@@ -9,7 +18,7 @@
       </figure>
         <div class="card-body">
           <p class="badge badge-accent text-white">NOUVEAU</p>
-          <h2 class="card-title text-white">Maillot domicile Argentine 2024 adidas - Homme</h2>
+          <h2 class="card-title text-white">{{ nom }}</h2>
           <div class="flex">
             <span class="text-white font-medium">100,00€</span>
             <span class="ml-5 line-through text-white font-light">140,00€</span>
