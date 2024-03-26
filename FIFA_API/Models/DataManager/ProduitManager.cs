@@ -187,7 +187,7 @@ namespace FIFA_API.Models.DataManager
             return new ActionResult<IEnumerable<Produit>>(produits);
         }
 
-        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter(int? catId, int? taiId = null, int? colId = null, int? genreId = null, int? paysId=null)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter(int? catId, int? taiId = null, int?[] colId = null, int? genreId = null, int? paysId=null)
         {
 
             var result = await GetAllAsync();
@@ -212,30 +212,28 @@ namespace FIFA_API.Models.DataManager
                     produits = produits.Where(x => x.GenreId == genreId);
 
                 // Filtrage par coloris :
-                if (colId != null && colId != 0)
+                if (colId != null && colId.Length !=0)
                 {
                     bool possedeCol = false;
                     foreach (Produit produit in produits)
-                    {
-                        foreach (VarianteProduit variante in produit.VariantesProduit)
                         {
-                            if (variante.ColorisId == colId)
+                            foreach (VarianteProduit variante in produit.VariantesProduit)
                             {
-                                possedeCol = true;
-                                break;
+                                if (colId.Contains(variante.ColorisId))
+                                {
+                                    possedeCol = true;
+                                    break;
+                                }
+
                             }
-
-                        }
-                        if (possedeCol)
-                        {
-                            possedeCol = false;
-                        }
-                        else
-                        {
-                            produits.ToList().Remove(produit);
-                        }
-
-
+                            if (possedeCol)
+                            {
+                                possedeCol = false;
+                            }
+                            else
+                            {
+                                produits.ToList().Remove(produit);
+                            }
                     }
                 }
 
