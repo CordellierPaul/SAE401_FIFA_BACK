@@ -107,9 +107,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        //private bool AlbumImageExists(int id)
-        //{
-        //    return (dataRepository.AlbumImage?.Any(e => e.AlbumId == id)).GetValueOrDefault();
-        //}
     }
 }

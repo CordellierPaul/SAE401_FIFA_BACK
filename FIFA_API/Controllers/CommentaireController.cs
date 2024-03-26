@@ -99,9 +99,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool CommentaireExists(int id)
-        {
-            return (dataRepository.Commentaire?.Any(e => e.CommentaireId == id)).GetValueOrDefault();
-        }*/
     }
 }

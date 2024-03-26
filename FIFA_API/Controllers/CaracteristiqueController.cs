@@ -97,9 +97,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool CaracteristiqueExists(int id)
-        {
-            return (dataRepository.Caracteristique?.Any(e => e.CaracteristiqueId == id)).GetValueOrDefault();
-        }*/
     }
 }

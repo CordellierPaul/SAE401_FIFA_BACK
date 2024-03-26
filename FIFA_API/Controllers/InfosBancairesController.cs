@@ -98,9 +98,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool InfosBancairesExists(int id)
-        {
-            return (dataRepository.InfosBancaires?.Any(e => e.InfosBancairesId == id)).GetValueOrDefault();
-        }*/
     }
 }

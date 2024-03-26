@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
+using FIFA_API.Models.Repository;
 
 namespace FIFA_API.Controllers
 {
@@ -13,125 +14,99 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class BlogImageController : ControllerBase
     {
-        private readonly FifaDbContext _context;
+        private readonly IDataRepository2clues<BlogImage> dataRepository;
 
-        public BlogImageController(FifaDbContext context)
+        public BlogImageController(IDataRepository2clues<BlogImage> context)
         {
-            _context = context;
+            dataRepository = context;
         }
 
         // GET: api/BlogImage
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BlogImage>>> GetBlogImage()
         {
-          if (_context.BlogImage == null)
-          {
-              return NotFound();
-          }
-            return await _context.BlogImage.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/BlogImage/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BlogImage>> GetBlogImage(int id)
+        [HttpGet]
+        [Route("[action]/{blogid}/{imageid}")]
+        [ActionName("GetById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<BlogImage>> GetBlogImage(int blogId, int imageId)
         {
-          if (_context.BlogImage == null)
-          {
-              return NotFound();
-          }
-            var blogImage = await _context.BlogImage.FindAsync(id);
+            var likeBlog = await dataRepository.GetByIdAsync(blogId, imageId);
 
-            if (blogImage == null)
+            if (likeBlog == null)
             {
                 return NotFound();
             }
 
-            return blogImage;
+            return likeBlog;
         }
 
         // PUT: api/BlogImage/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBlogImage(int id, BlogImage blogImage)
+        [HttpPut("{blogId}/{imageId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> PutBlogImage(int blogId, int imageId, BlogImage blogImage)
         {
-            if (id != blogImage.BlogId)
+            if (blogId != blogImage.BlogId || imageId != blogImage.ImageId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(blogImage).State = EntityState.Modified;
+            var labToUpdate = await dataRepository.GetByIdAsync(blogId, imageId);
 
-            try
+            if (labToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!BlogImageExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await dataRepository.UpdateAsync(labToUpdate.Value, blogImage);
+                return NoContent();
             }
-
-            return NoContent();
         }
 
         // POST: api/BlogImage
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<BlogImage>> PostBlogImage(BlogImage blogImage)
+        [HttpPost("{blogId}/{imageId}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<BlogImage>> PostBlogImage(int blogId, int imageId, BlogImage blogImage)
         {
-          if (_context.BlogImage == null)
-          {
-              return Problem("Entity set 'FifaDbContext.BlogImage'  is null.");
-          }
-            _context.BlogImage.Add(blogImage);
-            try
+            if (!ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (BlogImageExists(blogImage.BlogId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(ModelState);
             }
 
-            return CreatedAtAction("GetBlogImage", new { id = blogImage.BlogId }, blogImage);
+            blogImage.BlogId = blogId;
+            blogImage.ImageId = imageId;
+
+            await dataRepository.AddAsync(blogImage);
+
+            return CreatedAtAction("GetById", new { blogId, imageId }, blogImage);
         }
+
 
         // DELETE: api/BlogImage/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBlogImage(int id)
+        [HttpDelete("{blogId}/{imageId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteBlogImage(int blogId, int imageId)
         {
-            if (_context.BlogImage == null)
+            var likeAlbum = await dataRepository.GetByIdAsync(blogId, imageId);
+            if (likeAlbum == null)
             {
                 return NotFound();
             }
-            var blogImage = await _context.BlogImage.FindAsync(id);
-            if (blogImage == null)
-            {
-                return NotFound();
-            }
-
-            _context.BlogImage.Remove(blogImage);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(likeAlbum.Value);
             return NoContent();
-        }
-
-        private bool BlogImageExists(int id)
-        {
-            return (_context.BlogImage?.Any(e => e.BlogId == id)).GetValueOrDefault();
         }
     }
 }
+

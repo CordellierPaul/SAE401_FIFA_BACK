@@ -102,9 +102,5 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
-        /*private bool ActiviteExists(int id)
-        {
-            return (dataRepository.Activite?.Any(e => e.ActiviteId == id)).GetValueOrDefault();
-        }*/
     }
 }
