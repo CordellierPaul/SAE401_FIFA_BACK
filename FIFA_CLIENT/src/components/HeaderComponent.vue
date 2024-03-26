@@ -68,7 +68,7 @@
                 </div>
               </div>
               <div class="card-actions">
-                <button class="btn btn-primary btn-block"><RouterLink :to="{name: 'panier'}">Payer la commande</RouterLink></button>
+                <button class="btn btn-primary btn-block"><RouterLink :to="{name: 'commander'}">Payer la commande</RouterLink></button>
               </div>
             </div>
           </div>
