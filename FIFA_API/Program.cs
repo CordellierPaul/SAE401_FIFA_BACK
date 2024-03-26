@@ -22,6 +22,7 @@ builder.Services.AddDbContext<FifaDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("FifaDbContext")));
 
 builder.Services.AddScoped<IProduitRepository, ProduitManager>();
+builder.Services.AddScoped<IDataRepository<FIFA_API.Models.EntityFramework.Action>, ActionManager>();
 builder.Services.AddScoped<IDataRepository<Activite>, ActiviteManager>();
 builder.Services.AddScoped<IDataRepository<Adresse>, AdresseManager>();
 builder.Services.AddScoped<IDataRepository<Album>, AlbumManager>();
