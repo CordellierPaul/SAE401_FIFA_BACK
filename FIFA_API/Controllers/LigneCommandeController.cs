@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class LigneCommandeController : ControllerBase
     {
-        private readonly IDataRepository<LigneCommande> dataRepository;
+        private readonly IDataRepositoryWithoutStr<LigneCommande> dataRepository;
 
-        public LigneCommandeController(IDataRepository<LigneCommande> context)
+        public LigneCommandeController(IDataRepositoryWithoutStr<LigneCommande> context)
         {
             dataRepository = context;
         }
