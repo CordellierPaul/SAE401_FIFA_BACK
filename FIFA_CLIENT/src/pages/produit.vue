@@ -40,9 +40,12 @@
 
         
 
-        <div  class="bg-base-200 w-1/2  p-2 ml-1">
-            <p class="text-2xl font-bold">hhhhhhh</p>
-            <p class="text-2xl">90€</p>
+        <div  class="bg-base-200 w-1/2  p-2 ml-1" >
+            <p class="text-2xl font-bold" v-if="produit">{{produit.produitNom}}</p>
+            <div class="flex gap-2">
+                <p class="text-xl" v-if="varianteProduitPrix && varianteProduitPromo && variantProduitPrixAvecPromo"  >{{ variantProduitPrixAvecPromo}}€</p>
+                <p class="text-xl font-light line-through" v-if="varianteProduitPrix">{{varianteProduitPrix}}€</p>
+            </div>
             <div class="flex justify-between my-3">
                 <p>Taille</p>
                 <p>Guide des tailles</p>
@@ -133,7 +136,13 @@
         }
     }
 
-    const produit = ref()
+    const produit = ref([])
+
+    const variantesProduit = ref([])
+
+    const varianteProduitPrix = ref()
+    const varianteProduitPromo = ref()
+    const variantProduitPrixAvecPromo = ref()
 
 
     async function fetchProduit() {
@@ -143,14 +152,18 @@
         })
 
         produit.value = await response.json()
+        variantesProduit.value = produit.value.variantesProduit
+        varianteProduitPromo.value = variantesProduit.value.$values[0].varianteProduitPromo
+        varianteProduitPrix.value = variantesProduit.value.$values[0].varianteProduitPrix
+
+        // calcul du prix avec promo
+        if (varianteProduitPrix.value) {
+            variantProduitPrixAvecPromo.value = (varianteProduitPrix.value - (varianteProduitPrix.value * varianteProduitPromo.value)).toFixed(2);
+        }
+
         
-        // À ce moment du code, produits.value est peut-être un élément Proxy. 
-        // code suivant s'assure que la valeur est un Object :
-        // if (isProxy(produit.value)) {
-            //     produit.value = toRaw(produit.value).$values
-            // }
-            
-            console.log(produit.value.produitNom)
+
+
     }
 
     onMounted(fetchProduit)
