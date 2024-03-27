@@ -163,8 +163,8 @@
 
         produit.value = await firstResponse.json()
         variantesProduit.value = produit.value.variantesProduit
-        varianteProduitPromo.value = variantesProduit.value.$values[0].varianteProduitPromo
-        varianteProduitPrix.value = variantesProduit.value.$values[0].varianteProduitPrix
+        varianteProduitPromo.value = variantesProduit.value.varianteProduitPromo
+        varianteProduitPrix.value = variantesProduit.value.varianteProduitPrix
 
         // calcul du prix avec promo
         if (varianteProduitPrix.value) {
@@ -174,16 +174,16 @@
         // pour avoir les produits similaires
 
 
-        if (produit.value.produitSimilaireLienUn.$values.length != 0) {
+        if (produit.value.produitSimilaireLienUn.length != 0) {
             produitsSimilaire.value = produit.value.produitSimilaireLienUn 
-            produitsSimilaire.value.$values.forEach(produit => {
+            produitsSimilaire.value.forEach(produit => {
     
                 listIdProduitsSimilaire.value.push(produit.produitDeuxId)
             });
             
         }else{
             produitsSimilaire.value = produit.value.produitSimilaireLienDeux 
-            produitsSimilaire.value.$values.forEach(produit => {
+            produitsSimilaire.value.forEach(produit => {
                 
                 listIdProduitsSimilaire.value.push(produit.produitUnId)
             });
@@ -192,7 +192,7 @@
         
 
         // pour avoir les coloris 
-        const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value.$values[0].colorisId }`, {
+        const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value.colorisId }`, {
             method: "GET",
             mode: "cors"
         })
