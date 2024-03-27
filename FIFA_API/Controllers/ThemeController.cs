@@ -55,7 +55,7 @@ namespace FIFA_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<Joueur>>> GetJoueursByThemeId(int id)
         {
-            var joueurs = await dataRepository.GetJoueurTheme(id);
+            var joueurs = await dataRepository.GetJoueursByThemeId(id);
 
             if (joueurs == null)
             {

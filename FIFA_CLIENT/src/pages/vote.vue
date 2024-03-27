@@ -19,20 +19,17 @@
 
     async function fetchJoueurs() {
         try {
-        const response = await fetch('https://apififa.azurewebsites.net/api/Vote/getbyid/${route.query.id}', {
+        const responseTheme = await fetch('https://apififa.azurewebsites.net/api/Theme/GetJoueursByThemeId/${route.query.id}', {
             method: 'GET',
             mode: 'cors'
         });
 
-        joueurs.value = await response.json();
-
+        joueurs.value = await responseTheme.json();
 
         console.log(joueurs.value);
 
-
-
         } catch (error) {
-        console.error('Erreur lors de la récupération des thèmes :', error);
+        console.error('Erreur lors de la récupération des joueurs :', error);
         }
     }
 
@@ -41,7 +38,21 @@
 
 
 <template> 
-    <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Themes</a></li> 
+    <a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Themes</a>
+
+    <div>
+      <h1>Liste des joueurs</h1>
+        <br>
+      <ul v-for="joueur in joueurs" :id="joueur.joueurId">
+        <li >
+          {{ joueur.joueurNom, joueur.joueurPrenom }}
+          <button class="btn btn-primary text-white">
+            Voter
+          </button>
+        </li>
+      </ul>
+      <br>
+    </div>
 </template>
 
 <style scoped> 
