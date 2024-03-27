@@ -116,6 +116,9 @@
         }
     }
 
+
+    // Pour le data
+
     const produit = ref([])
 
     const variantesProduit = ref([])
