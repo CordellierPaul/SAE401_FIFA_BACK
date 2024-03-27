@@ -8,7 +8,6 @@ import { getRequest } from '../composable/httpRequests.js'
 const produits = ref()
 
 getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
-
 </script>
 
 <template>
@@ -46,6 +45,7 @@ getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
 
                 </div>
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
+                    <!-- <p v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom"> {{ produit.produitId }} et {{ produit.produitNom }} </p> -->
                     <ProduitComponent v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
                 </div>
                 <div class="m-10 flex items-center justify-center">
