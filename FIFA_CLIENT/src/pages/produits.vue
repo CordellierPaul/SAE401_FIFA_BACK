@@ -61,7 +61,9 @@
     onMounted(fetchObjects)
 
 
-    const count = ref(0)
+    const optionsTaillesChecked = ref([])
+    const optionsGenresChecked = ref([])
+    const optionsColorisChecked = ref([])
 
 
 </script>
@@ -89,16 +91,18 @@
             <div id="left_part" class="bg-base-300 hidden lg:block w-72">
                 <p class="flex justify-center text-xl m-5"  >Filtres</p>
                 
-                <FiltreComponent v-model:count="count" v-if="taillesLibelle" :filtreData="{ titre: 'Taille', options: taillesLibelle }" />
-                <FiltreComponent v-if="genresNom" :filtreData="{ titre: 'Genre', options: genresNom }" />
-                <FiltreComponent v-if="colorisNom" :filtreData="{ titre: 'Coloris', options: colorisNom }" />
+                <FiltreComponent v-model:optionsChecked="optionsTaillesChecked" v-if="taillesLibelle" :filtreData="{ titre: 'Taille', options: taillesLibelle }" />
+                <FiltreComponent v-model:optionsChecked="optionsGenresChecked" v-if="genresNom" :filtreData="{ titre: 'Genre', options: genresNom }" />
+                <FiltreComponent v-model:optionsChecked="optionsColorisChecked" v-if="colorisNom" :filtreData="{ titre: 'Coloris', options: colorisNom }" />
 
 
             </div>
             <div id="right_part" class="w-full bg-base-200">
                 <div class="m-5">
                     <p v-if="produits">{{ produits.length }} résultats</p>
-                    {{ count }}
+                    {{ optionsTaillesChecked }}
+                    {{ optionsGenresChecked }}
+                    {{ optionsColorisChecked }}
                     
 
                 </div>

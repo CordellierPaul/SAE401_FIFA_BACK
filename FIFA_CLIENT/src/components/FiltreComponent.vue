@@ -10,9 +10,6 @@
         </div>
       </div>
     </div>
-
-    <button @click="addNb(1)">+</button>
-    <slot name="count" :count="count">{{ count }}</slot>
 </template>
   
   <script setup>
@@ -28,32 +25,21 @@
   const titre = props.filtreData.titre;
   const options = props.filtreData.options;
 
-  const optionsCheck = []
+  const optionsChecked = defineModel("optionsChecked",{default: []})
 
   function toggleOption(option){
 
-    if (optionsCheck.includes(option)) {
-      optionsCheck.splice(optionsCheck.indexOf(option),1)
+    if (optionsChecked.value.includes(option)) {
+      optionsChecked.value.splice(optionsChecked.value.indexOf(option),1)
     }
     else{
-      optionsCheck.push(option) 
+      optionsChecked.value.push(option) 
     }
 
-    console.log(optionsCheck);
+    console.log(optionsChecked.value);
 
   }
-  
-  const emit = defineEmits(['next','previous'])
 
-  function btPreviousClick() {
-      emit('previous')
-  }
-
-  const count = defineModel("count",{default: 0})
-
-  function addNb(number){
-        count.value = count.value + number;
-    }
 
   </script>
   
