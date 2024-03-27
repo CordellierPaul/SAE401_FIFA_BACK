@@ -1,8 +1,8 @@
-
 <script setup>
-    import { ref, onMounted } from 'vue';
+  import { ref, onMounted } from 'vue';
 
     const themes = ref([]);
+
 
     async function fetchThemes() {
         try {
@@ -11,12 +11,13 @@
             mode: 'cors'
         });
 
-        const data = await response.json();
+        themes.value = await response.json();
 
-        themes.value = data;
 
-        console.log(themes.value, "hehe");
-        //proxy??
+        console.log(themes.value);
+
+
+
         } catch (error) {
         console.error('Erreur lors de la récupération des thèmes :', error);
         }
@@ -29,10 +30,12 @@
     <div>
       <h1>Liste des thèmes</h1>
         <br>
-      <ul>
-        <li v-for="theme in themes" :key="theme.themeId">
+      <ul v-for="theme in themes" :id="theme.themeId">
+        <li >
           {{ theme.themeLibelle }}
-          3
+          <button class="btn btn-primary text-white">
+            Voter
+          </button>
         </li>
       </ul>
       <br>

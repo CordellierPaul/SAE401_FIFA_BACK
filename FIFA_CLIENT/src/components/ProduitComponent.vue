@@ -40,8 +40,8 @@ async function fetchProductImagePath() {
 
   produit.value = await secondResponse.json()
   variantesProduit.value = produit.value.variantesProduit
-  varianteProduitPromo.value = variantesProduit.value.$values[0].varianteProduitPromo
-  varianteProduitPrix.value = variantesProduit.value.$values[0].varianteProduitPrix
+  varianteProduitPromo.value = variantesProduit.value[0].varianteProduitPromo
+  varianteProduitPrix.value = variantesProduit.value[0].varianteProduitPrix
 
   // calcul du prix avec promo
   if (varianteProduitPrix.value) {

@@ -285,7 +285,7 @@ namespace FIFA_API.Controllers.Tests
         }
 
         [TestMethod]
-        public void Postcategorie_ModelValidated_CreationOK_AvecMoq()
+        public void FiltreProduit_ExistingProduitPassed_ReturnsRightItem_AvecMoq()
         {
             // Arrange
             var mockRepository = new Mock<IProduitRepository>();
@@ -298,18 +298,27 @@ namespace FIFA_API.Controllers.Tests
                 CategorieId = 1,
                 ProduitNom = "NomModifierProduit",
                 ProduitDescription = "ModifProduit est un test",
+                VariantesProduit = new[]
+                {
+                    new VarianteProduit
+                    {
+                        VarianteProduitId = 1,
+                        ColorisId = 1,
+                        VarianteProduitPrix = 1
+                    }
+                }
             };
 
             // Act
-            var actionResult = pdtController.PostProduit(pdt).Result;
+            int?[] catIds = new int?[] { 1};
+            int?[] genreId = new int?[] { 1};
+            int?[] colId = new int?[] { 1};
+            var actionResult = pdtController.GetByFilter(catIds, null, null, null, null).Result;
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<Produit>), "Pas un ActionResult<Produit>");
-            Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
-            var result = actionResult.Result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(result.Value, typeof(Produit), "Pas une Produit");
-            pdt.ProduitId = ((Produit)result.Value).ProduitId;
-            Assert.AreEqual(pdt, (Produit)result.Value, "Categories pas identiques");
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(pdt, actionResult.Value as Produit);
         }
 
 

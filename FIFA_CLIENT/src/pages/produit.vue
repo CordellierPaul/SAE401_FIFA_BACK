@@ -15,27 +15,10 @@
 
 
     <div class="flex ">
-        <div  class=" bg-base-200 hidden lg:block w-1/2 p-2 mr-1">
-            <div class="carousel carousel-center w-11/12 p-8 space-x-4 bg-neutral rounded-box scrollbar" >
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Flegends.broadleafcloud.com%2Fapi%2Fasset%2Fcontent%2FARG%2520FRONT.png%3FcontextRequest%3D%257B%2522forceCatalogForFetch%2522%3Afalse%2C%2522applicationId%2522%3A%252201GPYEXET5B7Y61HW8TB4R0YWE%2522%2C%2522tenantId%2522%3A%2522FIFA%2522%257D&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FIB3596_3_APPAREL_Photography_BackCenterView_white.jpg%3Fv%3D1674806837&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FIB3596_5_APPAREL_Photography_DetailView2_white.jpg%3Fv%3D1674806838&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FIB3596_4_APPAREL_Photography_DetailView1_white.jpg%3Fv%3D1674806838&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FIB3596_6_APPAREL_Photography_DetailView3_white.jpg%3Fv%3D1674806838&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FIB3596_10_APPAREL_OnModel_WalkingView_white.jpg%3Fv%3D1674806838&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-            </div>
+        <div  class=" flex justify-center items-center bg-base-200  lg:block w-1/2 p-2 mr-1">
+  
+            <img v-if="image" :src="image" alt="">
+
         </div>
 
         
@@ -77,17 +60,7 @@
                     </div>
                 </div>
                 <div class="collapse-content"> 
-                    <ul class="list-disc pl-4">
-                        <li>Coupe droite</li>
-                        <li>Col rond côtelé</li>
-                        <li>Maille double 100% polyester recyclé</li>
-                        <li>AEROREADY</li>
-                        <li>Empiècements en mesh sous les bras</li>
-                        <li>Manches côtelées</li>
-                        <li>Coupe plus longue à l’arrière</li>
-                        <li>Écusson brodé de l’Argentine</li>
-                    </ul>
-                    <p class="my-5">Un style indémodable pour les vainqueurs de la Coupe du Monde de la FIFA 2022™. Que les puristes se rassurent, on retrouve bien évidemment les mythiques bandes bleues et blanches, ainsi que le fameux emblème « Sol de Mayo », sur ce maillot domicile de l’Argentine. Les trois étoiles évoquent les titres mondiaux de l’Albiceleste, dont le sacre décroché au Qatar. Doté de la technologie absorbante AEROREADY et d’un écusson brodé, ce maillot permet d’exprimer votre passion dans un confort optimal en toute circonstance. Cet article est fabriqué à l’aide de matériaux 100% recyclés. Réutiliser d’anciens articles nous permet de diminuer les déchets, notre dépendance aux ressources limitées ainsi que l’empreinte carbone de nos produits.</p>
+                    <p class="my-5" v-if="produit">{{ produit.produitDescription }}</p>
                 </div>
 
             </div>
@@ -160,6 +133,8 @@
 
     const colorisHexa = ref()
 
+    const image = ref()
+
     watchEffect(()=>{
         fetchProduit()
         window.scrollTo({
@@ -178,8 +153,8 @@
 
         produit.value = await firstResponse.json()
         variantesProduit.value = produit.value.variantesProduit
-        varianteProduitPromo.value = variantesProduit.value.$values[0].varianteProduitPromo
-        varianteProduitPrix.value = variantesProduit.value.$values[0].varianteProduitPrix
+        varianteProduitPromo.value = variantesProduit.value[0].varianteProduitPromo
+        varianteProduitPrix.value = variantesProduit.value[0].varianteProduitPrix
 
         // calcul du prix avec promo
         if (varianteProduitPrix.value) {
@@ -188,28 +163,25 @@
 
         // pour avoir les produits similaires
 
-
-        if (produit.value.produitSimilaireLienUn.$values.length != 0) {
+        if (produit.value.produitSimilaireLienUn.length != 0) {
             produitsSimilaire.value = produit.value.produitSimilaireLienUn 
-            produitsSimilaire.value.$values.forEach(produit => {
+            produitsSimilaire.value.forEach(produit => {
     
                 listIdProduitsSimilaire.value.push(produit.produitDeuxId)
             });
             
         }else{
             produitsSimilaire.value = produit.value.produitSimilaireLienDeux 
-            produitsSimilaire.value.$values.forEach(produit => {
+            produitsSimilaire.value.forEach(produit => {
                 
                 listIdProduitsSimilaire.value.push(produit.produitUnId)
             });
         }
-
-        console.log(listIdProduitsSimilaire.value);
         
         
 
         // pour avoir les coloris 
-        const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value.$values[0].colorisId }`, {
+        const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value[0].colorisId }`, {
             method: "GET",
             mode: "cors"
         })
@@ -257,6 +229,17 @@
             colorisHexa.value = "bg-purple-500"
         }
 
+        // pour avoir l'image 
+        const thirdResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getanimageofproduitbyid/${route.query.id}`, {
+            method: "GET",
+            mode: "cors"
+        })
+
+        if (thirdResponse.status === 404) {
+            image.value = "/images/image_pas_trouvee.jpg"   
+        }else{
+            image.value = await thirdResponse.text()
+        }
 
     }
 
