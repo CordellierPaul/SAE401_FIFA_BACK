@@ -18,6 +18,7 @@
           </li>
           <li><RouterLink :to="{name: 'contact'}">Contact</RouterLink></li>
           <li><RouterLink :to="{name: 'articles'}">Articles</RouterLink></li>
+          <li><RouterLink :to="{name: 'theme'}">Voter pour un theme</RouterLink></li>
         </ul>
       </div>
       <RouterLink :to="{name: 'index'}" class="btn btn-ghost text-3xl text-white">FIFA</RouterLink>
@@ -33,6 +34,7 @@
         <li><RouterLink class="text-white btn btn-primary" :to="{name: 'produits'}">Produits</RouterLink></li>
         <li><RouterLink class="text-white btn btn-primary" :to="{name: 'contact'}">Contact</RouterLink></li>
         <li><RouterLink class="text-white btn btn-primary" :to="{name: 'articles'}">Articles</RouterLink></li>
+        <li><RouterLink class="text-white btn btn-primary" :to="{name: 'theme'}">Voter pour un theme</RouterLink></li>
       </ul>
     </div>
 

@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ColorisController : ControllerBase
     {
-        private readonly IDataRepository<Coloris> dataRepository;
+        private readonly IColorisRepository dataRepository;
 
-        public ColorisController(IDataRepository<Coloris> context)
+        public ColorisController(IColorisRepository context)
         {
             dataRepository = context;
         }
@@ -42,6 +42,24 @@ namespace FIFA_API.Controllers
             {
                 return NotFound();
             }
+            return coloris;
+        }
+
+        // GET: api/Theme/4
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetColorisByProduitId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Coloris>>> GetColorisByProduitId(int id)
+        {
+            var coloris = await dataRepository.GetColorisProduit(id);
+
+            if (coloris == null)
+            {
+                return NotFound();
+            }
+
             return coloris;
         }
 

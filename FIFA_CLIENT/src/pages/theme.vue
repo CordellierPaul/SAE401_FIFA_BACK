@@ -28,12 +28,12 @@ onMounted(fetchThemes);
 
 <template>
   <div>
-    <h1>Liste des thèmes</h1>
+    <h1>Liste des thèmes :</h1>
     <br>
     <ul v-for="theme in themes" :key="theme.themeId">
       <li>
-        {{ theme.themeLibelle }}
-        <button class="btn btn-primary text-white" @click="redirectToVotePage(theme.themeId)">
+        {{ theme.themeLibelle }} :
+        <button class="btn btn-square btn-outline" @click="redirectToVotePage(theme.themeId)">
           Voter
         </button>
       </li>
