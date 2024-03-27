@@ -17,18 +17,7 @@
                             <p class="text-xs">Cliquez pour regarder le blog</p>
                         </div>
                     </div>
-                    <div class="btn btn-lg btn-block">
-                        <div class="flex flex-col">
-                            <p class="text-2xl">Kylian Mbappé : Une Légende en Devenir</p>
-                            <p class="text-xs">Cliquez pour regarder le blog</p>
-                        </div>
-                    </div>
-                    <div class="btn btn-lg btn-block">
-                        <div class="flex flex-col">
-                            <p class="text-2xl">Kylian Mbappé : Une Légende en Devenir</p>
-                            <p class="text-xs">Cliquez pour regarder le blog</p>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 
