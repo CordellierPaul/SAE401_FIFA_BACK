@@ -19,7 +19,7 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private StockController _controller;
-        private IDataRepositoryWithoutStr<Stock> _dataRepository;
+        private IStockRepository _dataRepository;
 
         public StockControllerTests()
         {
@@ -91,7 +91,7 @@ namespace FIFA_API.Controllers.Tests
         public void PostStock_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Stock>>();
+            var mockRepository = new Mock<IStockRepository>();
             var stkController = new StockController(mockRepository.Object);
             Stock stk = new Stock
             {
@@ -117,7 +117,7 @@ namespace FIFA_API.Controllers.Tests
                 StockId = 1,
                 QuantiteStockee = 3
             };
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Stock>>();
+            var mockRepository = new Mock<IStockRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(stk);
             var stkController = new StockController(mockRepository.Object);
             // Act
@@ -141,7 +141,7 @@ namespace FIFA_API.Controllers.Tests
                 QuantiteStockee = 5
             };
 
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Stock>>();
+            var mockRepository = new Mock<IStockRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(stk);
             var stkController = new StockController(mockRepository.Object);
 
@@ -162,7 +162,7 @@ namespace FIFA_API.Controllers.Tests
                 QuantiteStockee = 5
             };
 
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Stock>>();
+            var mockRepository = new Mock<IStockRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(stk);
             var stkController = new StockController(mockRepository.Object);
 
@@ -178,13 +178,39 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetStockById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Stock>>();
+            var mockRepository = new Mock<IStockRepository>();
             var stkController = new StockController(mockRepository.Object);
             // Act
             var actionResult = stkController.GetStockById(0).Result;
             // Assert
             Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
 
+        }
+
+        [TestMethod]
+        public void GetStockByVarianteIds_ExistingIdsPassed_ReturnsRightItems_AvecMoq()
+        {
+            // Arrange
+            List<Stock> stks= new List<Stock>();
+            Stock stk = new Stock
+            {
+                StockId = 1,
+                QuantiteStockee = 5,
+                VarianteProduitId = 1
+            };
+            stks.Append(stk);
+
+            var mockRepository = new Mock<IStockRepository>();
+            mockRepository.Setup(x => x.GetStockByVarianteIds(new int[] {1}).Result).Returns(stks);
+            var stkController = new StockController(mockRepository.Object);
+
+            // Act
+            var actionResult = stkController.GetStockByVarianteIds(new int[] { 1 }).Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(stks, actionResult.Value as IEnumerable<Stock>);
         }
 
 
