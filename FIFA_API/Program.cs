@@ -61,6 +61,7 @@ builder.Services.AddScoped<IDataRepositoryWithoutStr<Stock>, StockManager>();
 builder.Services.AddScoped<IDataRepository<Taille>, TailleManager>();
 builder.Services.AddScoped<IDataRepository<Theme>, ThemeManager>();
 builder.Services.AddScoped<IDataRepository<Trophee>, TropheeManager>();
+builder.Services.AddScoped<IDataRepositoryWithoutStr<VarianteProduit>, VarianteProduitManager>();
 builder.Services.AddScoped<IDataRepository<Ville>, VilleManager>();
 
 //Token
