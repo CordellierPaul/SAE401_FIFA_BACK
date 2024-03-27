@@ -57,7 +57,7 @@ builder.Services.AddScoped<IDataRepository<Monnaie>, MonnaieManager>();
 builder.Services.AddScoped<IDataRepository<Pays>, PaysManager>();
 builder.Services.AddScoped<IDataRepository<Poste>, PosteManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Reglement>, ReglementManager>();
-builder.Services.AddScoped<IDataRepositoryWithoutStr<Stock>, StockManager>();
+builder.Services.AddScoped<IStockRepository, StockManager>();
 builder.Services.AddScoped<IDataRepository<Taille>, TailleManager>();
 builder.Services.AddScoped<IThemeRepository, ThemeManager>();
 builder.Services.AddScoped<IDataRepository<Trophee>, TropheeManager>();

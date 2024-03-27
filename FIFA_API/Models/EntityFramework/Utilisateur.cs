@@ -73,15 +73,15 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(CompteId))]
         [InverseProperty(nameof(Compte.UtilisateurCompte))]
-        public virtual Compte CompteUtilisateur { get; set; } = null!;
+        public virtual Compte? CompteUtilisateur { get; set; }
 
         [ForeignKey(nameof(LangueId))]
         [InverseProperty(nameof(Langue.UtilisateursLangue))]
-        public virtual Langue LangueUtilisateur { get; set; } = null!;
+        public virtual Langue? LangueUtilisateur { get; set; }
 
         [ForeignKey(nameof(ActiviteId))]
         [InverseProperty(nameof(Activite.UtilisateursActivite))]
-        public virtual Activite ActiviteUtilisateur { get; set; } = null!;
+        public virtual Activite? ActiviteUtilisateur { get; set; }
 
         [ForeignKey(nameof(PaysFavoriId))]
         [InverseProperty(nameof(Pays.UtilisateursFavorisantPays))]
@@ -89,11 +89,11 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(PaysNaissanceId))]
         [InverseProperty(nameof(Pays.UtilisateursNesPays))]
-        public virtual Pays PaysNaissanceNavigation { get; set; } = null!;
+        public virtual Pays? PaysNaissanceNavigation { get; set; }
 
         [ForeignKey(nameof(MonnaieId))]
         [InverseProperty(nameof(Monnaie.UtilisateursMonnaie))]
-        public virtual Monnaie MonnaieUtilisateur { get; set; } = null!;
+        public virtual Monnaie? MonnaieUtilisateur { get; set; }
 
         #endregion
 
