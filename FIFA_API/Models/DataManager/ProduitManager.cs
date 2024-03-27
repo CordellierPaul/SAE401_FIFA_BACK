@@ -187,7 +187,7 @@ namespace FIFA_API.Models.DataManager
             return new ActionResult<IEnumerable<Produit>>(produits);
         }
 
-        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter(int? catId, int? taiId = null, int?[] colId = null, int? genreId = null, int? paysId=null)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter(int?[] catId, int?[] taiId = null, int?[] colId = null, int?[] genreId = null, int?[] paysId=null)
         {
 
             var result = await GetAllAsync();
@@ -199,20 +199,22 @@ namespace FIFA_API.Models.DataManager
 
             await Task.Run(() =>
             {
-                // Filtrer par catégorie ici
-                if(catId != null && catId!=0)
-                    produits = produits.Where(x => x.CategorieId == catId);
+                //Filtre du produit :
+                // Filtrage par catégorie :
+                if(catId != null && catId.Length > 0)
+                    produits = produits.Where(x => catId.Contains(x.CategorieId));
 
                 //Filtrage par Pays :
-                if (paysId != null && paysId != 0)
-                    produits = produits.Where(x => x.PaysId == paysId);
+                if (paysId != null && paysId.Length > 0)
+                    produits = produits.Where(x => paysId.Contains(x.PaysId));
 
                 //Filtrage par Genre :
-                if (genreId != null && genreId != 0)
-                    produits = produits.Where(x => x.GenreId == genreId);
+                if (genreId != null && genreId.Length > 0)
+                    produits = produits.Where(x => genreId.Contains(x.GenreId));
 
+                //Filtre des variantes :
                 // Filtrage par coloris :
-                if (colId != null && colId.Length !=0)
+                if (colId != null && colId.Length >0)
                 {
                     bool possedeCol = false;
                     foreach (Produit produit in produits)
@@ -238,7 +240,7 @@ namespace FIFA_API.Models.DataManager
                 }
 
                 // Filtrage par taille
-                if (taiId != null && taiId != 0)
+                if (taiId != null && taiId.Length > 0)
                 {
                     bool possedeTai = false;
                     foreach (Produit produit in produits)
@@ -247,7 +249,7 @@ namespace FIFA_API.Models.DataManager
                         {
                             foreach (Stock stck in variante.StocksVariante)
                             {
-                                if (stck.TailleId == taiId)
+                                if (taiId.Contains(stck.TailleId))
                                 {
                                     possedeTai = true;
                                     break;

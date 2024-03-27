@@ -88,7 +88,7 @@ namespace FIFA_API.Controllers
         [HttpGet]
         [Route("[action]")]
         [ActionName("GetByFilter")]
-        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter([FromQuery] int catId, [FromQuery] int taiId, [FromQuery] int?[] colId, [FromQuery] int genreId, [FromQuery] int PaysId)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter([FromQuery] int?[] catId, [FromQuery] int?[] taiId, [FromQuery] int?[] colId, [FromQuery] int?[] genreId, [FromQuery] int?[] PaysId)
         {
             return await dataRepository.GetByFilter(catId, taiId, colId, genreId, PaysId );
         }
