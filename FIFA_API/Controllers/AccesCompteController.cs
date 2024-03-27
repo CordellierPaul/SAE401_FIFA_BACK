@@ -11,7 +11,7 @@ namespace FIFA_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class AccesCompteController : ControllerBase
     {
         private readonly IConfiguration _config;
         private readonly IDataRepository<Compte> _dataRepository;
@@ -27,18 +27,21 @@ namespace FIFA_API.Controllers
         //    "compteMdp": "qicxsgllezjmejtxvnauzwunivwcgdrxzfgvxqybeihuxgkzeeflsqfjfpbncubyojxjtrgfjeyxjmwgdcgqxsrhbusbpfrdewyhvgfrjwktqvnnybgtqxjshfjrheud"
         //}
 
-        public LoginController(IConfiguration config, IDataRepository<Compte> dataRepository)
+        public AccesCompteController(IConfiguration config, IDataRepository<Compte> dataRepository)
         {
             _config = config;
             _dataRepository = dataRepository;
         }
 
         [HttpPost]
+        [Route("[action]")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] Compte login)
+        public async Task<IActionResult> Connexion([FromBody] Compte compte)
         {
             IActionResult response = Unauthorized();
-            Compte? user = await AuthenticateUser(login);
+
+            Compte? user = await AuthenticateUser(compte);
+
             if (user != null)
             {
                 var tokenString = GenerateJwtToken(user);
@@ -48,7 +51,25 @@ namespace FIFA_API.Controllers
                     userDetails = user,
                 });
             }
+
             return response;
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Inscription([FromBody] Compte compte)
+        {
+            if (compte.UtilisateurCompte is null)
+                return BadRequest("Lorsqu'un compte est créé, il doit contenir les informations sur l'utilisateur");
+
+            compte.UtilisateurCompte = null;
+
+            string tokenString = GenerateJwtToken(compte);
+
+            await _dataRepository.AddAsync(compte);
+
+            return Ok(new { token = tokenString, userDetails = compte });
         }
 
         private async Task<Compte?> AuthenticateUser(Compte user)
