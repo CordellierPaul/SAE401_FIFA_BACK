@@ -3,8 +3,8 @@ import { isProxy, toRaw, onMounted } from 'vue'
 // Pour que tout fonctionne :
 // object : doit être une référence ref()
 // url : url de là où on va chercher les données 
-// actionWhenMounted : une fonction qui se lancera quand la valeur de la requête sera dans object
-export function getRequest(object, url, actionWhenfetched = null) {
+// actionWhenFetched : une fonction qui se lancera quand la valeur de la requête sera dans object
+export function getRequest(object, url, actionWhenFetched = null) {
 
     async function fetchObjects() {
         const response = await fetch(url, {
@@ -20,10 +20,10 @@ export function getRequest(object, url, actionWhenfetched = null) {
             object.value = toRaw(object.value)
         }
 
-        console.log(object.value);
+        // console.log(object.value);
 
-        if (actionWhenfetched != null) {
-            actionWhenfetched()
+        if (actionWhenFetched != null) {
+            actionWhenFetched()
         }
     }
 

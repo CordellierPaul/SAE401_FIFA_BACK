@@ -7,7 +7,65 @@
 
     const produits = ref()
 
+    const tailles = ref()
+    const taillesLibelle = ref([])
+
+    const genres = ref()
+    const genresNom = ref([])
+
+    const coloris = ref()
+    const colorisNom = ref([])
+
     getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
+
+
+    async function fetchObjects() {
+        // pour avoir les tailles
+        const tailleResponse = await fetch("https://apififa.azurewebsites.net/api/taille", {
+            method: "GET",
+            mode: "cors"
+        })
+
+        tailles.value = await tailleResponse.json()
+        
+        tailles.value.forEach(taille => {
+            taillesLibelle.value.push(taille.tailleLibelle);
+        });
+
+        // pour avoir les genre
+        const genreResponse = await fetch("https://apififa.azurewebsites.net/api/genre", {
+            method: "GET",
+            mode: "cors"
+        })
+
+        genres.value = await genreResponse.json()
+
+        genres.value.forEach(genre => {
+            genresNom.value.push(genre.genreNom);
+        });
+
+        // pour avoir les coloris
+        const colorisResponse = await fetch("https://apififa.azurewebsites.net/api/coloris", {
+            method: "GET",
+            mode: "cors"
+        })
+
+        coloris.value = await colorisResponse.json()
+
+        coloris.value.forEach(coloris => {
+            colorisNom.value.push(coloris.colorisNom);
+        });
+
+    }
+
+    onMounted(fetchObjects)
+
+
+    const optionsTaillesChecked = ref([])
+    const optionsGenresChecked = ref([])
+    const optionsColorisChecked = ref([])
+
+
 </script>
 
 <template>
@@ -31,17 +89,21 @@
         
         <div class="flex">
             <div id="left_part" class="bg-base-300 hidden lg:block w-72">
-                <p class="flex justify-center text-xl m-5">Filtres</p>
+                <p class="flex justify-center text-xl m-5"  >Filtres</p>
                 
-                <FiltreComponent :filtreData="{ titre: 'Taille', options: ['S', 'M', 'L', 'XL'] }" />
-                <FiltreComponent :filtreData="{ titre: 'Genre', options: ['Homme', 'Femme', 'Jeune'] }" />
-                <FiltreComponent :filtreData="{ titre: 'Coloris', options: ['Bleu', 'Rouge', 'Vert', 'Orange', 'Noir', 'Blanc', 'Gris', 'Rose'] }" />
+                <FiltreComponent v-model:optionsChecked="optionsTaillesChecked" v-if="taillesLibelle" :filtreData="{ titre: 'Taille', options: taillesLibelle }" />
+                <FiltreComponent v-model:optionsChecked="optionsGenresChecked" v-if="genresNom" :filtreData="{ titre: 'Genre', options: genresNom }" />
+                <FiltreComponent v-model:optionsChecked="optionsColorisChecked" v-if="colorisNom" :filtreData="{ titre: 'Coloris', options: colorisNom }" />
 
 
             </div>
             <div id="right_part" class="w-full bg-base-200">
                 <div class="m-5">
-                    <p>30 résultats</p>
+                    <p v-if="produits">{{ produits.length }} résultats</p>
+                    {{ optionsTaillesChecked }}
+                    {{ optionsGenresChecked }}
+                    {{ optionsColorisChecked }}
+                    
 
                 </div>
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
