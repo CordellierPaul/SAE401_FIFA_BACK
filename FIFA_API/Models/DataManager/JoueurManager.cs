@@ -2,11 +2,14 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class JoueurManager : IDataRepository<Joueur>
+    public class JoueurManager : IJoueurRepository
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -37,6 +40,35 @@ namespace FIFA_API.Models.DataManager
         {
             return await fifaDbContext.Joueur.FirstOrDefaultAsync(u => u.JoueurId == id);
 
+        }
+
+        
+        public async Task<IEnumerable<Joueur>> GetJoueursByIdsAsync(int[] ids)
+        {
+            IEnumerable<Joueur> joueurs = await fifaDbContext.Joueur.Where(p => ids.Contains(p.JoueurId)).ToListAsync();
+
+            if (joueurs == null || !joueurs.Any())
+                return null;
+
+            foreach (var joueur in joueurs)
+            {
+                EntityEntry<Joueur> joueurEntityEntry = fifaDbContext.Entry(joueur);
+
+                await joueurEntityEntry.Reference(p => p.VilleJoueur).LoadAsync();
+                await joueurEntityEntry.Reference(p => p.ClubJoueur).LoadAsync();
+                await joueurEntityEntry.Reference(p => p.PosteJoueur).LoadAsync();
+
+
+                await joueurEntityEntry.Collection(p => p.LiensArticles).LoadAsync();
+                await joueurEntityEntry.Collection(p => p.Matches_joue).LoadAsync();
+                await joueurEntityEntry.Collection(p => p.RemportesJoueur).LoadAsync();
+                await joueurEntityEntry.Collection(p => p.LiensImages).LoadAsync();
+                await joueurEntityEntry.Collection(p => p.LienAnecdotes).LoadAsync();
+                await joueurEntityEntry.Collection(p => p.VotesJoueur).LoadAsync();
+                await joueurEntityEntry.Collection(p => p.LienTheme).LoadAsync();
+            }
+
+            return joueurs.ToList();
         }
 
         public async Task<ActionResult<Joueur>> GetByStringAsync(string str)

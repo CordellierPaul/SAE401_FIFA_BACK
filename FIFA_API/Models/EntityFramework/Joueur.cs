@@ -60,6 +60,7 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(1000)]
         public string JoueurDescription { get; set; } = null!;
 
+        #region Foreign keys
 
         [ForeignKey(nameof(VilleId))]
         [InverseProperty(nameof(Ville.JoueursVille))]
@@ -73,6 +74,7 @@ namespace FIFA_API.Models.EntityFramework
         [InverseProperty(nameof(Poste.JoueursPoste))]
         public virtual Poste PosteJoueur { get; set; } = null!;
 
+        #endregion
 
         [InverseProperty(nameof(ArticleJoueur.JoueurNavigation))]
         public virtual ICollection<ArticleJoueur> LiensArticles { get; set; }
