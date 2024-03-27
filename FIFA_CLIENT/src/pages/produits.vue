@@ -7,7 +7,20 @@
 
     const produits = ref()
 
+    const tailles = ref()
+
     getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
+
+
+    // pour avoir les tailles
+    const firstResponse = await fetch(`https://apififa.azurewebsites.net/api/taille`, {
+        method: "GET",
+        mode: "cors"
+    })
+
+    tailles.value = await firstResponse.json()
+
+    console.log(tailles);
 </script>
 
 <template>
@@ -32,6 +45,10 @@
         <div class="flex">
             <div id="left_part" class="bg-base-300 hidden lg:block w-72">
                 <p class="flex justify-center text-xl m-5">Filtres</p>
+
+                <div v-if="tailles" v-for="taille in tailles" :key="taille">
+                    {{ taille.tailleLibelle }}
+                </div>
                 
                 <FiltreComponent :filtreData="{ titre: 'Taille', options: ['S', 'M', 'L', 'XL'] }" />
                 <FiltreComponent :filtreData="{ titre: 'Genre', options: ['Homme', 'Femme', 'Jeune'] }" />
