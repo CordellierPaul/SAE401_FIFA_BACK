@@ -17,8 +17,10 @@ export function getRequest(object, url, actionWhenfetched = null) {
         // À ce moment du code, produits.value est peut-être un élément Proxy. 
         // code suivant s'assure que la valeur est un Object :
         if (isProxy(object.value)) {
-            object.value = toRaw(object.value).$values
+            object.value = toRaw(object.value)
         }
+
+        console.log(object.value);
 
         if (actionWhenfetched != null) {
             actionWhenfetched()
