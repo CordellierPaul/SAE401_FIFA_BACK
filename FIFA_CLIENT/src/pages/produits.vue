@@ -1,14 +1,13 @@
 <script setup>
-import ProduitComponent from '@/components/ProduitComponent.vue'
-import FiltreComponent from '@/components/FiltreComponent.vue';
-    
-import { onMounted, ref } from 'vue'
-import { getRequest } from '../composable/httpRequests.js'
+    import ProduitComponent from '@/components/ProduitComponent.vue';
+    import FiltreComponent from '@/components/FiltreComponent.vue';
+        
+    import { onMounted, ref } from 'vue'
+    import { getRequest } from '../composable/httpRequests.js'
 
-const produits = ref()
+    const produits = ref()
 
-getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
-
+    getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
 </script>
 
 <template>
