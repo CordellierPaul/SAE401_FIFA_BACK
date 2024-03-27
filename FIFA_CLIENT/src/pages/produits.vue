@@ -7,7 +7,65 @@
 
     const produits = ref()
 
+    const tailles = ref()
+    const taillesLibelle = ref([])
+
+    const genres = ref()
+    const genresNom = ref([])
+
+    const coloris = ref()
+    const colorisNom = ref([])
+
     getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
+
+
+    async function fetchObjects() {
+        // pour avoir les tailles
+        const tailleResponse = await fetch("https://apififa.azurewebsites.net/api/taille", {
+            method: "GET",
+            mode: "cors"
+        })
+
+        tailles.value = await tailleResponse.json()
+        
+        tailles.value.forEach(taille => {
+            taillesLibelle.value.push(taille.tailleLibelle);
+        });
+
+        // pour avoir les genre
+        const genreResponse = await fetch("https://apififa.azurewebsites.net/api/genre", {
+            method: "GET",
+            mode: "cors"
+        })
+
+        genres.value = await genreResponse.json()
+
+        genres.value.forEach(genre => {
+            genresNom.value.push(genre.genreNom);
+        });
+
+        // pour avoir les coloris
+        const colorisResponse = await fetch("https://apififa.azurewebsites.net/api/coloris", {
+            method: "GET",
+            mode: "cors"
+        })
+
+        coloris.value = await colorisResponse.json()
+
+        coloris.value.forEach(coloris => {
+            colorisNom.value.push(coloris.colorisNom);
+        });
+
+    }
+
+    onMounted(fetchObjects)
+
+
+    const optionsTaillesChecked = ref([])
+    const optionsGenresChecked = ref([])
+    const optionsColorisChecked = ref([])
+
+
 </script>
 
 <template>
@@ -31,22 +89,43 @@
         
         <div class="flex">
             <div id="left_part" class="bg-base-300 hidden lg:block w-72">
-                <p class="flex justify-center text-xl m-5">Filtres</p>
+                <p class="flex justify-center text-xl m-5"  >Filtres</p>
                 
-                <FiltreComponent :filtreData="{ titre: 'Taille', options: ['S', 'M', 'L', 'XL'] }" />
-                <FiltreComponent :filtreData="{ titre: 'Genre', options: ['Homme', 'Femme', 'Jeune'] }" />
-                <FiltreComponent :filtreData="{ titre: 'Coloris', options: ['Bleu', 'Rouge', 'Vert', 'Orange', 'Noir', 'Blanc', 'Gris', 'Rose'] }" />
+                <FiltreComponent v-model:optionsChecked="optionsTaillesChecked" v-if="taillesLibelle" :filtreData="{ titre: 'Taille', options: taillesLibelle }" />
+                <FiltreComponent v-model:optionsChecked="optionsGenresChecked" v-if="genresNom" :filtreData="{ titre: 'Genre', options: genresNom }" />
+                <FiltreComponent v-model:optionsChecked="optionsColorisChecked" v-if="colorisNom" :filtreData="{ titre: 'Coloris', options: colorisNom }" />
 
 
             </div>
             <div id="right_part" class="w-full bg-base-200">
-                <div class="m-5">
-                    <p>30 résultats</p>
+                <div class="flex m-5 gap-2">
+                    <div class="flex gap-2" v-if="produits">
+                        <div>
+                            {{ produits.length }} résultats
+                        </div>
+                        <div v-if="optionsTaillesChecked.length != 0 || optionsGenresChecked.length != 0 || optionsColorisChecked.length != 0">
+                              pour
+                        </div>
 
+                    </div>
+                    <div class=" flex gap-2 *:badge *:badge-neutral">
+                        <div v-if="optionsTaillesChecked" v-for="taille in optionsTaillesChecked" :key="taille">{{ taille }}</div>
+                        <div v-if="optionsGenresChecked" v-for="genre in optionsGenresChecked" :key="genre">{{ genre }}</div>
+                        <div v-if="optionsColorisChecked" v-for="coloris in optionsColorisChecked" :key="coloris">{{ coloris }}</div>
+                    </div>
                 </div>
+
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
                     <!-- <p v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom"> {{ produit.produitId }} et {{ produit.produitNom }} </p> -->
                     <ProduitComponent v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
+                    <div v-else v-for="i in 5" >
+                        <div class="flex flex-col gap-4 w-52">
+                            <div class="skeleton h-32 w-full"></div>
+                            <div class="skeleton h-4 w-28"></div>
+                            <div class="skeleton h-4 w-full"></div>
+                            <div class="skeleton h-4 w-full"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="m-10 flex items-center justify-center">
                     <button class="btn btn-primary text-white">Voir plus</button>

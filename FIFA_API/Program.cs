@@ -47,7 +47,7 @@ builder.Services.AddScoped<IDataRepositoryWithoutStr<Film>, FilmManager>();
 builder.Services.AddScoped<IDataRepository<Genre>, GenreManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Image>, ImageManager>();
 builder.Services.AddScoped<IDataRepository<InfosBancaires>, InfosBancairesManager>();
-builder.Services.AddScoped<IDataRepository<Joueur>, JoueurManager>();
+builder.Services.AddScoped<IJoueurRepository, JoueurManager>();
 builder.Services.AddScoped<IDataRepository<Langue>, LangueManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<LigneCommande>, LigneCommandeManager>();
 builder.Services.AddScoped<IDataRepository<Livraison>, LivraisonManager>();

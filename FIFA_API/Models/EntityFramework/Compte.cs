@@ -19,7 +19,8 @@ namespace FIFA_API.Models.EntityFramework
         [StringLength(50)]
         public string? Comptelogin { get; set; }
 
-        [Column("cpt_mdp", TypeName = "char(128)")]
+        [Column("cpt_mdp")]
+        [StringLength(128, ErrorMessage = "La longueur du mot de passe hashé doit être inférieure ou égale à 128 caractères")]
         public string CompteMdp { get; set; } = null!;
 
         [Column("cpt_dateconnexion")]
