@@ -8,7 +8,7 @@
                 <li><RouterLink :to="{name: 'index'}" class="hover:opacity-50 hover:cursor-pointer">FIFA</RouterLink></li> 
                 <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Produits</a></li> 
                 <!-- Titre de la page actuelle -->
-                <li>MAILLOT DOMICILE VAINQUEUR ARGENTINE ADIDAS – FEMME</li>
+                <li>{{ produit.produitNom }}</li>
             </ul>
         </div>
     </div>

@@ -1,9 +1,13 @@
 <template>
     
-
+    <ul class="steps steps-vertical lg:steps-horizontal">
+        <li class="step step-primary">Inscritpion</li>
+        <li class="step step-primary">Livrasion</li>
+        <li class="step">Paiement</li>
+    </ul>
     
 
-    <form @submit.prevent action="" class="w-10/12 mt-10 *:my-2">
+    <form @submit.prevent action="" class="w-10/12 *:my-2" >
 
 
         <p class="text-xl font-medium">LIVRAISON</p>

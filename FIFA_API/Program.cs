@@ -36,7 +36,7 @@ builder.Services.AddScoped<IDataRepository<Caracteristique>, CaracteristiqueMana
 builder.Services.AddScoped<IDataRepository2clues<CaracteristiqueProduit>, CaracteristiqueProduitManager>();
 builder.Services.AddScoped<IDataRepository<Categorie>, CategorieManager>();
 builder.Services.AddScoped<IDataRepository<Club>, ClubManager>();
-builder.Services.AddScoped<IDataRepository<Coloris>, ColorisManager>();
+builder.Services.AddScoped<IColorisRepository, ColorisManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Commande>, CommandeManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Commentaire>, CommentaireManager>();
 builder.Services.AddScoped<IDataRepository<Competition>, CompetitionManager>();
