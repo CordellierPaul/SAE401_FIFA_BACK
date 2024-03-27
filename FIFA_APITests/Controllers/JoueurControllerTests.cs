@@ -19,7 +19,7 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private JoueurController _controller;
-        private IDataRepository<Joueur> _dataRepository;
+        private IJoueurRepository _dataRepository;
 
         public JoueurControllerTests()
         {
@@ -130,7 +130,7 @@ namespace FIFA_API.Controllers.Tests
         public void PostJoueur_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepository<Joueur>>();
+            var mockRepository = new Mock<IJoueurRepository>();
             var jouController = new JoueurController(mockRepository.Object);
             Joueur jou = new Joueur
             {
@@ -156,7 +156,7 @@ namespace FIFA_API.Controllers.Tests
                 JoueurId = 1,
                 JoueurDescription = "Test"
             };
-            var mockRepository = new Mock<IDataRepository<Joueur>>();
+            var mockRepository = new Mock<IJoueurRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(jou);
             var jouController = new JoueurController(mockRepository.Object);
             // Act
@@ -180,7 +180,7 @@ namespace FIFA_API.Controllers.Tests
                 JoueurDescription = "Update"
             };
 
-            var mockRepository = new Mock<IDataRepository<Joueur>>();
+            var mockRepository = new Mock<IJoueurRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(jou);
             var jouController = new JoueurController(mockRepository.Object);
 
@@ -201,7 +201,7 @@ namespace FIFA_API.Controllers.Tests
                 JoueurDescription = "Testgetidmoq"
             };
 
-            var mockRepository = new Mock<IDataRepository<Joueur>>();
+            var mockRepository = new Mock<IJoueurRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(jou);
             var jouController = new JoueurController(mockRepository.Object);
 
@@ -217,7 +217,7 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetJoueurById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepository<Joueur>>();
+            var mockRepository = new Mock<IJoueurRepository>();
             var jouController = new JoueurController(mockRepository.Object);
             // Act
             var actionResult = jouController.GetJoueurById(0).Result;
