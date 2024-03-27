@@ -10,6 +10,9 @@
         </div>
       </div>
     </div>
+
+    <button @click="addNb(1)">+</button>
+    <slot name="count" :count="count">{{ count }}</slot>
 </template>
   
   <script setup>
@@ -45,6 +48,12 @@
   function btPreviousClick() {
       emit('previous')
   }
+
+  const count = defineModel("count",{default: 0})
+
+  function addNb(number){
+        count.value = count.value + number;
+    }
 
   </script>
   

@@ -61,6 +61,9 @@
     onMounted(fetchObjects)
 
 
+    const count = ref(0)
+
+
 </script>
 
 <template>
@@ -86,7 +89,7 @@
             <div id="left_part" class="bg-base-300 hidden lg:block w-72">
                 <p class="flex justify-center text-xl m-5"  >Filtres</p>
                 
-                <FiltreComponent v-if="taillesLibelle" :filtreData="{ titre: 'Taille', options: taillesLibelle }" />
+                <FiltreComponent v-model:count="count" v-if="taillesLibelle" :filtreData="{ titre: 'Taille', options: taillesLibelle }" />
                 <FiltreComponent v-if="genresNom" :filtreData="{ titre: 'Genre', options: genresNom }" />
                 <FiltreComponent v-if="colorisNom" :filtreData="{ titre: 'Coloris', options: colorisNom }" />
 
@@ -95,6 +98,8 @@
             <div id="right_part" class="w-full bg-base-200">
                 <div class="m-5">
                     <p v-if="produits">{{ produits.length }} résultats</p>
+                    {{ count }}
+                    
 
                 </div>
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
