@@ -98,8 +98,8 @@
     
     <div class="p-2 w-full bg-base-200 mt-2">
         <p class="text-2xl font-bold">Produits associés</p>
-        <div id="container" class="flex overflow-x-auto w-full gap-10 p-2" v-if="listProduitsSimilaire">
-            <ProduitComponent class="min-w-96" v-for="produit in listProduitsSimilaire" :id="produit.produitDeuxId" :key="produit.produitDeuxId" />
+        <div id="container" class="flex overflow-x-auto w-full gap-10 p-2" v-if="listIdProduitsSimilaire">
+            <ProduitComponent class="min-w-96" v-for="id in listIdProduitsSimilaire" :id="id" :key="id" />
         </div>
         <div v-else v-for="i in 5" >
             <div class="flex flex-col gap-4 w-52">
@@ -114,7 +114,7 @@
 </template>
     
 <script setup>
-    import { defineProps, ref, onMounted } from 'vue';
+    import { defineProps, ref, onMounted, watch, watchEffect } from 'vue';
     import { useRoute,useRouter } from 'vue-router';
     import ProduitComponent from '@/components/ProduitComponent.vue';
     import { isProxy, toRaw } from 'vue';
@@ -152,7 +152,7 @@
     const variantProduitPrixAvecPromo = ref()
 
     const produitsSimilaire = ref()
-    const listProduitsSimilaire = ref()
+    const listIdProduitsSimilaire = ref([])
 
     const coloris = ref()
 
@@ -160,6 +160,15 @@
 
     const colorisHexa = ref()
 
+    watchEffect(()=>{
+        fetchProduit()
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Pour un défilement fluide, utilisez 'smooth'
+        });
+    },{
+        deep: true
+    });
 
     async function fetchProduit() {
         const firstResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${route.query.id}`, {
@@ -179,11 +188,25 @@
 
         // pour avoir les produits similaires
 
-        produitsSimilaire.value = produit.value.produitSimilaireLienUn 
-        listProduitsSimilaire.value = produitsSimilaire.value.$values 
 
-        console.log(listProduitsSimilaire.value);
+        if (produit.value.produitSimilaireLienUn.$values.length != 0) {
+            produitsSimilaire.value = produit.value.produitSimilaireLienUn 
+            produitsSimilaire.value.$values.forEach(produit => {
+    
+                listIdProduitsSimilaire.value.push(produit.produitDeuxId)
+            });
+            
+        }else{
+            produitsSimilaire.value = produit.value.produitSimilaireLienDeux 
+            produitsSimilaire.value.$values.forEach(produit => {
+                
+                listIdProduitsSimilaire.value.push(produit.produitUnId)
+            });
+        }
 
+        console.log(listIdProduitsSimilaire.value);
+        
+        
 
         // pour avoir les coloris 
         const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value.$values[0].colorisId }`, {
@@ -237,7 +260,6 @@
 
     }
 
-    onMounted(fetchProduit)
 
 
 </script>
