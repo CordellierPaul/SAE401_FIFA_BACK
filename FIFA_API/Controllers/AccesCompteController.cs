@@ -36,6 +36,8 @@ namespace FIFA_API.Controllers
         [HttpPost]
         [Route("[action]")]
         [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Connexion([FromBody] Compte compte)
         {
             IActionResult response = Unauthorized();
@@ -58,6 +60,8 @@ namespace FIFA_API.Controllers
         [HttpPost]
         [Route("[action]")]
         [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Inscription([FromBody] Compte compte)
         {
             if (compte.UtilisateurCompte is null)
