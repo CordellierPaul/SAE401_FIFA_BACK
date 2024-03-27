@@ -15,9 +15,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ThemeController : ControllerBase
     {
-        private readonly IDataRepository<Theme> dataRepository;
+        private readonly IThemeRepository dataRepository;
 
-        public ThemeController(IDataRepository<Theme> context)
+        public ThemeController(IThemeRepository context)
         {
             dataRepository = context;
         }
@@ -45,6 +45,24 @@ namespace FIFA_API.Controllers
             }
 
             return theme;
+        }
+
+        // GET: api/Theme/4
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetJoueursByThemeId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Joueur>>> GetJoueursByThemeId(int id)
+        {
+            var joueurs = await dataRepository.GetJoueurTheme(id);
+
+            if (joueurs == null)
+            {
+                return NotFound();
+            }
+
+            return joueurs;
         }
 
         // PUT: api/Theme/5

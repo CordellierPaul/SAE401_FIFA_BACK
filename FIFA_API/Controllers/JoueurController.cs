@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class JoueurController : ControllerBase
     {
-        private readonly IDataRepository<Joueur> dataRepository;
+        private readonly IJoueurRepository dataRepository;
 
-        public JoueurController(IDataRepository<Joueur> context)
+        public JoueurController(IJoueurRepository context)
         {
             dataRepository = context;
         }
@@ -43,6 +43,21 @@ namespace FIFA_API.Controllers
                 return NotFound();
             }
             return joueur;
+        }
+
+        [HttpGet("GetByIds/{ids}")]
+        public async Task<ActionResult<IEnumerable<Joueur>>> GetJoueurByIds(string ids)
+        {
+            int[] idArray = ids.Split(',').Select(int.Parse).ToArray();
+
+            IEnumerable<Joueur> joueurs = await dataRepository.GetJoueursByIdsAsync(idArray);
+
+            if (!joueurs.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(joueurs);
         }
 
         // PUT: api/Joueur/5
