@@ -166,14 +166,12 @@
         if (produit.value.produitSimilaireLienUn.length != 0) {
             produitsSimilaire.value = produit.value.produitSimilaireLienUn 
             produitsSimilaire.value.forEach(produit => {
-            produitsSimilaire.value.forEach(produit => {
     
                 listIdProduitsSimilaire.value.push(produit.produitDeuxId)
             });
             
         }else{
             produitsSimilaire.value = produit.value.produitSimilaireLienDeux 
-            produitsSimilaire.value.forEach(produit => {
             produitsSimilaire.value.forEach(produit => {
                 
                 listIdProduitsSimilaire.value.push(produit.produitUnId)
