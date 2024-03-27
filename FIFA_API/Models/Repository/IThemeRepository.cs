@@ -5,6 +5,6 @@ namespace FIFA_API.Models.Repository
 {
     public interface IThemeRepository : IDataRepository<Theme>
     {
-        Task<ActionResult<IEnumerable<Joueur>>> GetJoueurTheme(int idTheme);
+        Task<ActionResult<IEnumerable<Joueur>>> GetJoueursByThemeId(int idTheme);
     }
 }
