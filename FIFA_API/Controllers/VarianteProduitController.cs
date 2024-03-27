@@ -15,9 +15,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class VarianteProduitController : ControllerBase
     {
-        private readonly IDataRepository<VarianteProduit> dataRepository;
+        private readonly IDataRepositoryWithoutStr<VarianteProduit> dataRepository;
 
-        public VarianteProduitController(IDataRepository<VarianteProduit> context)
+        public VarianteProduitController(IDataRepositoryWithoutStr<VarianteProduit> context)
         {
             dataRepository = context;
         }

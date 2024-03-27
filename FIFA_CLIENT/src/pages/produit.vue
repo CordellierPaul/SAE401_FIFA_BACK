@@ -15,27 +15,10 @@
 
 
     <div class="flex ">
-        <div  class=" bg-base-200 hidden lg:block w-1/2 p-2 mr-1">
-            <div class="carousel carousel-center w-11/12 p-8 space-x-4 bg-neutral rounded-box scrollbar" >
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Flegends.broadleafcloud.com%2Fapi%2Fasset%2Fcontent%2FARG%2520FRONT.png%3FcontextRequest%3D%257B%2522forceCatalogForFetch%2522%3Afalse%2C%2522applicationId%2522%3A%252201GPYEXET5B7Y61HW8TB4R0YWE%2522%2C%2522tenantId%2522%3A%2522FIFA%2522%257D&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FIB3596_3_APPAREL_Photography_BackCenterView_white.jpg%3Fv%3D1674806837&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FIB3596_5_APPAREL_Photography_DetailView2_white.jpg%3Fv%3D1674806838&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FIB3596_4_APPAREL_Photography_DetailView1_white.jpg%3Fv%3D1674806838&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FIB3596_6_APPAREL_Photography_DetailView3_white.jpg%3Fv%3D1674806838&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-                <div class="carousel-item w-fit">
-                    <img src="https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FIB3596_10_APPAREL_OnModel_WalkingView_white.jpg%3Fv%3D1674806838&w=3840&q=85" class="rounded-box" alt="Tailwind CSS Carousel component" />
-                </div> 
-            </div>
+        <div  class=" flex justify-center items-center bg-base-200  lg:block w-1/2 p-2 mr-1">
+  
+            <img v-if="image" :src="image" alt="">
+
         </div>
 
         
@@ -96,17 +79,25 @@
         </div>    
     </div>
     
-    <!-- <div class="p-2 w-full bg-base-200 mt-2">
+    <div class="p-2 w-full bg-base-200 mt-2">
         <p class="text-2xl font-bold">Produits associés</p>
-        <div id="container" class="flex overflow-x-auto w-full gap-10 p-2">
-            <ProduitComponent class="min-w-96" v-for="index in 21" :key="index" />
+        <div id="container" class="flex overflow-x-auto w-full gap-10 p-2" v-if="listIdProduitsSimilaire">
+            <ProduitComponent class="min-w-96" v-for="id in listIdProduitsSimilaire" :id="id" :key="id" />
         </div>
-    </div> -->
+        <div v-else v-for="i in 5" >
+            <div class="flex flex-col gap-4 w-52">
+                <div class="skeleton h-32 w-full"></div>
+                <div class="skeleton h-4 w-28"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+            </div>
+        </div>
+    </div>
     
 </template>
     
 <script setup>
-    import { defineProps, ref, onMounted } from 'vue';
+    import { defineProps, ref, onMounted, watch, watchEffect } from 'vue';
     import { useRoute,useRouter } from 'vue-router';
     import ProduitComponent from '@/components/ProduitComponent.vue';
     import { isProxy, toRaw } from 'vue';
@@ -128,7 +119,6 @@
     const classChevron = ref('fa-solid fa-chevron-down')
 
     function toggleChevronDescription() {
-        console.log("caca");
         if (classChevron.value == 'fa-solid fa-chevron-down'){
             classChevron.value = 'fa-solid fa-chevron-up'
         }else{
@@ -144,12 +134,26 @@
     const varianteProduitPromo = ref()
     const variantProduitPrixAvecPromo = ref()
 
+    const produitsSimilaire = ref()
+    const listIdProduitsSimilaire = ref([])
+
     const coloris = ref()
 
     const colorisNom = ref()
 
     const colorisHexa = ref()
 
+    const image = ref()
+
+    watchEffect(()=>{
+        fetchProduit()
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Pour un défilement fluide, utilisez 'smooth'
+        });
+    },{
+        deep: true
+    });
 
     async function fetchProduit() {
         const firstResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${route.query.id}`, {
@@ -167,6 +171,27 @@
             variantProduitPrixAvecPromo.value = (varianteProduitPrix.value - (varianteProduitPrix.value * varianteProduitPromo.value)).toFixed(2);
         }   
 
+        // pour avoir les produits similaires
+
+
+        if (produit.value.produitSimilaireLienUn.$values.length != 0) {
+            produitsSimilaire.value = produit.value.produitSimilaireLienUn 
+            produitsSimilaire.value.$values.forEach(produit => {
+    
+                listIdProduitsSimilaire.value.push(produit.produitDeuxId)
+            });
+            
+        }else{
+            produitsSimilaire.value = produit.value.produitSimilaireLienDeux 
+            produitsSimilaire.value.$values.forEach(produit => {
+                
+                listIdProduitsSimilaire.value.push(produit.produitUnId)
+            });
+        }
+        
+        
+
+        // pour avoir les coloris 
         const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value.$values[0].colorisId }`, {
             method: "GET",
             mode: "cors"
@@ -215,11 +240,20 @@
             colorisHexa.value = "bg-purple-500"
         }
 
-        console.log(colorisHexa)
+        // pour avoir l'image 
+        const thirdResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getanimageofproduitbyid/${route.query.id}`, {
+            method: "GET",
+            mode: "cors"
+        })
+
+        if (thirdResponse.status === 404) {
+            image.value = "/images/image_pas_trouvee.jpg"   
+        }else{
+            image.value = await thirdResponse.text()
+        }
 
     }
 
-    onMounted(fetchProduit)
 
 
 </script>
