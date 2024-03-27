@@ -8,7 +8,7 @@
                 <li><RouterLink :to="{name: 'index'}" class="hover:opacity-50 hover:cursor-pointer">FIFA</RouterLink></li> 
                 <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Produits</a></li> 
                 <!-- Titre de la page actuelle -->
-                <li>MAILLOT DOMICILE VAINQUEUR ARGENTINE ADIDAS – FEMME</li>
+                <li>{{ produit.produitNom }}</li>
             </ul>
         </div>
     </div>
@@ -47,7 +47,7 @@
                 <p v-if="coloris[variantesSelectionne]">{{ coloris[variantesSelectionne].colorisNom }}</p>
             </div>
             <div v-if="colorisHexa" class="flex gap-2">
-                <div  v-for="(hexa, index) in colorisHexa" :key="index" :class="hexa" @click="variantesSelectionne = index" class="size-8 border-solid border-black border-2">
+                <div  v-for="(hexa, index) in colorisHexa" :key="index" :class="hexa" @click="variantesSelectionne = index" class="size-8 border-solid border-black border-2 hover:cursor-pointer hover:opacity-75  ">
 
             </div>
 
