@@ -8,6 +8,15 @@ const props = defineProps({
 
 const image = ref("")
 
+const produit = ref()
+const variantesProduit = ref([])
+
+const varianteProduitPrix = ref()
+const varianteProduitPromo = ref()
+const variantProduitPrixAvecPromo = ref()
+
+
+
 async function fetchProductImagePath() {
 
   let response;
@@ -23,9 +32,25 @@ async function fetchProductImagePath() {
   }
 
   image.value = await response.text()
+
+  const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${props.id}`, {
+            method: "GET",
+            mode: "cors"
+        })
+
+  produit.value = await secondResponse.json()
+  variantesProduit.value = produit.value.variantesProduit
+  varianteProduitPromo.value = variantesProduit.value.$values[0].varianteProduitPromo
+  varianteProduitPrix.value = variantesProduit.value.$values[0].varianteProduitPrix
+
+  // calcul du prix avec promo
+  if (varianteProduitPrix.value) {
+      variantProduitPrixAvecPromo.value = (varianteProduitPrix.value - (varianteProduitPrix.value * varianteProduitPromo.value)).toFixed(2);
+  }   
 }
 
 onMounted(fetchProductImagePath)
+
 
 </script>
 
@@ -44,10 +69,10 @@ onMounted(fetchProductImagePath)
       </figure>
         <div class="card-body">
           <p class="badge badge-accent text-white">NOUVEAU</p>
-          <h2 class="card-title text-white">{{ nom }}</h2>
+          <h2 class="card-title text-white"  v-if="produit">{{produit.produitNom}}</h2>
           <div class="flex">
-            <span class="text-white font-medium">100,00€</span>
-            <span class="ml-5 line-through text-white font-light">140,00€</span>
+            <p class="text-white font-medium" v-if="varianteProduitPrix && varianteProduitPromo && variantProduitPrixAvecPromo"  >{{ variantProduitPrixAvecPromo}}€</p>
+                <p class="ml-5 line-through text-white font-light" v-if="varianteProduitPrix">{{varianteProduitPrix}}€</p>
           </div>
         </div>
       

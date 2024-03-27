@@ -101,7 +101,7 @@ namespace FIFA_API.Models.DataManager
 
             foreach (var produit in produits)
             {
-                var produitEntityEntry = fifaDbContext.Entry(produit);
+                EntityEntry<Produit> produitEntityEntry = fifaDbContext.Entry(produit);
 
                 await produitEntityEntry.Reference(p => p.PaysProduit).LoadAsync();
                 await produitEntityEntry.Reference(p => p.CategorieNavigation).LoadAsync();

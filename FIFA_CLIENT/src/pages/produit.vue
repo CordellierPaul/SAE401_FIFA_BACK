@@ -96,17 +96,25 @@
         </div>    
     </div>
     
-    <!-- <div class="p-2 w-full bg-base-200 mt-2">
+    <div class="p-2 w-full bg-base-200 mt-2">
         <p class="text-2xl font-bold">Produits associés</p>
-        <div id="container" class="flex overflow-x-auto w-full gap-10 p-2">
-            <ProduitComponent class="min-w-96" v-for="index in 21" :key="index" />
+        <div id="container" class="flex overflow-x-auto w-full gap-10 p-2" v-if="listIdProduitsSimilaire">
+            <ProduitComponent class="min-w-96" v-for="id in listIdProduitsSimilaire" :id="id" :key="id" />
         </div>
-    </div> -->
+        <div v-else v-for="i in 5" >
+            <div class="flex flex-col gap-4 w-52">
+                <div class="skeleton h-32 w-full"></div>
+                <div class="skeleton h-4 w-28"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+            </div>
+        </div>
+    </div>
     
 </template>
     
 <script setup>
-    import { defineProps, ref, onMounted } from 'vue';
+    import { defineProps, ref, onMounted, watch, watchEffect } from 'vue';
     import { useRoute,useRouter } from 'vue-router';
     import ProduitComponent from '@/components/ProduitComponent.vue';
     import { isProxy, toRaw } from 'vue';
@@ -128,7 +136,6 @@
     const classChevron = ref('fa-solid fa-chevron-down')
 
     function toggleChevronDescription() {
-        console.log("caca");
         if (classChevron.value == 'fa-solid fa-chevron-down'){
             classChevron.value = 'fa-solid fa-chevron-up'
         }else{
@@ -144,12 +151,24 @@
     const varianteProduitPromo = ref()
     const variantProduitPrixAvecPromo = ref()
 
+    const produitsSimilaire = ref()
+    const listIdProduitsSimilaire = ref([])
+
     const coloris = ref()
 
     const colorisNom = ref()
 
     const colorisHexa = ref()
 
+    watchEffect(()=>{
+        fetchProduit()
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Pour un défilement fluide, utilisez 'smooth'
+        });
+    },{
+        deep: true
+    });
 
     async function fetchProduit() {
         const firstResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${route.query.id}`, {
@@ -167,6 +186,29 @@
             variantProduitPrixAvecPromo.value = (varianteProduitPrix.value - (varianteProduitPrix.value * varianteProduitPromo.value)).toFixed(2);
         }   
 
+        // pour avoir les produits similaires
+
+
+        if (produit.value.produitSimilaireLienUn.$values.length != 0) {
+            produitsSimilaire.value = produit.value.produitSimilaireLienUn 
+            produitsSimilaire.value.$values.forEach(produit => {
+    
+                listIdProduitsSimilaire.value.push(produit.produitDeuxId)
+            });
+            
+        }else{
+            produitsSimilaire.value = produit.value.produitSimilaireLienDeux 
+            produitsSimilaire.value.$values.forEach(produit => {
+                
+                listIdProduitsSimilaire.value.push(produit.produitUnId)
+            });
+        }
+
+        console.log(listIdProduitsSimilaire.value);
+        
+        
+
+        // pour avoir les coloris 
         const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value.$values[0].colorisId }`, {
             method: "GET",
             mode: "cors"
@@ -215,11 +257,9 @@
             colorisHexa.value = "bg-purple-500"
         }
 
-        console.log(colorisHexa)
 
     }
 
-    onMounted(fetchProduit)
 
 
 </script>
