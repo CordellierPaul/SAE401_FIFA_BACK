@@ -8,7 +8,7 @@
                 <li><RouterLink :to="{name: 'index'}" class="hover:opacity-50 hover:cursor-pointer">FIFA</RouterLink></li> 
                 <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Produits</a></li> 
                 <!-- Titre de la page actuelle -->
-                <li>MAILLOT DOMICILE VAINQUEUR ARGENTINE ADIDAS – FEMME</li>
+                <li>{{ produit.produitNom }}</li>
             </ul>
         </div>
     </div>
@@ -188,11 +188,11 @@
             method: "GET",
             mode: "cors"
         })
-
+        
         coloris.value = await secondResponse.json()
         colorisNom.value = coloris.value.colorisNom 
 
-        if (coloris.value.colorisNom == 1) {
+        if (coloris.value.colorisId == 1) {
             colorisHexa.value = "bg-orange-200"
         }
         else if (coloris.value.colorisId == 2){
