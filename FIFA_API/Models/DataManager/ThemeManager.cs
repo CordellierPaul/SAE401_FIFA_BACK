@@ -2,11 +2,11 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class ThemeManager : IDataRepository<Theme>
+    public class ThemeManager : IThemeRepository
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -52,6 +52,24 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.VotesTheme = entity.VotesTheme;
             entityToUpdate.LienJoueur = entity.LienJoueur;
             await fifaDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Joueur>>> GetJoueurTheme(int idTheme)
+        {
+            Theme? leTheme = await fifaDbContext.Theme.FirstOrDefaultAsync(x => x.ThemeId == idTheme);
+
+            if (leTheme is null)
+                return null;
+
+            EntityEntry<Theme> themeEntityEntry = fifaDbContext.Entry(leTheme);
+
+            return new ActionResult<IEnumerable<Joueur>>(themeEntityEntry
+                .Collection(p => p.LienJoueur)
+                .Query()
+                .Select(x => x.JoueurNavigation)
+                .AsEnumerable());
+
+
         }
     }
 }
