@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers()
-    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -63,6 +63,8 @@ builder.Services.AddScoped<IDataRepository<Theme>, ThemeManager>();
 builder.Services.AddScoped<IDataRepository<Trophee>, TropheeManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<VarianteProduit>, VarianteProduitManager>();
 builder.Services.AddScoped<IDataRepository<Ville>, VilleManager>();
+
+
 
 //Token
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
