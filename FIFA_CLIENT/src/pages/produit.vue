@@ -114,7 +114,7 @@
 </template>
     
 <script setup>
-    import { defineProps, ref, onMounted } from 'vue';
+    import { defineProps, ref, onMounted, watch, watchEffect } from 'vue';
     import { useRoute,useRouter } from 'vue-router';
     import ProduitComponent from '@/components/ProduitComponent.vue';
     import { isProxy, toRaw } from 'vue';
@@ -160,6 +160,11 @@
 
     const colorisHexa = ref()
 
+    watchEffect(()=>{
+        fetchProduit()
+    },{
+        deep: true
+    });
 
     async function fetchProduit() {
         const firstResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${route.query.id}`, {
@@ -181,8 +186,6 @@
 
         produitsSimilaire.value = produit.value.produitSimilaireLienUn 
         listProduitsSimilaire.value = produitsSimilaire.value.$values 
-
-        console.log(listProduitsSimilaire.value);
 
 
         // pour avoir les coloris 
