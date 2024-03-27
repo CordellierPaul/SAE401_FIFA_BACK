@@ -12,6 +12,7 @@
             </div>
         </div>
         <div class="m-12">
+            <div class="badge badge-outline badge-sm">Blog</div>
             <p class="text-4xl font-bold">Kylian Mbappé : Une Légende en Devenir</p>
             <div class="mt-5">
                 <p>Résumé:</p>
