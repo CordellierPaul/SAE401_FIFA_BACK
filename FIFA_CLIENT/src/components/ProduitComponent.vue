@@ -27,6 +27,7 @@ async function fetchProductImagePath() {
 
 onMounted(fetchProductImagePath)
 
+
 </script>
 
 <template>

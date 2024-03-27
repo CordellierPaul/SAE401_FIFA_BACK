@@ -96,12 +96,20 @@
         </div>    
     </div>
     
-    <!-- <div class="p-2 w-full bg-base-200 mt-2">
+    <div class="p-2 w-full bg-base-200 mt-2">
         <p class="text-2xl font-bold">Produits associés</p>
-        <div id="container" class="flex overflow-x-auto w-full gap-10 p-2">
-            <ProduitComponent class="min-w-96" v-for="index in 21" :key="index" />
+        <div id="container" class="flex overflow-x-auto w-full gap-10 p-2" v-if="listProduitsSimilaire">
+            <ProduitComponent class="min-w-96" v-for="produit in listProduitsSimilaire" :id="produit.produitDeuxId" :key="produit.produitDeuxId" />
         </div>
-    </div> -->
+        <div v-else v-for="i in 5" >
+            <div class="flex flex-col gap-4 w-52">
+                <div class="skeleton h-32 w-full"></div>
+                <div class="skeleton h-4 w-28"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+            </div>
+        </div>
+    </div>
     
 </template>
     
@@ -128,7 +136,6 @@
     const classChevron = ref('fa-solid fa-chevron-down')
 
     function toggleChevronDescription() {
-        console.log("caca");
         if (classChevron.value == 'fa-solid fa-chevron-down'){
             classChevron.value = 'fa-solid fa-chevron-up'
         }else{
@@ -143,6 +150,9 @@
     const varianteProduitPrix = ref()
     const varianteProduitPromo = ref()
     const variantProduitPrixAvecPromo = ref()
+
+    const produitsSimilaire = ref()
+    const listProduitsSimilaire = ref()
 
     const coloris = ref()
 
@@ -167,6 +177,15 @@
             variantProduitPrixAvecPromo.value = (varianteProduitPrix.value - (varianteProduitPrix.value * varianteProduitPromo.value)).toFixed(2);
         }   
 
+        // pour avoir les produits similaires
+
+        produitsSimilaire.value = produit.value.produitSimilaireLienUn 
+        listProduitsSimilaire.value = produitsSimilaire.value.$values 
+
+        console.log(listProduitsSimilaire.value);
+
+
+        // pour avoir les coloris 
         const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value.$values[0].colorisId }`, {
             method: "GET",
             mode: "cors"
@@ -215,7 +234,6 @@
             colorisHexa.value = "bg-purple-500"
         }
 
-        console.log(colorisHexa)
 
     }
 
