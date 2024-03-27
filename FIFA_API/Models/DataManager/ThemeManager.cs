@@ -54,7 +54,7 @@ namespace FIFA_API.Models.DataManager
             await fifaDbContext.SaveChangesAsync();
         }
 
-        public async Task<ActionResult<IEnumerable<Joueur>>> GetJoueurTheme(int idTheme)
+        public async Task<ActionResult<IEnumerable<Joueur>>> GetJoueursByThemeId(int idTheme)
         {
             Theme? leTheme = await fifaDbContext.Theme.FirstOrDefaultAsync(x => x.ThemeId == idTheme);
 
