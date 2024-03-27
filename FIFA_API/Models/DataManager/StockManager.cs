@@ -2,11 +2,11 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class StockManager : IDataRepositoryWithoutStr<Stock>
+    public class StockManager : IStockRepository
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -47,6 +47,21 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.VarianteProduitId = entity.VarianteProduitId;
             entityToUpdate.QuantiteStockee = entity.QuantiteStockee;
             await fifaDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Stock>>> GetStockByVarianteIds(int[] varianteId)
+        {
+            IEnumerable < Stock > stocks = await fifaDbContext.Stock.Where(u => varianteId.Contains(u.VarianteProduitId)).ToListAsync();
+
+
+            foreach (var stock in stocks)
+            {
+                EntityEntry<Stock> produitEntityEntry = fifaDbContext.Entry(stock);
+
+                await produitEntityEntry.Reference(p => p.TailleStockee).LoadAsync();
+            }
+
+            return stocks.ToList();
         }
     }
 }

@@ -15,9 +15,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class StockController : ControllerBase
     {
-        private readonly IDataRepositoryWithoutStr<Stock> dataRepository;
+        private readonly IStockRepository dataRepository;
 
-        public StockController(IDataRepositoryWithoutStr<Stock> context)
+        public StockController(IStockRepository context)
         {
             dataRepository = context;
         }
@@ -38,6 +38,24 @@ namespace FIFA_API.Controllers
         public async Task<ActionResult<Stock>> GetStockById(int id)
         {
             var stock = await dataRepository.GetByIdAsync(id);
+
+            if (stock == null)
+            {
+                return NotFound();
+            }
+
+            return stock;
+        }
+
+        // GET: api/Stock/5
+        [HttpGet]
+        [Route("[action]")]
+        [ActionName("GetByVarianteId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Stock>>> GetStockByVarianteIds([FromQuery] int[] ids)
+        {
+            var stock = await dataRepository.GetStockByVarianteIds(ids);
 
             if (stock == null)
             {
