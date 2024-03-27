@@ -24,7 +24,7 @@
             </div>
             <div class="divider"></div>
             <div class="mt-12">
-                <p>Autres blog de l'article</p>
+                <p>Autres blog de l'article:</p>
                 <div class="flex justify-center items-center p-12">
                     <p class="text-xl">Aucun autre blog n'a été rencesé dans cet article.</p>
                 </div>
