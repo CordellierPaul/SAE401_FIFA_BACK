@@ -26,15 +26,15 @@
                     <p class="font-normal my-3">Kylian Mbappé est une force inarrêtable sur le terrain. À seulement 23 ans, il a déjà marqué l'histoire du football. Son mélange de vitesse, d'agilité, et de finition en fait un attaquant exceptionnel. Il a remporté la Coupe du Monde 2018 avec l'équipe nationale française et a conquis la Ligue 1 avec le Paris Saint-Germain. Mais ce qui le distingue encore plus, c'est son leadership et son humilité. Mbappé est un modèle pour les jeunes joueurs, incarnant l'esprit d'équipe et la passion pour le jeu. Avec un avenir prometteur devant lui, il est destiné à rester une légende du football.</p>
                 </div>
                 <div class="collapse-content *:my-3"> 
+                    <RouterLink :to="{name: 'blog'}">
                     <div class="btn btn-block h-44">
-                        <RouterLink :to="{name: 'blog'}">
                             <div class="flex flex-col items-center justify-center">
                                 <p class="text-2xl m-3">Kylian Mbappé : Une Légende en Devenir</p>
                                 <p class="text-lg">Cet article explore la carrière fulgurante de Kylian Mbappé, sa montée en puissance dans le monde du football et son rôle en tant que source d'inspiration pour la nouvelle génération. </p>
                                 <p class="text-xs m-5">Cliquez pour regarder le blog</p>
                             </div>
-                        </RouterLink>
-                    </div>
+                        </div>
+                    </RouterLink>
                 </div>
             </div>
 
