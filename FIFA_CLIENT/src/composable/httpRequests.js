@@ -20,7 +20,7 @@ export function getRequest(object, url, actionWhenfetched = null) {
             object.value = toRaw(object.value)
         }
 
-        console.log(object.value);
+        // console.log(object.value);
 
         if (actionWhenfetched != null) {
             actionWhenfetched()
