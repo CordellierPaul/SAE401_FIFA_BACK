@@ -10,6 +10,7 @@
             <nav>
                 <h6 class="footer-title text-white">Utiles</h6> 
                 <a class="link link-hover text-white">Produits</a>
+                <a class="link link-hover text-white">Articles</a>
             </nav> 
             <nav>
                 <h6 class="footer-title text-white">Entreprise</h6> 
