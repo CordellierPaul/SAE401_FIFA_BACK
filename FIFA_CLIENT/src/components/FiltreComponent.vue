@@ -1,12 +1,11 @@
 <template>
     
   <div class="">
-    <div class="divider mx-10"></div> 
-      <div class="ml-5">
+      <div class="ml-5 ">
         <div @click="toggleChevronDescription" class="collapse ">
           <input type="checkbox" /> 
           <div class="collapse-title  ">
-            <div  class="flex justify-between items-center">
+            <div  class="flex justify-between  items-center">
                   <p class="text-lg ">{{ titre }}</p>
                   <i :class="classChevron"></i>
                 </div>

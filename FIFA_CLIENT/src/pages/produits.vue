@@ -98,17 +98,34 @@
 
             </div>
             <div id="right_part" class="w-full bg-base-200">
-                <div class="m-5">
-                    <p v-if="produits">{{ produits.length }} résultats</p>
-                    {{ optionsTaillesChecked }}
-                    {{ optionsGenresChecked }}
-                    {{ optionsColorisChecked }}
-                    
+                <div class="flex m-5 gap-2">
+                    <div class="flex gap-2" v-if="produits">
+                        <div>
+                            {{ produits.length }} résultats
+                        </div>
+                        <div v-if="optionsTaillesChecked.length != 0 || optionsGenresChecked.length != 0 || optionsColorisChecked.length != 0">
+                              pour
+                        </div>
 
+                    </div>
+                    <div class=" flex gap-2 *:badge *:badge-neutral">
+                        <div v-if="optionsTaillesChecked" v-for="taille in optionsTaillesChecked" :key="taille">{{ taille }}</div>
+                        <div v-if="optionsGenresChecked" v-for="genre in optionsGenresChecked" :key="genre">{{ genre }}</div>
+                        <div v-if="optionsColorisChecked" v-for="coloris in optionsColorisChecked" :key="coloris">{{ coloris }}</div>
+                    </div>
                 </div>
+
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
                     <!-- <p v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom"> {{ produit.produitId }} et {{ produit.produitNom }} </p> -->
                     <ProduitComponent v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
+                    <div v-else v-for="i in 5" >
+                        <div class="flex flex-col gap-4 w-52">
+                            <div class="skeleton h-32 w-full"></div>
+                            <div class="skeleton h-4 w-28"></div>
+                            <div class="skeleton h-4 w-full"></div>
+                            <div class="skeleton h-4 w-full"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="m-10 flex items-center justify-center">
                     <button class="btn btn-primary text-white">Voir plus</button>
