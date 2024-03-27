@@ -15,7 +15,9 @@
             <div class="collapse collapse-arrow bg-base-300">
                 <input type="radio" name="my-accordion-2" /> 
                 <div class="collapse-title text-xl font-medium">
+                    <div class="badge badge-outline badge-sm">Article</div>
                     <div class="flex justify-between items-center"> 
+                        
                         <div class="font-bold text-2xl selec">Kylian Mbappé : L'Étoile Montante du Football</div>
                         <p class="text-base">Écrit le: 26/03/2024</p>
                     </div>
