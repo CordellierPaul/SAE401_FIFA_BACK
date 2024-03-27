@@ -20,7 +20,14 @@
             <div class="divider"></div>
             <div class="mt-5">
                 <p>Description:</p>
-                <p class="text-2xl">Kylian Mbappé, une force inarrêtable sur le terrain, incarne l'avenir du football. Son parcours est un exemple de détermination et de talent. Découvrez comment il a conquis le monde du sport et inspire des millions de fans à travers le globe. Un article incontournable pour tous les passionnés de football. ⚽🌟 #Mbappé #FootballLegend</p>
+                <p class="text-2xl">Kylian Mbappé, véritable phénomène du football, ne cesse d'éblouir par son jeu spectaculaire et son influence transcendante sur le terrain. À seulement 23 ans, son parcours époustouflant est tissé d'exploits sportifs et de moments de génie qui ont marqué l'histoire du sport. Doté d'une vitesse fulgurante, d'une agilité hors norme et d'une finition chirurgicale, il incarne l'avenir du football mondial.
+
+Mais au-delà de ses prouesses techniques, c'est sa détermination inébranlable et son éthique de travail exemplaire qui fascinent. De ses débuts précoces à l'AS Monaco jusqu'à son ascension vertigineuse au Paris Saint-Germain et en équipe nationale française, Mbappé a su défier les attentes et repousser les limites du possible.
+
+Son impact dépasse largement les terrains de jeu. Mbappé représente bien plus qu'un simple joueur de football ; il est devenu une icône mondiale, un symbole d'espoir et d'inspiration pour des millions de fans à travers le globe. Son charisme, sa modestie et son engagement en font un modèle pour la jeunesse, tandis que son style de jeu flamboyant captive les foules et transcende les frontières.
+
+Cet article captivant plonge dans l'univers fascinant de Kylian Mbappé, explorant en profondeur son parcours exceptionnel, son impact culturel et son héritage grandissant dans le monde du sport. Que vous soyez un passionné de football ou simplement admiratif du talent brut, plongez-vous dans cette saga envoûtante qui célèbre l'ascension d'une légende en devenir. #Mbappé #FootballLegend 🌟⚽</p>
+
             </div>
             <div class="divider"></div>
             <div class="mt-12">
