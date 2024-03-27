@@ -8,7 +8,7 @@
                 <li><RouterLink :to="{name: 'index'}" class="hover:opacity-50 hover:cursor-pointer">FIFA</RouterLink></li> 
                 <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Produits</a></li> 
                 <!-- Titre de la page actuelle -->
-                <li>MAILLOT DOMICILE VAINQUEUR ARGENTINE ADIDAS – FEMME</li>
+                <li>{{ produit.produitNom }}</li>
             </ul>
         </div>
     </div>
@@ -26,8 +26,8 @@
         <div  class="bg-base-200 w-1/2  p-2 ml-1" >
             <p class="text-2xl font-bold" v-if="produit">{{produit.produitNom}}</p>
             <div class="flex gap-2">
-                <p class="text-xl" v-if="varianteProduitPrix && varianteProduitPromo && variantProduitPrixAvecPromo"  >{{ variantProduitPrixAvecPromo}}€</p>
-                <p class="text-xl font-light line-through" v-if="varianteProduitPrix">{{varianteProduitPrix}}€</p>
+                <p class="text-xl" v-if="variantesProduit[variantesSelectionne]"  >{{   (variantesProduit[variantesSelectionne].varianteProduitPrix - (variantesProduit[variantesSelectionne].varianteProduitPrix * variantesProduit[variantesSelectionne].varianteProduitPromo)).toFixed(2)}} €</p>
+                <p class="text-xl font-light line-through" v-if="variantesProduit[variantesSelectionne]">{{variantesProduit[variantesSelectionne].varianteProduitPrix}}€</p>
             </div>
             <div class="flex justify-between my-3">
                 <p>Taille</p>
@@ -44,28 +44,21 @@
             </div>
             <div class="flex gap-1">
                 <p class="font-bold">COULEUR :</p>
-                <p>{{ colorisNom }}</p>
+                <p v-if="coloris[variantesSelectionne]">{{ coloris[variantesSelectionne].colorisNom }}</p>
             </div>
-            <div v-if="colorisHexa" :class="colorisHexa" class="size-8 border-solid border-black border-2">
+            <div v-if="colorisHexa" class="flex gap-2">
+                <div  v-for="(hexa, index) in colorisHexa" :key="index" :class="hexa" @click="variantesSelectionne = index" class="size-8 border-solid border-black border-2 hover:cursor-pointer hover:opacity-75  ">
+
+            </div>
 
             </div>
 
             <button class="btn btn-block btn-accent text-white my-5">AJOUTER AU PANIER</button>
-            <div @click="toggleChevronDescription" class="collapse bg-base-200 ">
-                <input type="checkbox" /> 
-                <div   class="collapse-title text-xl font-medium ">
-                    <div  class="flex justify-between ">
-                        <p class="font-semibold">Description</p>
-                        <i :class="classChevron"></i>
-                    </div>
-                </div>
-                <div class="collapse-content"> 
-                    <p class="my-5" v-if="produit">{{ produit.produitDescription }}</p>
-                </div>
-
-            </div>
             
-                
+            
+            <p class="font-semibold">Description</p>
+            <p class="my-5" v-if="produit.produitDescription">{{ produit.produitDescription }}</p>
+            <p class="my-5 opacity-50" v-else>Pas de déscription</p>  
         </div>    
     </div>
     
@@ -105,44 +98,37 @@
         router.back()
     }
 
-    // Pour changer le le sans du chevron de la déscription
-    const classChevron = ref('fa-solid fa-chevron-down')
-
-    function toggleChevronDescription() {
-        if (classChevron.value == 'fa-solid fa-chevron-down'){
-            classChevron.value = 'fa-solid fa-chevron-up'
-        }else{
-            classChevron.value = 'fa-solid fa-chevron-down'
-        }
-    }
-
-
     // Pour le data
 
     const produit = ref([])
 
     const variantesProduit = ref([])
+    const variantesSelectionne =ref(0)
 
-    const varianteProduitPrix = ref()
-    const varianteProduitPromo = ref()
+    
+
+
+
     const variantProduitPrixAvecPromo = ref()
+     
 
     const produitsSimilaire = ref()
     const listIdProduitsSimilaire = ref([])
 
-    const coloris = ref()
-
-    const colorisNom = ref()
-
-    const colorisHexa = ref()
+    const coloris = ref([])
+    const colorisHexa = ref([])
 
     const image = ref()
 
+    const tailles = ref()
+
     watchEffect(()=>{
+
         fetchProduit()
+        colorisHexa.value =[]
         window.scrollTo({
             top: 0,
-            behavior: 'smooth' // Pour un défilement fluide, utilisez 'smooth'
+            behavior: 'smooth' 
         });
     },{
         deep: true
@@ -156,16 +142,14 @@
 
         produit.value = await firstResponse.json()
         variantesProduit.value = produit.value.variantesProduit
-        varianteProduitPromo.value = variantesProduit.value[0].varianteProduitPromo
-        varianteProduitPrix.value = variantesProduit.value[0].varianteProduitPrix
 
-        // calcul du prix avec promo
-        if (varianteProduitPrix.value) {
-            variantProduitPrixAvecPromo.value = (varianteProduitPrix.value - (varianteProduitPrix.value * varianteProduitPromo.value)).toFixed(2);
-        }   
+        variantProduitPrixAvecPromo.value = (
+        variantesProduit.value[variantesSelectionne.value].varianteProduitPrix 
+        - (variantesProduit.value[variantesSelectionne.value].varianteProduitPrix 
+        * variantesProduit.value[variantesSelectionne.value].varianteProduitPromo)).toFixed(2)
+       
 
         // pour avoir les produits similaires
-
         if (produit.value.produitSimilaireLienUn.length != 0) {
             produitsSimilaire.value = produit.value.produitSimilaireLienUn 
             produitsSimilaire.value.forEach(produit => {
@@ -173,7 +157,8 @@
                 listIdProduitsSimilaire.value.push(produit.produitDeuxId)
             });
             
-        }else{
+        }
+        else{
             produitsSimilaire.value = produit.value.produitSimilaireLienDeux 
             produitsSimilaire.value.forEach(produit => {
                 
@@ -184,53 +169,60 @@
         
 
         // pour avoir les coloris 
-        const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value[0].colorisId }`, {
-            method: "GET",
-            mode: "cors"
-        })
 
-        coloris.value = await secondResponse.json()
-        colorisNom.value = coloris.value.colorisNom 
+        let r
+        let c
 
-        if (coloris.value.colorisNom == 1) {
-            colorisHexa.value = "bg-orange-200"
+        for (const variante of variantesProduit.value) {
+            r = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variante.colorisId}`, {
+                method: "GET",
+                mode: "cors"
+            });
+            c = await r.json();
+            coloris.value.push(c);
+
+            if (variante.colorisNom == 1) {
+                colorisHexa.value.push("bg-orange-200")
+            }
+            else if (variante.colorisId == 2){
+                colorisHexa.value.push("bg-black")
+            }
+            else if (variante.colorisId == 3){
+                colorisHexa.value.push("bg-blue-500")
+            }
+            else if (variante.colorisId == 4){
+                colorisHexa.value.push("bg-green-500")
+            }
+            else if (variante.colorisId == 5){
+                colorisHexa.value.push("bg-gray-500")
+            }
+            else if (variante.colorisId == 6){
+                colorisHexa.value.push("bg-gradient-to-bl from-violet-600 via-yellow-400 to-green-600")
+            }
+            else if (variante.colorisId == 7){
+                colorisHexa.value.push("bg-blue-800")
+            }
+            else if (variante.colorisId == 8){
+                colorisHexa.value.push("bg-orange-500")
+            }
+            else if (variante.colorisId == 9){
+                colorisHexa.value.push("bg-pink-500")
+            }
+            else if (variante.colorisId == 10){
+                colorisHexa.value.push("bg-red-500")
+            }
+            else if (variante.colorisId == 11){
+                colorisHexa.value.push("bg-white")
+            }
+            else if (variante.colorisId == 12){
+                colorisHexa.value.push("bg-yellow-500")
+            }
+            else if (variante.colorisId == 13){
+                colorisHexa.value.push("bg-purple-500")
+            }
         }
-        else if (coloris.value.colorisId == 2){
-            colorisHexa.value = "bg-black"
-        }
-        else if (coloris.value.colorisId == 3){
-            colorisHexa.value = "bg-blue-500"
-        }
-        else if (coloris.value.colorisId == 4){
-            colorisHexa.value = "bg-green-500"
-        }
-        else if (coloris.value.colorisId == 5){
-            colorisHexa.value = "bg-gray-500"
-        }
-        else if (coloris.value.colorisId == 6){
-            colorisHexa.value = "bg-gradient-to-bl from-violet-600 via-yellow-400 to-green-600"
-        }
-        else if (coloris.value.colorisId == 7){
-            colorisHexa.value = "bg-blue-800"
-        }
-        else if (coloris.value.colorisId == 8){
-            colorisHexa.value = "bg-orange-500"
-        }
-        else if (coloris.value.colorisId == 9){
-            colorisHexa.value = "bg-pink-500"
-        }
-        else if (coloris.value.colorisId == 10){
-            colorisHexa.value = "bg-red-500"
-        }
-        else if (coloris.value.colorisId == 11){
-            colorisHexa.value = "bg-white"
-        }
-        else if (coloris.value.colorisId == 12){
-            colorisHexa.value = "bg-yellow-500"
-        }
-        else if (coloris.value.colorisId == 13){
-            colorisHexa.value = "bg-purple-500"
-        }
+
+
 
         // pour avoir l'image 
         const thirdResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getanimageofproduitbyid/${route.query.id}`, {

@@ -1,6 +1,12 @@
 <template>
+    <ul class="steps steps-vertical lg:steps-horizontal">
+        <li class="step step-primary">Inscritpion</li>
+        <li class="step step-primary">Livrasion</li>
+        <li class="step step-primary">Paiement</li>
+    </ul>
 
-    <form @submit.prevent action="" class="w-10/12 mt-10 *:my-2">
+    <form @submit.prevent action="" class="w-10/12 *:my-2">
+
 
         <p class="text-xl">Paiement</p>
         <p>Toutes les transactions sont chiffrées et sécurisées.</p>
@@ -28,7 +34,7 @@
 
         </div>
 
-        <div class="flex gap-2 justify-between">
+        <div class="flex gap-2 justify-between mt-2">
             <button @click="btPreviousClick" class="btn w-1/12 bg-secondary text-white"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="btn w-10/12 btn-accent text-white">Payer Maintenant</button>
 
