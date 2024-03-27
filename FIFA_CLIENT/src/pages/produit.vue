@@ -60,17 +60,7 @@
                     </div>
                 </div>
                 <div class="collapse-content"> 
-                    <ul class="list-disc pl-4">
-                        <li>Coupe droite</li>
-                        <li>Col rond côtelé</li>
-                        <li>Maille double 100% polyester recyclé</li>
-                        <li>AEROREADY</li>
-                        <li>Empiècements en mesh sous les bras</li>
-                        <li>Manches côtelées</li>
-                        <li>Coupe plus longue à l’arrière</li>
-                        <li>Écusson brodé de l’Argentine</li>
-                    </ul>
-                    <p class="my-5">Un style indémodable pour les vainqueurs de la Coupe du Monde de la FIFA 2022™. Que les puristes se rassurent, on retrouve bien évidemment les mythiques bandes bleues et blanches, ainsi que le fameux emblème « Sol de Mayo », sur ce maillot domicile de l’Argentine. Les trois étoiles évoquent les titres mondiaux de l’Albiceleste, dont le sacre décroché au Qatar. Doté de la technologie absorbante AEROREADY et d’un écusson brodé, ce maillot permet d’exprimer votre passion dans un confort optimal en toute circonstance. Cet article est fabriqué à l’aide de matériaux 100% recyclés. Réutiliser d’anciens articles nous permet de diminuer les déchets, notre dépendance aux ressources limitées ainsi que l’empreinte carbone de nos produits.</p>
+                    <p class="my-5" v-if="produit">{{ produit.produitDescription }}</p>
                 </div>
 
             </div>
@@ -163,8 +153,8 @@
 
         produit.value = await firstResponse.json()
         variantesProduit.value = produit.value.variantesProduit
-        varianteProduitPromo.value = variantesProduit.value.$values[0].varianteProduitPromo
-        varianteProduitPrix.value = variantesProduit.value.$values[0].varianteProduitPrix
+        varianteProduitPromo.value = variantesProduit.value[0].varianteProduitPromo
+        varianteProduitPrix.value = variantesProduit.value[0].varianteProduitPrix
 
         // calcul du prix avec promo
         if (varianteProduitPrix.value) {
@@ -173,17 +163,16 @@
 
         // pour avoir les produits similaires
 
-
-        if (produit.value.produitSimilaireLienUn.$values.length != 0) {
+        if (produit.value.produitSimilaireLienUn.length != 0) {
             produitsSimilaire.value = produit.value.produitSimilaireLienUn 
-            produitsSimilaire.value.$values.forEach(produit => {
+            produitsSimilaire.value.forEach(produit => {
     
                 listIdProduitsSimilaire.value.push(produit.produitDeuxId)
             });
             
         }else{
             produitsSimilaire.value = produit.value.produitSimilaireLienDeux 
-            produitsSimilaire.value.$values.forEach(produit => {
+            produitsSimilaire.value.forEach(produit => {
                 
                 listIdProduitsSimilaire.value.push(produit.produitUnId)
             });
@@ -192,7 +181,7 @@
         
 
         // pour avoir les coloris 
-        const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value.$values[0].colorisId }`, {
+        const secondResponse = await fetch(`https://apififa.azurewebsites.net/api/coloris/getbyid/${variantesProduit.value[0].colorisId }`, {
             method: "GET",
             mode: "cors"
         })
