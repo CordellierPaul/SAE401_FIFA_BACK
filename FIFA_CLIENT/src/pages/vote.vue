@@ -38,7 +38,7 @@
 
 
 <template> 
-    <a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Themes</a>
+    <a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Revenir à Themes</a>
 
     <div>
       <h1>Liste des joueurs</h1>
