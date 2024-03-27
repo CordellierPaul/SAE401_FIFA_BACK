@@ -2,6 +2,7 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FIFA_API.Models.DataManager
 {
@@ -34,8 +35,20 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<VarianteProduit>> GetByIdAsync(int id)
         {
-            return await fifaDbContext.VarianteProduit.FirstOrDefaultAsync(u => u.VarianteProduitId == id);
+            var produit = await fifaDbContext.VarianteProduit.FirstOrDefaultAsync(u => u.VarianteProduitId == id);
 
+            if (produit is null)
+                return null;
+
+            EntityEntry<VarianteProduit> varianteProduitEntityEntry = fifaDbContext.Entry(produit);
+
+            await varianteProduitEntityEntry
+                .Collection(vp => vp.LienImages)
+                .Query()
+                .Include(i => i.ImageNavigation)
+                .LoadAsync();
+
+            return varianteProduitEntityEntry.Entity;
         }
 
 
