@@ -12,23 +12,25 @@
         <p class="flex justify-center items-center m-12 text-3xl font-bold">Articles</p>
         <div class="m-5 *:my-8">
 
-            <ArticleComponent v-if="articles" v-for="(article, index) in articles" key="index"></ArticleComponent>
+            <ArticleComponent v-if="articles" v-for="(article, index) in articles" key="index" :article="article"></ArticleComponent>
         </div>
+
+        {{ articles }}
     </div>
 
 </template>
 
 <script setup>
-    import { useRouter } from 'vue-router';
-    import { onMounted, ref } from 'vue'
-    import { getRequest } from '../composable/httpRequests.js'
     import ArticleComponent from '@/components/article/ArticleComponent.vue'
-    
-    const articles = ref([])
-
+    import { useRouter } from 'vue-router';
+    import { getRequest } from '../composable/httpRequests.js'
+    import { ref } from 'vue'
     const router = useRouter();
     function retour (){
         router.back()
     }
-    onMounted(getRequest(articles, "https://apififa.azurewebsites.net/api/article"));
+    
+    const articles = ref([])
+
+    getRequest(articles, "https://apififa.azurewebsites.net/api/article");
 </script>
