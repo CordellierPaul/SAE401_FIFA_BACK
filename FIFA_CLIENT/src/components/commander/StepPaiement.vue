@@ -49,6 +49,7 @@
                     <input type="radio" name="radio-1" class="radio" @click="toggleAdresseInput" />
                     <p>utiliser une adresse de facturation différente</p>
                 </div>
+                <div :class="adresseInputClass"></div>
             </div>
         </div>
 
