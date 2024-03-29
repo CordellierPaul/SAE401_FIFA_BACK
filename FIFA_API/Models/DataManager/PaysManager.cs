@@ -2,11 +2,11 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class PaysManager : IDataRepository<Pays>
+    public class PaysManager : IPaysRepository
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -54,6 +54,23 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.UtilisateursNesPays = entity.UtilisateursNesPays;
             entityToUpdate.VillesPays = entity.VillesPays;
             await fifaDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Pays>>> GetPaysWhereProduitExists()
+        {
+            IEnumerable<Pays> lesPays = await fifaDbContext.Pays.ToListAsync();
+
+
+            foreach (var pays in lesPays)
+            {
+                EntityEntry<Pays> paysEntityEntry = fifaDbContext.Entry(pays);
+
+                await paysEntityEntry.Collection(x => x.ProduitsPays).LoadAsync();
+            }
+
+            lesPays = lesPays.Where(x => x.ProduitsPays.Count != 0);
+
+            return lesPays.ToList();
         }
     }
 }

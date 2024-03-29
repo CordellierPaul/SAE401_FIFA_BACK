@@ -103,4 +103,5 @@ namespace FIFA_API.Controllers
 
             return NoContent();
         }
+    }
 }

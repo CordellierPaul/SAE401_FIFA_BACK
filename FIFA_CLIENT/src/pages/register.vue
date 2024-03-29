@@ -157,7 +157,11 @@ export function conditionsSontVerifieesPourMotDePasse(motDePasse) {
 export function formatEmailEstBon(email) {
     const regexEmail = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/
 
-    return email.match(regexEmail)
+    if (email.match(regexEmail)) {
+        return true
+    }
+
+    return false
 }
 
 export function emailEstUnique(email) {
