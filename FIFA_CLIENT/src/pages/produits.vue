@@ -7,6 +7,8 @@
 
     const produits = ref()
 
+    const produitsFiltre = ref([])
+
     const tailles = ref()
     const taillesLibelle = ref([])
 
@@ -73,7 +75,6 @@
         categories.value.forEach(categorie => {
             categoriesNom.value.push(categorie.categorieNom);
         });
-
 
         // pour avoir les pays
         const paysResponse = await fetch("https://apififa.azurewebsites.net/api/pays", {
@@ -154,7 +155,8 @@
 
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
                     <!-- <p v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom"> {{ produit.variantesProduit[0] }} </p> -->
-                    <ProduitComponent v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
+                    <div v-if="produitsFiltre.length != 0">non</div>
+                    <ProduitComponent v-else-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
                     <div v-else v-for="i in 5" >
                         <div class="flex flex-col gap-4 w-52">
                             <div class="skeleton h-32 w-full"></div>
