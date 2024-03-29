@@ -8,99 +8,99 @@ using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
 using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Threading;
 
 namespace FIFA_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PosteController : ControllerBase
+    public class VoteController : ControllerBase
     {
-        private readonly IDataRepository<Poste> dataRepository;
+        private readonly IDataRepository3clues<Vote> dataRepository;
 
-        public PosteController(IDataRepository<Poste> context)
+        public VoteController(IDataRepository3clues<Vote> context)
         {
             dataRepository = context;
         }
 
-        // GET: api/Poste
+        // GET: api/Vote
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Poste>>> GetPoste()
+        public async Task<ActionResult<IEnumerable<Vote>>> GetVote()
         {
             return await dataRepository.GetAllAsync();
         }
 
-        // GET: api/Poste/5
+        // GET: api/Vote/5
         [HttpGet]
-        [Route("[action]/{id}")]
+        [Route("[action]/{utlid}/{theid}/{jouid}")]
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Poste>> GetPosteById(int id)
+        public async Task<ActionResult<Vote>> GetVotById(int utlid, int theid, int jouid)
         {
-            var poste = await dataRepository.GetByIdAsync(id);
+            var vote = await dataRepository.GetByIdAsync(utlid, theid, jouid);
 
-            if (poste == null)
+            if (vote == null)
             {
                 return NotFound();
             }
 
-            return poste;
+            return vote;
         }
 
-        // PUT: api/Poste/5
+        // PUT: api/Vote/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PutPoste(int id, Poste poste)
+        public async Task<IActionResult> PutVote(int utlid, int theid, int jouid, Vote vote)
         {
-            if (id != poste.PosteId)
+            if (utlid != vote.UtilisateurId && theid != vote.ThemeId && jouid != vote.JoueurId)
             {
                 return BadRequest();
             }
-            var posToUpdate = await dataRepository.GetByIdAsync(id);
-            if (posToUpdate == null)
+            var votToUpdate = await dataRepository.GetByIdAsync(utlid, theid, jouid);
+            if (votToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                await dataRepository.UpdateAsync(posToUpdate.Value, poste);
+                await dataRepository.UpdateAsync(votToUpdate.Value, vote);
                 return NoContent();
             }
         }
 
-        // POST: api/Poste
+        // POST: api/Vote
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Poste>> PostPoste(Poste poste)
+        public async Task<ActionResult<Vote>> PostVote(Vote vote)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            await dataRepository.AddAsync(poste);
-            return CreatedAtAction("GetById", new { id = poste.PosteId }, poste);
-
+            await dataRepository.AddAsync(vote);
+            return CreatedAtAction("GetById", new { utlid = vote.UtilisateurId, theid = vote.ThemeId, jouid = vote.JoueurId }, vote);
         }
 
-        // DELETE: api/Poste/5
+        // DELETE: api/Vote/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeletePoste(int id)
+        public async Task<IActionResult> DeleteVote(int utlid, int theid, int jouid)
         {
-            var poste = await dataRepository.GetByIdAsync(id);
-            if (poste == null)
+            var vote = await dataRepository.GetByIdAsync(utlid, theid, jouid);
+            if (vote == null)
             {
                 return NotFound();
             }
-            await dataRepository.DeleteAsync(poste.Value);
+            await dataRepository.DeleteAsync(vote.Value);
 
             return NoContent();
         }
-    }
 }
