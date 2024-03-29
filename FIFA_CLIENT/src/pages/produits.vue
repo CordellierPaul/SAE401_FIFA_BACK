@@ -99,16 +99,16 @@
             </div>
             <div id="right_part" class="w-full bg-base-200">
                 <div class="flex m-5 gap-2">
-                    <div class="flex gap-2" v-if="produits">
-                        <div>
+                    <div class=" whitespace-nowrap" v-if="produits">
+                        <div class="flex gap-2">
                             {{ produits.length }} résultats
-                        </div>
-                        <div v-if="optionsTaillesChecked.length != 0 || optionsGenresChecked.length != 0 || optionsColorisChecked.length != 0">
-                              pour
+                            <div v-if="optionsTaillesChecked.length != 0 || optionsGenresChecked.length != 0 || optionsColorisChecked.length != 0">
+                                  pour
+                            </div>
                         </div>
 
                     </div>
-                    <div class=" flex gap-2 *:badge *:badge-neutral">
+                    <div class=" flex gap-2 flex-wrap *:badge *:badge-neutral">
                         <div v-if="optionsTaillesChecked" v-for="taille in optionsTaillesChecked" :key="taille">{{ taille }}</div>
                         <div v-if="optionsGenresChecked" v-for="genre in optionsGenresChecked" :key="genre">{{ genre }}</div>
                         <div v-if="optionsColorisChecked" v-for="coloris in optionsColorisChecked" :key="coloris">{{ coloris }}</div>
