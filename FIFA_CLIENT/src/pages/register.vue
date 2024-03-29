@@ -18,6 +18,12 @@ const classesPourListeCondition = {
     "cachee": "hidden"
 }
 
+
+// Textes des classes conditions pour que l'e-mail soit correct
+const styleConditionEmailUnique = ref(classesPourListeCondition["cachee"])
+const styleConditionFormatEmail = ref(classesPourListeCondition["cachee"])
+
+// Textes des classes conditions pour que le mot de passe soit correct
 const styleConditionMajuscule = ref(classesPourListeCondition["infomation"])
 const styleConditionMinuscule = ref(classesPourListeCondition["infomation"])
 const styleConditionCaractereSpecial = ref(classesPourListeCondition["infomation"])
@@ -88,6 +94,32 @@ function motDePasseVerifierConditions(motDePasse) {
 
     return motDePasseEstBon
 }
+
+function boutonCreationCompte() {
+    
+    let toutesLesConditionsSontRemplies = true
+
+    motDePasseVerifierConditions(formData.value.motDePasse)
+
+    if (!conditionsSontVerifieesPourMotDePasse(formData.value.motDePasse)) {
+        toutesLesConditionsSontRemplies = false
+    }
+
+    if (formatEmailEstBon(formData.value.email)) {
+        styleConditionFormatEmail.value = classesPourListeCondition["cachee"]
+    } else {
+        styleConditionFormatEmail.value = classesPourListeCondition["pasRespectee"]
+        toutesLesConditionsSontRemplies = false
+    }
+
+    if (!toutesLesConditionsSontRemplies) {
+        return
+    }
+
+    console.log("Formulaire envoyé !");
+
+    // Envoyer le formulaire ici
+}
 </script>
 
 <script>
@@ -120,6 +152,16 @@ export function conditionsSontVerifieesPourMotDePasse(motDePasse) {
     }
 
     return true
+}
+
+export function formatEmailEstBon(email) {
+    const regexEmail = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/
+
+    return email.match(regexEmail)
+}
+
+export function emailEstUnique(email) {
+    return true     // TODO : vérifier si l'email est déjà dans la base de données ici
 }
 </script>
 
@@ -188,6 +230,8 @@ export function conditionsSontVerifieesPourMotDePasse(motDePasse) {
         </div>
 
         <ul>
+            <li :class="styleConditionEmailUnique">Un compte est déjà enregistré à cet e-mail</li>
+            <li :class="styleConditionFormatEmail">Le format de l'e-mail n'est pas correct</li>
             <li :class="styleConditionMajuscule">Le mot de passe avoir au moins une majuscule</li>
             <li :class="styleConditionMinuscule">Le mot de passe avoir au moins une minuscule</li>
             <li :class="styleConditionCaractereSpecial">Le mot de passe avoir au moins un caractère spécial</li>
@@ -195,7 +239,7 @@ export function conditionsSontVerifieesPourMotDePasse(motDePasse) {
             <li :class="styleCondition12Caracteres">Le mot de passe avoir au minimum 12 caractères</li>
         </ul>
 
-        <button class="btn btn-accent m-5">CRÉER LE COMPTE</button>
+        <button class="btn btn-accent m-5" @click="boutonCreationCompte">CRÉER LE COMPTE</button>
         <div class="m-5 flex items-center justify-center flex-col *:m-3">
             <p>Vous avez déjà un compte ?</p>
             <RouterLink :to="{name: 'login'}" class="btn btn-secondary">SE CONNECTER</RouterLink>
