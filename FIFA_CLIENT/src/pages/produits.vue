@@ -7,6 +7,8 @@
 
     const produits = ref()
 
+    const produitsFiltre = ref([])
+
     const tailles = ref()
     const taillesLibelle = ref([])
 
@@ -15,6 +17,12 @@
 
     const coloris = ref()
     const colorisNom = ref([])
+
+    const categories = ref()
+    const categoriesNom = ref([])
+
+    const pays = ref()
+    const paysNom = ref([])
 
     getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
 
@@ -56,6 +64,30 @@
             colorisNom.value.push(coloris.colorisNom);
         });
 
+        // pour avoir les categories
+        const categorisResponse = await fetch("https://apififa.azurewebsites.net/api/categorie", {
+            method: "GET",
+            mode: "cors"
+        })
+
+        categories.value = await categorisResponse.json()
+
+        categories.value.forEach(categorie => {
+            categoriesNom.value.push(categorie.categorieNom);
+        });
+
+        // pour avoir les pays
+        const paysResponse = await fetch("https://apififa.azurewebsites.net/api/pays", {
+            method: "GET",
+            mode: "cors"
+        })
+
+        pays.value = await paysResponse.json()
+
+        pays.value.forEach(pays => {
+            paysNom.value.push(pays.paysNom);
+        });
+
     }
 
     onMounted(fetchObjects)
@@ -64,6 +96,8 @@
     const optionsTaillesChecked = ref([])
     const optionsGenresChecked = ref([])
     const optionsColorisChecked = ref([])
+    const optionsCategoriesChecked = ref([])
+    const optionsPaysChecked = ref([])
 
 
 </script>
@@ -94,6 +128,8 @@
                 <FiltreComponent v-model:optionsChecked="optionsTaillesChecked" v-if="taillesLibelle" :filtreData="{ titre: 'Taille', options: taillesLibelle }" />
                 <FiltreComponent v-model:optionsChecked="optionsGenresChecked" v-if="genresNom" :filtreData="{ titre: 'Genre', options: genresNom }" />
                 <FiltreComponent v-model:optionsChecked="optionsColorisChecked" v-if="colorisNom" :filtreData="{ titre: 'Coloris', options: colorisNom }" />
+                <FiltreComponent v-model:optionsChecked="optionsCategoriesChecked" v-if="categoriesNom" :filtreData="{ titre: 'Categorie', options: categoriesNom }" />
+                <FiltreComponent v-model:optionsChecked="optionsPaysChecked" v-if="paysNom" :filtreData="{ titre: 'Pays', options: paysNom }" />
 
 
             </div>
@@ -112,12 +148,15 @@
                         <div v-if="optionsTaillesChecked" v-for="taille in optionsTaillesChecked" :key="taille">{{ taille }}</div>
                         <div v-if="optionsGenresChecked" v-for="genre in optionsGenresChecked" :key="genre">{{ genre }}</div>
                         <div v-if="optionsColorisChecked" v-for="coloris in optionsColorisChecked" :key="coloris">{{ coloris }}</div>
+                        <div v-if="optionsCategoriesChecked" v-for="categorie in optionsCategoriesChecked" :key="categorie">{{ categorie }}</div>
+                        <div v-if="optionsPaysChecked" v-for="pays in optionsPaysChecked" :key="pays">{{ pays }}</div>
                     </div>
                 </div>
 
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
-                    <!-- <p v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom"> {{ produit.produitId }} et {{ produit.produitNom }} </p> -->
-                    <ProduitComponent v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
+                    <!-- <p v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom"> {{ produit.variantesProduit[0] }} </p> -->
+                    <div v-if="produitsFiltre.length != 0">non</div>
+                    <ProduitComponent v-else-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
                     <div v-else v-for="i in 5" >
                         <div class="flex flex-col gap-4 w-52">
                             <div class="skeleton h-32 w-full"></div>
