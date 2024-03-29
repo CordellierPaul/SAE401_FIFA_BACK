@@ -31,7 +31,25 @@
                 <input type="text" placeholder="Numéro de sécurité (cvv)" class="input input-bordered w-full " />
                 <input type="text" required placeholder="Date d'expiration (MM/AA)" class="input input-bordered w-full " />
             </div>
+        </div>
 
+        <p class="text-xl">Facturation</p>
+        <p>Sélectionnez l'adresse qui correspond à votre carte ou à votre mode de paiement.</p>
+
+        <div class="*:my-2 *:flex *:w-full *:justify-between">
+            <div >
+                <div class="flex gap-2">
+                    <input type="radio" name="radio-1" class="radio" checked />
+                    <p>Identique à l'adresse de livraison</p>
+                </div>
+            </div>
+            <div class="divider"></div> 
+            <div >
+                <div class="flex gap-2">
+                    <input type="radio" name="radio-1" class="radio" @click="toggleAdresseInput" />
+                    <p>utiliser une adresse de facturation différente</p>
+                </div>
+            </div>
         </div>
 
         <div class="flex gap-2 justify-between mt-2">
@@ -49,5 +67,16 @@ const emit = defineEmits(['next','previous'])
 
 function btPreviousClick() {
     emit('previous')
+}
+
+const adresseInputClass = ref("hidden")
+
+function toggleAdresseInput(){
+    if (adresseInputClass == "hidden"){
+        adresseInputClass = "flex"
+    }
+    else {
+        adresseInputClass = "hidden"
+    }
 }
 </script>
