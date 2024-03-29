@@ -94,6 +94,32 @@ function motDePasseVerifierConditions(motDePasse) {
 
     return motDePasseEstBon
 }
+
+function boutonCreationCompte() {
+    
+    let toutesLesConditionsSontRemplies = true
+
+    motDePasseVerifierConditions(formData.value.motDePasse)
+
+    if (!conditionsSontVerifieesPourMotDePasse(formData.value.motDePasse)) {
+        toutesLesConditionsSontRemplies = false
+    }
+
+    if (formatEmailEstBon(formData.value.email)) {
+        styleConditionFormatEmail.value = classesPourListeCondition["cachee"]
+    } else {
+        styleConditionFormatEmail.value = classesPourListeCondition["pasRespectee"]
+        toutesLesConditionsSontRemplies = false
+    }
+
+    if (!toutesLesConditionsSontRemplies) {
+        return
+    }
+
+    console.log("Formulaire envoyé !");
+
+    // Envoyer le formulaire ici
+}
 </script>
 
 <script>
@@ -213,7 +239,7 @@ export function emailEstUnique(email) {
             <li :class="styleCondition12Caracteres">Le mot de passe avoir au minimum 12 caractères</li>
         </ul>
 
-        <button class="btn btn-accent m-5">CRÉER LE COMPTE</button>
+        <button class="btn btn-accent m-5" @click="boutonCreationCompte">CRÉER LE COMPTE</button>
         <div class="m-5 flex items-center justify-center flex-col *:m-3">
             <p>Vous avez déjà un compte ?</p>
             <RouterLink :to="{name: 'login'}" class="btn btn-secondary">SE CONNECTER</RouterLink>
