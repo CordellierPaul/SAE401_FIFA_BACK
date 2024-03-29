@@ -19,7 +19,7 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private PaysController _controller;
-        private IDataRepository<Pays> _dataRepository;
+        private IPaysRepository _dataRepository;
 
         public PaysControllerTests()
         {
@@ -130,7 +130,7 @@ namespace FIFA_API.Controllers.Tests
         public void PostPays_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepository<Pays>>();
+            var mockRepository = new Mock<IPaysRepository>();
             var paysController = new PaysController(mockRepository.Object);
             Pays pays = new Pays
             {
@@ -156,7 +156,7 @@ namespace FIFA_API.Controllers.Tests
                 PaysId = 1,
                 PaysNom = "Test"
             };
-            var mockRepository = new Mock<IDataRepository<Pays>>();
+            var mockRepository = new Mock<IPaysRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(pays);
             var paysController = new PaysController(mockRepository.Object);
             // Act
@@ -180,7 +180,7 @@ namespace FIFA_API.Controllers.Tests
                 PaysNom = "Update"
             };
 
-            var mockRepository = new Mock<IDataRepository<Pays>>();
+            var mockRepository = new Mock<IPaysRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(pays);
             var paysController = new PaysController(mockRepository.Object);
 
@@ -201,7 +201,7 @@ namespace FIFA_API.Controllers.Tests
                 PaysNom = "Testgetidmoq"
             };
 
-            var mockRepository = new Mock<IDataRepository<Pays>>();
+            var mockRepository = new Mock<IPaysRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(pays);
             var paysController = new PaysController(mockRepository.Object);
 
@@ -217,13 +217,46 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetPaysById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepository<Pays>>();
+            var mockRepository = new Mock<IPaysRepository>();
             var paysController = new PaysController(mockRepository.Object);
             // Act
             var actionResult = paysController.GetPaysById(0).Result;
             // Assert
             Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
 
+        }
+
+        [TestMethod]
+        public void GetStockByVarianteIds_ExistingIdsPassed_ReturnsRightItems_AvecMoq()
+        {
+            // Arrange
+            List<Pays> lesPays = new List<Pays>();
+            Produit p = new Produit
+            {
+                ProduitId = 1,
+                ProduitNom = "ProduitMoq",
+                ProduitDescription = "Description du produit moq, utile uniquement dans ce test.",
+                PaysId = 1,
+            };
+            Pays pays = new Pays
+            {
+                PaysId = 1,
+                PaysNom = "TestMoqPays",
+                ProduitsPays = new Produit[] { p },
+            };
+            lesPays.Append(pays);
+
+            var mockRepository = new Mock<IPaysRepository>();
+            mockRepository.Setup(x => x.GetPaysWhereProduitExists().Result).Returns(lesPays);
+            var stkController = new PaysController(mockRepository.Object);
+
+            // Act
+            var actionResult = stkController.GetPaysWhereProduitExists().Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(lesPays, actionResult.Value as IEnumerable<Pays>);
         }
 
 

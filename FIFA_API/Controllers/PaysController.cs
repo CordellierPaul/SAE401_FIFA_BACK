@@ -15,9 +15,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class PaysController : ControllerBase
     {
-        private readonly IDataRepository<Pays> dataRepository;
+        private readonly IPaysRepository dataRepository;
 
-        public PaysController(IDataRepository<Pays> context)
+        public PaysController(IPaysRepository context)
         {
             dataRepository = context;
         }
@@ -27,6 +27,15 @@ namespace FIFA_API.Controllers
         public async Task<ActionResult<IEnumerable<Pays>>> GetPays()
         {
             return await dataRepository.GetAllAsync();
+        }
+
+        // GET: api/Pays
+        [HttpGet]
+        [Route("[action]")]
+        [ActionName("GetWhereProduitExists")]
+        public async Task<ActionResult<IEnumerable<Pays>>> GetPaysWhereProduitExists()
+        {
+            return await dataRepository.GetPaysWhereProduitExists();
         }
 
         // GET: api/Pays/5
