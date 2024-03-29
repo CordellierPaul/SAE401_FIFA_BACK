@@ -2,8 +2,8 @@
     
   <div class="">
       <div class="ml-5 ">
-        <div @click="toggleChevronDescription" class="collapse ">
-          <input type="checkbox" /> 
+        <div  class="collapse ">
+          <input @click="toggleChevronDescription"  type="checkbox" /> 
           <div class="collapse-title  ">
             <div  class="flex justify-between  items-center">
                   <p class="text-lg ">{{ titre }}</p>
