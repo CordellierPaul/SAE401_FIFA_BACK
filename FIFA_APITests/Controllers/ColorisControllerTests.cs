@@ -19,7 +19,7 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private ColorisController _controller;
-        private IDataRepository<Coloris> _dataRepository;
+        private IColorisRepository _dataRepository;
 
         public ColorisControllerTests()
         {
@@ -130,7 +130,7 @@ namespace FIFA_API.Controllers.Tests
         public void PostColoris_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepository<Coloris>>();
+            var mockRepository = new Mock<IColorisRepository>();
             var clrController = new ColorisController(mockRepository.Object);
             Coloris clr = new Coloris
             {
@@ -156,7 +156,7 @@ namespace FIFA_API.Controllers.Tests
                 ColorisId = 1,
                 ColorisNom = "Test"
             };
-            var mockRepository = new Mock<IDataRepository<Coloris>>();
+            var mockRepository = new Mock<IColorisRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(clr);
             var clrController = new ColorisController(mockRepository.Object);
             // Act
@@ -180,7 +180,7 @@ namespace FIFA_API.Controllers.Tests
                 ColorisNom = "Update"
             };
 
-            var mockRepository = new Mock<IDataRepository<Coloris>>();
+            var mockRepository = new Mock<IColorisRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(clr);
             var clrController = new ColorisController(mockRepository.Object);
 
@@ -201,7 +201,7 @@ namespace FIFA_API.Controllers.Tests
                 ColorisNom = "Testgetidmoq"
             };
 
-            var mockRepository = new Mock<IDataRepository<Coloris>>();
+            var mockRepository = new Mock<IColorisRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(clr);
             var clrController = new ColorisController(mockRepository.Object);
 
@@ -217,7 +217,7 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetColorisById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepository<Coloris>>();
+            var mockRepository = new Mock<IColorisRepository>();
             var clrController = new ColorisController(mockRepository.Object);
             // Act
             var actionResult = clrController.GetColorisById(0).Result;

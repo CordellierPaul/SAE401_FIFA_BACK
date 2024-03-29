@@ -1,6 +1,12 @@
 <template>
+    <ul class="steps steps-vertical lg:steps-horizontal">
+        <li class="step step-primary">Inscritpion</li>
+        <li class="step step-primary">Livrasion</li>
+        <li class="step step-primary">Paiement</li>
+    </ul>
 
-    <form @submit.prevent action="" class="w-10/12 mt-10 *:my-2">
+    <form @submit.prevent action="" class="w-10/12 *:my-2">
+
 
         <p class="text-xl">Paiement</p>
         <p>Toutes les transactions sont chiffrées et sécurisées.</p>
@@ -25,10 +31,29 @@
                 <input type="text" placeholder="Numéro de sécurité (cvv)" class="input input-bordered w-full " />
                 <input type="text" required placeholder="Date d'expiration (MM/AA)" class="input input-bordered w-full " />
             </div>
-
         </div>
 
-        <div class="flex gap-2 justify-between">
+        <p class="text-xl">Facturation</p>
+        <p>Sélectionnez l'adresse qui correspond à votre carte ou à votre mode de paiement.</p>
+
+        <div class="*:my-2 *:flex *:w-full *:justify-between">
+            <div >
+                <div class="flex gap-2">
+                    <input type="radio" name="radio-1" class="radio" checked />
+                    <p>Identique à l'adresse de livraison</p>
+                </div>
+            </div>
+            <div class="divider"></div> 
+            <div >
+                <div class="flex gap-2">
+                    <input type="radio" name="radio-1" class="radio" @click="toggleAdresseInput" />
+                    <p>utiliser une adresse de facturation différente</p>
+                </div>
+                <div :class="adresseInputClass"></div>
+            </div>
+        </div>
+
+        <div class="flex gap-2 justify-between mt-2">
             <button @click="btPreviousClick" class="btn w-1/12 bg-secondary text-white"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="btn w-10/12 btn-accent text-white">Payer Maintenant</button>
 
@@ -43,5 +68,16 @@ const emit = defineEmits(['next','previous'])
 
 function btPreviousClick() {
     emit('previous')
+}
+
+const adresseInputClass = ref("hidden")
+
+function toggleAdresseInput(){
+    if (adresseInputClass == "hidden"){
+        adresseInputClass = "flex"
+    }
+    else {
+        adresseInputClass = "hidden"
+    }
 }
 </script>

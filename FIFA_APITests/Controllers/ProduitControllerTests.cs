@@ -288,9 +288,7 @@ namespace FIFA_API.Controllers.Tests
         public void FiltreProduit_ExistingProduitPassed_ReturnsRightItem_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IProduitRepository>();
-            var pdtController = new ProduitController(mockRepository.Object);
-
+            List<Produit> produits = new List<Produit>();
             Produit pdt = new Produit
             {
                 ProduitId = 1,
@@ -308,6 +306,11 @@ namespace FIFA_API.Controllers.Tests
                     }
                 }
             };
+            produits.Add( pdt );
+
+            var mockRepository = new Mock<IProduitRepository>();
+            mockRepository.Setup(x => x.GetByFilter(new int?[] {1}, null, null, null, null).Result).Returns(produits);
+            var pdtController = new ProduitController(mockRepository.Object);
 
             // Act
             int?[] catIds = new int?[] { 1};
@@ -318,7 +321,7 @@ namespace FIFA_API.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult);
             Assert.IsNotNull(actionResult.Value);
-            Assert.AreEqual(pdt, actionResult.Value as Produit);
+            Assert.AreEqual(produits, actionResult.Value as IEnumerable<Produit>);
         }
 
 

@@ -3,10 +3,21 @@
     import StepInscription from '@/components/commander/StepInscription.vue';
     import StepLivraison from '@/components/commander/StepLivraison.vue';
     import StepPaiement from '@/components/commander/StepPaiement.vue';
-    import { ref } from 'vue';
+    import { ref, watchEffect } from 'vue';
     
 
     const step = ref('inscription')
+
+    function scrollTop(){
+
+        console.log("oui");
+        
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' 
+        });
+
+    }
 
 </script>
 
@@ -16,9 +27,10 @@
     <div class="flex w-full ">
         <!-- Partie gauche -->
         <div class="flex items-center  flex-col w-7/12 bg-base-200 p-2 mr-1" >
-            <StepInscription v-if="step === 'inscription'" @next="step = 'livraison'" ></StepInscription>
-            <StepLivraison v-if="step === 'livraison'" @next="step = 'paiement'" @previous="step = 'inscription'"></StepLivraison>
-            <StepPaiement v-if="step === 'paiement'"  @previous="step = 'livraison'"></StepPaiement>
+            
+            <StepInscription  v-if="step === 'inscription'" @next="step = 'livraison'" ></StepInscription>
+            <StepLivraison  v-if="step === 'livraison'" @next="step = 'paiement'" @previous="step = 'inscription'"></StepLivraison>
+            <StepPaiement  v-if="step === 'paiement'"  @previous="step = 'livraison'"></StepPaiement>
         </div>
 
         <!-- Partie droite -->
@@ -30,7 +42,6 @@
                 <CommanderProduitComponent :prz="'80,00'" :oldprz="'160,00'" :clr="'Multicolore'" :size="'M'" :qte="'1'" :title="'Maillot Football Domicile Comores Macron - hommes'" :img="'https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FFIFAMZ004803_1_b626dcf8-06c3-4a28-bb72-af7e424592a8.jpg%3Fv%3D1664464182&w=3840&q=85'"></CommanderProduitComponent>
                 <CommanderProduitComponent :prz="'80,00'" :oldprz="'160,00'" :clr="'Multicolore'" :size="'M'" :qte="'1'" :title="'Maillot Football Domicile Comores Macron - hommes'" :img="'https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FFIFAMZ004803_1_b626dcf8-06c3-4a28-bb72-af7e424592a8.jpg%3Fv%3D1664464182&w=3840&q=85'"></CommanderProduitComponent>
                 <CommanderProduitComponent :prz="'80,00'" :oldprz="'160,00'" :clr="'Multicolore'" :size="'M'" :qte="'1'" :title="'Maillot Football Domicile Comores Macron - hommes'" :img="'https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FFIFAMZ004803_1_b626dcf8-06c3-4a28-bb72-af7e424592a8.jpg%3Fv%3D1664464182&w=3840&q=85'"></CommanderProduitComponent>
-                
             </div>
             
             <div class="">

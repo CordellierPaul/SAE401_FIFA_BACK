@@ -54,7 +54,7 @@ builder.Services.AddScoped<IDataRepository<Livraison>, LivraisonManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Match>, MatchManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Media>, MediaManager>();
 builder.Services.AddScoped<IDataRepository<Monnaie>, MonnaieManager>();
-builder.Services.AddScoped<IDataRepository<Pays>, PaysManager>();
+builder.Services.AddScoped<IPaysRepository, PaysManager>();
 builder.Services.AddScoped<IDataRepository<Poste>, PosteManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Reglement>, ReglementManager>();
 builder.Services.AddScoped<IStockRepository, StockManager>();
@@ -63,6 +63,7 @@ builder.Services.AddScoped<IThemeRepository, ThemeManager>();
 builder.Services.AddScoped<IDataRepository<Trophee>, TropheeManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<VarianteProduit>, VarianteProduitManager>();
 builder.Services.AddScoped<IDataRepository<Ville>, VilleManager>();
+builder.Services.AddScoped<IDataRepository3clues<Vote>, VoteManager>();
 
 
 
