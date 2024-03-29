@@ -63,6 +63,7 @@ builder.Services.AddScoped<IThemeRepository, ThemeManager>();
 builder.Services.AddScoped<IDataRepository<Trophee>, TropheeManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<VarianteProduit>, VarianteProduitManager>();
 builder.Services.AddScoped<IDataRepository<Ville>, VilleManager>();
+builder.Services.AddScoped<IDataRepository3clues<Vote>, VoteManager>();
 
 
 
