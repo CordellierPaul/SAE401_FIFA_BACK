@@ -18,6 +18,12 @@ const classesPourListeCondition = {
     "cachee": "hidden"
 }
 
+
+// Textes des classes conditions pour que l'e-mail soit correct
+const styleConditionEmailUnique = ref(classesPourListeCondition["cachee"])
+const styleConditionFormatEmail = ref(classesPourListeCondition["cachee"])
+
+// Textes des classes conditions pour que le mot de passe soit correct
 const styleConditionMajuscule = ref(classesPourListeCondition["infomation"])
 const styleConditionMinuscule = ref(classesPourListeCondition["infomation"])
 const styleConditionCaractereSpecial = ref(classesPourListeCondition["infomation"])
@@ -121,6 +127,16 @@ export function conditionsSontVerifieesPourMotDePasse(motDePasse) {
 
     return true
 }
+
+export function formatEmailEstBon(email) {
+    const regexEmail = /^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/
+
+    return email.match(regexEmail)
+}
+
+export function emailEstUnique(email) {
+    return true     // TODO : vérifier si l'email est déjà dans la base de données ici
+}
 </script>
 
 <template>
@@ -188,6 +204,8 @@ export function conditionsSontVerifieesPourMotDePasse(motDePasse) {
         </div>
 
         <ul>
+            <li :class="styleConditionEmailUnique">Un compte est déjà enregistré à cet e-mail</li>
+            <li :class="styleConditionFormatEmail">Le format de l'e-mail n'est pas correct</li>
             <li :class="styleConditionMajuscule">Le mot de passe avoir au moins une majuscule</li>
             <li :class="styleConditionMinuscule">Le mot de passe avoir au moins une minuscule</li>
             <li :class="styleConditionCaractereSpecial">Le mot de passe avoir au moins un caractère spécial</li>
