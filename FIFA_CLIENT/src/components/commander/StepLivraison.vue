@@ -16,16 +16,16 @@
 
             <div >
                 <div class="flex gap-2">
-                    <input type="radio" name="radio-1" class="radio" checked />
-                    <p>Standard (Jusqu'à 4 jours ouvrables)</p>
+                    <input type="radio" name="radio-1" id="radio_std" class="radio" checked />
+                    <label for="radio_std">Standard (Jusqu'à 4 jours ouvrables)</label>
                 </div>
                 <p>14,00€</p>
             </div>
             <div class="divider"></div> 
             <div >
                 <div class="flex gap-2">
-                    <input type="radio" name="radio-1" class="radio" />
-                    <p>Express (Jusqu'à 3 jours ouvrables)</p>
+                    <input type="radio" name="radio-1" id="radio_xpr" class="radio" />
+                    <label for="radio_xpr">Express (Jusqu'à 3 jours ouvrables)</label>
                 </div>
                 <p>22,00€</p>
             </div>

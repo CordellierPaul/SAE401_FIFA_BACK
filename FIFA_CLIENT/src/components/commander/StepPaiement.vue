@@ -39,15 +39,15 @@
         <div class="*:my-2 *:flex *:w-full *:justify-between">
             <div >
                 <div class="flex gap-2">
-                    <input type="radio" name="radio-1" class="radio" checked  @click="hideInput"/>
-                    <p>Identique à l'adresse de livraison</p>
+                    <input type="radio" name="radio-1" id="radio_adr_fac_ide" class="radio" checked  @click="hideInput"/>
+                    <label for="radio_adr_fac_ide">Identique à l'adresse de livraison</label>
                 </div>
             </div>
             <div class="divider"></div> 
             <div >
                 <div class="flex gap-2">
-                    <input type="radio" name="radio-1" class="radio" @click="showInput" />
-                    <p>utiliser une adresse de facturation différente</p>
+                    <input type="radio" id="radio_adr_fac_dif" name="radio-1" class="radio" @click="showInput" />
+                    <label for="radio_adr_fac_dif">Utiliser une adresse de facturation différente</label>
                 </div>
             </div>
         </div>
