@@ -12,22 +12,29 @@
             <div class="divider"></div>
             <p class="font-normal my-3" v-if="article">{{ article.articleTexte }}</p>
         </div>
-        <div class="collapse-content *:my-3"> 
-            <BlogComponent v-for="(blog, index) in blogs" :blog="blog"></BlogComponent>
+        <div class="collapse-content *:my-3" v-if="blogsFiltre"> 
+            <BlogComponent v-for="(blog, index) in blogsFiltre" :blog="blog" :key="index"></BlogComponent>
         </div>
     </div>
 </template>
 
 <script setup>
-    import { defineProps, ref } from 'vue';
+    import { defineProps, watch, ref } from 'vue';
     import BlogComponent from './BlogComponent.vue'
     import { getRequest } from '../../composable/httpRequests.js'
 
     const props = defineProps({
         article: Object
     });
-    const blogs = ref([]);
-    getRequest(blogs, "https://apififa.azurewebsites.net/api/blog");
+
+        const blogs = ref([]);
+        const blogsFiltre = ref([]);
+        getRequest(blogs, "https://apififa.azurewebsites.net/api/blog");
+        watch(blogs, (newBlogs) => {
+            blogsFiltre.value = newBlogs.filter(blog => blog.articleId === props.article.articleId);
+        });
+    
+    
 
 
 </script>
