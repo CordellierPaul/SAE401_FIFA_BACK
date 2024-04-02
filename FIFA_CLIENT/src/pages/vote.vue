@@ -16,10 +16,9 @@
     }
 
 
-
     async function fetchJoueurs() {
         try {
-        const responseTheme = await fetch('https://apififa.azurewebsites.net/api/Theme/GetJoueursByThemeId/${route.query.id}', {
+        const responseTheme = await fetch(`https://apififa.azurewebsites.net/api/Theme/GetJoueursByThemeId/${route.query.id}`, {
             method: 'GET',
             mode: 'cors'
         });
@@ -35,53 +34,63 @@
 
     onMounted(fetchJoueurs);
 
-    function voter() {
-        const selectedPlayers = [];
-        const selects = document.querySelectorAll('select');
-        
-        for (let i = 0; i < selects.length; i++) {
-            const joueurId = selects[i].value;
-            if (!joueurId) {
-                alert('Veuillez sélectionner un joueur pour chaque option.');
-                return; 
-            }
 
-            if (selectedPlayers.includes(joueurId)) {
-                alert('Veuillez sélectionner des joueurs différents pour chaque option.');
-                return; 
-            }
 
-            selectedPlayers.push(joueurId);
+
+    async function voter() {
+      const selectedPlayers = new Set();
+  
+      // Récupérer les joueurs sélectionnés à partir des sélecteurs nommés
+      const joueur1Id = document.querySelector('select[name="joueur1"]').value;
+      const joueur2Id = document.querySelector('select[name="joueur2"]').value;
+      const joueur3Id = document.querySelector('select[name="joueur3"]').value;
+
+      // Vérifier si les joueurs sont sélectionnés
+      if (!joueur1Id || !joueur2Id || !joueur3Id) {
+        alert('Veuillez sélectionner un joueur pour chaque option.');
+        return;
+      }
+
+      // Vérifier si les joueurs sélectionnés sont différents
+      if (joueur1Id === joueur2Id || joueur1Id === joueur3Id || joueur2Id === joueur3Id) {
+        alert('Veuillez sélectionner des joueurs différents pour chaque option.');
+        return;
+      }
+
+      // Ajouter les joueurs sélectionnés à l'ensemble
+      selectedPlayers.add(joueur1Id);
+      selectedPlayers.add(joueur2Id);
+      selectedPlayers.add(joueur3Id);
+
+
+
+
+      //const userId = /* ID de l'utilisateur connecté */; a faire quand connexion est fait
+      const userId = 1;
+      const themeId = route.query.id;
+      const votes = [];
+
+      votes.push({ userId, themeId, joueurId: joueur1Id, selectNum: 1 });
+      votes.push({ userId, themeId, joueurId: joueur2Id, selectNum: 2 });
+      votes.push({ userId, themeId, joueurId: joueur3Id, selectNum: 3 });
+
+
+      try {
+        const response = await fetch('https://apififa.azurewebsites.net/api/Vote', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(votes)
+        });
+
+        if (!response.ok) {
+          throw new Error('Erreur lors de la requête.');
         }
-
-        //const userId = /* ID de l'utilisateur connecté */;
-        const themeId = route.query.id;
-        const votes = [];
-
-        for (let i = 0; i < selects.length; i++) {
-            const joueurId = selects[i].value;
-            const selectNum = i + 1;
-            votes.push({ userId, themeId, joueurId, selectNum });
-        }
-
-  //   try {
-  //       const response = await fetch('https://apififa.azurewebsites.net/api/Vote', {
-  //           method: 'POST',
-  //           headers: {
-  //               'Content-Type': 'application/json'
-  //           },
-  //           body: JSON.stringify(votes)
-  //       });
-
-  //       if (!response.ok) {
-  //           throw new Error('Erreur lors de la requête.');
-  //       }
-
-  //       // Réussite - faire quelque chose en conséquence
-  //   } catch (error) {
-  //       console.error('Erreur lors de la requête fetch :', error);
-  //       // Gérer l'erreur
-  //   }
+        alert('Votre vote a été enregistré avec succès.');
+      } catch (error) {
+        console.error('Erreur lors de la requête fetch :', error);
+      }
   }
 
 </script>
@@ -102,14 +111,6 @@
               </li>
               
             </ul>
-            <!-- CECI EST UN EXEMPLE VU QUE LE FETCH N4ET PAS FONCTIONNEL POUR LE MOMENT -->
-            <ul>
-              <li >
-                hehe (ceci est un joueur)
-              </li>
-            </ul>
-            <br>
-            <br>
           </td>
           <td>
                     <select name="joueur1" id="joueur1">
@@ -136,9 +137,14 @@
         </tr>
       </table>
     
-      <button class="btn btn-primary text-white">
+      <br>
+      <br>
+      <button class="btn btn-primary text-white" @click="voter">
         Voter pour 
       </button>
+      
+      <br>
+      <br>
     </div>
 </template>
 

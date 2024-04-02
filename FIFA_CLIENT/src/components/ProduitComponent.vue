@@ -58,7 +58,7 @@ onMounted(fetchProductImagePath)
   <div class="card  w-96 h-96 bg-neutral-400 shadow-xl overflow-hidden">
     <RouterLink  :to="{
                 name: 'produit', 
-                query:{
+                params:{
                     id: id
                 }}">
       <figure class="relative h-96 flex flex-col">

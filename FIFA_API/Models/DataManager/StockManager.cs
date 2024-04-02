@@ -60,7 +60,6 @@ namespace FIFA_API.Models.DataManager
 
                 await produitEntityEntry.Reference(p => p.TailleStockee).LoadAsync();
             }
-
             return stocks.ToList();
         }
     }
