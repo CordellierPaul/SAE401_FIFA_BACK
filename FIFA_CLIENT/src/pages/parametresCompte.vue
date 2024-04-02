@@ -5,6 +5,8 @@ import useCompteStore from "../store/compte.js"
 const compteStore = useCompteStore()
 const donneesCompte = ref()
 
+const deleteButtonClass = "bg-red-500 text-white hover:bg-white hover:text-black border border-red-500 rounded-lg py-2 px-4 duration-75"
+
 // Ce code ne fonctionnera qu'avec le version non-sécurisée de l'api
 
 async function fetchCompteData() {
@@ -15,10 +17,14 @@ async function fetchCompteData() {
 
     donneesCompte.value = await response.json()
 
-    console.log(donneesCompte)
+    console.log(donneesCompte.value)
 }
 
 onMounted(fetchCompteData)
+
+function supprimerCompte() {
+    // TODO ajouter la suppression du compte ici
+}
 </script>
 
 <template>
@@ -29,8 +35,14 @@ onMounted(fetchCompteData)
 <div v-if="donneesCompte" class="container sm:mx-auto px-5 py-2">
     <p class="text-2xl font-semibold">Informations générales :</p>
     
-    <p>Nom d'utilisateur (login) : </p>
-    <p>Email : </p>
+    <p>Nom d'utilisateur (login) : {{ donneesCompte.comptelogin }}</p>
+    <p>Email : {{ donneesCompte.compteEmail }}</p>
+    <!-- Une fois que l'API aura chargé les données seront ici -->
+    <p>test : {{ JSON.stringify(donneesCompte.utilisateurCompte) }}</p>
+    <!-- <p>Nom : {{ donneesCompte.utilisateurCompte.utilisateurNomAcheteur }}</p>
+    <p>Prénom : {{ donneesCompte.utilisateurCompte.prenomUtilisateur }}</p> --> 
+
+    <button :class="deleteButtonClass" @click="supprimerCompte">Supprimer le compte</button>
 </div>
 
 </template>

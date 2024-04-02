@@ -201,8 +201,6 @@ async function boutonCreationCompte() {
 
     compte.value.compteMdp = ""
 
-    console.log(JSON.stringify(compteAvecMDPHashe))
-
     const response = await fetch("https://apififa.azurewebsites.net/api/accescompte/inscription", {
         method: "POST",
         mode: "cors",
