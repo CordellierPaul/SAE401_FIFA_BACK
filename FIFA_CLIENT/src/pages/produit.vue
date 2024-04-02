@@ -32,7 +32,7 @@
 
 
             <p class="font-bold mt-4">TAILLE</p>
-            <div class="flex gap-2 py-2">
+            <div class="grid grid-cols-12 flex gap-1 py-2">
                 <div  v-for="(stock, index) in VarianteStocks" :key="index" >
                     <button v-if="stock.varianteProduitId == variantesProduit[variantesSelectionne].varianteProduitId" 
                     v-bind:class="{'btn btn-square btn-outline' : stock.quantiteStockee !=0, 'btn btn-square btn-outline btn-disabled':stock.quantiteStockee ==0}">{{ stock.tailleStockee.tailleLibelle }}</button>

@@ -1,10 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import useCompteStore from "../store/compte.js"
+import useCompteStore from "../store/compte.js";
 
 
-const compteStore = useCompteStore()
+const compteStore = useCompteStore();
 
 const themes = ref([]);
 const router = useRouter();
@@ -43,6 +43,7 @@ onMounted(fetchThemes);
         </div>
     </div>
   <div>
+    <!-- Liste des thèmes -->
     <h1 class="flex justify-center items-center m-12 text-3xl font-bold">Liste des thèmes :</h1>
     <br>
     <div class="grid grid-cols-3 gap-4 place-content-stretch ">
