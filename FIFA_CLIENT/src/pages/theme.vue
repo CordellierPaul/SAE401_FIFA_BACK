@@ -27,17 +27,37 @@ onMounted(fetchThemes);
 
 
 <template>
+    
+    <div class="sticky top-20 z-[5] bg-secondary p-4 flex  items-center text-white min-h-20" >
+
+        <!-- Liens entre les pages -->
+        <div class="text-sm breadcrumbs hidden lg:block">
+            <ul>
+                <li><RouterLink :to="{name: 'index'}" class="hover:opacity-50 hover:cursor-pointer">FIFA</RouterLink></li> 
+                <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Thèmes</a></li>
+            </ul>
+        </div>
+    </div>
   <div>
-    <h1>Liste des thèmes :</h1>
+    <h1 class="flex justify-center items-center m-12 text-3xl font-bold">Liste des thèmes :</h1>
     <br>
-    <ul v-for="theme in themes" :key="theme.themeId">
+    <div class="grid grid-cols-3 gap-4 place-content-stretch ">
+      <div v-for="theme in themes" :key="theme.themeId" class="collapse collapse-arrow bg-base-300 p-5">
+        <p class="flex justify-center font-bold p-12"> {{ theme.themeLibelle }} </p>
+        <button class="btn btn-outline btn-primary" @click="redirectToVotePage(theme.themeId)">
+          Voter
+        </button>
+      </div>
+    </div>
+    <!-- <ul v-for="theme in themes" :key="theme.themeId" class="collapse collapse-arrow bg-base-300 p-10">
       <li>
-        {{ theme.themeLibelle }} :
-        <button class="btn btn-square btn-outline" @click="redirectToVotePage(theme.themeId)">
+        {{ theme.themeLibelle }}
+        <br>
+        <button class="btn btn-outline btn-primary" @click="redirectToVotePage(theme.themeId)">
           Voter
         </button>
       </li>
-    </ul>
+    </ul> -->
     <br>
   </div>
 </template>
