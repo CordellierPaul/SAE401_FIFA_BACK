@@ -25,7 +25,6 @@
 
         joueurs.value = await responseTheme.json();
 
-        console.log(joueurs.value);
 
         } catch (error) {
         console.error('Erreur lors de la récupération des joueurs :', error);
@@ -63,25 +62,41 @@
       selectedPlayers.add(joueur3Id);
 
 
-
-
       //const userId = /* ID de l'utilisateur connecté */; a faire quand connexion est fait
-      const userId = 1;
+      const userId = 13;
       const themeId = route.query.id;
-      const votes = [];
+      /*const votes = [];*/
 
-      votes.push({ userId, themeId, joueurId: joueur1Id, selectNum: 1 });
-      votes.push({ userId, themeId, joueurId: joueur2Id, selectNum: 2 });
-      votes.push({ userId, themeId, joueurId: joueur3Id, selectNum: 3 });
 
+      /////////////////////////////debug/////////////////////////////
+      let vote = ref({
+        utilisateurId : null,
+        themeId: null,
+        joueurId: null,
+        voteNote: null
+      })
+
+      vote.value.utilisateurId = userId;
+      vote.value.themeId = parseInt(themeId,10);
+      vote.value.joueurId = parseInt(joueur1Id,10);
+      vote.value.voteNote = 1;
+      ///////////////////////////fin debug/////////////////////////////
+
+      /*
+      votes.push({ UtilisateurId: userId, ThemeId: themeId, JoueurId: joueur1Id, VoteNote: 1 });
+      votes.push({ UtilisateurId: userId, ThemeId: themeId, JoueurId: joueur2Id, VoteNote: 2 });
+      votes.push({ UtilisateurId :userId, ThemeId: themeId, JoueurId: joueur3Id, VoteNote: 3 });
+      */
+
+      console.log(JSON.stringify(vote.value));
 
       try {
         const response = await fetch('https://apififa.azurewebsites.net/api/Vote', {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(votes)
+          body: JSON.stringify(vote.value)
         });
 
         if (!response.ok) {

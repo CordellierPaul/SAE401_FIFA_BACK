@@ -37,7 +37,10 @@
                         <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
                         <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
                     </div>
-
+                    
+                </div>
+                <div class="mt-12">
+                    <p class="text-xl">Commentaires:</p>
 
                 </div>
             </div>

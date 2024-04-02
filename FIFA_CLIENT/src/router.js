@@ -8,14 +8,6 @@ const routes = [
       component: Index
     },
     {
-      path: '/apropos',
-      name: 'apropos',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('@/pages/apropos.vue')
-    },
-    {
       path: '/produits',
       name: 'produits',
       // route level code-splitting
@@ -94,6 +86,23 @@ const routes = [
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('@/pages/vote.vue')
+    }
+    ,
+    {
+      path: '/club',
+      name: 'club',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('@/pages/club.vue')
+    },
+    {
+      path: '/clubs',
+      name: 'clubs',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('@/pages/clubs.vue')
     }
   ];
 
