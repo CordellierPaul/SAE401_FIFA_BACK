@@ -12,6 +12,7 @@
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'"
   },
   "dependencies": {
+    "@vueuse/core": "^10.9.0",
     "crypto-js": "^4.2.0",
     "flowbite": "^2.3.0",
     "pinia": "^2.1.7",

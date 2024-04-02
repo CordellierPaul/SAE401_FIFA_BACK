@@ -3,6 +3,9 @@ import { ref } from "vue"
 import { encrypter } from "../composable/hashageMdp"
 import { useRouter } from "vue-router"
 import { getRequest } from '../composable/httpRequests.js'
+import useCompteStore from "../store/compte.js";
+
+const compteStore = useCompteStore()
 
 const router = useRouter()
 
@@ -11,7 +14,7 @@ const compte = ref({
     compteNom: "",
     comptePrenom: "",
     dateDeNaissance: "",
-    paysDeNaissanceId: 0,
+    paysDeNaissanceId: null,
     compteEmail: "",
     compteMdp: ""
 })
@@ -27,9 +30,10 @@ const classesPourListeCondition = {
 const styleConditionEmailUnique = ref(classesPourListeCondition["cachee"])
 const styleConditionFormatEmail = ref(classesPourListeCondition["cachee"])
 
-// Textes des classes conditions pour que le login et le prénom soit renseigné
+// Textes des classes conditions pour que le login, le prénom et le pays soient renseignés
 const styleConditionLoginReseigne = ref(classesPourListeCondition["cachee"])
 const styleConditionPrenomReseigne = ref(classesPourListeCondition["cachee"])
+const styleConditionPaysReseigne = ref(classesPourListeCondition["cachee"])
 
 // Textes des classes conditions pour vérifier que l'utilisateur est majeur
 const styleConditionDateNaissanceReseigne = ref(classesPourListeCondition["cachee"])
@@ -142,6 +146,13 @@ async function boutonCreationCompte() {
         lesConditionsSontRemplies = false
     }
 
+    if (compte.value.paysDeNaissanceId != null) {
+        styleConditionPaysReseigne.value = classesPourListeCondition["cachee"]
+    } else {
+        styleConditionPaysReseigne.value = classesPourListeCondition["pasRespectee"]
+        lesConditionsSontRemplies = false
+    } 
+
     if (compte.value.dateDeNaissance != "") {
         styleConditionDateNaissanceReseigne.value = classesPourListeCondition["cachee"]
     } else {
@@ -202,7 +213,15 @@ async function boutonCreationCompte() {
     })
 
     if (response.status == 200) {
-        router.push({ "name" : "index" })
+
+        // On enregistre les données retournées, l'id du compte et le token pour lire les
+        // données, dans compteStore
+        let data = await response.json()
+        console.log(data)
+        compteStore.connect(data.userDetails.compteId, data.token)
+
+        router.push({ "name" : "index" })   // on va à la page d'accueil
+
     } else {
         console.warn("réponse non gérée " + response.status + "\n" + response)
     }
@@ -341,6 +360,7 @@ export async function emailEstUnique(email) {
             <li :class="styleConditionFormatEmail">Le format de l'e-mail n'est pas correct</li>
             <li :class="styleConditionLoginReseigne">Le nom d'utilisateur (login) doit être renseigné</li>
             <li :class="styleConditionPrenomReseigne">Le prénom doit être renseigné</li>
+            <li :class="styleConditionPaysReseigne">Votre pays doit être renseigné</li>
             <li :class="styleConditionDateNaissanceReseigne">La date de naissance doit être renseignée, chaque utilisateur doit être majeur</li>
             <li :class="styleConditionUtilisateurMajeur">Vous devez être majeur pour créer un compte</li>
             <li :class="styleConditionMajuscule">Le mot de passe avoir au moins une majuscule</li>
