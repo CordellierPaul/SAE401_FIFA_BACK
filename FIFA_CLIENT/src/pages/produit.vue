@@ -29,16 +29,17 @@
                 <p class="text-xl" v-if="variantesProduit[variantesSelectionne]"  >{{   (variantesProduit[variantesSelectionne].varianteProduitPrix - (variantesProduit[variantesSelectionne].varianteProduitPrix * variantesProduit[variantesSelectionne].varianteProduitPromo)).toFixed(2)}} €</p>
                 <p class="text-xl font-light line-through" v-if="variantesProduit[variantesSelectionne]">{{variantesProduit[variantesSelectionne].varianteProduitPrix}}€</p>
             </div>
+
+
             <p class="font-bold mt-4">TAILLE</p>
             <div class="flex gap-1 py-2">
-                <button class="btn btn-square btn-outline btn-disabled">2XS</button>
-                <button class="btn btn-square btn-outline">XS</button>
-                <button class="btn btn-square btn-outline">S</button>
-                <button class="btn btn-square btn-outline">M</button>
-                <button class="btn btn-square btn-outline btn-disabled">L</button>
-                <button class="btn btn-square btn-outline">XL</button>
-                <button class="btn btn-square btn-outline">2XL</button>
+                <div v-for="stock in VarianteStocks" >
+                    <button v-if="stock.varianteProduitId == variantesProduit[variantesSelectionne].varianteProduitId"
+                    v-bind:class="{'btn btn-square btn-outline' : stock.quantiteStockee !=0, 'btn btn-square btn-outline btn-disabled':stock.quantiteStockee ==0}">{{ stock.tailleStockee.tailleLibelle }}</button>                    
+                </div>
             </div>
+
+
             <div class="flex gap-1">
                 <p class="font-bold">COULEUR :</p>
                 <p v-if="coloris[variantesSelectionne]">{{ coloris[variantesSelectionne].colorisNom }}</p>
@@ -118,6 +119,7 @@
     const image = ref()
 
     const tailles = ref()
+    const VarianteStocks = ref([])
 
     watchEffect(()=>{
 
@@ -219,7 +221,24 @@
             }
         }
 
+        //pour avoir les tailles
 
+        let stocks
+        let t
+
+        for (const variante of variantesProduit.value) {
+            stocks = await fetch(`https://apififa.azurewebsites.net/api/Stock/GetByVarianteId?ids=${variante.varianteProduitId}`, {
+                method: "GET",
+                mode: "cors"
+            });
+            t = await stocks.json();
+            t.forEach(stock => {
+                VarianteStocks.value.push(stock)
+                // console.log(stock.quantiteStockee)
+                // console.log(stock.tailleStockee)
+                // VarianteStocks.value.push(stock);
+            });
+        }
 
         // pour avoir l'image 
         const thirdResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getanimageofproduitbyid/${route.query.id}`, {
