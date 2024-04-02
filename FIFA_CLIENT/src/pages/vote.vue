@@ -65,47 +65,59 @@
       //const userId = /* ID de l'utilisateur connecté */; a faire quand connexion est fait
       const userId = 13;
       const themeId = route.query.id;
-      /*const votes = [];*/
+      const votes = [];
 
 
       /////////////////////////////debug/////////////////////////////
-      let vote = ref({
-        utilisateurId : null,
-        themeId: null,
-        joueurId: null,
-        voteNote: null
-      })
+      let vote1 = {
+          utilisateurId: userId,
+          themeId: parseInt(themeId, 10),
+          joueurId: parseInt(joueur1Id, 10),
+          voteNote: 1
+      };
+      votes.push(vote1);
 
-      vote.value.utilisateurId = userId;
-      vote.value.themeId = parseInt(themeId,10);
-      vote.value.joueurId = parseInt(joueur1Id,10);
-      vote.value.voteNote = 1;
+      // Deuxième itération
+      let vote2 = {
+          utilisateurId: userId,
+          themeId: parseInt(themeId, 10),
+          joueurId: parseInt(joueur2Id, 10),
+          voteNote: 2
+      };
+      votes.push(vote2);
+
+      // Troisième itération
+      let vote3 = {
+          utilisateurId: userId,
+          themeId: parseInt(themeId, 10),
+          joueurId: parseInt(joueur3Id, 10),
+          voteNote: 3
+      };
+      votes.push(vote3);
       ///////////////////////////fin debug/////////////////////////////
 
-      /*
-      votes.push({ UtilisateurId: userId, ThemeId: themeId, JoueurId: joueur1Id, VoteNote: 1 });
-      votes.push({ UtilisateurId: userId, ThemeId: themeId, JoueurId: joueur2Id, VoteNote: 2 });
-      votes.push({ UtilisateurId :userId, ThemeId: themeId, JoueurId: joueur3Id, VoteNote: 3 });
-      */
 
-      console.log(JSON.stringify(vote.value));
+      console.log(JSON.stringify(votes));
 
-      try {
-        const response = await fetch('https://apififa.azurewebsites.net/api/Vote', {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(vote.value)
-        });
+      for (let vote of votes) {
+        console.log(vote);
+        try {
+          const response = await fetch('https://apififa.azurewebsites.net/api/Vote', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(vote)
+          });
 
-        if (!response.ok) {
-          throw new Error('Erreur lors de la requête.');
+          if (!response.ok) {
+            throw new Error('Erreur lors de la requête.');
+          }
+          alert('Votre vote a été enregistré avec succès.');
+        } catch (error) {
+          console.error('Erreur lors de la requête fetch :', error);
         }
-        alert('Votre vote a été enregistré avec succès.');
-      } catch (error) {
-        console.error('Erreur lors de la requête fetch :', error);
-      }
+    }
   }
 
 </script>
