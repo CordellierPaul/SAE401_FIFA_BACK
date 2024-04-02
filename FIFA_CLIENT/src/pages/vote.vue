@@ -126,8 +126,8 @@
 
 </script>
 
-
-<template> 
+<template>
+<template v-if="compteStore.isConnected">
     <a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Revenir à Themes</a>
 
     <div>
@@ -168,16 +168,21 @@
         </tr>
       </table>
     
-      <br>
-      <br>
-      <button class="btn btn-primary text-white" @click="voter">
-        Voter pour 
-      </button>
-      
-      <br>
-      <br>
-    </div>
-</template>
+        <br>
+        <br>
+        <button class="btn btn-primary text-white" @click="voter">
+          Voter pour 
+        </button>
+        
+        <br>
+        <br>
+      </div>
+  </template>
+  <template v-else>
+    <!-- Utilisateur non connecté -->
+    <p>Connectez-vous pour voter</p>
+  </template>
+  </template>
 
 <style scoped> 
 </style>
