@@ -78,7 +78,11 @@ function deconnexion() {
                 Profil<span class="badge badge-accent">Nouveau</span>
               </RouterLink>
             </li>
-            <li><a>Paramètres</a></li>
+            <li>
+              <RouterLink class="justify-between" :to="{name: 'parametres-compte'}">
+                Paramètres
+              </RouterLink>
+            </li>
             <li><a @click="deconnexion()">Déconnexion</a></li>
           </ul>
         </div>
