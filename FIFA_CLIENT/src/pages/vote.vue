@@ -2,6 +2,10 @@
     import { getRequest } from '@/composable/httpRequests';
     import { ref, onMounted } from 'vue';
     import { useRoute,useRouter } from 'vue-router';
+    import useCompteStore from "../store/compte.js";
+
+
+    const compteStore = useCompteStore();
 
     
     const router = useRouter();
@@ -80,8 +84,8 @@ async function fetchTheme() {
       selectedPlayers.add(joueur3Id);
 
 
-      //const userId = /* ID de l'utilisateur connecté */; a faire quand connexion est fait
-      const userId = 13;
+      const userId = parseInt(compteStore.compteId,10);
+      //const userId = 17;
       const themeId = route.query.id;
       const votes = [];
 
@@ -140,8 +144,8 @@ async function fetchTheme() {
 
 </script>
 
-
-<template> 
+<template>
+<template v-if="compteStore.isConnected">
     
   <div class="sticky top-20 z-[5] bg-secondary p-4 flex  items-center text-white min-h-20" >
 
@@ -202,12 +206,12 @@ async function fetchTheme() {
         </label>
       </div>
     
-      <br>
-      <br>
-      <button class="btn btn-primary text-white text-2xl" @click="voter">
-        Voter 
-      </button>
-
+        <br>
+        <br>
+        <button class="btn btn-primary text-white text-2xl" @click="voter">
+          Voter 
+        </button>
+  
       <!-- FENETRE MODAL EN CAS DE VOTE NON OK -->
       <dialog id="my_modal_1" class="modal">
         <div class="modal-box">
@@ -221,10 +225,15 @@ async function fetchTheme() {
         </div>
       </dialog>
       
-      <br>
-      <br>
-    </div>
-</template>
+        <br>
+        <br>
+      </div>
+  </template>
+  <template v-else>
+    <!-- Utilisateur non connecté -->
+    <p>Connectez-vous pour voter</p>
+  </template>
+  </template>
 
 <style scoped> 
 </style>
