@@ -27,6 +27,10 @@ namespace FIFA_API.Models.DataManager
         public async Task AddAsync(Compte entity)
         {
             await fifaDbContext.Compte.AddAsync(entity);
+
+            entity.UtilisateurCompte.CompteId = entity.CompteId;
+            await fifaDbContext.Utilisateur.AddAsync(entity.UtilisateurCompte);
+
             await fifaDbContext.SaveChangesAsync();
         }
 
