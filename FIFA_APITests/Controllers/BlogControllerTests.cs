@@ -19,7 +19,7 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private BlogController _controller;
-        private IDataRepository<Blog> _dataRepository;
+        private IBlogRepository _dataRepository;
 
         public BlogControllerTests()
         {
@@ -130,7 +130,7 @@ namespace FIFA_API.Controllers.Tests
         public void PostBlog_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepository<Blog>>();
+            var mockRepository = new Mock<IBlogRepository>();
             var blgController = new BlogController(mockRepository.Object);
             Blog blg = new Blog
             {
@@ -156,7 +156,7 @@ namespace FIFA_API.Controllers.Tests
                 BlogId = 1,
                 BlogTitre = "Test"
             };
-            var mockRepository = new Mock<IDataRepository<Blog>>();
+            var mockRepository = new Mock<IBlogRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(blg);
             var blgController = new BlogController(mockRepository.Object);
             // Act
@@ -180,7 +180,7 @@ namespace FIFA_API.Controllers.Tests
                 BlogTitre = "Update"
             };
 
-            var mockRepository = new Mock<IDataRepository<Blog>>();
+            var mockRepository = new Mock<IBlogRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(blg);
             var blgController = new BlogController(mockRepository.Object);
 
@@ -201,7 +201,7 @@ namespace FIFA_API.Controllers.Tests
                 BlogTitre = "Testgetidmoq"
             };
 
-            var mockRepository = new Mock<IDataRepository<Blog>>();
+            var mockRepository = new Mock<IBlogRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(blg);
             var blgController = new BlogController(mockRepository.Object);
 
@@ -217,13 +217,45 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetBlogById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepository<Blog>>();
+            var mockRepository = new Mock<IBlogRepository>();
             var blgController = new BlogController(mockRepository.Object);
             // Act
             var actionResult = blgController.GetBlogById(0).Result;
             // Assert
             Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
 
+        }
+
+        [TestMethod()]
+        public void GetCommantaireByBlogIdTest_ReturnsRightsItems_AvecMoq()
+        {
+            // Arrange
+            List<Commentaire> lesCommentaires = new List<Commentaire>();
+            Commentaire Commentaire = new Commentaire
+            {
+                CommentaireId = 1,
+            };
+            lesCommentaires.Add(Commentaire);
+
+            Blog CommentaireTheme = new Blog
+            {
+                BlogId = 1,
+                BlogDescription = "Blog de test",
+                CommentairesBlog = lesCommentaires
+            };
+
+
+            var mockRepository = new Mock<IBlogRepository>();
+            mockRepository.Setup(x => x.GetCommentaireByBlogId(1).Result).Returns(lesCommentaires);
+            var blgController = new BlogController(mockRepository.Object);
+
+            // Act
+            var actionResult = blgController.GetCommentaireById(1).Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(lesCommentaires, actionResult.Value as IEnumerable<Commentaire>);
         }
 
 

@@ -2,10 +2,11 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class CommentaireManager : IDataRepositoryWithoutStr<Commentaire>
+    public class CommentaireManager : ICommentaireRepository
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -53,6 +54,21 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.ArticleId = entity.ArticleId;
             entityToUpdate.CommenteCommentaire = entity.CommenteCommentaire;
             await fifaDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<Commentaire>> GetResponseOfCommentaire(int idCommentaire)
+        {
+            Commentaire? leCommentaire = await fifaDbContext.Commentaire.FirstOrDefaultAsync(x => x.CommentaireId == idCommentaire);
+
+            if (leCommentaire is null)
+                return null;
+
+
+            EntityEntry<Commentaire> CommentaireEntityEntry = fifaDbContext.Entry(leCommentaire);
+
+            await CommentaireEntityEntry.Reference(c => c.CommentaireCommente).LoadAsync();
+
+            return leCommentaire.CommentaireCommente;
         }
 
     }

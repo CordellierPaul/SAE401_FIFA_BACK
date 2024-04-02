@@ -20,7 +20,7 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private ArticleController _controller;
-        private IDataRepository<Article> _dataRepository;
+        private IArticleRepository _dataRepository;
 
         public ArticleControllerTests()
         {
@@ -131,7 +131,7 @@ namespace FIFA_API.Controllers.Tests
         public void PostArticle_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepository<Article>>();
+            var mockRepository = new Mock<IArticleRepository>();
             var artController = new ArticleController(mockRepository.Object);
             Article art = new Article
             {
@@ -157,7 +157,7 @@ namespace FIFA_API.Controllers.Tests
                 ArticleId = 1,
                 ArticleTitre = "Test"
             };
-            var mockRepository = new Mock<IDataRepository<Article>>();
+            var mockRepository = new Mock<IArticleRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(art);
             var artController = new ArticleController(mockRepository.Object);
             // Act
@@ -181,7 +181,7 @@ namespace FIFA_API.Controllers.Tests
                 ArticleTitre = "Update"
             };
 
-            var mockRepository = new Mock<IDataRepository<Article>>();
+            var mockRepository = new Mock<IArticleRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(art);
             var artController = new ArticleController(mockRepository.Object);
 
@@ -202,7 +202,7 @@ namespace FIFA_API.Controllers.Tests
                 ArticleTitre = "Testgetidmoq"
             };
 
-            var mockRepository = new Mock<IDataRepository<Article>>();
+            var mockRepository = new Mock<IArticleRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(art);
             var artController = new ArticleController(mockRepository.Object);
 
@@ -218,13 +218,45 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetArticleById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepository<Article>>();
+            var mockRepository = new Mock<IArticleRepository>();
             var artController = new ArticleController(mockRepository.Object);
             // Act
             var actionResult = artController.GetArticleById(0).Result;
             // Assert
             Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
 
+        }
+
+        [TestMethod()]
+        public void GetCommantaireByArticleIdTest_ReturnsRightsItems_AvecMoq()
+        {
+            // Arrange
+            List<Commentaire> lesCommentaires = new List<Commentaire>();
+            Commentaire Commentaire = new Commentaire
+            {
+                CommentaireId = 1,
+            };
+            lesCommentaires.Add(Commentaire);
+
+            Article CommentaireTheme = new Article
+            {
+                ArticleId = 1,
+                ArticleResume = "Article de test",
+                CommentairesArticle = lesCommentaires
+            };
+
+
+            var mockRepository = new Mock<IArticleRepository>();
+            mockRepository.Setup(x => x.GetCommentairesByArticleId(1).Result).Returns(lesCommentaires);
+            var artController = new ArticleController(mockRepository.Object);
+
+            // Act
+            var actionResult = artController.GetCommentaireById(1).Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(lesCommentaires, actionResult.Value as IEnumerable<Commentaire>);
         }
 
 
