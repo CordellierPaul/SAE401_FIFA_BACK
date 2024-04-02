@@ -28,8 +28,9 @@ namespace FIFA_API.Models.DataManager
         {
             await fifaDbContext.Compte.AddAsync(entity);
 
-            entity.UtilisateurCompte.CompteId = entity.CompteId;
-            await fifaDbContext.Utilisateur.AddAsync(entity.UtilisateurCompte);
+            // TODO : Cette ligne devrait ajouter l'utilisateur :
+            // Il faudrait peut-être utiliser EntityEntry entityEntry = await fifaDbContext.Compte.AddAsync(entity); et entityEntry.entity ?
+            //await fifaDbContext.Utilisateur.AddAsync(entity.UtilisateurCompte);
 
             await fifaDbContext.SaveChangesAsync();
         }
