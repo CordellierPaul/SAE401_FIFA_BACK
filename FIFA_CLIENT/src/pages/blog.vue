@@ -32,12 +32,7 @@
                 <div class="mt-12">
                     <p>Autres blog de l'article:</p>
                     <div class="flex justify-center items-center p-12" v-if="blogsFiltre">
-                        <div v-for="(autreBlog, index) in blogsFiltre" :key="index" class="bg-base-200 p-2 m-2 h-96 w-96">
-                            <p class="text-xl">{{ autreBlog.blogTitre }}</p>
-                            <div>
-                                <p>{{ autreBlog.blogResume }}</p>
-                            </div>
-                        </div>
+                        <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
                     </div>
 
 
@@ -56,6 +51,8 @@
     import { useRouter, useRoute } from 'vue-router';
     import { onMounted, ref, watch } from 'vue';
     import { getRequest } from '../composable/httpRequests';
+
+    import AutreBlogComponent from '../components/article/AutreBlogComponent.vue'
     
     const route = useRoute();
     const router = useRouter();
