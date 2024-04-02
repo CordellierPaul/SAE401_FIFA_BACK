@@ -32,7 +32,7 @@ const routes = [
       component: () => import('@/pages/contact.vue')
     },
     {
-      path: '/produit',
+      path: '/produit/:id',
       name: 'produit',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route

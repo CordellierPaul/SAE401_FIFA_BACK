@@ -227,7 +227,7 @@ namespace FIFA_API.Controllers.Tests
         }
 
         [TestMethod]
-        public void GetStockByVarianteIds_ExistingIdsPassed_ReturnsRightItems_AvecMoq()
+        public void GetPaysWhereProduitExists_ReturnsRightItems_AvecMoq()
         {
             // Arrange
             List<Pays> lesPays = new List<Pays>();

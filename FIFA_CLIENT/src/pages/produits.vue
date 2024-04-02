@@ -24,8 +24,10 @@
     const pays = ref()
     const paysNom = ref([])
 
-    getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
 
+    // pour récupérer tous les produits
+
+    getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
 
     async function fetchObjects() {
         // pour avoir les tailles
@@ -33,7 +35,7 @@
             method: "GET",
             mode: "cors"
         })
-
+        
         tailles.value = await tailleResponse.json()
         
         tailles.value.forEach(taille => {
@@ -77,7 +79,7 @@
         });
 
         // pour avoir les pays
-        const paysResponse = await fetch("https://apififa.azurewebsites.net/api/pays", {
+        const paysResponse = await fetch("https://apififa.azurewebsites.net/api/pays/GetWhereProduitExists ", {
             method: "GET",
             mode: "cors"
         })
@@ -92,13 +94,23 @@
 
     onMounted(fetchObjects)
 
-
+    // pour gérer les fitres
     const optionsTaillesChecked = ref([])
     const optionsGenresChecked = ref([])
     const optionsColorisChecked = ref([])
     const optionsCategoriesChecked = ref([])
     const optionsPaysChecked = ref([])
 
+    function emptyList(){
+        optionsTaillesChecked.value = []
+        optionsGenresChecked.value = []
+        optionsColorisChecked.value = []
+        optionsCategoriesChecked.value = []
+        optionsPaysChecked.value = []
+    }
+
+    // pour récupérer les produits selon les filtres
+    
 
 </script>
 
@@ -137,25 +149,28 @@
                 <div class="flex m-5 gap-2">
                     <div class=" whitespace-nowrap" v-if="produits">
                         <div class="flex gap-2">
-                            {{ produits.length }} résultats
-                            <div v-if="optionsTaillesChecked.length != 0 || optionsGenresChecked.length != 0 || optionsColorisChecked.length != 0">
-                                  pour
+                            <p v-if="produitsFiltre.length != 0">{{ produitsFiltre.length }} </p>
+                            <p v-else>{{ produits.length }}</p>
+                            <p>résultats</p>
+                            <div class="flex gap-2" v-if=" optionsTaillesChecked.length != 0 ||  optionsGenresChecked.length != 0 ||  optionsColorisChecked.length != 0 ||  optionsCategoriesChecked.length != 0 ||  optionsPaysChecked.length != 0 ">
+                                pour
+                                <div class=" flex gap-2 flex-wrap *:badge *:badge-neutral *:flex *:gap-2">
+                                    <div v-if="optionsTaillesChecked" v-for="(option, index) in optionsTaillesChecked" :key="option"><div @click="optionsTaillesChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ option }}</div>
+                                    <div v-if="optionsGenresChecked" v-for="(option, index) in optionsGenresChecked" :key="option"><div @click="optionsGenresChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ option }}</div>
+                                    <div v-if="optionsColorisChecked" v-for="(option, index) in optionsColorisChecked" :key="option"><div @click="optionsColorisChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ option }}</div>
+                                    <div v-if="optionsCategoriesChecked" v-for="(option, index) in optionsCategoriesChecked" :key="option"><div @click="optionsCategoriesChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ option }}</div>
+                                    <div v-if="optionsPaysChecked" v-for="(option, index) in optionsPaysChecked" :key="option"><div @click="optionsPaysChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ option }}</div>
+                                    <div class="hover:cursor-pointer" @click="emptyList"> Supprimer tous les filtres </div>
+                                </div>
                             </div>
                         </div>
 
-                    </div>
-                    <div class=" flex gap-2 flex-wrap *:badge *:badge-neutral">
-                        <div v-if="optionsTaillesChecked" v-for="taille in optionsTaillesChecked" :key="taille">{{ taille }}</div>
-                        <div v-if="optionsGenresChecked" v-for="genre in optionsGenresChecked" :key="genre">{{ genre }}</div>
-                        <div v-if="optionsColorisChecked" v-for="coloris in optionsColorisChecked" :key="coloris">{{ coloris }}</div>
-                        <div v-if="optionsCategoriesChecked" v-for="categorie in optionsCategoriesChecked" :key="categorie">{{ categorie }}</div>
-                        <div v-if="optionsPaysChecked" v-for="pays in optionsPaysChecked" :key="pays">{{ pays }}</div>
                     </div>
                 </div>
 
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
                     <!-- <p v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom"> {{ produit.variantesProduit[0] }} </p> -->
-                    <div v-if="produitsFiltre.length != 0">non</div>
+                    <ProduitComponent v-if="produitsFiltre.length != 0" v-for="produit in produitsFiltre" :id="produit.produitId" :nom="produit.produitNom" />
                     <ProduitComponent v-else-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
                     <div v-else v-for="i in 5" >
                         <div class="flex flex-col gap-4 w-52">
