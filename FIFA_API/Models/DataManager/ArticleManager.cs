@@ -2,11 +2,11 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class ArticleManager : IDataRepository<Article>
+    public class ArticleManager : IArticleRepository
     {
 
         private readonly FifaDbContext fifaDbContext;
@@ -59,6 +59,22 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.CommentairesArticle = entity.CommentairesArticle;
             entityToUpdate.BlogsArticle = entity.BlogsArticle;
             await fifaDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentairesByArticleId(int idArticle)
+        {
+            Article? leArticle = await fifaDbContext.Article.FirstOrDefaultAsync(x => x.ArticleId == idArticle);
+
+            if (leArticle is null)
+                return null;
+
+
+            EntityEntry<Article> ArticleEntityEntry = fifaDbContext.Entry(leArticle);
+
+            return new ActionResult<IEnumerable<Commentaire>>(ArticleEntityEntry
+                .Collection(p => p.CommentairesArticle)
+                .Query()
+                .AsEnumerable());
         }
     }
 }
