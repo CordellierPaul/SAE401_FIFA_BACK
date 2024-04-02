@@ -77,7 +77,7 @@
         });
 
         // pour avoir les pays
-        const paysResponse = await fetch("https://apififa.azurewebsites.net/api/pays", {
+        const paysResponse = await fetch("https://apififa.azurewebsites.net/api/pays/GetWhereProduitExists ", {
             method: "GET",
             mode: "cors"
         })
