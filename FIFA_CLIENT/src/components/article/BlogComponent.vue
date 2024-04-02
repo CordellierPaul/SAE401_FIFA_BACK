@@ -1,5 +1,5 @@
 <template>
-    <RouterLink :to="{name: 'blog'}">
+    <RouterLink :to="{ name: 'blog', params: { id: blog.blogId } }">
         <div class="btn btn-block h-44">
             <div class="flex flex-col items-center justify-center">
                 <p class="text-2xl m-3" v-if="blog">{{ blog.blogTitre}}</p>
