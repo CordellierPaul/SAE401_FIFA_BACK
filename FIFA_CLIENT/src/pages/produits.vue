@@ -99,6 +99,13 @@
     const optionsCategoriesChecked = ref([])
     const optionsPaysChecked = ref([])
 
+    function emptyList(){
+        optionsTaillesChecked.value = [];
+        optionsGenresChecked.value = [];
+        optionsColorisChecked.value = [];
+        optionsCategoriesChecked.value = [];
+        optionsPaysChecked.value = [];
+    }
 
 </script>
 
@@ -138,18 +145,19 @@
                     <div class=" whitespace-nowrap" v-if="produits">
                         <div class="flex gap-2">
                             {{ produits.length }} résultats
-                            <div v-if="optionsTaillesChecked.length != 0 || optionsGenresChecked.length != 0 || optionsColorisChecked.length != 0">
-                                  pour
+                            <div class="flex gap-2" v-if="optionsTaillesChecked.length != 0 || optionsGenresChecked.length != 0 || optionsColorisChecked.length != 0 || optionsCategoriesChecked.length != 0 || optionsPaysChecked.length != 0">
+                                pour
+                                <div class=" flex gap-2 flex-wrap *:badge *:badge-neutral *:flex *:gap-2">
+                                    <div v-if="optionsTaillesChecked" v-for="(taille, index) in optionsTaillesChecked" :key="taille"><div @click="optionsTaillesChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ taille }}</div>
+                                    <div v-if="optionsGenresChecked" v-for="(genre, index) in optionsGenresChecked" :key="genre"><div @click="optionsGenresChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ genre }}</div>
+                                    <div v-if="optionsColorisChecked" v-for="(coloris, index) in optionsColorisChecked" :key="coloris"><div @click="optionsColorisChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ coloris }}</div>
+                                    <div v-if="optionsCategoriesChecked" v-for="(categorie, index) in optionsCategoriesChecked" :key="categorie"><div  @click="optionsCategoriesChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ categorie }}</div>
+                                    <div v-if="optionsPaysChecked" v-for="(pays, index) in optionsPaysChecked" :key="pays"><div  @click="optionsPaysChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ pays }}</div>
+                                    <div class="hover:cursor-pointer" @click="emptyList"> Supprimer tous les filtres </div>
+                                </div>
                             </div>
                         </div>
 
-                    </div>
-                    <div class=" flex gap-2 flex-wrap *:badge *:badge-neutral">
-                        <div v-if="optionsTaillesChecked" v-for="taille in optionsTaillesChecked" :key="taille">{{ taille }}</div>
-                        <div v-if="optionsGenresChecked" v-for="genre in optionsGenresChecked" :key="genre">{{ genre }}</div>
-                        <div v-if="optionsColorisChecked" v-for="coloris in optionsColorisChecked" :key="coloris">{{ coloris }}</div>
-                        <div v-if="optionsCategoriesChecked" v-for="categorie in optionsCategoriesChecked" :key="categorie">{{ categorie }}</div>
-                        <div v-if="optionsPaysChecked" v-for="pays in optionsPaysChecked" :key="pays">{{ pays }}</div>
                     </div>
                 </div>
 
