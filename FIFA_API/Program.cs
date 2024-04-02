@@ -29,7 +29,7 @@ builder.Services.AddScoped<IDataRepository<Album>, AlbumManager>();
 builder.Services.AddScoped<IDataRepository2clues<AlbumImage>, AlbumImageManager>();
 builder.Services.AddScoped<IDataRepository2clues<LikeAlbum>, LikeAlbumManager>();
 builder.Services.AddScoped<IDataRepository<Anecdote>, AnecdoteManager>();
-builder.Services.AddScoped<IDataRepository<Article>, ArticleManager>();
+builder.Services.AddScoped<IArticleRepository, ArticleManager>();
 builder.Services.AddScoped<IBlogRepository, BlogManager>();
 builder.Services.AddScoped<IDataRepository2clues<BlogImage>, BlogImageManager>();
 builder.Services.AddScoped<IDataRepository<Caracteristique>, CaracteristiqueManager>();
