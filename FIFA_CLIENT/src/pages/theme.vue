@@ -39,6 +39,7 @@ onMounted(fetchThemes);
         </div>
     </div>
   <div>
+    <!-- Liste des thèmes -->
     <h1 class="flex justify-center items-center m-12 text-3xl font-bold">Liste des thèmes :</h1>
     <br>
     <div class="grid grid-cols-3 gap-4 place-content-stretch ">
@@ -49,15 +50,6 @@ onMounted(fetchThemes);
         </button>
       </div>
     </div>
-    <!-- <ul v-for="theme in themes" :key="theme.themeId" class="collapse collapse-arrow bg-base-300 p-10">
-      <li>
-        {{ theme.themeLibelle }}
-        <br>
-        <button class="btn btn-outline btn-primary" @click="redirectToVotePage(theme.themeId)">
-          Voter
-        </button>
-      </li>
-    </ul> -->
     <br>
   </div>
 </template>
