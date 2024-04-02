@@ -1,6 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import useCompteStore from "../store/compte.js"
+
+
+const compteStore = useCompteStore()
 
 const themes = ref([]);
 const router = useRouter();
@@ -44,20 +48,18 @@ onMounted(fetchThemes);
     <div class="grid grid-cols-3 gap-4 place-content-stretch ">
       <div v-for="theme in themes" :key="theme.themeId" class="collapse collapse-arrow bg-base-300 p-5">
         <p class="flex justify-center font-bold p-12"> {{ theme.themeLibelle }} </p>
-        <button class="btn btn-outline btn-primary" @click="redirectToVotePage(theme.themeId)">
-          Voter
-        </button>
+        <template v-if="compteStore.isConnected">
+          <!-- Utilisateur connecté -->
+          <button class="btn btn-outline btn-primary" @click="redirectToVotePage(theme.themeId)">
+            Voter
+          </button>
+        </template>
+        <template v-else>
+          <!-- Utilisateur non connecté -->
+          <button class="btn">Connectez-vous pour voter</button>
+        </template>
       </div>
     </div>
-    <!-- <ul v-for="theme in themes" :key="theme.themeId" class="collapse collapse-arrow bg-base-300 p-10">
-      <li>
-        {{ theme.themeLibelle }}
-        <br>
-        <button class="btn btn-outline btn-primary" @click="redirectToVotePage(theme.themeId)">
-          Voter
-        </button>
-      </li>
-    </ul> -->
     <br>
   </div>
 </template>
