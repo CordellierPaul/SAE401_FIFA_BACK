@@ -30,8 +30,11 @@
                 </div>
                 <div class="divider"></div>
                 <div class="mt-12">
-                    <p>Autres blog de l'article:</p>
-                    <div class="flex justify-center items-center p-12" v-if="blogsFiltre">
+                    <p class="text-xl">Autres blog de l'article:</p>
+                    <div class="flex justify-center items-center p-12 overflow-x-auto whitespace-nowrap" v-if="blogsFiltre">
+                        <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
+                        <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
+                        <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
                         <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
                     </div>
 
@@ -71,7 +74,7 @@
         await getRequest(blogs, "https://apififa.azurewebsites.net/api/blog");
 
         blogsFiltre.value = blogs.value.filter(leBlog => leBlog.articleId === blog.value.articleId);
-        blogsFiltre.value = blogs.value.filter(leBlog => leBlog.blogId !== blog.value.blogId);
+        blogsFiltre.value = blogsFiltre.value.filter(leBlog => leBlog.blogId !== blog.value.blogId);
 
     }
 
