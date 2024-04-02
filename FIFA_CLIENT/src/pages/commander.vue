@@ -34,7 +34,7 @@
         </div>
 
         <!-- Partie droite -->
-        <div class="flex flex-col h-fit w-5/12 bg-base-200 p-2 ml-1" >
+        <div class="flex flex-col min-h-fit w-5/12 bg-base-200 p-2 ml-1" >
             
             <div class="flex flex-col gap-2 h-96 overflow-auto p-2">
                 <CommanderProduitComponent :prz="'80,00'" :oldprz="'160,00'" :clr="'Multicolore'" :size="'M'" :qte="'1'" :title="'Maillot Football Domicile Comores Macron - hommes'" :img="'https://store.fifa.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0615%2F4456%2F2874%2Fproducts%2FFIFAMZ004803_1_b626dcf8-06c3-4a28-bb72-af7e424592a8.jpg%3Fv%3D1664464182&w=3840&q=85'"></CommanderProduitComponent>
