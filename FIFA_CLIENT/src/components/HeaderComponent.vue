@@ -1,3 +1,14 @@
+<script setup>
+
+import useCompteStore from "../store/compte.js"
+const compteStore = useCompteStore()
+
+function deconnexion() {
+  compteStore.disconnect()
+}
+
+</script>
+
 <template>
   <div class="navbar bg-primary sticky top-0 z-50 min-h-20">
     <!-- Menu a droite avec titre + navigation quand petit ecran -->
@@ -49,12 +60,9 @@
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="white" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
         </label>
 
-        <!-- Partie utilisateur -->
-        <div class="dropdown dropdown-end ml-3">
-
-            
-          <!-- SI UTILISATEUR CONNECTE -->
-          <!-- <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
+        <!-- SI L'UTILISATEUR EST CONNECTE -->
+        <div v-if="compteStore.isConnected" class="dropdown dropdown-end ml-3">
+          <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle avatar">
             <div class="w-10 rounded-full ">
               <div class="avatar placeholder">
                 <div class="bg-accent text-neutral-content rounded-full w-8">
@@ -71,11 +79,12 @@
               </RouterLink>
             </li>
             <li><a>Paramètres</a></li>
-            <li><a>Déconnexion</a></li>
-          </ul> -->
+            <li><a @click="deconnexion()">Déconnexion</a></li>
+          </ul>
+        </div>
 
-
-          <!-- SI UTILISATEUR LOGOUT -->
+        <!-- SI L'UTILISATEUR EST LOGOUT : -->
+        <div v-else class="dropdown dropdown-end ml-3">
           <RouterLink :to="{name: 'login'}">
             <div tabindex="0" role="button" class="btn btn-primary hover:opacity-70 btn-circle flex justify-center items-center">
               <div class="w-10 rounded-full  flex justify-center items-center">
@@ -83,7 +92,6 @@
               </div>
             </div>
           </RouterLink>
-
         </div>
 
         <!-- Partie panier -->
@@ -130,23 +138,12 @@
                 <RouterLink :to="{name: 'commander'}" class="btn-block btn btn-primary">Payer la commande</RouterLink>
               </div>
 
-
-
             </div>
           </div>
         </div>
-
-
-
         
       </div>
     </div>
 
-    
   </div>
 </template>
-
-<script setup>
-  import { ref } from 'vue';
-  const open = ref(false);
-</script>

@@ -106,7 +106,7 @@
         optionsPaysChecked.value = []
     }
 
-    // pour récupérer les produits selon les filtres
+    // pour récupérer les produits selon les filtres et les triers
     const filtreRequestList = ref([])
     const filtreRequestStr = ref("")
 
@@ -149,6 +149,20 @@
         })
         
         produitsFiltre.value = await Response.json()
+
+        console.log(produitsFiltre.value[0])
+
+
+    }
+
+    function compare(a, b) {
+        if (a.parametre < b.parametre) {
+            return -1;
+        }
+        if (a.parametre > b.parametre) {
+            return 1;
+        }
+        return 0;
     }
     
 

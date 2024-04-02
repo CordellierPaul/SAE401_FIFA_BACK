@@ -1,8 +1,13 @@
 <script setup>
 import { ref } from "vue"
-import { formatEmailEstBon } from "./register.vue";
-import { encrypter } from "../composable/hashageMdp";
+import { formatEmailEstBon } from "./register.vue"
+import { encrypter } from "../composable/hashageMdp"
+import { useRouter } from "vue-router"
+import useCompteStore from "../store/compte.js"
 
+const compteStore = useCompteStore()
+
+const router = useRouter()
 
 // Textes des classes conditions pour que les champs soient correct
 const styleConditionFormatEmail = ref("hidden")
@@ -60,12 +65,20 @@ async function boutonConnexionCompte() {
         body: JSON.stringify(compteAvecMDPHashe)
     })
 
-    // console.log(JSON.stringify(compteAvecMDPHashe));
-
     if (response.status == 401) {
         styleConditionPasDeCorrespondance.value = styleConditionPasRespectee
     } else if (response.status == 200) {
-        console.log("Vous êtes connectés !")
+        
+        // On enregistre les données retournées, l'id du compte et le token pour lire les
+        // données, dans compteStore
+        let data = await response.json()
+        compteStore.connect(data.userDetails.compteId, data.token)
+
+        router.push({ "name" : "index" })   // on va à la page d'accueil
+
+        // à supprimer
+        // email : testrtt@gmail.com
+        // mot de passe : izeufjieLQSQJI665dz!
     } else {
         console.warn("réponse non gérée " + response.status + "\n" + response)
     }
