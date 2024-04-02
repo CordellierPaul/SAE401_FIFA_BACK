@@ -2,11 +2,13 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using static NpgsqlTypes.NpgsqlTsVector;
 
 
 namespace FIFA_API.Models.DataManager
 {
-    public class BlogManager : IDataRepository<Blog>
+    public class BlogManager : IBlogRepository
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -57,6 +59,23 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.LikesBlogs = entity.LikesBlogs;
             entityToUpdate.LiensImages = entity.LiensImages;
             await fifaDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaireByBlogId(int idBlog)
+        {
+            Blog? leBlog = await fifaDbContext.Blog.FirstOrDefaultAsync(x => x.BlogId == idBlog);
+
+            if (leBlog is null)
+                return null;
+
+
+            EntityEntry<Blog> blogEntityEntry = fifaDbContext.Entry(leBlog);
+
+            return new ActionResult<IEnumerable<Commentaire>>(blogEntityEntry
+                .Collection(p => p.CommentairesBlog)
+                .Query()
+                .AsEnumerable());
+
         }
     }
 }
