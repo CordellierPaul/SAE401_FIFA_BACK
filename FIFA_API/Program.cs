@@ -104,7 +104,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(CorsPolicyName, policy =>
     {
         policy.AllowAnyHeader();
-        policy.AllowAnyMethod();
+        //policy.AllowAnyMethod();
         policy.AllowAnyOrigin();
     });
 });
