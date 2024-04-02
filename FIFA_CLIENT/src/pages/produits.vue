@@ -149,8 +149,6 @@
         })
         
         produitsFiltre.value = await Response.json()
-
-        console.log(produitsFiltre.value)
     }
     
 
