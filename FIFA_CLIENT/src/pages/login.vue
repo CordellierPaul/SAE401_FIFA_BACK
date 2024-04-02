@@ -53,6 +53,7 @@ async function boutonConnexionCompte() {
     
     const response = await fetch("https://apififa.azurewebsites.net/api/accescompte/connexion", {
         method: "POST",
+        mode: "cors",
         headers: {
             "Content-Type": "application/json",
         },

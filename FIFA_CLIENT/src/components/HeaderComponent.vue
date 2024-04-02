@@ -8,7 +8,6 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
         </div>
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52 z-[2]">
-          <li><RouterLink  :to="{name: 'apropos'}">A Propos</RouterLink></li>
           <li>
             <RouterLink :to="{name: 'produits'}">Produits</RouterLink>
             <ul id="dropDownCenter" class="p-2">
@@ -18,6 +17,7 @@
           </li>
           <li><RouterLink :to="{name: 'contact'}">Contact</RouterLink></li>
           <li><RouterLink :to="{name: 'articles'}">Articles</RouterLink></li>
+          <li><RouterLink :to="{name: 'clubs'}">Clubs</RouterLink></li>
           <li><RouterLink :to="{name: 'theme'}">Voter pour un theme</RouterLink></li>
         </ul>
       </div>
@@ -30,9 +30,9 @@
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
         
-        <li><RouterLink class="text-white btn btn-primary" :to="{name: 'apropos'}">A Propos</RouterLink></li>
         <li><RouterLink class="text-white btn btn-primary" :to="{name: 'produits'}">Produits</RouterLink></li>
         <li><RouterLink class="text-white btn btn-primary" :to="{name: 'contact'}">Contact</RouterLink></li>
+        <li><RouterLink class="text-white btn btn-primary" :to="{name: 'clubs'}">Clubs</RouterLink></li>
         <li><RouterLink class="text-white btn btn-primary" :to="{name: 'articles'}">Articles</RouterLink></li>
         <li><RouterLink class="text-white btn btn-primary" :to="{name: 'theme'}">Voter pour un theme</RouterLink></li>
       </ul>
