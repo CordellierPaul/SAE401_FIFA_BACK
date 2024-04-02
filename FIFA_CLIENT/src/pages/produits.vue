@@ -2,7 +2,7 @@
     import ProduitComponent from '@/components/ProduitComponent.vue';
     import FiltreComponent from '@/components/FiltreComponent.vue';
         
-    import { onMounted, ref } from 'vue'
+    import { onMounted, ref, watchEffect } from 'vue'
     import { getRequest } from '../composable/httpRequests.js'
 
     const produits = ref()
@@ -110,6 +110,39 @@
     }
 
     // pour récupérer les produits selon les filtres
+    const filtreRequestList = ref([])
+    const filtreRequestStr = ref("")
+
+    
+    watchEffect(()=>{
+        filtreRequestList.value = []
+        optionsTaillesChecked.value.forEach(element => {
+            filtreRequestList.value.push([taillesLibelle.value.indexOf(element)+1,"taiId"])
+        });
+        optionsGenresChecked.value.forEach(element => {
+            filtreRequestList.value.push([genresNom.value.indexOf(element)+1,"genreId"])
+        });
+        optionsColorisChecked.value.forEach(element => {
+            filtreRequestList.value.push([colorisNom.value.indexOf(element)+1,"colId"])
+        });
+        optionsCategoriesChecked.value.forEach(element => {
+            filtreRequestList.value.push([categoriesNom.value.indexOf(element)+1,"catId"])
+        });
+        optionsPaysChecked.value.forEach(element => {
+            filtreRequestList.value.push([paysNom.value.indexOf(element)+1,"paysId"])
+        });
+
+        filtreRequestStr.value = ""
+
+        filtreRequestList.value.forEach(filtre => {
+            filtreRequestStr.value = filtreRequestStr.value + filtre[1] + "=" + filtre[0] + "&"
+        });
+
+        produitsFiltre.value
+         
+    },{
+        deep: true
+    });
     
 
 </script>
@@ -164,7 +197,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
