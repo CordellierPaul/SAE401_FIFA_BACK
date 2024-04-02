@@ -31,19 +31,24 @@
       required: true
     }
   });
+
+  const emit = defineEmits(['remove','add'])
+
   
   const titre = props.filtreData.titre;
   const options = props.filtreData.options;
-
+  
   const optionsChecked = defineModel("optionsChecked",{default: []})
 
   function toggleOption(option){
-
+    
     if (optionsChecked.value.includes(option)) {
       optionsChecked.value.splice(optionsChecked.value.indexOf(option),1)
+      emit('remove')
     }
     else{
       optionsChecked.value.push(option) 
+      emit('add')
     }
   }
 
