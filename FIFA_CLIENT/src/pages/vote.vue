@@ -1,6 +1,10 @@
 <script setup>
     import { ref, onMounted } from 'vue';
     import { useRoute,useRouter } from 'vue-router';
+    import useCompteStore from "../store/compte.js";
+
+
+    const compteStore = useCompteStore();
 
     
     const router = useRouter();
@@ -62,8 +66,8 @@
       selectedPlayers.add(joueur3Id);
 
 
-      //const userId = /* ID de l'utilisateur connecté */; a faire quand connexion est fait
-      const userId = 13;
+      const userId = parseInt(compteStore.compteId,10);
+      //const userId = 17;
       const themeId = route.query.id;
       const votes = [];
 
