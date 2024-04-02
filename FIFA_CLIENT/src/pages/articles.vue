@@ -15,7 +15,6 @@
             <ArticleComponent v-if="articles" v-for="(article, index) in articles" key="index" :article="article"></ArticleComponent>
         </div>
 
-        {{ articles }}
     </div>
 
 </template>

@@ -1,14 +1,18 @@
 <script setup>
 import { ref } from "vue"
+import { encrypter } from "../composable/hashageMdp";
+import { useRouter } from "vue-router";
 
-const formData = ref({
-    prenom: "",
-    nom: "",
+const router = useRouter()
+
+const compte = ref({
+    comptelogin: "",
+    compteNom: "",
+    comptePrenom: "",
     dateDeNaissance: "",
-    login: "",
     paysDeNaissanceId: 0,
-    email: "",
-    motDePasse: ""
+    compteEmail: "",
+    compteMdp: ""
 })
 
 const classesPourListeCondition = {
@@ -17,7 +21,6 @@ const classesPourListeCondition = {
     "pasRespectee": "list-image-[url(/images/icon/bulle-condition-pas-respectee.png)]",
     "cachee": "hidden"
 }
-
 
 // Textes des classes conditions pour que l'e-mail soit correct
 const styleConditionEmailUnique = ref(classesPourListeCondition["cachee"])
@@ -37,7 +40,7 @@ function onPasswordTyped() {
         clearTimeout(idTimeoutVerificationMdp)
     }
     idTimeoutVerificationMdp = setTimeout(() => {
-        motDePasseVerifierConditions(formData.value.motDePasse)
+        motDePasseVerifierConditions(compte.value.compteMdp)
     }, 500)
 }
 
@@ -95,20 +98,27 @@ function motDePasseVerifierConditions(motDePasse) {
     return motDePasseEstBon
 }
 
-function boutonCreationCompte() {
+async function boutonCreationCompte() {
     
     let toutesLesConditionsSontRemplies = true
 
-    motDePasseVerifierConditions(formData.value.motDePasse)
+    motDePasseVerifierConditions(compte.value.compteMdp)
 
-    if (!conditionsSontVerifieesPourMotDePasse(formData.value.motDePasse)) {
+    if (!conditionsSontVerifieesPourMotDePasse(compte.value.compteMdp)) {
         toutesLesConditionsSontRemplies = false
     }
 
-    if (formatEmailEstBon(formData.value.email)) {
+    if (formatEmailEstBon(compte.value.compteEmail)) {
         styleConditionFormatEmail.value = classesPourListeCondition["cachee"]
     } else {
         styleConditionFormatEmail.value = classesPourListeCondition["pasRespectee"]
+        toutesLesConditionsSontRemplies = false
+    }
+
+    if (await emailEstUnique(compte.value.compteEmail)) {
+        styleConditionEmailUnique.value = classesPourListeCondition["cachee"]
+    } else {
+        styleConditionEmailUnique.value = classesPourListeCondition["pasRespectee"]
         toutesLesConditionsSontRemplies = false
     }
 
@@ -116,9 +126,37 @@ function boutonCreationCompte() {
         return
     }
 
-    console.log("Formulaire envoyé !");
+    // La version hahsée du mot de passe doit être cachée à l'utilisateur
 
-    // Envoyer le formulaire ici
+    let compteAvecMDPHashe = {
+        compteEmail: compte.value.compteEmail,
+        comptelogin: compte.value.comptelogin,
+        compteMdp: encrypter(compte.value.compteMdp),
+        utilisateurCompte: {
+            utilisateurNomAcheteur: compte.value.compteNom,
+            prenomUtilisateur: compte.value.comptePrenom,
+            utilisateurDateNaissance: compte.value.dateDeNaissance,
+            paysNaissanceId: compte.value.paysDeNaissanceId
+        }
+    }
+
+    compte.value.compteMdp = ""
+
+    console.log(JSON.stringify(compteAvecMDPHashe))
+
+    const response = await fetch("https://apififa.azurewebsites.net/api/accescompte/inscription", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(compteAvecMDPHashe)
+    })
+
+    if (response.status == 200) {
+        router.push({ "name" : "index" })
+    } else {
+        console.warn("réponse non gérée " + response.status + "\n" + response)
+    }
 }
 </script>
 
@@ -164,8 +202,26 @@ export function formatEmailEstBon(email) {
     return false
 }
 
-export function emailEstUnique(email) {
-    return true     // TODO : vérifier si l'email est déjà dans la base de données ici
+export async function emailEstUnique(email) {
+
+    // On recherche l'e-mail dans la base de données
+    const response = await fetch("https://apififa.azurewebsites.net/api/compte/getbyemail/" + email, {
+        method: "GET",
+        mode: "cors"
+    })
+
+    if (response.status == 204) {
+        // La réponse 204 signifie qu'il n'y a pas de contenu à la recherche par email, donc aucun mail
+        // n'a été trouvé dans la base de données. L'e-mail est bien unique.
+        return true
+    } else if (response.status == 200) {
+        // La réponse 200 signifie qu'un e-mail a été trouvé dans la base de données, donc l'e-mail entrée
+        // par l'utilisateur n'est pas unique
+        return false
+    } else {
+        console.warn("réponse non gérée " + response.status + "\n" + response)
+        return false
+    }
 }
 </script>
 
@@ -179,24 +235,24 @@ export function emailEstUnique(email) {
                 <p>Prénom</p>
                 <label class="input input-bordered flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
-                    <input type="text" class="grow" placeholder="Prénom" v-model="formData.prenom" />
+                    <input type="text" class="grow" placeholder="Prénom" v-model="compte.comptePrenom" />
                 </label>
                 <p>Nom de famille</p>
                 <label class="input input-bordered flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
-                    <input type="text" class="grow" placeholder="Nom de famille" v-model="formData.nom" />
+                    <input type="text" class="grow" placeholder="Nom de famille" v-model="compte.compteNom" />
                 </label>
                 <p>Date de naissance</p>
                 <label class="input input-bordered flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                     </svg>
-                    <input type="date" class="grow" placeholder="Date de naissance" v-model="formData.login" />
+                    <input type="date" class="grow" placeholder="Date de naissance" v-model="compte.dateDeNaissance" />
                 </label>
                 <p>Pays de naissance</p>
                 <label class="input input-bordered flex items-center gap-2">
        
-                    <select class="w-full select-none" v-model="formData.paysDeNaissanceId">
+                    <select class="w-full select-none" v-model="compte.paysDeNaissanceId">
                         <option disabled selected>Pays de naissance</option>
                         <option value="1">France</option>
                         <option value="2">Italie</option>
@@ -209,7 +265,7 @@ export function emailEstUnique(email) {
                 <p>Nom d'utilisateur</p>
                 <label class="input input-bordered flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
-                    <input type="text" class="grow" placeholder="Nom d'utilisateur (login)" v-model="formData.dateDeNaissance" />
+                    <input type="text" class="grow" placeholder="Nom d'utilisateur (login)" v-model="compte.comptelogin" />
                 </label>
                 <p>Email</p>
                 <label class="input input-bordered flex items-center gap-2">
@@ -219,7 +275,7 @@ export function emailEstUnique(email) {
                         <path
                             d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                     </svg>
-                    <input type="text" class="grow" placeholder="Email" v-model="formData.email" />
+                    <input type="text" class="grow" placeholder="Email" v-model="compte.compteEmail" />
                 </label>
                 <p>Mot de passe</p>
                 <label class="input input-bordered flex items-center gap-2">
@@ -228,7 +284,7 @@ export function emailEstUnique(email) {
                                 d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <input type="password" class="grow" value="" placeholder="Mot de passe" @input="onPasswordTyped" v-model="formData.motDePasse"/>
+                        <input type="password" class="grow" value="" placeholder="Mot de passe" @input="onPasswordTyped" v-model="compte.compteMdp"/>
                 </label>
             </div>
         </div>

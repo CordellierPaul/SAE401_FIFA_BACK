@@ -134,7 +134,7 @@
     });
 
     async function fetchProduit() {
-        const firstResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${route.query.id}`, {
+        const firstResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyid/${route.params.id}`, {
             method: "GET",
             mode: "cors"
         })
@@ -241,7 +241,7 @@
         }
 
         // pour avoir l'image 
-        const thirdResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getanimageofproduitbyid/${route.query.id}`, {
+        const thirdResponse = await fetch(`https://apififa.azurewebsites.net/api/produit/getanimageofproduitbyid/${route.params.id}`, {
             method: "GET",
             mode: "cors"
         })
