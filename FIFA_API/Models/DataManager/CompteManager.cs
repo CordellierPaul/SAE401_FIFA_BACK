@@ -2,6 +2,8 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using NuGet.Protocol;
 
 #nullable disable
 
@@ -37,7 +39,16 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<Compte>> GetByIdAsync(int id)
         {
-            return await fifaDbContext.Compte.FirstOrDefaultAsync(u => u.CompteId == id);
+            Compte compte = await fifaDbContext.Compte.FirstOrDefaultAsync(u => u.CompteId == id);
+
+            if (compte is null)
+                return compte;
+
+            EntityEntry<Compte> compteEntityEntry = fifaDbContext.Entry(compte);
+
+            await compteEntityEntry.Reference(c => c.UtilisateurCompte).LoadAsync();
+
+            return new ActionResult<Compte>(compteEntityEntry.Entity);
         }
 
         public async Task<ActionResult<Compte>> GetByStringAsync(string str)
