@@ -19,7 +19,7 @@
 
     async function fetchJoueurs() {
         try {
-        const responseTheme = await fetch('https://apififa.azurewebsites.net/api/Theme/GetJoueursByThemeId/${route.query.id}', {
+        const responseTheme = await fetch(`https://apififa.azurewebsites.net/api/Theme/GetJoueursByThemeId/${route.query.id}`, {
             method: 'GET',
             mode: 'cors'
         });
@@ -102,7 +102,6 @@
               </li>
               
             </ul>
-            <!-- CECI EST UN EXEMPLE VU QUE LE FETCH N4ET PAS FONCTIONNEL POUR LE MOMENT -->
             <ul>
               <li >
                 hehe (ceci est un joueur)

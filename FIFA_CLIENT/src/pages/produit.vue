@@ -29,11 +29,8 @@
                 <p class="text-xl" v-if="variantesProduit[variantesSelectionne]"  >{{   (variantesProduit[variantesSelectionne].varianteProduitPrix - (variantesProduit[variantesSelectionne].varianteProduitPrix * variantesProduit[variantesSelectionne].varianteProduitPromo)).toFixed(2)}} €</p>
                 <p class="text-xl font-light line-through" v-if="variantesProduit[variantesSelectionne]">{{variantesProduit[variantesSelectionne].varianteProduitPrix}}€</p>
             </div>
-            <div class="flex justify-between my-3">
-                <p>Taille</p>
-                <p>Guide des tailles</p>
-            </div>
-            <div class="flex gap-1 py-5">
+            <p class="font-bold mt-4">TAILLE</p>
+            <div class="flex gap-1 py-2">
                 <button class="btn btn-square btn-outline btn-disabled">2XS</button>
                 <button class="btn btn-square btn-outline">XS</button>
                 <button class="btn btn-square btn-outline">S</button>
