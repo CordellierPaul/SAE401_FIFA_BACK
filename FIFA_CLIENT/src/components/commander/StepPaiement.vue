@@ -39,18 +39,37 @@
         <div class="*:my-2 *:flex *:w-full *:justify-between">
             <div >
                 <div class="flex gap-2">
-                    <input type="radio" name="radio-1" class="radio" checked />
+                    <input type="radio" name="radio-1" class="radio" checked  @click="hideInput"/>
                     <p>Identique à l'adresse de livraison</p>
                 </div>
             </div>
             <div class="divider"></div> 
             <div >
                 <div class="flex gap-2">
-                    <input type="radio" name="radio-1" class="radio" @click="toggleAdresseInput" />
+                    <input type="radio" name="radio-1" class="radio" @click="showInput" />
                     <p>utiliser une adresse de facturation différente</p>
                 </div>
-                <div :class="adresseInputClass"></div>
             </div>
+        </div>
+
+        <div :class="adresseInputClass" class="*:my-2 w-full">
+            <select class="select select-bordered w-full" placeholder="Pays">
+                <option >France</option>
+                <option >Belgique</option>
+                <option>Suisse</option>
+                <option>Italie</option>
+            </select>
+            
+            <input type="text" required placeholder="Nom Complet" class="input input-bordered w-full " />
+            <input type="text" required placeholder="Adresse 1" class="input input-bordered w-full " />
+            <input type="text" placeholder="Appartement, suite, etc. (champ faculatatif)" class="input input-bordered w-full " />
+
+            <div class="flex gap-2">
+                <input type="text" required placeholder="Code postal" class="input input-bordered w-full " />
+                <input type="text" required placeholder="Ville" class="input input-bordered w-full " />
+            </div>
+
+            <input type="text" required  placeholder="Téléphone" class="input input-bordered w-full " />
         </div>
 
         <div class="flex gap-2 justify-between mt-2">
@@ -64,6 +83,7 @@
 </template>
 
 <script setup>
+import {ref} from 'vue'
 const emit = defineEmits(['next','previous'])
 
 function btPreviousClick() {
@@ -72,12 +92,13 @@ function btPreviousClick() {
 
 const adresseInputClass = ref("hidden")
 
-function toggleAdresseInput(){
-    if (adresseInputClass == "hidden"){
-        adresseInputClass = "flex"
-    }
-    else {
-        adresseInputClass = "hidden"
-    }
+function showInput(){
+        adresseInputClass.value = ""
 }
+
+function hideInput(){
+        adresseInputClass.value = "hidden"
+}
+
+
 </script>
