@@ -19,7 +19,7 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private CommentaireController _controller;
-        private IDataRepositoryWithoutStr<Commentaire> _dataRepository;
+        private ICommentaireRepository _dataRepository;
 
         public CommentaireControllerTests()
         {
@@ -130,7 +130,7 @@ namespace FIFA_API.Controllers.Tests
         public void PostCommentaire_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Commentaire>>();
+            var mockRepository = new Mock<ICommentaireRepository>();
             var comController = new CommentaireController(mockRepository.Object);
             Commentaire com = new Commentaire
             {
@@ -156,7 +156,7 @@ namespace FIFA_API.Controllers.Tests
                 CommentaireId = 1,
                 CommentaireTexte = "Test"
             };
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Commentaire>>();
+            var mockRepository = new Mock<ICommentaireRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(com);
             var comController = new CommentaireController(mockRepository.Object);
             // Act
@@ -180,7 +180,7 @@ namespace FIFA_API.Controllers.Tests
                 CommentaireTexte = "Update"
             };
 
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Commentaire>>();
+            var mockRepository = new Mock<ICommentaireRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(com);
             var comController = new CommentaireController(mockRepository.Object);
 
@@ -201,7 +201,7 @@ namespace FIFA_API.Controllers.Tests
                 CommentaireTexte = "Testgetidmoq"
             };
 
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Commentaire>>();
+            var mockRepository = new Mock<ICommentaireRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(com);
             var comController = new CommentaireController(mockRepository.Object);
 
@@ -217,13 +217,41 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetCommentaireById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Commentaire>>();
+            var mockRepository = new Mock<ICommentaireRepository>();
             var comController = new CommentaireController(mockRepository.Object);
             // Act
             var actionResult = comController.GetCommentaireById(0).Result;
             // Assert
             Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
 
+        }
+
+        [TestMethod()]
+        public void GetResponseOfCommentaireTest_ReturnsRightsItem_AvecMoq()
+        {
+            // Arrange
+            Commentaire Commentaire = new Commentaire
+            {
+                CommentaireId = 1,
+            };
+            Commentaire CommentaireCommente = new Commentaire
+            {
+                CommentaireId = 2,
+                CommentaireCommente = Commentaire
+            };
+
+
+            var mockRepository = new Mock<ICommentaireRepository>();
+            mockRepository.Setup(x => x.GetResponseOfCommentaire(2).Result).Returns(Commentaire);
+            var artController = new CommentaireController(mockRepository.Object);
+
+            // Act
+            var actionResult = artController.GetResponseOfCommentaire(2).Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(Commentaire, actionResult.Value as Commentaire);
         }
 
 

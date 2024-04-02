@@ -38,7 +38,7 @@ builder.Services.AddScoped<IDataRepository<Categorie>, CategorieManager>();
 builder.Services.AddScoped<IDataRepository<Club>, ClubManager>();
 builder.Services.AddScoped<IColorisRepository, ColorisManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Commande>, CommandeManager>();
-builder.Services.AddScoped<IDataRepositoryWithoutStr<Commentaire>, CommentaireManager>();
+builder.Services.AddScoped<ICommentaireRepository, CommentaireManager>();
 builder.Services.AddScoped<IDataRepository<Competition>, CompetitionManager>();
 builder.Services.AddScoped<IDataRepository<Compte>, CompteManager>();
 builder.Services.AddScoped<IDataRepository<Devis>, DevisManager>();
