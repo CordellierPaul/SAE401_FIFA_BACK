@@ -103,6 +103,11 @@ const routes = [
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('@/pages/clubs.vue')
+    },
+    {
+      path: '/parametres-compte',
+      name: 'parametres-compte',
+      component: () => import('@/pages/parametresCompte.vue')
     }
   ];
 
