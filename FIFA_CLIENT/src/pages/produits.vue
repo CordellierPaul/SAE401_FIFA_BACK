@@ -21,6 +21,7 @@
 
     const pays = ref()
     const paysNom = ref([])
+    const paysId = ref([])
 
 
     // pour récupérer tous les produits
@@ -83,9 +84,13 @@
 
         pays.value = await paysResponse.json()
 
-        pays.value.forEach(pays => {
-            paysNom.value.push(pays.paysNom);
-        });
+         pays.value.forEach(pays => {
+             paysNom.value.push(pays.paysNom);
+             paysId.value.push(pays.paysId);
+         });
+
+        
+        console.log(pays.value)
 
     }
 
@@ -126,7 +131,7 @@
             filtreRequestList.value.push([categoriesNom.value.indexOf(element)+1,"catId"])
         });
         optionsPaysChecked.value.forEach(element => {
-            filtreRequestList.value.push([paysNom.value.indexOf(element)+1,"paysId"])
+            filtreRequestList.value.push([paysId.value[paysNom.value.indexOf(element)], "paysId"])
         });
 
         filtreRequestStr.value = ""
@@ -135,8 +140,8 @@
             filtreRequestStr.value = filtreRequestStr.value + filtre[1] + "=" + filtre[0] + "&"
         });
 
-        fetchProduitsFiltres(filtreRequestStr.value)
-
+        fetchProduitsFiltres(filtreRequestStr.value);
+        console.log(filtreRequestStr.value);
 
     },{
         deep: true
@@ -149,6 +154,8 @@
         })
         
         produitsFiltre.value = await Response.json()
+
+        console.log(request)
 
         console.log(produitsFiltre.value[0])
 
@@ -211,7 +218,7 @@
                                     <div v-if="optionsGenresChecked" v-for="(option, index) in optionsGenresChecked" :key="option"><div @click="optionsGenresChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ option }}</div>
                                     <div v-if="optionsColorisChecked" v-for="(option, index) in optionsColorisChecked" :key="option"><div @click="optionsColorisChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ option }}</div>
                                     <div v-if="optionsCategoriesChecked" v-for="(option, index) in optionsCategoriesChecked" :key="option"><div @click="optionsCategoriesChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ option }}</div>
-                                    <div v-if="optionsPaysChecked" v-for="(option, index) in optionsPaysChecked" :key="option"><div @click="optionsPaysChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ option }}</div>
+                                    <div v-if="optionsPaysChecked" v-for="(option, index) in optionsPaysChecked" :key="option"><div @click="optionsPaysChecked.splice(index,1)"><i class="fa-solid fa-xmark hover:cursor-pointer"></i></div>{{ option }}</div>                                    
                                     <div class="hover:cursor-pointer" @click="emptyList"> Supprimer tous les filtres </div>
                                 </div>
                             </div>
