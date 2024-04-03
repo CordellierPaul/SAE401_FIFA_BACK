@@ -32,10 +32,11 @@
 
 
             <p class="font-bold mt-4">TAILLE</p>
-            <div class="grid grid-cols-12 flex gap-1 py-2">
+            <p v-if="VarianteStocks[TailleSelectionner]">{{ VarianteStocks[TailleSelectionner].tailleStockee.tailleLibelle }}</p>
+            <div id="container" class="flex flex-wrap gap-2 p-2">
                 <div  v-for="(stock, index) in VarianteStocks" :key="index" >
-                    <button v-if="stock.varianteProduitId == variantesProduit[variantesSelectionne].varianteProduitId" 
-                    v-bind:class="{'btn btn-square btn-outline' : stock.quantiteStockee !=0, 'btn btn-square btn-outline btn-disabled':stock.quantiteStockee ==0}">{{ stock.tailleStockee.tailleLibelle }}</button>
+                    <button v-if="stock.varianteProduitId == variantesProduit[variantesSelectionne].varianteProduitId" @click="TailleSelectionner = index"
+                    v-bind:class="{'btn btn-square btn-outline flex gap-2' : stock.quantiteStockee !=0, 'btn btn-square btn-outline btn-disabled':stock.quantiteStockee ==0}">{{ stock.tailleStockee.tailleLibelle }}</button>
                                       
                 </div>
             </div>
@@ -46,13 +47,13 @@
                 <p v-if="coloris[variantesSelectionne]">{{ coloris[variantesSelectionne].colorisNom }}</p>
             </div>
             <div v-if="colorisHexa" class="flex gap-2">
-                <div  v-for="(hexa, index) in colorisHexa" :key="index" :class="hexa" @click="variantesSelectionne = index" class="size-8 border-solid border-black border-2 hover:cursor-pointer hover:opacity-75  ">
+                <div  v-for="(hexa, index) in colorisHexa" :key="index" :class="hexa" @click="variantesSelectionne = index, TailleSelectionner = ref()" class="size-8 border-solid border-black border-2 hover:cursor-pointer hover:opacity-75  ">
 
             </div>
 
             </div>
 
-            <button class="btn btn-block btn-accent text-white my-5">AJOUTER AU PANIER</button>
+            <button class="btn btn-block btn-accent text-white my-5" @click="ajoute(produit, variantesProduit[variantesSelectionne], VarianteStocks[TailleSelectionner])">AJOUTER AU PANIER</button>
             
             
             <p class="font-semibold">Description</p>
@@ -75,15 +76,57 @@
             </div>
         </div>
     </div>
+  
+    <!-- FENETRE MODAL EN CAS DE TAILLE NON SELECTIONNER -->
+    <dialog id="modal_taille_non_choisis" class="modal">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg">Attention!</h3>
+        <p class="py-4">Vous devez choisir une taille.</p>
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn">OK</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
+  
+  <!-- FENETRE MODAL EN CAS DE STOCK MAX -->
+  <dialog id="modal_quantite_max_choisis" class="modal">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Impossible d'ajouter ce produit.</h3>
+      <p class="py-4">Vous avez déjà la quantitée maximum pour ce produit dans votre panier. </p>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn">OK</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
     
 </template>
     
 <script setup>
+
+    import usePanierStore from "../store/panier.js"
     import { defineProps, ref, onMounted, watch, watchEffect } from 'vue';
     import { useRoute,useRouter } from 'vue-router';
     import ProduitComponent from '@/components/ProduitComponent.vue';
     import { isProxy, toRaw } from 'vue';
+    
+    const panierStore = usePanierStore()
 
+    function ajoute(produit, variante, stock) {
+        if(stock == null){
+            modal_taille_non_choisis.showModal();
+            return;
+        }
+        if(!panierStore.augmentationPossible(stock)){            
+            modal_quantite_max_choisis.showModal();
+            return;
+        }
+        panierStore.add(produit, variante, stock)
+        console.log(stock)
+    }
     const router = useRouter();
     const route = useRoute();
 
@@ -120,6 +163,7 @@
     const image = ref()
 
     const tailles = ref()
+    const TailleSelectionner = ref()
     const VarianteStocks = ref([])
 
     watchEffect(()=>{
