@@ -75,10 +75,7 @@ async function boutonConnexionCompte() {
         compteStore.connect(data.userDetails.compteId, data.token)
 
         router.push({ "name" : "index" })   // on va à la page d'accueil
-
-        // à supprimer
-        // email : testrtt@gmail.com
-        // mot de passe : izeufjieLQSQJI665dz!
+        
     } else {
         console.warn("réponse non gérée " + response.status + "\n" + response)
     }

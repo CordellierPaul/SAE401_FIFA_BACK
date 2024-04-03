@@ -37,10 +37,8 @@ function supprimerCompte() {
     
     <p>Nom d'utilisateur (login) : {{ donneesCompte.comptelogin }}</p>
     <p>Email : {{ donneesCompte.compteEmail }}</p>
-    <!-- Une fois que l'API aura chargé les données seront ici -->
-    <p>test : {{ JSON.stringify(donneesCompte.utilisateurCompte) }}</p>
-    <!-- <p>Nom : {{ donneesCompte.utilisateurCompte.utilisateurNomAcheteur }}</p>
-    <p>Prénom : {{ donneesCompte.utilisateurCompte.prenomUtilisateur }}</p> --> 
+    <p>Nom : {{ donneesCompte.utilisateurCompte.utilisateurNomAcheteur }}</p>
+    <p>Prénom : {{ donneesCompte.utilisateurCompte.prenomUtilisateur }}</p>
 
     <button :class="deleteButtonClass" @click="supprimerCompte">Supprimer le compte</button>
 </div>

@@ -67,8 +67,6 @@ namespace FIFA_API.Controllers
             if (compte.UtilisateurCompte is null)
                 return BadRequest("Lorsqu'un compte est créé, il doit contenir les informations sur l'utilisateur");
 
-            compte.UtilisateurCompte = null;
-
             string tokenString = GenerateJwtToken(compte);
 
             await _dataRepository.AddAsync(compte);

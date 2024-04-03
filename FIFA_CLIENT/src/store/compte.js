@@ -3,7 +3,7 @@ import { useStorage } from '@vueuse/core'
 
 // Avec useStorage, les éléments du store ne sont pas réinitialisés avec un rafraichissemet de la pahe
 
-const useCompteStore = defineStore("todo", {
+const useCompteStore = defineStore("compte", {
     state: () => ({
         compteId: useStorage("compteId", null),
         token: useStorage("token", ""),
