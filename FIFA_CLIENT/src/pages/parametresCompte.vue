@@ -10,9 +10,15 @@ const deleteButtonClass = "bg-red-500 text-white hover:bg-white hover:text-black
 // Ce code ne fonctionnera qu'avec le version non-sécurisée de l'api
 
 async function fetchCompteData() {
+
+    console.log(compteStore.token);
+
     const response = await fetch("https://apififa.azurewebsites.net/api/compte/getbyid/" + compteStore.compteId, {
         method: "GET",
-        mode: "cors"
+        headers: {
+            "Authorization": `Bearer ${compteStore.token}`,
+            "Content-Type": "application/json",
+        }
     })
 
     donneesCompte.value = await response.json()
@@ -37,10 +43,8 @@ function supprimerCompte() {
     
     <p>Nom d'utilisateur (login) : {{ donneesCompte.comptelogin }}</p>
     <p>Email : {{ donneesCompte.compteEmail }}</p>
-    <!-- Une fois que l'API aura chargé les données seront ici -->
-    <p>test : {{ JSON.stringify(donneesCompte.utilisateurCompte) }}</p>
-    <!-- <p>Nom : {{ donneesCompte.utilisateurCompte.utilisateurNomAcheteur }}</p>
-    <p>Prénom : {{ donneesCompte.utilisateurCompte.prenomUtilisateur }}</p> --> 
+    <p>Nom : {{ donneesCompte.utilisateurCompte.utilisateurNomAcheteur }}</p>
+    <p>Prénom : {{ donneesCompte.utilisateurCompte.prenomUtilisateur }}</p>
 
     <button :class="deleteButtonClass" @click="supprimerCompte">Supprimer le compte</button>
 </div>
