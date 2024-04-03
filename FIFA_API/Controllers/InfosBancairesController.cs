@@ -25,9 +25,13 @@ namespace FIFA_API.Controllers
             return await dataRepository.GetAllAsync();
         }
 
-        // GET: api/InfosBancaires
+        // GET: api/GetInfosBancairesOfCompte
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<InfosBancaires>>> GetInfosBancairesOfCompte()
+        [Route("[action]/{userId}")]
+        [ActionName("GetInfosBancairesOfCompte")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<InfosBancaires>>> GetInfosBancairesOfUser(int userId)
         {
             return await dataRepository.GetAllAsync();
         }
