@@ -28,8 +28,16 @@ async function fetchCompteData() {
 
 onMounted(fetchCompteData)
 
-function supprimerCompte() {
-    // TODO ajouter la suppression du compte ici
+async function supprimerCompte() {
+
+    await fetch("https://apififa.azurewebsites.net/api/compte/" + compteStore.compteId, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${compteStore.token}`
+        }
+    })
+    
+    compteStore.disconnect()
 }
 </script>
 
@@ -39,6 +47,7 @@ function supprimerCompte() {
 <p class="flex justify-center items-center m-12 text-3xl font-bold">Paramètres du compte</p>
 
 <div v-if="donneesCompte" class="container sm:mx-auto px-5 py-2">
+
     <p class="text-2xl font-semibold">Informations générales :</p>
     
     <p>Nom d'utilisateur (login) : {{ donneesCompte.comptelogin }}</p>
@@ -46,7 +55,12 @@ function supprimerCompte() {
     <p>Nom : {{ donneesCompte.utilisateurCompte.utilisateurNomAcheteur }}</p>
     <p>Prénom : {{ donneesCompte.utilisateurCompte.prenomUtilisateur }}</p>
 
+    <p class="text-2xl font-semibold">Commandes :</p>
+    <p v-if="donneesCompte.utilisateurCompte.commandesUtilisateur">Vous avez des commandes !</p>
+    <p v-else>Vous n'avez pas de commandes pour le moment</p>
+
     <button :class="deleteButtonClass" @click="supprimerCompte">Supprimer le compte</button>
+
 </div>
 
 </template>
