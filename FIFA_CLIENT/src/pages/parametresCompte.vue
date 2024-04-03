@@ -10,9 +10,15 @@ const deleteButtonClass = "bg-red-500 text-white hover:bg-white hover:text-black
 // Ce code ne fonctionnera qu'avec le version non-sécurisée de l'api
 
 async function fetchCompteData() {
+
+    console.log(compteStore.token);
+
     const response = await fetch("https://apififa.azurewebsites.net/api/compte/getbyid/" + compteStore.compteId, {
         method: "GET",
-        mode: "cors"
+        headers: {
+            "Authorization": `Bearer ${compteStore.token}`,
+            "Content-Type": "application/json",
+        }
     })
 
     donneesCompte.value = await response.json()

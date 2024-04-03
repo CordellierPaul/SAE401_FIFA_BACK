@@ -57,7 +57,7 @@ onMounted(fetchThemes);
         </template>
         <template v-else>
           <!-- Utilisateur non connecté -->
-          <button class="btn">Connectez-vous pour voter</button>
+          <button class="btn btn-outline btn-primary">Connectez-vous pour voter</button>
         </template>
       </div>
     </div>
