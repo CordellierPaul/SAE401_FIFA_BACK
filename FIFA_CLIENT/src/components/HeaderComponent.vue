@@ -1,12 +1,13 @@
 <script setup>
-
 import useCompteStore from "../store/compte.js"
+import { useRouter } from "vue-router"
 const compteStore = useCompteStore()
+const router = useRouter()
 
 function deconnexion() {
   compteStore.disconnect()
+  router.push({ "name" : "index" })   // on va à la page d'accueil
 }
-
 </script>
 
 <template>
