@@ -174,7 +174,7 @@
               <li><RouterLink :to="{name: 'index'}" class="hover:opacity-50 hover:cursor-pointer">FIFA</RouterLink></li> 
               <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Thèmes</a></li> 
               <!-- Titre de la page actuelle -->
-              <li>{{theme}}</li>
+              <li>{{ theme ? theme.themeLibelle : '' }}</li>
           </ul>
       </div>
   </div>
