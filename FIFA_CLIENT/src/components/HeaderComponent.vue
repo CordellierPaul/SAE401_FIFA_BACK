@@ -1,12 +1,14 @@
 <script setup>
-
 import useCompteStore from "../store/compte.js"
+import { useRouter } from "vue-router"
 import usePanierStore from "../store/panier.js"
 const compteStore = useCompteStore()
 const panierStore = usePanierStore()
+const router = useRouter()
 
 function deconnexion() {
   compteStore.disconnect()
+  router.push({ "name" : "index" })   // on va à la page d'accueil
 }
 
 function panierPlus(index) {

@@ -27,11 +27,6 @@ namespace FIFA_API.Models.DataManager
         public async Task AddAsync(Compte entity)
         {
             await fifaDbContext.Compte.AddAsync(entity);
-
-            // TODO : Cette ligne devrait ajouter l'utilisateur :
-            // Il faudrait peut-être utiliser EntityEntry entityEntry = await fifaDbContext.Compte.AddAsync(entity); et entityEntry.entity ?
-            //await fifaDbContext.Utilisateur.AddAsync(entity.UtilisateurCompte);
-
             await fifaDbContext.SaveChangesAsync();
         }
 
@@ -55,6 +50,7 @@ namespace FIFA_API.Models.DataManager
 
             return new ActionResult<Compte>(compteEntityEntry.Entity);
         }
+
 
         public async Task<ActionResult<Compte>> GetByStringAsync(string str)
         {

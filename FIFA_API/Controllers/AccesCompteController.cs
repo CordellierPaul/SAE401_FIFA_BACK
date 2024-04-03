@@ -1,4 +1,5 @@
-﻿using FIFA_API.Models.EntityFramework;
+﻿using FIFA_API.Models;
+using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -67,8 +68,6 @@ namespace FIFA_API.Controllers
             if (compte.UtilisateurCompte is null)
                 return BadRequest("Lorsqu'un compte est créé, il doit contenir les informations sur l'utilisateur");
 
-            compte.UtilisateurCompte = null;
-
             string tokenString = GenerateJwtToken(compte);
 
             await _dataRepository.AddAsync(compte);
@@ -88,16 +87,25 @@ namespace FIFA_API.Controllers
 
         private string GenerateJwtToken(Compte userInfo)
         {
-            var securityKey = new
-           SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
+
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            string role;
+
+            if (userInfo.TypeCompte == 2)
+                role = Policies.Admin;
+            else
+                role = Policies.Utilisateur;
+
             var claims = new[]
             {
-                //new Claim(JwtRegisteredClaimNames.Sub, userInfo.UserName),
-                new Claim("email", userInfo.CompteEmail.ToString()),
-                new Claim("type", userInfo.TypeCompte.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, userInfo.CompteEmail),
+                new Claim("email", userInfo.CompteEmail),
+                new Claim("role", role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Audience"],
@@ -105,6 +113,7 @@ namespace FIFA_API.Controllers
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: credentials
                 );
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
