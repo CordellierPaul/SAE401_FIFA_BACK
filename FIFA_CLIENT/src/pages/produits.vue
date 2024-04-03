@@ -5,8 +5,6 @@
     import { onMounted, ref, watchEffect } from 'vue'
     import { getRequest } from '../composable/httpRequests.js'
 
-    const produits = ref()
-
     const produitsFiltre = ref([])
 
     const tailles = ref()
@@ -27,7 +25,6 @@
 
     // pour récupérer tous les produits
 
-    getRequest(produits, "https://apififa.azurewebsites.net/api/produit")
 
     async function fetchObjects() {
         // pour avoir les tailles
@@ -109,7 +106,7 @@
         optionsPaysChecked.value = []
     }
 
-    // pour récupérer les produits selon les filtres
+    // pour récupérer les produits selon les filtres et les triers
     const filtreRequestList = ref([])
     const filtreRequestStr = ref("")
 
@@ -138,11 +135,35 @@
             filtreRequestStr.value = filtreRequestStr.value + filtre[1] + "=" + filtre[0] + "&"
         });
 
-        produitsFiltre.value
-         
+        fetchProduitsFiltres(filtreRequestStr.value)
+
+
     },{
         deep: true
     });
+
+    async function fetchProduitsFiltres(request){
+        const Response = await fetch(`https://apififa.azurewebsites.net/api/produit/getbyfilter?${request}`, {
+            method: "GET",
+            mode: "cors"
+        })
+        
+        produitsFiltre.value = await Response.json()
+
+        console.log(produitsFiltre.value[0])
+
+
+    }
+
+    function compare(a, b) {
+        if (a.parametre < b.parametre) {
+            return -1;
+        }
+        if (a.parametre > b.parametre) {
+            return 1;
+        }
+        return 0;
+    }
     
 
 </script>
@@ -176,14 +197,12 @@
                 <FiltreComponent v-model:optionsChecked="optionsCategoriesChecked" v-if="categoriesNom" :filtreData="{ titre: 'Categorie', options: categoriesNom }" />
                 <FiltreComponent v-model:optionsChecked="optionsPaysChecked" v-if="paysNom" :filtreData="{ titre: 'Pays', options: paysNom }" />
 
-
             </div>
             <div id="right_part" class="w-full bg-base-200">
                 <div class="flex m-5 gap-2">
-                    <div class=" whitespace-nowrap" v-if="produits">
+                    <div class=" whitespace-nowrap" v-if="produitsFiltre">
                         <div class="flex gap-2">
-                            <p v-if="produitsFiltre.length != 0">{{ produitsFiltre.length }} </p>
-                            <p v-else>{{ produits.length }}</p>
+                            <p >{{ produitsFiltre.length }}</p>
                             <p>résultats</p>
                             <div class="flex gap-2" v-if=" optionsTaillesChecked.length != 0 ||  optionsGenresChecked.length != 0 ||  optionsColorisChecked.length != 0 ||  optionsCategoriesChecked.length != 0 ||  optionsPaysChecked.length != 0 ">
                                 pour
@@ -202,8 +221,7 @@
 
                 <div id="container" class="flex flex-wrap items-center justify-center gap-10 p-2">
                     <!-- <p v-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom"> {{ produit.variantesProduit[0] }} </p> -->
-                    <ProduitComponent v-if="produitsFiltre.length != 0" v-for="produit in produitsFiltre" :id="produit.produitId" :nom="produit.produitNom" />
-                    <ProduitComponent v-else-if="produits" v-for="produit in produits" :id="produit.produitId" :nom="produit.produitNom" />
+                    <ProduitComponent v-if="produitsFiltre" v-for="produit in produitsFiltre" :id="produit.produitId" :nom="produit.produitNom" />
                     <div v-else v-for="i in 5" >
                         <div class="flex flex-col gap-4 w-52">
                             <div class="skeleton h-32 w-full"></div>

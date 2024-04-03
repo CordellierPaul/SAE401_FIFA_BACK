@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class ArticleController : ControllerBase
     {
-        private readonly IDataRepository<Article> dataRepository;
+        private readonly IArticleRepository dataRepository;
 
-        public ArticleController(IDataRepository<Article> context)
+        public ArticleController(IArticleRepository context)
         {
             dataRepository = context;
         }
@@ -95,6 +95,23 @@ namespace FIFA_API.Controllers
             }
             await dataRepository.DeleteAsync(article.Value);
             return NoContent();
+        }
+
+        // GET: api/Article/GetCommentaire/5
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetCommentaire")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaireById(int id)
+        {
+            var commentaires = await dataRepository.GetCommentairesByArticleId(id);
+
+            if (commentaires == null)
+            {
+                return NotFound();
+            }
+            return commentaires;
         }
 
     }

@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
-        private readonly IDataRepository<Blog> dataRepository;
+        private readonly IBlogRepository dataRepository;
 
-        public BlogController(IDataRepository<Blog> context)
+        public BlogController(IBlogRepository context)
         {
             dataRepository = context;
         }
@@ -99,6 +99,23 @@ namespace FIFA_API.Controllers
             await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
 
+        }
+
+        // GET: api/Blog/GetCommentaire/5
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetCommentaire")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaireById(int id)
+        {
+            var commentaires = await dataRepository.GetCommentaireByBlogId(id);
+
+            if (commentaires == null)
+            {
+                return NotFound();
+            }
+            return commentaires;
         }
     }
 }
