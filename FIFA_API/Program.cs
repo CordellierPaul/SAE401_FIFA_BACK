@@ -90,7 +90,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization(config =>
 {
     config.AddPolicy(Policies.Admin, Policies.AdminPolicy());
-    config.AddPolicy(Policies.User, Policies.UserPolicy());
+    config.AddPolicy(Policies.Utilisateur, Policies.UserPolicy());
 });
 
 // Le code suivant premet d'autoriser le site, qu'on développe en http, à accéder à l'api, en https.
@@ -105,6 +105,7 @@ builder.Services.AddCors(options =>
     {
         policy.AllowAnyHeader();
         policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();    // AllowAnyMethod est à garder : ça nous permet d'accepter des requêtes GET, PUT, POST, DELETE...
     });
 });
 

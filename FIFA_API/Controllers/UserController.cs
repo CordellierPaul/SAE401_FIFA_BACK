@@ -11,7 +11,7 @@ namespace FIFA_API.Controllers
     {
         [HttpGet]
         [Route("GetUserData")]
-        [Authorize(Policy = Policies.User)]
+        [Authorize(Policy = Policies.Utilisateur)]
         public IActionResult GetUserData()
         {
             return Ok("This is a response from user method");

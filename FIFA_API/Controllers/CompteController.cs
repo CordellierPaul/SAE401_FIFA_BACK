@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
+using FIFA_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FIFA_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.Utilisateur)]
     public class CompteController : ControllerBase
     {
         private readonly IDataRepository<Compte> dataRepository;
@@ -116,5 +119,17 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
+
+        // GET: api/EmailIsUnique
+        [HttpGet]
+        [Route("[action]/{email}")]
+        [ActionName("EmailIsInDatabase")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [AllowAnonymous]
+        public async Task<ActionResult<bool>> EmailIsInDatabase(string email)
+        {
+            ActionResult<Compte>? actionResult = await dataRepository.GetByStringAsync(email);
+            return actionResult.Value is not null;
+        }
     }
 }
