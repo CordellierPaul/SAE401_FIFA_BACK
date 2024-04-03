@@ -40,7 +40,7 @@ builder.Services.AddScoped<IColorisRepository, ColorisManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Commande>, CommandeManager>();
 builder.Services.AddScoped<ICommentaireRepository, CommentaireManager>();
 builder.Services.AddScoped<IDataRepository<Competition>, CompetitionManager>();
-builder.Services.AddScoped<IDataRepository<Compte>, CompteManager>();
+builder.Services.AddScoped<ICompteRepository, CompteManager>();
 builder.Services.AddScoped<IDataRepository<Devis>, DevisManager>();
 builder.Services.AddScoped<IDataRepository<Document>, DocumentManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Film>, FilmManager>();
