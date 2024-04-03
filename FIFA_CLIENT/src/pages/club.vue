@@ -1,5 +1,14 @@
 <template>
-    <h1>Club: {{ club }}</h1>
+    <div>
+        <div v-if="club && club.clubId">
+            {{ club }}
+            <p class="text-2xl font-bold">{{ club.clubNom }}</p>
+            <p>{{ club.clubInitiales }}</p>
+        </div>
+        <div v-else class="flex justify-center items-center h-screen">
+            <span class="loading loading-spinner loading-lg"></span>
+        </div>
+    </div>
 </template>
 
 <script setup>
