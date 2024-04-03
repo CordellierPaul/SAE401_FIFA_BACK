@@ -149,10 +149,6 @@
         })
         
         produitsFiltre.value = await Response.json()
-
-        console.log(produitsFiltre.value[0])
-
-
     }
 
     function compare(a, b) {
@@ -164,6 +160,7 @@
         }
         return 0;
     }
+    
     
 
 </script>
