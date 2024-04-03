@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue"
-import { formatEmailEstBon } from "./register.vue"
+import { formatEmailEstBon, emailEstDansLaBaseDeDonnees } from "./register.vue"
 import { encrypter } from "../composable/hashageMdp"
 import { useRouter } from "vue-router"
 import useCompteStore from "../store/compte.js"
@@ -10,10 +10,21 @@ const compteStore = useCompteStore()
 const router = useRouter()
 
 // Textes des classes conditions pour que les champs soient correct
-const styleConditionFormatEmail = ref("hidden")
-const styleConditionMdpRempli = ref("hidden")
-const styleMessageChargement = ref("hidden")
-const styleConditionPasDeCorrespondance = ref("hidden")
+const styleConditionFormatEmail = ref("")
+const styleConditionMdpRempli = ref("")
+const styleMessageChargement = ref("")
+const styleConditionMauvaisMdp = ref("")
+const styleConditionMauvaisEMail = ref("")
+
+function reinitialiserStyles() {
+    styleConditionFormatEmail.value = "hidden"
+    styleConditionMdpRempli.value = "hidden"
+    styleMessageChargement.value = "hidden"
+    styleConditionMauvaisMdp.value = "hidden"
+    styleConditionMauvaisEMail.value = "hidden"
+}
+
+reinitialiserStyles()
 
 const styleConditionPasRespectee = "list-image-[url(/images/icon/bulle-condition-pas-respectee.png)]"
 const styteInformation = "list-image-[url(/images/icon/bulle-condition-info.png)]"
@@ -55,6 +66,16 @@ async function boutonConnexionCompte() {
     compte.value.CompteMdp = ""
 
     styleMessageChargement.value = styteInformation
+
+    // let emailEstDansLaBaseDeDonnee = await emailEstDansLaBaseDeDonnees()
+
+    // console.log(emailEstDansLaBaseDeDonnee);
+
+    // if (!emailEstDansLaBaseDeDonnee) {
+    //     reinitialiserStyles()
+    //     styleConditionMauvaisEMail.value = styleConditionPasRespectee
+    //     return
+    // }
     
     const response = await fetch("https://apififa.azurewebsites.net/api/accescompte/connexion", {
         method: "POST",
@@ -66,16 +87,13 @@ async function boutonConnexionCompte() {
     })
 
     if (response.status == 401) {
-        styleConditionPasDeCorrespondance.value = styleConditionPasRespectee
+        reinitialiserStyles()
+        styleConditionMauvaisMdp.value = styleConditionPasRespectee
     } else if (response.status == 200) {
         
         // On enregistre les données retournées, l'id du compte et le token pour lire les
         // données, dans compteStore
         let data = await response.json()
-
-        console.log("envoyé : " + JSON.stringify(compteAvecMDPHashe));
-        console.log(data.token)
-        console.log("reçu : " + JSON.stringify(data));
 
         compteStore.connect(data.userDetails.compteId, data.token)
 
@@ -115,7 +133,8 @@ async function boutonConnexionCompte() {
             <li :class="styleConditionFormatEmail">Le format de l'e-mail n'est pas correct</li>
             <li :class="styleConditionMdpRempli">Le mot de passe doit être spécifié</li>
             <li :class="styleMessageChargement">Chargement...</li>
-            <li :class="styleConditionPasDeCorrespondance">Le mot de passe ou l'e-mail est incorrect</li>
+            <li :class="styleConditionMauvaisMdp">Il y a un compte à cette e-mail mais le mot de passe est incorrect</li>
+            <li :class="styleConditionMauvaisEMail">Il n'y a pas de compte à cette e-mail</li>
         </ul>
 
         <button class="btn btn-accent m-5" @click="boutonConnexionCompte">SE CONNECTER</button>

@@ -1,32 +1,33 @@
 <template>
-    <h1>Club: {{ club }}</h1>
+    <div>
+        <div v-if="club && club.clubId">
+            {{ club }}
+            <p class="text-2xl font-bold">{{ club.clubNom }}</p>
+            <p>{{ club.clubInitiales }}</p>
+        </div>
+        <div v-else class="flex justify-center items-center h-screen">
+            <span class="loading loading-spinner loading-lg"></span>
+        </div>
+    </div>
 </template>
 
 <script setup>
     import { useRouter, useRoute } from 'vue-router';
-    import { onMounted, ref, watch } from 'vue';
+    import { onMounted, ref } from 'vue';
     import { getRequest } from '../composable/httpRequests';
 
-    import AutreBlogComponent from '../components/article/AutreBlogComponent.vue'
-    
     const route = useRoute();
     const router = useRouter();
     function retour (){
         router.back()
     }
-    const blogId = route.params.id;
+    const clubId = route.params.id;
 
-    const blog = ref([]);
-    const blogs = ref([]);
-    const blogsFiltre = ref([]);
+    const club = ref([]);
 
 
     async function fetchAll(){
-        await getRequest(blog, 'https://apififa.azurewebsites.net/api/blog/getbyid/'+blogId)
-        await getRequest(blogs, "https://apififa.azurewebsites.net/api/blog");
-
-        blogsFiltre.value = blogs.value.filter(leBlog => leBlog.articleId === blog.value.articleId);
-        blogsFiltre.value = blogsFiltre.value.filter(leBlog => leBlog.blogId !== blog.value.blogId);
+        await getRequest(club, 'https://apififa.azurewebsites.net/api/club/getbyid/'+clubId)
 
     }
 

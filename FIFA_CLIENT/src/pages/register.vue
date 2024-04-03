@@ -178,11 +178,11 @@ async function boutonCreationCompte() {
         return
     }
 
-    if (await emailEstUnique(compte.value.compteEmail)) {
-        styleConditionEmailUnique.value = classesPourListeCondition["cachee"]
-    } else {
+    if (await emailEstDansLaBaseDeDonnees(compte.value.compteEmail)) {
         styleConditionEmailUnique.value = classesPourListeCondition["pasRespectee"]
         return
+    } else {
+        styleConditionEmailUnique.value = classesPourListeCondition["cachee"]
     }
 
     // La version hahsée du mot de passe doit être cachée à l'utilisateur,
@@ -267,26 +267,14 @@ export function formatEmailEstBon(email) {
     return false
 }
 
-export async function emailEstUnique(email) {
+export async function emailEstDansLaBaseDeDonnees(email) {
 
-    // On recherche l'e-mail dans la base de données
-    const response = await fetch("https://apififa.azurewebsites.net/api/compte/getbyemail/" + email, {
+    const response = await fetch("https://apififa.azurewebsites.net/api/compte/EmailIsInDatabase/" + email, {
         method: "GET",
         mode: "cors"
     })
 
-    if (response.status == 204) {
-        // La réponse 204 signifie qu'il n'y a pas de contenu à la recherche par email, donc aucun mail
-        // n'a été trouvé dans la base de données. L'e-mail est bien unique.
-        return true
-    } else if (response.status == 200) {
-        // La réponse 200 signifie qu'un e-mail a été trouvé dans la base de données, donc l'e-mail entrée
-        // par l'utilisateur n'est pas unique
-        return false
-    } else {
-        console.warn("réponse non gérée " + response.status + "\n" + response)
-        return false
-    }
+    return await response.json()
 }
 </script>
 
