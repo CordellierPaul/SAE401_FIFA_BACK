@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
+using FIFA_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FIFA_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.Utilisateur)]
     public class CompteController : ControllerBase
     {
         private readonly IDataRepository<Compte> dataRepository;
