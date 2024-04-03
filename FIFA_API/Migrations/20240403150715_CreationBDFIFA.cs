@@ -1216,7 +1216,9 @@ namespace FIFA_API.Migrations
                 schema: "FifaDB",
                 columns: table => new
                 {
-                    inb_id = table.Column<int>(type: "integer", nullable: false),
+                    inb_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    utl_id = table.Column<int>(type: "integer", nullable: false),
                     inb_numcarte = table.Column<string>(type: "character varying(228)", maxLength: 228, nullable: false),
                     inb_nomcarte = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     inb_moisexpiration = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: false),
@@ -1227,7 +1229,7 @@ namespace FIFA_API.Migrations
                     table.PrimaryKey("pk_inb", x => x.inb_id);
                     table.ForeignKey(
                         name: "fk_inb_utl",
-                        column: x => x.inb_id,
+                        column: x => x.utl_id,
                         principalSchema: "FifaDB",
                         principalTable: "t_e_utilisateur_utl",
                         principalColumn: "utl_id",
@@ -1551,6 +1553,12 @@ namespace FIFA_API.Migrations
                 schema: "FifaDB",
                 table: "t_e_formulaireaide_foa",
                 column: "act_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_infos_bancaires_inb_utl_id",
+                schema: "FifaDB",
+                table: "t_e_infos_bancaires_inb",
+                column: "utl_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_e_joueur_jou_clb_id",

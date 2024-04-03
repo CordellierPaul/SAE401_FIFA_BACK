@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class InfosBancairesManager : IDataRepository<InfosBancaires>
+    public class InfosBancairesManager : IInfosBancairesRepository
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -53,6 +53,11 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.InfosBancaireMoisExpiration = entity.InfosBancaireMoisExpiration;
             entityToUpdate.AnneeExpiration = entity.AnneeExpiration;
             await fifaDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<InfosBancaires>>> GetInfosBancairesOfCompte(int idUtilisateur)
+        {
+            return await fifaDbContext.InfosBancaires.ToListAsync();    // TODO améliorer ça
         }
     }
 }

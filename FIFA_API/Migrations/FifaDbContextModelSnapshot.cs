@@ -819,8 +819,11 @@ namespace FIFA_API.Migrations
             modelBuilder.Entity("FIFA_API.Models.EntityFramework.InfosBancaires", b =>
                 {
                     b.Property<int>("InfosBancairesId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("inb_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("InfosBancairesId"));
 
                     b.Property<string>("AnneeExpiration")
                         .IsRequired()
@@ -846,8 +849,14 @@ namespace FIFA_API.Migrations
                         .HasColumnType("character varying(228)")
                         .HasColumnName("inb_numcarte");
 
+                    b.Property<int>("UtilisateurId")
+                        .HasColumnType("integer")
+                        .HasColumnName("utl_id");
+
                     b.HasKey("InfosBancairesId")
                         .HasName("pk_inb");
+
+                    b.HasIndex("UtilisateurId");
 
                     b.ToTable("t_e_infos_bancaires_inb", "FifaDB");
                 });
@@ -2023,7 +2032,7 @@ namespace FIFA_API.Migrations
                 {
                     b.HasOne("FIFA_API.Models.EntityFramework.Utilisateur", "UtilisateurInfoBc")
                         .WithMany("InfosBancairesUtilisateur")
-                        .HasForeignKey("InfosBancairesId")
+                        .HasForeignKey("UtilisateurId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_inb_utl");

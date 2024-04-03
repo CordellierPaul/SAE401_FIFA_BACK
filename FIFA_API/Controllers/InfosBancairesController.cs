@@ -11,9 +11,9 @@ namespace FIFA_API.Controllers
     [Authorize(Policy = Policies.Utilisateur)]
     public class InfosBancairesController : ControllerBase
     {
-        private readonly IDataRepository<InfosBancaires> dataRepository;
+        private readonly IInfosBancairesRepository dataRepository;
 
-        public InfosBancairesController(IDataRepository<InfosBancaires> context)
+        public InfosBancairesController(IInfosBancairesRepository context)
         {
             dataRepository = context;
         }
@@ -21,6 +21,13 @@ namespace FIFA_API.Controllers
         // GET: api/InfosBancaires
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InfosBancaires>>> GetInfosBancaires()
+        {
+            return await dataRepository.GetAllAsync();
+        }
+
+        // GET: api/InfosBancaires
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<InfosBancaires>>> GetInfosBancairesOfCompte()
         {
             return await dataRepository.GetAllAsync();
         }
@@ -94,6 +101,5 @@ namespace FIFA_API.Controllers
             await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
         }
-
     }
 }
