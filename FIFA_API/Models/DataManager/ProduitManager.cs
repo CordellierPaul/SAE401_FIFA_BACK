@@ -22,7 +22,18 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllAsync()
         {
-            return await fifaDbContext.Produit.ToListAsync();
+            
+            IEnumerable <Produit> produits  = await fifaDbContext.Produit.ToListAsync();
+
+            foreach (var produit in produits)
+            {
+                EntityEntry<Produit> produitEntityEntry = fifaDbContext.Entry(produit);
+;
+                await produitEntityEntry.Collection(p => p.VariantesProduit).LoadAsync();
+            }
+
+
+            return produits.ToList();
 
             // Les commentaires suivant montrent ce que j'essayais de faire. (c'est Paul qui écrit)
             // Je voulais qui à partir de GetAllAsync, on puisse accéder à une image du produit.
@@ -105,6 +116,8 @@ namespace FIFA_API.Models.DataManager
 
                 await produitEntityEntry.Reference(p => p.PaysProduit).LoadAsync();
                 await produitEntityEntry.Reference(p => p.CategorieNavigation).LoadAsync();
+                await produitEntityEntry.Reference(p => p.CompetitionProduit).LoadAsync();
+                await produitEntityEntry.Reference(p => p.GenreProduit).LoadAsync();
 
                 await produitEntityEntry.Collection(p => p.ProduitSimilaireLienUn).LoadAsync();
                 await produitEntityEntry.Collection(p => p.ProduitSimilaireLienDeux).LoadAsync();
@@ -191,6 +204,7 @@ namespace FIFA_API.Models.DataManager
         {
 
             var result = await GetAllAsync();
+            bool possedeColoris;
 
             if (result.Value is null)
                 return result;
@@ -214,28 +228,38 @@ namespace FIFA_API.Models.DataManager
 
                 //Filtre des variantes :
                 // Filtrage par coloris :
-                if (colId != null && colId.Length >0)
+                if (colId != null && colId.Length > 0)
                 {
-                    bool possedeCol = false;
-                    foreach (Produit produit in produits)
-                        {
-                            foreach (VarianteProduit variante in produit.VariantesProduit)
-                            {
-                                if (colId.Contains(variante.ColorisId))
-                                {
-                                    possedeCol = true;
-                                    break;
-                                }
 
-                            }
-                            if (possedeCol)
+                    foreach (Produit produit in produits.ToList())
+                    {
+                        possedeColoris = false;
+
+                        foreach (int col in colId)
+                            Console.WriteLine(col);
+
+                        foreach (var variante in produit.VariantesProduit)
+                        {
+                            Console.WriteLine(variante.ColorisId);
+
+                            if (colId.Contains(variante.ColorisId))
                             {
-                                possedeCol = false;
+                                possedeColoris = true;
+                                break;
                             }
-                            else
+
+
+                            if (!possedeColoris)
                             {
-                                produits.ToList().Remove(produit);
+                                Console.WriteLine(produits.Count());
+                                produits = produits.Where(p => p != produit);
+                                Console.WriteLine(produits.Count());
+                                foreach (var prod in produits)
+                                    Console.WriteLine(prod.ProduitNom);
                             }
+
+                        }
+
                     }
                 }
 
