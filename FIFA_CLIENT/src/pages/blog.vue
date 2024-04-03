@@ -7,7 +7,9 @@
                 <div class="text-sm breadcrumbs hidden lg:block">
                     <ul>
                         <li><RouterLink :to="{name: 'index'}" class="hover:opacity-50 hover:cursor-pointer">FIFA</RouterLink></li> 
-                        <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Articles</a></li> 
+                        <li><a @click= "retour"  class="hover:opacity-50 hover:cursor-pointer">Articles</a></li>
+                        <li>{{ article.articleTitre }}</li>
+                        <li>Blog</li>
                         <!-- Titre de la page actuelle -->
                         <li>{{blog.blogTitre}}</li>
                     </ul>
@@ -32,9 +34,6 @@
                 <div class="mt-12">
                     <p class="text-xl">Autres blog de l'article:</p>
                     <div class="flex justify-center items-center p-12 overflow-x-auto whitespace-nowrap" v-if="blogsFiltre">
-                        <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
-                        <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
-                        <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
                         <AutreBlogComponent v-for="(autreBlog, index) in blogsFiltre" :key="index" :blog="autreBlog"></AutreBlogComponent>
                     </div>
                     
@@ -70,11 +69,13 @@
     const blog = ref([]);
     const blogs = ref([]);
     const blogsFiltre = ref([]);
-
+    const article = ref([]);
 
     async function fetchAll(){
         await getRequest(blog, 'https://apififa.azurewebsites.net/api/blog/getbyid/'+blogId)
         await getRequest(blogs, "https://apififa.azurewebsites.net/api/blog");
+        await getRequest(article, 'https://apififa.azurewebsites.net/api/article/getbyid/'+blog.value.articleId)
+        console.log(blog.value.articleId)
 
         blogsFiltre.value = blogs.value.filter(leBlog => leBlog.articleId === blog.value.articleId);
         blogsFiltre.value = blogsFiltre.value.filter(leBlog => leBlog.blogId !== blog.value.blogId);
