@@ -10,6 +10,9 @@ namespace FIFA_API.Models.EntityFramework
         [Column("inb_id")]
         public int InfosBancairesId { get; set; }
 
+        [Column("utl_id")]
+        public int UtilisateurId { get; set; }
+
         [Required]
         [Column("inb_numcarte")]
         [StringLength(228)]
@@ -33,10 +36,8 @@ namespace FIFA_API.Models.EntityFramework
         [Range(0, 99, ErrorMessage = "L'année d'expiration doit être comprise entre 00 et 99")]
         public string AnneeExpiration { get; set; } = null!;
 
-        [ForeignKey(nameof(InfosBancairesId))]
+        [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty(nameof(Utilisateur.InfosBancairesUtilisateur))]
         public virtual Utilisateur UtilisateurInfoBc { get; set; } = null!;
-
-
     }
 }

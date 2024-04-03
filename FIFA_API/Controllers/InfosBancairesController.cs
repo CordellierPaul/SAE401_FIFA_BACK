@@ -1,22 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
+using FIFA_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FIFA_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.Utilisateur)]
     public class InfosBancairesController : ControllerBase
     {
-        private readonly IDataRepository<InfosBancaires> dataRepository;
+        private readonly IInfosBancairesRepository dataRepository;
 
-        public InfosBancairesController(IDataRepository<InfosBancaires> context)
+        public InfosBancairesController(IInfosBancairesRepository context)
         {
             dataRepository = context;
         }
@@ -24,6 +21,17 @@ namespace FIFA_API.Controllers
         // GET: api/InfosBancaires
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InfosBancaires>>> GetInfosBancaires()
+        {
+            return await dataRepository.GetAllAsync();
+        }
+
+        // GET: api/GetInfosBancairesOfCompte
+        [HttpGet]
+        [Route("[action]/{userId}")]
+        [ActionName("GetInfosBancairesOfCompte")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<InfosBancaires>>> GetInfosBancairesOfUser(int userId)
         {
             return await dataRepository.GetAllAsync();
         }
@@ -97,6 +105,5 @@ namespace FIFA_API.Controllers
             await dataRepository.DeleteAsync(categorie.Value);
             return NoContent();
         }
-
     }
 }
