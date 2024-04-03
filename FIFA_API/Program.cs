@@ -105,6 +105,7 @@ builder.Services.AddCors(options =>
     {
         policy.AllowAnyHeader();
         policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();    // AllowAnyMethod est à garder : ça nous permet d'accepter des requêtes GET, PUT, POST, DELETE...
     });
 });
 
