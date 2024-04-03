@@ -119,5 +119,17 @@ namespace FIFA_API.Controllers
             return NoContent();
         }
 
+
+        // GET: api/EmailIsUnique
+        [HttpGet]
+        [Route("[action]/{email}")]
+        [ActionName("EmailIsInDatabase")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [AllowAnonymous]
+        public async Task<ActionResult<bool>> EmailIsInDatabase(string email)
+        {
+            ActionResult<Compte>? actionResult = await dataRepository.GetByStringAsync(email);
+            return actionResult.Value is not null;
+        }
     }
 }
