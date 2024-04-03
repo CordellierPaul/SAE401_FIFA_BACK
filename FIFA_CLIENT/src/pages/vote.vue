@@ -12,21 +12,38 @@
     const route = useRoute();
     const joueurs = ref([]);
     const theme = ref();
+    const utilisateur = ref();
 
-async function fetchTheme() {
-    try {
-    const responseTheme = await fetch(`https://apififa.azurewebsites.net/api/Theme/getbyid/${route.query.id}`, {
-        method: 'GET',
-        mode: 'cors'
-    });
+    async function fetchTheme() {
+        try {
+        const responseTheme = await fetch(`https://apififa.azurewebsites.net/api/Theme/getbyid/${route.query.id}`, {
+            method: 'GET',
+            mode: 'cors'
+        });
 
-    theme.value = await responseTheme.json();
+        theme.value = await responseTheme.json();
 
-
-    } catch (error) {
-    console.error('Erreur lors de la récupération du theme :', error);
+        } catch (error) {
+        console.error('Erreur lors de la récupération du theme :', error);
+        }
     }
-}
+
+
+
+    async function fetchUtilisateur() {
+        try {
+        const responseUtilisateur = await fetch(`https://apififa.azurewebsites.net/api/Compte/getbyid/${compteStore.compteId}`, {
+            method: 'GET',
+            mode: 'cors'
+        });
+
+        const data = await responseUtilisateur.json();
+        utilisateur.value = data.utilisateurCompte;
+
+        } catch (error) {
+        console.error('Erreur lors de la récupération du utilisateur :', error);
+        }
+    }
     
     const props = defineProps({
     });
@@ -52,10 +69,14 @@ async function fetchTheme() {
         }
     }
 
-    onMounted(fetchTheme);
-    onMounted(fetchJoueurs);
+    //onMounted(fetchTheme);
+    //onMounted(fetchJoueurs);
 
-
+    onMounted(async () => {
+      await fetchTheme();
+      await fetchJoueurs();
+      await fetchUtilisateur();
+    })
 
 
     async function voter() {
@@ -84,13 +105,12 @@ async function fetchTheme() {
       selectedPlayers.add(joueur3Id);
 
 
-      const userId = parseInt(compteStore.compteId,10);
+      const userId = parseInt(utilisateur.value.utilisateurId,10);
       //const userId = 17;
       const themeId = route.query.id;
       const votes = [];
 
-
-      /////////////////////////////debug/////////////////////////////
+      // Première itération
       let vote1 = {
           utilisateurId: userId,
           themeId: parseInt(themeId, 10),
@@ -116,7 +136,6 @@ async function fetchTheme() {
           voteNote: 3
       };
       votes.push(vote3);
-      ///////////////////////////fin debug/////////////////////////////
 
 
       console.log(JSON.stringify(votes));
@@ -135,7 +154,7 @@ async function fetchTheme() {
           if (!response.ok) {
             throw new Error('Erreur lors de la requête.');
           }
-          alert('Votre vote a été enregistré avec succès.');
+          //alert('Votre vote a été enregistré avec succès.');
         } catch (error) {
           console.error('Erreur lors de la requête fetch :', error);
         }
