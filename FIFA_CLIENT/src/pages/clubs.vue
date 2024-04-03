@@ -10,7 +10,9 @@
             <div v-if="filteredClubs.length > 0" class="m-10 min-h-screen">
                 <ul class="flex gap-5 flex-wrap items-center justify-center" >
                     <li v-for="(club, index) in filteredClubs" :key="index" class="w-72 ">
-                        <p class="w-fit hover:cursor-pointer  hover:border-black hover:border-2 p-2 border-2 border-white ">({{ club.clubInitiales }}) {{ club.clubNom }}</p>
+                        <RouterLink :to="{name: 'club', params: { id: club.clubId } }">
+                            <p class="w-fit hover:cursor-pointer  hover:border-black hover:border-2 p-2 border-2 border-white ">({{ club.clubInitiales }}) {{ club.clubNom }}</p>
+                        </RouterLink>
                     </li>
                 </ul>
             </div>
