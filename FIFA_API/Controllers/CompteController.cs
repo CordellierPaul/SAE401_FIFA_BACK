@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class CompteController : ControllerBase
     {
-        private readonly ICompteRepository dataRepository;
+        private readonly IDataRepository<Compte> dataRepository;
 
-        public CompteController(ICompteRepository context)
+        public CompteController(IDataRepository<Compte> context)
         {
             dataRepository = context;
         }
@@ -45,22 +45,6 @@ namespace FIFA_API.Controllers
             return compte;
         }
 
-        // GET: api/Compte/5
-        [HttpGet]
-        [Route("[action]/{id}")]
-        [ActionName("GetUtlById")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Utilisateur>> GetUtlById(int id)
-        {
-            var utilisateur = await dataRepository.GetUtlByIdAsync(id);
-
-            if (utilisateur == null)
-            {
-                return NotFound();
-            }
-            return utilisateur;
-        }
 
         // GET: api/Compte/toto@titi.fr
         [HttpGet]

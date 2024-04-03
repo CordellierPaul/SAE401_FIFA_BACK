@@ -9,7 +9,7 @@ using NuGet.Protocol;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class CompteManager : ICompteRepository
+    public class CompteManager : IDataRepository<Compte>
     {
 
         readonly FifaDbContext fifaDbContext;
@@ -49,19 +49,6 @@ namespace FIFA_API.Models.DataManager
             await compteEntityEntry.Reference(c => c.UtilisateurCompte).LoadAsync();
 
             return new ActionResult<Compte>(compteEntityEntry.Entity);
-        }
-
-
-        public async Task<ActionResult<Utilisateur>> GetUtlByIdAsync(int id)
-        {
-            Utilisateur utilisateur = await fifaDbContext.Utilisateur.FirstOrDefaultAsync(u => u.CompteId == id);
-
-            if (utilisateur is null)
-                return utilisateur;
-
-            EntityEntry<Utilisateur> compteEntityEntry = fifaDbContext.Entry(utilisateur);
-
-            return new ActionResult<Utilisateur>(compteEntityEntry.Entity);
         }
 
 
