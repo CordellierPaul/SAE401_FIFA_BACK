@@ -16,7 +16,10 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Club>>> GetAllAsync()
         {
-            return await fifaDbContext.Club.ToListAsync();
+            return await fifaDbContext.Club
+                .Include(c => c.MatchesDomicile)
+                .Include(c => c.MatchesExterieur)
+                .ToListAsync();
         }
 
         public async Task AddAsync(Club entity)
