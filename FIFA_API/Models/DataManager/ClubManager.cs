@@ -16,7 +16,8 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Club>>> GetAllAsync()
         {
-            return await fifaDbContext.Club.ToListAsync();
+            return await fifaDbContext.Club
+                .ToListAsync();
         }
 
         public async Task AddAsync(Club entity)
@@ -34,7 +35,11 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<Club?>> GetByIdAsync(int id)
         {
-            return await fifaDbContext.Club.FirstOrDefaultAsync(u => u.ClubId == id);
+            return await fifaDbContext.Club
+                .Include(c => c.MatchesDomicile)
+                .Include(c => c.MatchesExterieur)
+                .FirstOrDefaultAsync(u => u.ClubId == id);
+
 
         }
 
