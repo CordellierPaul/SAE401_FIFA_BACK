@@ -15,7 +15,7 @@ namespace FIFA_API.Controllers
     public class AccesCompteController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private readonly IDataRepository<Compte> _dataRepository;
+        private readonly ICompteRepository _dataRepository;
 
 
         // Code sql pour ajouter un compte test :
@@ -28,7 +28,7 @@ namespace FIFA_API.Controllers
         //    "compteMdp": "qicxsgllezjmejtxvnauzwunivwcgdrxzfgvxqybeihuxgkzeeflsqfjfpbncubyojxjtrgfjeyxjmwgdcgqxsrhbusbpfrdewyhvgfrjwktqvnnybgtqxjshfjrheud"
         //}
 
-        public AccesCompteController(IConfiguration config, IDataRepository<Compte> dataRepository)
+        public AccesCompteController(IConfiguration config, ICompteRepository dataRepository)
         {
             _config = config;
             _dataRepository = dataRepository;
@@ -77,12 +77,7 @@ namespace FIFA_API.Controllers
 
         private async Task<Compte?> AuthenticateUser(Compte user)
         {
-            var response = await _dataRepository.GetAllAsync();
-
-            if (response == null || response.Value == null)
-                return null;
-
-            return response.Value.SingleOrDefault(x => x.CompteEmail.ToUpper() == user.CompteEmail.ToUpper() && x.CompteMdp == user.CompteMdp);
+            return await _dataRepository.GetCompteByCompte(user);
         }
 
         private string GenerateJwtToken(Compte userInfo)

@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NuGet.Protocol;
+using System.Numerics;
 
 #nullable disable
 
 namespace FIFA_API.Models.DataManager
 {
-    public class CompteManager : IDataRepository<Compte>
+    public class CompteManager : ICompteRepository
     {
 
         readonly FifaDbContext fifaDbContext;
@@ -69,6 +70,20 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.TypeCompte = entity.TypeCompte;
             entityToUpdate.UtilisateurCompte = entity.UtilisateurCompte;
             await fifaDbContext.SaveChangesAsync();
+        }
+
+        public async Task<Compte?> GetCompteByCompte(Compte user)
+        {
+            var response = await GetAllAsync();
+            if (response == null || response.Value == null)
+                return null;
+
+            Compte? compte = response.Value.SingleOrDefault(x => x.CompteEmail.ToUpper() == user.CompteEmail.ToUpper() && x.CompteMdp == user.CompteMdp);
+
+            EntityEntry<Compte> compteEntityEntry = fifaDbContext.Entry(compte);
+            await compteEntityEntry.Reference(c => c.UtilisateurCompte).LoadAsync();
+
+            return compte;
         }
     }
 }
