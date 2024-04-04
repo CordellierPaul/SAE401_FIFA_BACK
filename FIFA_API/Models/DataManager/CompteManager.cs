@@ -48,6 +48,7 @@ namespace FIFA_API.Models.DataManager
             EntityEntry<Compte> compteEntityEntry = fifaDbContext.Entry(compte);
 
             await compteEntityEntry.Reference(c => c.UtilisateurCompte).LoadAsync();
+            await compteEntityEntry.Collection(c => c.UtilisateurCompte.CommandesUtilisateur).LoadAsync();
 
             return new ActionResult<Compte>(compteEntityEntry.Entity);
         }
