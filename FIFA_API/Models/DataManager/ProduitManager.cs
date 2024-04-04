@@ -30,6 +30,13 @@ namespace FIFA_API.Models.DataManager
                 EntityEntry<Produit> produitEntityEntry = fifaDbContext.Entry(produit);
 ;
                 await produitEntityEntry.Collection(p => p.VariantesProduit).LoadAsync();
+
+                foreach (var variante in produit.VariantesProduit)
+                {
+                    EntityEntry<VarianteProduit> varianteEntityEntry = fifaDbContext.Entry(variante);
+                    await varianteEntityEntry.Collection(v => v.StocksVariante).LoadAsync();
+                }
+
             }
 
 
@@ -205,6 +212,7 @@ namespace FIFA_API.Models.DataManager
 
             var result = await GetAllAsync();
             bool possedeColoris;
+            bool possedeTai;
 
             if (result.Value is null)
                 return result;
@@ -235,8 +243,8 @@ namespace FIFA_API.Models.DataManager
                     {
                         possedeColoris = false;
 
-                        foreach (int col in colId)
-                            Console.WriteLine(col);
+                        //foreach (int col in colId)
+                        //    Console.WriteLine(col);
 
                         foreach (var variante in produit.VariantesProduit)
                         {
@@ -251,11 +259,7 @@ namespace FIFA_API.Models.DataManager
 
                             if (!possedeColoris)
                             {
-                                Console.WriteLine(produits.Count());
                                 produits = produits.Where(p => p != produit);
-                                Console.WriteLine(produits.Count());
-                                foreach (var prod in produits)
-                                    Console.WriteLine(prod.ProduitNom);
                             }
 
                         }
@@ -266,28 +270,26 @@ namespace FIFA_API.Models.DataManager
                 // Filtrage par taille
                 if (taiId != null && taiId.Length > 0)
                 {
-                    bool possedeTai = false;
-                    foreach (Produit produit in produits)
+                    foreach (Produit produit in produits.ToList())
                     {
-                        foreach (VarianteProduit variante in produit.VariantesProduit)
+                        possedeTai = false;
+
+                        foreach (var variante in produit.VariantesProduit)
                         {
-                            foreach (Stock stck in variante.StocksVariante)
+                            foreach (var stock in variante.StocksVariante)
                             {
-                                if (taiId.Contains(stck.TailleId))
+                                if (taiId.Contains(stock.TailleId))
                                 {
                                     possedeTai = true;
                                     break;
                                 }
+
+                                if (!possedeTai)
+                                {
+                                    produits = produits.Where(p => p != produit);
+                                }
                             }
 
-                        }
-                        if (possedeTai)
-                        {
-                            possedeTai = false;
-                        }
-                        else
-                        {
-                            produits.ToList().Remove(produit);
                         }
 
 
