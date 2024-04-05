@@ -56,6 +56,24 @@ namespace FIFA_API.Controllers
             return pays;
         }
 
+        // GET: api/Pays/France
+        [HttpGet]
+        [Route("[action]/{nom}")]
+        [ActionName("GetByNom")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Pays>> GetPaysByNom(string nom)
+        {
+            var pays = await dataRepository.GetByStringAsync(nom);
+
+            if (pays == null)
+            {
+                return NotFound();
+            }
+
+            return pays;
+        }
+
         // PUT: api/Pays/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

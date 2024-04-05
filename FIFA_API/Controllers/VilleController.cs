@@ -47,6 +47,24 @@ namespace FIFA_API.Controllers
             return ville;
         }
 
+        // GET: api/Ville/Annecy
+        [HttpGet]
+        [Route("[action]/{nom}")]
+        [ActionName("GetByNom")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Ville>> GetVilleByNom(string nom)
+        {
+            var ville = await dataRepository.GetByStringAsync(nom);
+
+            if (ville == null)
+            {
+                return NotFound();
+            }
+
+            return ville;
+        }
+
         // PUT: api/Ville/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
