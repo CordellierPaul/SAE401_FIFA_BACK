@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class LigneCommandeManager : IDataRepositoryWithoutStr<LigneCommande>
+    public class LigneCommandeManager : ILigneCommandeRepository
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -35,6 +35,17 @@ namespace FIFA_API.Models.DataManager
         public async Task<ActionResult<LigneCommande>> GetByIdAsync(int id)
         {
             return await fifaDbContext.LigneCommande.FirstOrDefaultAsync(u => u.LigneCommandeId == id);
+
+        }
+
+        public async Task<ActionResult<IEnumerable<LigneCommande>>> GetByCommandeIdAsync(int id)
+        {
+            IEnumerable<LigneCommande> lesCommandes = await fifaDbContext.LigneCommande.ToListAsync();
+
+            lesCommandes = lesCommandes.Where(x => x.CommandeId == id);
+
+            return lesCommandes.ToList();
+
 
         }
 

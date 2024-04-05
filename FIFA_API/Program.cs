@@ -50,7 +50,7 @@ builder.Services.AddScoped<IDataRepositoryWithoutStr<Image>, ImageManager>();
 builder.Services.AddScoped<IInfosBancairesRepository, InfosBancairesManager>();
 builder.Services.AddScoped<IJoueurRepository, JoueurManager>();
 builder.Services.AddScoped<IDataRepository<Langue>, LangueManager>();
-builder.Services.AddScoped<IDataRepositoryWithoutStr<LigneCommande>, LigneCommandeManager>();
+builder.Services.AddScoped<ILigneCommandeRepository, LigneCommandeManager>();
 builder.Services.AddScoped<IDataRepository<Livraison>, LivraisonManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Match>, MatchManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Media>, MediaManager>();
