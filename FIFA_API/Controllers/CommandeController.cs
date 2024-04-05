@@ -14,9 +14,9 @@ namespace FIFA_API.Controllers
     [ApiController]
     public class CommandeController : ControllerBase
     {
-        private readonly IDataRepositoryWithoutStr<Commande> dataRepository;
+        private readonly ICommandeRepository dataRepository;
 
-        public CommandeController(IDataRepositoryWithoutStr<Commande> context)
+        public CommandeController(ICommandeRepository context)
         {
             dataRepository = context;
         }
@@ -43,6 +43,18 @@ namespace FIFA_API.Controllers
                 return NotFound();
             }
             return commande;
+        }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        [ActionName("GetCommandesByUserId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Commande>>> GetCommandesByUserId(int id)
+        {
+            var commandes = await dataRepository.GetByUserIdAsync(id);
+
+            return commandes;
         }
 
         // PUT: api/Commande/5

@@ -38,7 +38,7 @@ builder.Services.AddScoped<IDataRepository2clues<CaracteristiqueProduit>, Caract
 builder.Services.AddScoped<IDataRepository<Categorie>, CategorieManager>();
 builder.Services.AddScoped<IDataRepository<Club>, ClubManager>();
 builder.Services.AddScoped<IColorisRepository, ColorisManager>();
-builder.Services.AddScoped<IDataRepositoryWithoutStr<Commande>, CommandeManager>();
+builder.Services.AddScoped<ICommandeRepository, CommandeManager>();
 builder.Services.AddScoped<ICommentaireRepository, CommentaireManager>();
 builder.Services.AddScoped<IDataRepository<Competition>, CompetitionManager>();
 builder.Services.AddScoped<IDataRepository<Compte>, CompteManager>();
@@ -50,7 +50,7 @@ builder.Services.AddScoped<IDataRepositoryWithoutStr<Image>, ImageManager>();
 builder.Services.AddScoped<IInfosBancairesRepository, InfosBancairesManager>();
 builder.Services.AddScoped<IJoueurRepository, JoueurManager>();
 builder.Services.AddScoped<IDataRepository<Langue>, LangueManager>();
-builder.Services.AddScoped<IDataRepositoryWithoutStr<LigneCommande>, LigneCommandeManager>();
+builder.Services.AddScoped<ILigneCommandeRepository, LigneCommandeManager>();
 builder.Services.AddScoped<IDataRepository<Livraison>, LivraisonManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Match>, MatchManager>();
 builder.Services.AddScoped<IDataRepositoryWithoutStr<Media>, MediaManager>();
