@@ -2,10 +2,11 @@
 using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FIFA_API.Models.DataManager
 {
-    public class CommandeManager : IDataRepositoryWithoutStr<Commande>
+    public class CommandeManager : ICommandeRepository
     {
         private readonly FifaDbContext fifaDbContext;
 
@@ -35,6 +36,17 @@ namespace FIFA_API.Models.DataManager
         public async Task<ActionResult<Commande?>> GetByIdAsync(int id)
         {
             return await fifaDbContext.Commande.FirstOrDefaultAsync(u => u.CommandeId == id);
+
+        }
+
+        public async Task<ActionResult<IEnumerable<Commande>>> GetByUserIdAsync(int id)
+        {
+            IEnumerable<Commande> lesCommandes = await fifaDbContext.Commande.ToListAsync();
+
+            lesCommandes = lesCommandes.Where(x => x.UtilisateurId == id);
+
+            return lesCommandes.ToList();
+
 
         }
 
