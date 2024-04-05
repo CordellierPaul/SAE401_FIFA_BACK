@@ -19,7 +19,7 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private CommandeController _controller;
-        private IDataRepositoryWithoutStr<Commande> _dataRepository;
+        private ICommandeRepository _dataRepository;
 
         public CommandeControllerTests()
         {
@@ -130,7 +130,7 @@ namespace FIFA_API.Controllers.Tests
         public void PostCommande_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Commande>>();
+            var mockRepository = new Mock<ICommandeRepository>();
             var cmdController = new CommandeController(mockRepository.Object);
             Commande cmd = new Commande
             {
@@ -167,7 +167,7 @@ namespace FIFA_API.Controllers.Tests
                 AdresseCommande = new Adresse(),
                 UtilisateurCommandant = new Utilisateur(),
             };
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Commande>>();
+            var mockRepository = new Mock<ICommandeRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(cmd);
             var cmdController = new CommandeController(mockRepository.Object);
             // Act
@@ -201,7 +201,7 @@ namespace FIFA_API.Controllers.Tests
                 UtilisateurCommandant = new Utilisateur(),
             };
 
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Commande>>();
+            var mockRepository = new Mock<ICommandeRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(cmd);
             var cmdController = new CommandeController(mockRepository.Object);
 
@@ -227,7 +227,7 @@ namespace FIFA_API.Controllers.Tests
                 UtilisateurCommandant = new Utilisateur(),
             };
 
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Commande>>();
+            var mockRepository = new Mock<ICommandeRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(cmd);
             var cmdController = new CommandeController(mockRepository.Object);
 
@@ -243,7 +243,7 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetCommandeById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IDataRepositoryWithoutStr<Commande>>();
+            var mockRepository = new Mock<ICommandeRepository>();
             var cmdController = new CommandeController(mockRepository.Object);
             // Act
             var actionResult = cmdController.GetCommandeById(0).Result;
