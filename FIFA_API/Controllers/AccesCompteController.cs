@@ -43,7 +43,7 @@ namespace FIFA_API.Controllers
         {
             IActionResult response = Unauthorized();
 
-            Compte? user = await AuthenticateUser(compte);
+            Compte? user = await _dataRepository.GetCompteByCompte(compte);
 
             if (user != null)
             {
@@ -73,11 +73,6 @@ namespace FIFA_API.Controllers
             await _dataRepository.AddAsync(compte);
 
             return Ok(new { token = tokenString, userDetails = compte });
-        }
-
-        private async Task<Compte?> AuthenticateUser(Compte user)
-        {
-            return await _dataRepository.GetCompteByCompte(user);
         }
 
         private string GenerateJwtToken(Compte userInfo)

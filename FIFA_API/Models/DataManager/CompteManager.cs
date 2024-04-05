@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NuGet.Protocol;
 using System.Numerics;
 
-#nullable disable
-
 namespace FIFA_API.Models.DataManager
 {
     public class CompteManager : ICompteRepository
@@ -47,8 +45,7 @@ namespace FIFA_API.Models.DataManager
 
             EntityEntry<Compte> compteEntityEntry = fifaDbContext.Entry(compte);
 
-            await compteEntityEntry.Reference(c => c.UtilisateurCompte).LoadAsync();
-            await compteEntityEntry.Collection(c => c.UtilisateurCompte.CommandesUtilisateur).LoadAsync();
+            await compteEntityEntry.Reference(c => c.UtilisateurCompte).Query().Include(u => u.CommandesUtilisateur).LoadAsync();
 
             return new ActionResult<Compte>(compteEntityEntry.Entity);
         }
@@ -80,6 +77,9 @@ namespace FIFA_API.Models.DataManager
                 return null;
 
             Compte? compte = response.Value.SingleOrDefault(x => x.CompteEmail.ToUpper() == user.CompteEmail.ToUpper() && x.CompteMdp == user.CompteMdp);
+
+            if (compte == null)
+                return null;
 
             EntityEntry<Compte> compteEntityEntry = fifaDbContext.Entry(compte);
             await compteEntityEntry.Reference(c => c.UtilisateurCompte).LoadAsync();
