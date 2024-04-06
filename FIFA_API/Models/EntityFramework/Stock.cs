@@ -26,6 +26,6 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(VarianteProduitId))]
         [InverseProperty(nameof(VarianteProduit.StocksVariante))]
-        public virtual VarianteProduit VarianteStockee { get; set; } = null!;
+        public virtual VarianteProduit? VarianteStockee { get; set; } = null!;
     }
 }

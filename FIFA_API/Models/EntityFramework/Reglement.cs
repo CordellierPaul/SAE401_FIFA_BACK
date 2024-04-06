@@ -24,6 +24,6 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(CommandeId))]
         [InverseProperty(nameof(Commande.ReglementsCommande))]
-        public virtual Commande CommandeRegle { get; set; }
+        public virtual Commande? CommandeRegle { get; set; }
     }
 }

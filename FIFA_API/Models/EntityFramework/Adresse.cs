@@ -25,6 +25,6 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(VilleId))]
         [InverseProperty(nameof(Ville.LiensAdresses))]
-        public virtual Ville LienVille { get; set; } = null!;
+        public virtual Ville? LienVille { get; set; } = null!;
     }
 }

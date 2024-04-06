@@ -39,15 +39,15 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(UtilisateurId))]
         [InverseProperty(nameof(Utilisateur.CommandesUtilisateur))]
-        public virtual Utilisateur UtilisateurCommandant { get; set; } = null!;
+        public virtual Utilisateur? UtilisateurCommandant { get; set; } = null!;
 
         [ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.CommandesAdresse))]
-        public virtual Adresse AdresseCommande { get; set; } = null!;
+        public virtual Adresse? AdresseCommande { get; set; } = null!;
 
         [ForeignKey(nameof(LivraisonId))]
         [InverseProperty(nameof(Livraison.CommandesLivraison))]
-        public virtual Livraison LivraisonCommande { get; set; } = null!;
+        public virtual Livraison? LivraisonCommande { get; set; } = null!;
         #endregion
         
 
