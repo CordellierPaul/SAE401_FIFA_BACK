@@ -9,6 +9,7 @@ using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
 using FIFA_API.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace FIFA_API.Controllers
 {
@@ -24,13 +25,6 @@ namespace FIFA_API.Controllers
             dataRepository = context;
         }
 
-        // GET: api/Compte
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Compte>>> GetCompte()
-        {
-            return await dataRepository.GetAllAsync();
-        }
-
         // GET: api/Compte/5
         [HttpGet]
         [Route("[action]/{id}")]
@@ -39,6 +33,9 @@ namespace FIFA_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Compte>> GetCompteById(int id)
         {
+            if (!TokenIsValid(id))
+                return Unauthorized();
+
             var compte = await dataRepository.GetByIdAsync(id);
 
             if (compte == null)
@@ -130,6 +127,21 @@ namespace FIFA_API.Controllers
         {
             ActionResult<Compte>? actionResult = await dataRepository.GetByStringAsync(email);
             return actionResult.Value is not null;
+        }
+
+        private bool TokenIsValid(int compteId)
+        {
+            ClaimsIdentity? identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            if (identity is null)
+                return false;
+
+            Claim? compteIdClaim = identity.FindFirst("id");
+
+            if (compteIdClaim is null)
+                return false;
+
+            return compteIdClaim.Value == compteId.ToString();
         }
     }
 }

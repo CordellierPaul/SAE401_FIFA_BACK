@@ -38,17 +38,6 @@ namespace FIFA_API.Controllers.Tests
         }
 
         [TestMethod()]
-        public void GetComptesTest_OK()
-        {
-            var expected = _context.Compte.ToList();
-
-            var results = _controller.GetCompte().Result.Value;
-
-            CollectionAssert.AreEqual(expected, results.ToList(), "Pas les mêmes listes");
-        }
-
-
-        [TestMethod()]
         public void GetCompteByIdTest_OK()
         {
             Compte expected = _context.Compte.Where(u => u.CompteId == 1).First();
@@ -78,7 +67,7 @@ namespace FIFA_API.Controllers.Tests
             Assert.IsNull(result.Value);
         }
 
-        #region Test remplacer par moq
+        #region Test remplacés par moq
 
         /*[TestMethod()]
         public void PutCompteTest_OK()

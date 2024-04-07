@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 
 namespace FIFA_API.Controllers
@@ -93,6 +94,7 @@ namespace FIFA_API.Controllers
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.CompteEmail),
                 new Claim("email", userInfo.CompteEmail),
                 new Claim("role", role),
+                new Claim("id", userInfo.CompteId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
