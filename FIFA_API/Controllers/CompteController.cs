@@ -60,9 +60,6 @@ namespace FIFA_API.Controllers
                 return NotFound();
             }
 
-            if (!TokenIsValid(compte.Value.CompteId))
-                return Unauthorized();
-
             return compte;
         }
 
