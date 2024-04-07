@@ -42,16 +42,16 @@ namespace FIFA_API.Models.EntityFramework
 
         [ForeignKey(nameof(VarianteProduitId))]
         [InverseProperty(nameof(VarianteProduit.LignesCommandesVariante))]
-        public virtual VarianteProduit VarianteProduitNavigation { get; set; } = null!;
+        public virtual VarianteProduit? VarianteProduitNavigation { get; set; } = null!;
 
 
         [ForeignKey(nameof(CommandeId))]
         [InverseProperty("LignesCommandes")]
-        public virtual Commande CommandeNavigation { get; set; } = null!;
+        public virtual Commande? CommandeNavigation { get; set; } = null!;
 
         [ForeignKey(nameof(TailleId))]
         [InverseProperty("LignesCommandes")]
-        public virtual Taille TailleNavigation { get; set; } = null!;
+        public virtual Taille? TailleNavigation { get; set; } = null!;
 
 
     }
