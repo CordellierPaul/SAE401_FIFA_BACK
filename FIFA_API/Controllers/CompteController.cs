@@ -55,10 +55,14 @@ namespace FIFA_API.Controllers
         public async Task<ActionResult<Compte>> GetCompteByEmail(string email)
         {
             var compte = await dataRepository.GetByStringAsync(email);
-            if (compte == null)
+            if (compte == null || compte.Value == null)
             {
                 return NotFound();
             }
+
+            if (!TokenIsValid(compte.Value.CompteId))
+                return Unauthorized();
+
             return compte;
         }
 
@@ -74,6 +78,10 @@ namespace FIFA_API.Controllers
             {
                 return BadRequest();
             }
+
+            if (!TokenIsValid(id))
+                return Unauthorized();
+
             var comToUpdate = await dataRepository.GetByIdAsync(id);
             if (comToUpdate == null)
             {
@@ -107,6 +115,9 @@ namespace FIFA_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCompte(int id)
         {
+            if (!TokenIsValid(id))
+                return Unauthorized();
+
             var categorie = await dataRepository.GetByIdAsync(id);
             if (categorie == null)
             {
