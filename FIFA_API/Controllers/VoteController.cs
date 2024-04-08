@@ -37,7 +37,7 @@ namespace FIFA_API.Controllers
         [ActionName("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Vote>> GetVotById(int utlid, int theid, int jouid)
+        public async Task<ActionResult<Vote>> GetVoteById(int utlid, int theid, int jouid)
         {
             var vote = await dataRepository.GetByIdAsync(utlid, theid, jouid);
 
@@ -76,6 +76,8 @@ namespace FIFA_API.Controllers
         // POST: api/Vote
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Route("[action]")]
+        [ActionName("Ajout")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Vote>> PostVote(Vote vote)
