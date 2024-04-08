@@ -67,7 +67,22 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.CompteDateConnexion = entity.CompteDateConnexion;
             entityToUpdate.CompteAnnonces = entity.CompteAnnonces;
             entityToUpdate.TypeCompte = entity.TypeCompte;
-            entityToUpdate.UtilisateurCompte = entity.UtilisateurCompte;
+
+            if (entityToUpdate.UtilisateurCompte is null)
+                throw new ArgumentException("");
+
+            entityToUpdate.UtilisateurCompte.PrenomUtilisateur = entity.UtilisateurCompte.PrenomUtilisateur;
+            entityToUpdate.UtilisateurCompte.AdresseId = entity.UtilisateurCompte.AdresseId;
+            entityToUpdate.UtilisateurCompte.UtilisateurDateNaissance = entity.UtilisateurCompte.UtilisateurDateNaissance;
+            entityToUpdate.UtilisateurCompte.CompteId = entity.CompteId;
+            entityToUpdate.UtilisateurCompte.MonnaieId = entity.UtilisateurCompte.MonnaieId;
+            entityToUpdate.UtilisateurCompte.LangueId = entity.UtilisateurCompte.LangueId;
+            entityToUpdate.UtilisateurCompte.PaysNaissanceId= entity.UtilisateurCompte.PaysNaissanceId;
+            entityToUpdate.UtilisateurCompte.PaysFavoriId = entity.UtilisateurCompte.PaysFavoriId;
+            entityToUpdate.UtilisateurCompte.UtilisateurNomAcheteur = entity.UtilisateurCompte.UtilisateurNomAcheteur;
+            entityToUpdate.UtilisateurCompte.UtilisateurTelAcheteur = entity.UtilisateurCompte.UtilisateurTelAcheteur;
+            entityToUpdate.UtilisateurCompte.ActiviteId = entity.UtilisateurCompte.ActiviteId;
+            entityToUpdate.UtilisateurCompte.SocieteId = entity.UtilisateurCompte.SocieteId;
             await fifaDbContext.SaveChangesAsync();
         }
 
