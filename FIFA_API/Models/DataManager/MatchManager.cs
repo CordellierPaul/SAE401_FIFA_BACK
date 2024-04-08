@@ -35,7 +35,9 @@ namespace FIFA_API.Models.DataManager
 
         public async Task<ActionResult<Match>> GetByIdAsync(int id)
         {
-            return await fifaDbContext.Match.FirstOrDefaultAsync(u => u.MatchId == id);
+            return await fifaDbContext.Match
+            .Include(c => c.Matches_joue)
+            .FirstOrDefaultAsync(u => u.MatchId == id);
 
         }
 
