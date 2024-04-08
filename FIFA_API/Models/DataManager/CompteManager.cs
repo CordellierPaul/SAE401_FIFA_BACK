@@ -25,10 +25,11 @@ namespace FIFA_API.Models.DataManager
 
         public async Task AddAsync(Compte entity)
         {
+            entity.CompteEmail = entity.CompteEmail.ToLower();
             await fifaDbContext.Compte.AddAsync(entity);
             await fifaDbContext.SaveChangesAsync();
         }
-
+        
         public async Task DeleteAsync(Compte entity)
         {
             fifaDbContext.Compte.Remove(entity);
@@ -61,7 +62,7 @@ namespace FIFA_API.Models.DataManager
         {
             fifaDbContext.Entry(entityToUpdate).State = EntityState.Modified;
             entityToUpdate.CompteId = entity.CompteId;
-            entityToUpdate.CompteEmail = entity.CompteEmail;
+            entityToUpdate.CompteEmail = entity.CompteEmail.ToLower();
             entityToUpdate.Comptelogin = entity.Comptelogin;
             entityToUpdate.CompteMdp = entity.CompteMdp;
             entityToUpdate.CompteDateConnexion = entity.CompteDateConnexion;
@@ -69,7 +70,7 @@ namespace FIFA_API.Models.DataManager
             entityToUpdate.TypeCompte = entity.TypeCompte;
 
             if (entityToUpdate.UtilisateurCompte is null)
-                throw new ArgumentException("");
+                throw new ArgumentException("Le compte n'a pas d'utilisateur");
 
             entityToUpdate.UtilisateurCompte.PrenomUtilisateur = entity.UtilisateurCompte.PrenomUtilisateur;
             entityToUpdate.UtilisateurCompte.AdresseId = entity.UtilisateurCompte.AdresseId;
