@@ -76,6 +76,38 @@ namespace FIFA_API.Controllers
             return Ok(new { token = tokenString, userDetails = compte });
         }
 
+        [HttpPost]
+        [Route("[action]")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Update([FromBody] Compte compte)
+        {
+            IActionResult response = Unauthorized();
+
+            Compte? user = await _dataRepository.GetCompteByCompte(compte);
+
+            /*if (user != null)
+            {
+                var tokenString = GenerateJwtToken(user);
+                response = Ok(new
+                {
+                    token = tokenString,
+                    userDetails = user,
+                });
+            }*/
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                await _dataRepository.UpdateAsync(user, user);
+                return NoContent();
+            }
+        }
+
         private string GenerateJwtToken(Compte userInfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
