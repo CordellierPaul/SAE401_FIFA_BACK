@@ -191,24 +191,19 @@ namespace FIFA_API.Models.DataManager
 
             IEnumerable<Produit> produits = result.Value;
                 
-            await Task.Run(() =>
-            {
-                // Filtrage des produits :
+            // Filtrage par texte :
+            produits = produits.Where(x => NameMatchWithKeywords(x.ProduitNom.ToLower(), keywords));
 
-                // Filtrage par texte :
-                produits = produits.Where(x => NameMatchWithKeywords(x.ProduitNom.ToLower(), keywords));
+            return await Task.Run(() => produits.ToList());   // Calcul de toutes les données en asyncrone
+        }
 
-                // Filtrer par catégorie ici
-
-                return produits.ToList();   // Calcul de toutes les données en asyncrone
-            });
-
-            return new ActionResult<IEnumerable<Produit>>(produits);
+        private static bool NameMatchWithKeywords(string name, string[] keywords)
+        {
+            return keywords.All(x => name.Contains(x));
         }
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter(int?[] catId, int?[] taiId = null, int?[] colId = null, int?[] genreId = null, int?[] paysId=null)
         {
-
             var result = await GetAllAsync();
             bool possedeColoris;
             bool possedeTai;
@@ -218,95 +213,77 @@ namespace FIFA_API.Models.DataManager
 
             IEnumerable<Produit> produits = result.Value;
 
-            await Task.Run(() =>
+            //Filtre du produit :
+            // Filtrage par catégorie :
+            if(catId != null && catId.Length > 0)
+                produits = produits.Where(x => catId.Contains(x.CategorieId));
+
+            //Filtrage par Pays :
+            if (paysId != null && paysId.Length > 0)
+                produits = produits.Where(x => paysId.Contains(x.PaysId));
+
+            //Filtrage par Genre :
+            if (genreId != null && genreId.Length > 0)
+                produits = produits.Where(x => genreId.Contains(x.GenreId));
+
+            //Filtre des variantes :
+            // Filtrage par coloris :
+            if (colId != null && colId.Length > 0)
             {
-                //Filtre du produit :
-                // Filtrage par catégorie :
-                if(catId != null && catId.Length > 0)
-                    produits = produits.Where(x => catId.Contains(x.CategorieId));
 
-                //Filtrage par Pays :
-                if (paysId != null && paysId.Length > 0)
-                    produits = produits.Where(x => paysId.Contains(x.PaysId));
-
-                //Filtrage par Genre :
-                if (genreId != null && genreId.Length > 0)
-                    produits = produits.Where(x => genreId.Contains(x.GenreId));
-
-                //Filtre des variantes :
-                // Filtrage par coloris :
-                if (colId != null && colId.Length > 0)
+                foreach (Produit produit in produits.ToList())
                 {
+                    possedeColoris = false;
 
-                    foreach (Produit produit in produits.ToList())
+                    //foreach (int col in colId)
+                    //    Console.WriteLine(col);
+
+                    foreach (var variante in produit.VariantesProduit)
                     {
-                        possedeColoris = false;
+                        Console.WriteLine(variante.ColorisId);
 
-                        //foreach (int col in colId)
-                        //    Console.WriteLine(col);
-
-                        foreach (var variante in produit.VariantesProduit)
+                        if (colId.Contains(variante.ColorisId))
                         {
-                            Console.WriteLine(variante.ColorisId);
+                            possedeColoris = true;
+                            break;
+                        }
 
-                            if (colId.Contains(variante.ColorisId))
+                        if (!possedeColoris)
+                        {
+                            produits = produits.Where(p => p != produit);
+                        }
+                    }
+                }
+            }
+
+            // Filtrage par taille
+            if (taiId != null && taiId.Length > 0)
+            {
+                foreach (Produit produit in produits.ToList())
+                {
+                    possedeTai = false;
+
+                    foreach (var variante in produit.VariantesProduit)
+                    {
+                        foreach (var stock in variante.StocksVariante)
+                        {
+                            if (taiId.Contains(stock.TailleId))
                             {
-                                possedeColoris = true;
+                                possedeTai = true;
                                 break;
                             }
 
-
-                            if (!possedeColoris)
-                            {
-                                produits = produits.Where(p => p != produit);
-                            }
-
                         }
 
-                    }
-                }
-
-                // Filtrage par taille
-                if (taiId != null && taiId.Length > 0)
-                {
-                    foreach (Produit produit in produits.ToList())
-                    {
-                        possedeTai = false;
-
-                        foreach (var variante in produit.VariantesProduit)
+                        if (!possedeTai)
                         {
-                            foreach (var stock in variante.StocksVariante)
-                            {
-                                if (taiId.Contains(stock.TailleId))
-                                {
-                                    possedeTai = true;
-                                    break;
-                                }
-
-                            }
-
-                            if (!possedeTai)
-                            {
-                                produits = produits.Where(p => p != produit);
-                            }
-
+                            produits = produits.Where(p => p != produit);
                         }
-
-
                     }
-
                 }
+            }
 
-
-                return produits.ToList();   // Calcul de toutes les données en asyncrone
-            });
-
-            return new ActionResult<IEnumerable<Produit>>(produits);
-        }
-
-        private static bool NameMatchWithKeywords(string name, string[] keywords)
-        {
-            return keywords.All(x => name.Contains(x));
+            return await Task.Run(() => produits.ToList());   // Calcul de toutes les données en asyncrone
         }
     }
 }
