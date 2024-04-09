@@ -115,12 +115,12 @@ namespace FIFA_API.Controllers
             if (!TokenIsValid(id))
                 return Unauthorized();
 
-            var categorie = await dataRepository.GetByIdAsync(id);
-            if (categorie == null)
+            var compte = await dataRepository.GetByIdAsync(id);
+            if (compte == null)
             {
                 return NotFound();
             }
-            await dataRepository.DeleteAsync(categorie.Value);
+            await dataRepository.DeleteAsync(compte.Value);
             return NoContent();
         }
 

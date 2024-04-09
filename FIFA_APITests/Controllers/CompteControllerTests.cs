@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace FIFA_API.Controllers.Tests
 {
@@ -151,14 +153,40 @@ namespace FIFA_API.Controllers.Tests
         public void DeleteCompte_ModelValidated_DeleteOK_AvecMoq()
         {
             // Arrange
+            Utilisateur user = new Utilisateur
+            {
+                UtilisateurId = 1,
+                CompteId = 1,
+            };
             Compte cpte = new Compte
             {
                 CompteId = 1,
-                CompteEmail = "testcompte@gmail.com"
+                CompteEmail = "testcompte@gmail.com",
+                UtilisateurCompte = user
+                
             };
-            var mockRepository = new Mock<IDataRepository<Compte>>();
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, cpte.CompteEmail),
+                new Claim(ClaimTypes.NameIdentifier, cpte.CompteId.ToString()),
+                new Claim("id", cpte.CompteId.ToString()),
+            };
+            var identity = new ClaimsIdentity(claims, "Test");
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            var mockPrincipal = new Mock<IPrincipal>();
+            mockPrincipal.Setup(x => x.Identity).Returns(identity);
+            mockPrincipal.Setup(x => x.IsInRole(It.IsAny<string>())).Returns(true);
+
+            var mockHttpContext = new Mock<HttpContext>();
+            mockHttpContext.Setup(m => m.User).Returns(claimsPrincipal);
+
+            var mockRepository = new Mock<ICompteRepository>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(cpte);
+            var httpContext = new DefaultHttpContext();
+            var ctx = new ControllerContext() { HttpContext = new DefaultHttpContext() };
             var cpteController = new CompteController(mockRepository.Object);
+            cpteController.ControllerContext = ctx;
             // Act
             var actionResult = cpteController.DeleteCompte(1).Result;
             // Assert
