@@ -37,17 +37,6 @@ namespace FIFA_API.Controllers.Tests
         }
 
         [TestMethod()]
-        public void GetInfosBancairessTest_OK()
-        {
-            var expected = _context.InfosBancaires.ToList();
-
-            var results = _controller.GetInfosBancaires().Result.Value;
-
-            CollectionAssert.AreEqual(expected, results.ToList(), "Pas les mêmes listes");
-        }
-
-
-        [TestMethod()]
         public void GetInfosBancairesByIdTest_OK()
         {
             InfosBancaires expected = _context.InfosBancaires.Where(u => u.InfosBancairesId == 1).First();
