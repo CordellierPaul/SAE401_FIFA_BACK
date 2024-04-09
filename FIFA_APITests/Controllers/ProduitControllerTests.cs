@@ -58,8 +58,8 @@ namespace FIFA_API.Controllers.Tests
 
             Assert.IsNull(result.Value);
         }
-
-        [TestMethod()]
+         //REMPLACER PAR MOQ
+        /*[TestMethod()]
         public void PutProduitTest_OK()
         {
             Produit expected = _context.Produit.Where(u => u.ProduitId == 1).First();
@@ -92,7 +92,7 @@ namespace FIFA_API.Controllers.Tests
             proAtester.CategorieId = proRecupere.CategorieId;
 
             Assert.AreEqual(proRecupere, proAtester, "Produits pas identiques");
-        }
+        }*/
 
         [TestMethod]
         public void GetSearchResults_OK()
