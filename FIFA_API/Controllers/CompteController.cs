@@ -147,7 +147,7 @@ namespace FIFA_API.Controllers
             if (identity is null)
                 return false;
 
-            Claim? compteIdClaim = identity.FindFirst("id");
+            Claim? compteIdClaim = identity.FindFirst("idcompte");
 
             if (compteIdClaim is null)
                 return false;

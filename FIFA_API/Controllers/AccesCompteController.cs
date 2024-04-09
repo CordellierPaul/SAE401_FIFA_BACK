@@ -77,7 +77,7 @@ namespace FIFA_API.Controllers
             return Ok(new { token = tokenString, userDetails = compte });
         }
 
-        private string GenerateJwtToken(Compte userInfo)
+        private string GenerateJwtToken(Compte compte)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
 
@@ -85,17 +85,20 @@ namespace FIFA_API.Controllers
 
             string role;
 
-            if (userInfo.TypeCompte == 2)
+            if (compte.TypeCompte == 2)
                 role = Policies.Admin;
             else
                 role = Policies.Utilisateur;
 
+            Console.WriteLine("\n\n\n" + compte.UtilisateurCompte?.UtilisateurId + "\n\n\n");
+
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userInfo.CompteEmail),
-                new Claim("email", userInfo.CompteEmail),
+                new Claim(JwtRegisteredClaimNames.Sub, compte.CompteEmail),
+                new Claim("email", compte.CompteEmail),
                 new Claim("role", role),
-                new Claim("id", userInfo.CompteId.ToString()),
+                new Claim("idcompte", compte.CompteId.ToString()),
+                new Claim("idutilisateur", compte.UtilisateurCompte?.UtilisateurId.ToString() ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

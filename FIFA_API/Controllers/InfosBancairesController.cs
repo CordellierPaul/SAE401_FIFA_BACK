@@ -3,6 +3,7 @@ using FIFA_API.Models.EntityFramework;
 using FIFA_API.Models.Repository;
 using FIFA_API.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace FIFA_API.Controllers
 {
@@ -18,21 +19,19 @@ namespace FIFA_API.Controllers
             dataRepository = context;
         }
 
-        // GET: api/InfosBancaires
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<InfosBancaires>>> GetInfosBancaires()
-        {
-            return await dataRepository.GetAllAsync();
-        }
-
-        // GET: api/GetInfosBancairesOfCompte
+        // GET: api/GetInfosBancairesOfUser
         [HttpGet]
         [Route("[action]/{userId}")]
-        [ActionName("GetInfosBancairesOfCompte")]
+        [ActionName("GetInfosBancairesOfUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<InfosBancaires>>> GetInfosBancairesOfUser(int userId)
         {
+            if (!TokenIsValid(userId))
+            {
+                return Unauthorized();
+            }
+
             return await dataRepository.GetAllAsync();
         }
 
@@ -44,13 +43,17 @@ namespace FIFA_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<InfosBancaires>> GetInfosBancairesById(int id)
         {
-            var categorie = await dataRepository.GetByIdAsync(id);
+            var infoBancaireResult = await dataRepository.GetByIdAsync(id);
 
-            if (categorie == null)
+            if (infoBancaireResult is null || infoBancaireResult.Value is null)
             {
                 return NotFound();
             }
-            return categorie;
+            if (!TokenIsValid(id))
+            {
+                return Unauthorized();
+            }
+            return infoBancaireResult;
         }
 
         // PUT: api/InfosBancaires/5
@@ -64,6 +67,10 @@ namespace FIFA_API.Controllers
             if (id != infosBancaires.InfosBancairesId)
             {
                 return BadRequest();
+            }
+            if (!TokenIsValid(infosBancaires.UtilisateurId))
+            {
+                return Unauthorized();
             }
             var ibToUpdate = await dataRepository.GetByIdAsync(id);
             if (ibToUpdate == null)
@@ -86,9 +93,11 @@ namespace FIFA_API.Controllers
         {
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
+
+            if (!TokenIsValid(infosBancaires.UtilisateurId))
+                return Unauthorized();
+
             await dataRepository.AddAsync(infosBancaires);
             return CreatedAtAction("GetbyId", new { id = infosBancaires.InfosBancairesId }, infosBancaires);
         }
@@ -97,13 +106,36 @@ namespace FIFA_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInfosBancaires(int id)
         {
-            var categorie = await dataRepository.GetByIdAsync(id);
-            if (categorie == null)
-            {
+            var infosBancaires = await dataRepository.GetByIdAsync(id);
+
+            if (infosBancaires is null || infosBancaires.Value is null)
                 return NotFound();
-            }
-            await dataRepository.DeleteAsync(categorie.Value);
+
+            if (!TokenIsValid(infosBancaires.Value.UtilisateurId))
+                return Unauthorized();
+
+            await dataRepository.DeleteAsync(infosBancaires.Value);
             return NoContent();
+        }
+
+
+        private bool TokenIsValid(int utilisateurId)
+        {
+#if TESTENCOURS
+            return true;
+#else
+            ClaimsIdentity? identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            if (identity is null)
+                return false;
+
+            Claim? utilisateurIdClaim = identity.FindFirst("idutilisateur");
+
+            if (utilisateurIdClaim is null)
+                return false;
+
+            return utilisateurIdClaim.Value == utilisateurId.ToString();
+#endif
         }
     }
 }
