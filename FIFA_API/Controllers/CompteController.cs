@@ -139,7 +139,7 @@ namespace FIFA_API.Controllers
 
         private bool TokenIsValid(int compteId)
         {
-#if DEBUG
+#if TESTENCOURS
             return true;
 #else
             ClaimsIdentity? identity = HttpContext.User.Identity as ClaimsIdentity;
