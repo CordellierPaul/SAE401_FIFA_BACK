@@ -137,7 +137,6 @@ namespace FIFA_API.Models.DataManager
         }
 
 
-
         public async Task<ActionResult<Produit>> GetByStringAsync(string str)
         {
             return await fifaDbContext.Produit.FirstOrDefaultAsync(u => u.ProduitNom.ToUpper() == str.ToUpper());
@@ -284,10 +283,11 @@ namespace FIFA_API.Models.DataManager
                                     break;
                                 }
 
-                                if (!possedeTai)
-                                {
-                                    produits = produits.Where(p => p != produit);
-                                }
+                            }
+
+                            if (!possedeTai)
+                            {
+                                produits = produits.Where(p => p != produit);
                             }
 
                         }
