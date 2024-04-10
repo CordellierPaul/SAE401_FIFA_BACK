@@ -19,17 +19,6 @@ namespace FIFA_API.Controllers
         private readonly IConfiguration _config;
         private readonly ICompteRepository _dataRepository;
 
-
-        // Code sql pour ajouter un compte test :
-        // insert into t_e_compte_cpt (cpt_email, cpt_mdp, cpt_login, cpt_typecompte)
-        // values ('emdzdal@testt.com', 'qicxsgllezjmejtxvnauzwunivwcgdrxzfgvxqybeihuxgkzeeflsqfjfpbncubyojxjtrgfjeyxjmwgdcgqxsrhbusbpfrdewyhvgfrjwktqvnnybgtqxjshfjrheud', 'logind_ffe', 1)
-
-        // Code à ajouter dans Body de postman (en raw) pour tester :
-        //{
-        //    "compteEmail": "emdzdal@testt.com",
-        //    "compteMdp": "qicxsgllezjmejtxvnauzwunivwcgdrxzfgvxqybeihuxgkzeeflsqfjfpbncubyojxjtrgfjeyxjmwgdcgqxsrhbusbpfrdewyhvgfrjwktqvnnybgtqxjshfjrheud"
-        //}
-
         public AccesCompteController(IConfiguration config, ICompteRepository dataRepository)
         {
             _config = config;
