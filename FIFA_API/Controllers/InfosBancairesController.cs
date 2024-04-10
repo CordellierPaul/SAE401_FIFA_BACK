@@ -12,9 +12,9 @@ namespace FIFA_API.Controllers
     [Authorize(Policy = Policies.Utilisateur)]
     public class InfosBancairesController : ControllerBase
     {
-        private readonly IInfosBancairesRepository dataRepository;
+        private readonly IDataRepository<InfosBancaires> dataRepository;
 
-        public InfosBancairesController(IInfosBancairesRepository context)
+        public InfosBancairesController(IDataRepository<InfosBancaires> context)
         {
             dataRepository = context;
         }
