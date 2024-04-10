@@ -19,7 +19,7 @@ namespace FIFA_API.Controllers.Tests
     {
         private FifaDbContext _context;
         private InfosBancairesController _controller;
-        private IInfosBancairesRepository _dataRepository;
+        private IDataRepository<InfosBancaires> _dataRepository;
 
         public InfosBancairesControllerTests()
         {
@@ -79,7 +79,7 @@ namespace FIFA_API.Controllers.Tests
         public void PostInfosBancaires_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            var mockRepository = new Mock<IInfosBancairesRepository>();
+            var mockRepository = new Mock<IDataRepository<InfosBancaires>>();
             var ibcController = new InfosBancairesController(mockRepository.Object);
             InfosBancaires ibc = new InfosBancaires
             {
@@ -105,7 +105,7 @@ namespace FIFA_API.Controllers.Tests
                 InfosBancairesId = 1,
                 InfosBancaireNumCarte = "123456789012"
             };
-            var mockRepository = new Mock<IInfosBancairesRepository>();
+            var mockRepository = new Mock<IDataRepository<InfosBancaires>>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(ibc);
             var ibcController = new InfosBancairesController(mockRepository.Object);
             // Act
@@ -129,7 +129,7 @@ namespace FIFA_API.Controllers.Tests
                 InfosBancaireNumCarte = "123654789012"
             };
 
-            var mockRepository = new Mock<IInfosBancairesRepository>();
+            var mockRepository = new Mock<IDataRepository<InfosBancaires>>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(ibc);
             var ibcController = new InfosBancairesController(mockRepository.Object);
 
@@ -150,7 +150,7 @@ namespace FIFA_API.Controllers.Tests
                 InfosBancaireNumCarte = "123456789012"
             };
 
-            var mockRepository = new Mock<IInfosBancairesRepository>();
+            var mockRepository = new Mock<IDataRepository<InfosBancaires>>();
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(ibc);
             var ibcController = new InfosBancairesController(mockRepository.Object);
 
@@ -166,7 +166,7 @@ namespace FIFA_API.Controllers.Tests
         [TestMethod]
         public void GetInfosBancairesById_UnknownIdPassed_ReturnsNotFoundResult_AvecMoq()
         {
-            var mockRepository = new Mock<IInfosBancairesRepository>();
+            var mockRepository = new Mock<IDataRepository<InfosBancaires>>();
             var ibcController = new InfosBancairesController(mockRepository.Object);
             // Act
             var actionResult = ibcController.GetInfosBancairesById(0).Result;
