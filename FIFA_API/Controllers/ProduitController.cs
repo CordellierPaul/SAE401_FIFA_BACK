@@ -78,21 +78,12 @@ namespace FIFA_API.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{searchInput}")]
-        [ActionName("GetSearchResults")]
-        public async Task<ActionResult<IEnumerable<Produit>>> GetSearchResults(string searchInput)
-        {
-            return await dataRepository.GetSearchResults(searchInput);
-        }
-
-        [HttpGet]
         [Route("[action]")]
         [ActionName("GetByFilter")]
-        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter([FromQuery] int?[] catId, [FromQuery] int?[] taiId, [FromQuery] int?[] colId, [FromQuery] int?[] genreId, [FromQuery] int?[] PaysId)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter([FromQuery] int?[] catId, [FromQuery] int?[] taiId, [FromQuery] int?[] colId, [FromQuery] int?[] genreId, [FromQuery] int?[] PaysId, [FromQuery] string? texteRecherche)
         {
-            return await dataRepository.GetByFilter(catId, taiId, colId, genreId, PaysId );
+            return await dataRepository.GetByFilter(catId, taiId, colId, genreId, PaysId, texteRecherche);
         }
-
 
         // PUT: api/Produit/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
