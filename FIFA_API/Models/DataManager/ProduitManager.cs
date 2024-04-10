@@ -3,6 +3,9 @@ using FIFA_API.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 #nullable disable
 
@@ -175,7 +178,31 @@ namespace FIFA_API.Models.DataManager
             return imageVariante.ImageNavigation.ImageUrl;
         }
 
-        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter(int?[] catId, int?[] taiId = null, int?[] colId = null, int?[] genreId = null, int?[] paysId=null, string? texteRecherche = null)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetSearchResults(string searchInput)
+        {
+            string[] keywords = searchInput.ToLower().Split(' ');
+
+            searchInput = searchInput.ToLower();
+
+            var result = await GetAllAsync();
+
+            if (result.Value is null)
+                return result;
+
+            IEnumerable<Produit> produits = result.Value;
+                
+            // Filtrage par texte :
+            produits = produits.Where(x => NameMatchWithKeywords(x.ProduitNom.ToLower(), keywords));
+
+            return await Task.Run(() => produits.ToList());   // Calcul de toutes les données en asyncrone
+        }
+
+        private static bool NameMatchWithKeywords(string name, string[] keywords)
+        {
+            return keywords.All(x => name.Contains(x));
+        }
+
+        public async Task<ActionResult<IEnumerable<Produit>>> GetByFilter(int?[] catId, int?[] taiId = null, int?[] colId = null, int?[] genreId = null, int?[] paysId=null)
         {
             var result = await GetAllAsync();
             bool possedeColoris;
@@ -256,22 +283,7 @@ namespace FIFA_API.Models.DataManager
                 }
             }
 
-            // Filtrage par texte
-            if (texteRecherche != null)
-            {
-                string[] keywords = texteRecherche.ToLower().Split(' ');
-
-                texteRecherche = texteRecherche.ToLower();
-
-                produits = produits.Where(x => NameMatchWithKeywords(x.ProduitNom.ToLower(), keywords));
-            }
-
             return await Task.Run(() => produits.ToList());   // Calcul de toutes les données en asyncrone
-        }
-
-        private static bool NameMatchWithKeywords(string name, string[] keywords)
-        {
-            return keywords.All(x => name.Contains(x));
         }
     }
 }

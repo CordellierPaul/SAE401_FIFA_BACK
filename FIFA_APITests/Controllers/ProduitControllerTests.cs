@@ -129,7 +129,7 @@ namespace FIFA_API.Controllers.Tests
             //mockRepository.Setup(x => x.GetAllAsync().Result.Value).Returns(produitAAjouter);
 
             // Act
-            ActionResult<IEnumerable<Produit>> result = _controller.GetByFilter(null, null, null, null, null, "maillot adidas").Result;
+            ActionResult<IEnumerable<Produit>> result = _controller.GetSearchResults("maillot adidas").Result;
             //ActionResult<IEnumerable<Produit>> result = _controller.GetProduit().Result;
 
             IEnumerable<Produit>? produitsRecherches = result.Value;
@@ -309,14 +309,14 @@ namespace FIFA_API.Controllers.Tests
             produits.Add( pdt );
 
             var mockRepository = new Mock<IProduitRepository>();
-            mockRepository.Setup(x => x.GetByFilter(new int?[] {1}, null, null, null, null, null).Result).Returns(produits);
+            mockRepository.Setup(x => x.GetByFilter(new int?[] {1}, null, null, null, null).Result).Returns(produits);
             var pdtController = new ProduitController(mockRepository.Object);
 
             // Act
             int?[] catIds = new int?[] { 1};
             int?[] genreId = new int?[] { 1};
             int?[] colId = new int?[] { 1};
-            var actionResult = pdtController.GetByFilter(catIds, null, null, null, null, null).Result;
+            var actionResult = pdtController.GetByFilter(catIds, null, null, null, null).Result;
 
             // Assert
             Assert.IsNotNull(actionResult);
